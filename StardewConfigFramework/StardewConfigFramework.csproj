@@ -1,0 +1,63 @@
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <DeployModFolderName>$(MSBuildProjectName)</DeployModFolderName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{88C67B7F-E19D-49E1-8FBB-E1119AD12B3D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>StardewConfigFramework</RootNamespace>
+    <AssemblyName>StardewConfigFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <PackageVersion>0.1</PackageVersion>
+    <Authors>Juice805</Authors>
+    <Description>Based on a portion of UiModSuite by Demiacle</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ModEntry.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OptionModels\ModOption.cs" />
+    <Compile Include="OptionModels\ModOptions.cs" />
+    <Compile Include="OptionModels\ModOptionToggle.cs" />
+    <Compile Include="OptionModels\ModOptionSelection.cs" />
+    <Compile Include="OptionModels\ModOptionRange.cs" />
+    <Compile Include="OptionModels\Settings.cs" />
+    <Compile Include="SettingsPanel\SettingsPage.cs" />
+    <Compile Include="SettingsPanel\ModPage.cs" />
+    <Compile Include="SettingsPanel\Components\DropDown.cs" />
+    <Compile Include="SettingsPanel\Components\TabButton.cs" />
+    <Compile Include="Utility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="manifest.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SettingsPanel\" />
+    <Folder Include="OptionModels\" />
+    <Folder Include="SettingsPanel\Components\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Pathoschild.Stardew.ModBuildConfig.1.6.0\build\Pathoschild.Stardew.ModBuildConfig.targets" Condition="Exists('..\packages\Pathoschild.Stardew.ModBuildConfig.1.6.0\build\Pathoschild.Stardew.ModBuildConfig.targets')" />
+</Project>
