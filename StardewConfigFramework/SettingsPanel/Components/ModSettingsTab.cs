@@ -14,7 +14,7 @@ namespace StardewConfigFramework
         internal const int TabNumber = 11;
     }
 
-    internal class ModSettingsTab : IClickableMenu
+    internal class ModSettingsTab : ClickableComponent
     {
 
         private Settings controller;
@@ -22,7 +22,7 @@ namespace StardewConfigFramework
         //
         // Constructors
         //
-        internal ModSettingsTab(Settings controller, Rectangle bounds) : base(bounds.X, bounds.Y, bounds.Width, bounds.Height)
+        internal ModSettingsTab(Settings controller, Rectangle bounds) : base(bounds, "mods", "Mod Options")
         {
             this.controller = controller;
             AddListeners();
@@ -49,7 +49,7 @@ namespace StardewConfigFramework
             if (e.PriorState.LeftButton == ButtonState.Pressed)
                 return;
 
-            if (!(Game1.activeClickableMenu is GameMenu)) 
+            if (!(Game1.activeClickableMenu is GameMenu))
                 return;
 
             var menu = Game1.activeClickableMenu as GameMenu;
@@ -57,40 +57,40 @@ namespace StardewConfigFramework
             if (menu.currentTab == GameMenu.mapTab)
                 return;
 
-            if (isWithinBounds(e.NewPosition.X, e.NewPosition.Y))
+            if (this.containsPoint(e.NewPosition.X, e.NewPosition.Y))
             {
-                base.receiveLeftClick(e.NewPosition.X, e.NewPosition.Y, true);
                 ModSettingsPage.SetActive();
                 Game1.playSound("smallSelect");
             }
         }
 
-        public override void draw(SpriteBatch b)
+        public void draw(SpriteBatch b)
         {
-            base.draw(b);
 
-            var gameMenu = (GameMenu) Game1.activeClickableMenu;
+            var gameMenu = (GameMenu)Game1.activeClickableMenu;
 
-            b.Draw(Game1.mouseCursors, new Vector2((float)this.xPositionOnScreen, (float)(this.yPositionOnScreen + (gameMenu.currentTab == 8 ? 8 : 0))), new Rectangle(16, 368, 16, 16), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, SpriteEffects.None, 0.0001f);
+            b.Draw(Game1.mouseCursors, new Vector2((float)this.bounds.X, (float)(this.bounds.Y + (gameMenu.currentTab == 8 ? 8 : 0))), new Rectangle(16, 368, 16, 16), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, SpriteEffects.None, 0.0001f);
 
             // Draw icon
-            b.Draw(Game1.mouseCursors, new Vector2((float)this.xPositionOnScreen + 8, (float)(this.yPositionOnScreen + (gameMenu.currentTab == 8 ? 8 : 0)) + 14), new Rectangle(32, 672, 16, 16), Color.White, 0, Vector2.Zero, 3f, SpriteEffects.None, 1);
-            if (this.isWithinBounds(Game1.getMouseX(), Game1.getMouseY()))
+            b.Draw(Game1.mouseCursors, new Vector2((float)this.bounds.X + 8, (float)(this.bounds.Y + (gameMenu.currentTab == 8 ? 8 : 0)) + 14), new Rectangle(32, 672, 16, 16), Color.White, 0, Vector2.Zero, 3f, SpriteEffects.None, 1);
+            if (this.containsPoint(Game1.getMouseX(), Game1.getMouseY()))
             {
-                IClickableMenu.drawHoverText(Game1.spriteBatch, "Mod Options", Game1.smallFont);
+                IClickableMenu.drawHoverText(Game1.spriteBatch, base.label, Game1.smallFont);
             }
 
-			string hoverText = ModEntry.helper.Reflection.GetPrivateField<string>(Game1.activeClickableMenu, "hoverText").GetValue();
+            string hoverText = ModEntry.helper.Reflection.GetPrivateField<string>(Game1.activeClickableMenu, "hoverText").GetValue();
 
-			// Redraw hover text so that it overlaps icon
-			if (hoverText == "Exit Game")
-			{
+            // Redraw hover text so that it overlaps icon
+            if (hoverText == "Exit Game")
+            {
                 Utilities.drawHoverTextWithoutShadow(b, "Exit Game", Game1.smallFont);
-			}
+            }
 
-            drawMouse(b);
+            //IClickableMenu.drawMouse(b);
+            if (!Game1.options.hardwareCursor)
+            {
+                b.Draw(Game1.mouseCursors, new Vector2((float)Game1.getMouseX(), (float)Game1.getMouseY()), new Rectangle?(Game1.getSourceRectForStandardTileSheet(Game1.mouseCursors, (!Game1.options.SnappyMenus) ? 0 : 44, 16, 16)), Color.White * Game1.mouseCursorTransparency, 0f, Vector2.Zero, (float)Game1.pixelZoom + Game1.dialogueButtonScale / 150f, SpriteEffects.None, 1f);
+            }
         }
-
-        public override void receiveRightClick(int x, int y, bool playSound = true) { }
     }
 }
