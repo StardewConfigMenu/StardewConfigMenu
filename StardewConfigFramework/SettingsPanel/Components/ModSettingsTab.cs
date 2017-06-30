@@ -85,7 +85,7 @@ namespace StardewConfigFramework
 			// Redraw hover text so that it overlaps icon
 			if (hoverText == "Exit Game")
 			{
-                Utility.drawHoverTextWithoutShadow(b, "Exit Game", Game1.smallFont);
+                Utilities.drawHoverTextWithoutShadow(b, "Exit Game", Game1.smallFont);
 			}
 
             drawMouse(b);
