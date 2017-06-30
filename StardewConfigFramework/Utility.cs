@@ -10,7 +10,7 @@ namespace StardewConfigFramework
 {
     public class Utility
     {
-        public static void drawWithoutShadow(SpriteBatch b, Texture2D texture, Vector2 position, Rectangle sourceRect, Color color, float rotation, Vector2 origin, float scale = -1f, bool flipped = false, float layerDepth = -1f, int horizontalShadowOffset = -1, int verticalShadowOffset = -1, float shadowIntensity = 0.35f)
+        public static void drawWithoutShadow(SpriteBatch b, Texture2D texture, Vector2 position, Rectangle sourceRect, Color color, float rotation, Vector2 origin, float scale = -1f, bool flipped = false, float layerDepth = -1f)
         {
             if (scale == -1f)
             {
@@ -20,18 +20,10 @@ namespace StardewConfigFramework
             {
                 layerDepth = position.Y / 10000f;
             }
-            if (horizontalShadowOffset == -1)
-            {
-                horizontalShadowOffset = -Game1.pixelZoom;
-            }
-            if (verticalShadowOffset == -1)
-            {
-                verticalShadowOffset = Game1.pixelZoom;
-            }
             b.Draw(texture, position, new Rectangle?(sourceRect), color, rotation, origin, scale, (!flipped) ? SpriteEffects.None : SpriteEffects.FlipHorizontally, layerDepth);
         }
 
-
+        // recopy and paste. found out real issue
         public static void drawHoverTextWithoutShadow(SpriteBatch b, string text, SpriteFont font, int xOffset = 0, int yOffset = 0, int moneyAmountToDisplayAtBottom = -1, string boldTitleText = null, int healAmountToDisplay = -1, string[] buffIconsToDisplay = null, Item hoveredItem = null, int currencySymbol = 0, int extraItemToShowIndex = -1, int extraItemToShowAmount = -1, int overrideX = -1, int overrideY = -1, float alpha = 1f, CraftingRecipe craftingIngredients = null)
         {
             if (text == null || text.Length == 0)
@@ -180,7 +172,7 @@ namespace StardewConfigFramework
                 }
                 num8 = StardewValley.Utility.getSafeArea().Bottom - num3;
             }
-            IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), num7, num8, num2 + ((craftingIngredients == null) ? 0 : (Game1.tileSize / 3)), num3, Color.White * alpha, 1f, true);
+            IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), num7, num8, num2 + ((craftingIngredients == null) ? 0 : (Game1.tileSize / 3)), num3, Color.White * alpha, 1f, false);
             if (boldTitleText != null)
             {
                 IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), num7, num8, num2 + ((craftingIngredients == null) ? 0 : (Game1.tileSize / 3)), (int)Game1.dialogueFont.MeasureString(boldTitleText).Y + Game1.tileSize / 2 + (int)((hoveredItem == null || text5.Length <= 0) ? 0f : font.MeasureString("asd").Y) - Game1.pixelZoom, Color.White * alpha, 1f, false);
@@ -207,7 +199,7 @@ namespace StardewConfigFramework
                 num8 += (int)font.MeasureString(Game1.parseText(boots.description, Game1.smallFont, Game1.tileSize * 4 + Game1.tileSize / 4)).Y;
                 if (boots.defenseBonus > 0)
                 {
-                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(110, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f, -1, -1, 0.35f);
+                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(110, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f);
                     StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", new object[] {
                 boots.defenseBonus
             }), font, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom * 13), (float)(num8 + Game1.tileSize / 4 + Game1.pixelZoom * 3)), Game1.textColor * 0.9f * alpha, 1f, -1f, -1, -1, 1f, 3);
@@ -215,7 +207,7 @@ namespace StardewConfigFramework
                 }
                 if (boots.immunityBonus > 0)
                 {
-                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(150, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f, -1, -1, 0.35f);
+                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(150, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f);
                     StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_ImmunityBonus", new object[] {
                 boots.immunityBonus
             }), font, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom * 13), (float)(num8 + Game1.tileSize / 4 + Game1.pixelZoom * 3)), Game1.textColor * 0.9f * alpha, 1f, -1f, -1, -1, 1f, 3);
@@ -229,7 +221,7 @@ namespace StardewConfigFramework
                 num8 += (int)font.MeasureString(Game1.parseText(meleeWeapon2.description, Game1.smallFont, Game1.tileSize * 4 + Game1.tileSize / 4)).Y;
                 if (meleeWeapon2.indexOfMenuItemView != 47)
                 {
-                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(120, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f, -1, -1, 0.35f);
+                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(120, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f);
                     StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_Damage", new object[] {
                 meleeWeapon2.minDamage,
                 meleeWeapon2.maxDamage
@@ -237,7 +229,7 @@ namespace StardewConfigFramework
                     num8 += (int)Math.Max(font.MeasureString("TT").Y, (float)(12 * Game1.pixelZoom));
                     if (meleeWeapon2.speed != ((meleeWeapon2.type != 2) ? 0 : -8))
                     {
-                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(130, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f, -1, -1, 0.35f);
+                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(130, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f);
                         bool flag = (meleeWeapon2.type == 2 && meleeWeapon2.speed < -8) || (meleeWeapon2.type != 2 && meleeWeapon2.speed < 0);
                         StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_Speed", new object[] {
                     ((((meleeWeapon2.type != 2) ? meleeWeapon2.speed : (meleeWeapon2.speed - -8)) <= 0) ? string.Empty : "+") + ((meleeWeapon2.type != 2) ? meleeWeapon2.speed : (meleeWeapon2.speed - -8)) / 2
@@ -246,7 +238,7 @@ namespace StardewConfigFramework
                     }
                     if (meleeWeapon2.addedDefense > 0)
                     {
-                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(110, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f, -1, -1, 0.35f);
+                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(110, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f);
                         StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", new object[] {
                     meleeWeapon2.addedDefense
                 }), font, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom * 13), (float)(num8 + Game1.tileSize / 4 + Game1.pixelZoom * 3)), Game1.textColor * 0.9f * alpha, 1f, -1f, -1, -1, 1f, 3);
@@ -254,7 +246,7 @@ namespace StardewConfigFramework
                     }
                     if ((double)meleeWeapon2.critChance / 0.02 >= 2.0)
                     {
-                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(40, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f, -1, -1, 0.35f);
+                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(40, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f);
                         StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_CritChanceBonus", new object[] {
                     (int)((double)meleeWeapon2.critChance / 0.02)
                 }), font, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom * 13), (float)(num8 + Game1.tileSize / 4 + Game1.pixelZoom * 3)), Game1.textColor * 0.9f * alpha, 1f, -1f, -1, -1, 1f, 3);
@@ -262,15 +254,15 @@ namespace StardewConfigFramework
                     }
                     if ((double)(meleeWeapon2.critMultiplier - 3f) / 0.02 >= 1.0)
                     {
-                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(160, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f, -1, -1, 0.35f);
+                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(160, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f);
                         StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_CritPowerBonus", new object[] {
                     (int)((double)(meleeWeapon2.critMultiplier - 3f) / 0.02)
-                }), font, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom * 11), (float)(num8 + Game1.tileSize / 4 + Game1.pixelZoom * 3)), Game1.textColor * 0.9f * alpha, 1f, -1f, -1, -1, 1f, 3);
+                }), font, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom * 11), (float)(num8 + Game1.tileSize / 4 + Game1.pixelZoom * 3)), Game1.textColor * 0.9f * alpha, 1f, -1f);
                         num8 += (int)Math.Max(font.MeasureString("TT").Y, (float)(12 * Game1.pixelZoom));
                     }
                     if (meleeWeapon2.knockback != meleeWeapon2.defaultKnockBackForThisType(meleeWeapon2.type))
                     {
-                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(70, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f, -1, -1, 0.35f);
+                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 4)), new Rectangle(70, 428, 10, 10), Color.White, 0f, Vector2.Zero, (float)Game1.pixelZoom, false, 1f);
                         StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_Weight", new object[] {
                     (((float)((int)Math.Ceiling ((double)(Math.Abs (meleeWeapon2.knockback - meleeWeapon2.defaultKnockBackForThisType (meleeWeapon2.type)) * 10f))) <= meleeWeapon2.defaultKnockBackForThisType (meleeWeapon2.type)) ? string.Empty : "+") + (int)Math.Ceiling ((double)(Math.Abs (meleeWeapon2.knockback - meleeWeapon2.defaultKnockBackForThisType (meleeWeapon2.type)) * 10f))
                 }), font, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom * 13), (float)(num8 + Game1.tileSize / 4 + Game1.pixelZoom * 3)), Game1.textColor * 0.9f * alpha, 1f, -1f, -1, -1, 1f, 3);
@@ -295,12 +287,12 @@ namespace StardewConfigFramework
             {
                 if (healAmountToDisplay > 0)
                 {
-                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4)), new Rectangle((healAmountToDisplay >= 0) ? 0 : 140, 428, 10, 10), Color.White, 0f, Vector2.Zero, 3f, false, 0.95f, -1, -1, 0.35f);
+                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4)), new Rectangle((healAmountToDisplay >= 0) ? 0 : 140, 428, 10, 10), Color.White, 0f, Vector2.Zero, 3f, false, 0.95f);
                     StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_Energy", new object[] {
                 ((healAmountToDisplay <= 0) ? string.Empty : "+") + healAmountToDisplay
             }), font, new Vector2((float)(num7 + Game1.tileSize / 4 + 34 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 8)), Game1.textColor, 1f, -1f, -1, -1, 1f, 3);
                     num8 += 34;
-                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4)), new Rectangle(0, 438, 10, 10), Color.White, 0f, Vector2.Zero, 3f, false, 0.95f, -1, -1, 0.35f);
+                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4)), new Rectangle(0, 438, 10, 10), Color.White, 0f, Vector2.Zero, 3f, false, 0.95f);
                     StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_Health", new object[] {
                 ((healAmountToDisplay <= 0) ? string.Empty : "+") + (int)((float)healAmountToDisplay * 0.4f)
             }), font, new Vector2((float)(num7 + Game1.tileSize / 4 + 34 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 8)), Game1.textColor, 1f, -1f, -1, -1, 1f, 3);
@@ -308,7 +300,7 @@ namespace StardewConfigFramework
                 }
                 else if (healAmountToDisplay != -300)
                 {
-                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4)), new Rectangle(140, 428, 10, 10), Color.White, 0f, Vector2.Zero, 3f, false, 0.95f, -1, -1, 0.35f);
+                    Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4)), new Rectangle(140, 428, 10, 10), Color.White, 0f, Vector2.Zero, 3f, false, 0.95f);
                     StardewValley.Utility.drawTextWithShadow(b, Game1.content.LoadString("Strings\\UI:ItemHover_Energy", new object[] {
                 string.Empty + healAmountToDisplay
             }), font, new Vector2((float)(num7 + Game1.tileSize / 4 + 34 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4 + 8)), Game1.textColor, 1f, -1f, -1, -1, 1f, 3);
@@ -321,7 +313,7 @@ namespace StardewConfigFramework
                 {
                     if (!buffIconsToDisplay[k].Equals("0"))
                     {
-                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4)), new Rectangle(10 + k * 10, 428, 10, 10), Color.White, 0f, Vector2.Zero, 3f, false, 0.95f, -1, -1, 0.35f);
+                        Utility.drawWithoutShadow(b, Game1.mouseCursors, new Vector2((float)(num7 + Game1.tileSize / 4 + Game1.pixelZoom), (float)(num8 + Game1.tileSize / 4)), new Rectangle(10 + k * 10, 428, 10, 10), Color.White, 0f, Vector2.Zero, 3f, false, 0.95f);
                         string text6 = ((Convert.ToInt32(buffIconsToDisplay[k]) <= 0) ? string.Empty : "+") + buffIconsToDisplay[k] + " ";
                         if (k <= 11)
                         {

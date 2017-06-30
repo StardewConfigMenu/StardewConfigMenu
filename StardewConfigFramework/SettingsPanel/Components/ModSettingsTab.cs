@@ -80,6 +80,14 @@ namespace StardewConfigFramework
                 IClickableMenu.drawHoverText(Game1.spriteBatch, "Mod Options", Game1.smallFont);
             }
 
+			string hoverText = ModEntry.helper.Reflection.GetPrivateField<string>(Game1.activeClickableMenu, "hoverText").GetValue();
+
+			// Redraw hover text so that it overlaps icon
+			if (hoverText == "Exit Game")
+			{
+                Utility.drawHoverTextWithoutShadow(b, "Exit Game", Game1.smallFont);
+			}
+
             drawMouse(b);
         }
 
