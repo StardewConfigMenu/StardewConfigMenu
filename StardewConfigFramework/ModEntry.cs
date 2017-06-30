@@ -11,6 +11,7 @@ namespace StardewConfigFramework
 
         internal static IModHelper helper;
         private Settings panel;
+        internal static IMonitor monitor;
 
 		/*********
         ** Public methods
@@ -20,6 +21,8 @@ namespace StardewConfigFramework
 		public override void Entry(IModHelper helper)
 		{
 			ModEntry.helper = helper;
+            ModEntry.monitor = this.Monitor;
+
 			this.panel = new Settings(this);
             this.StardewConfigFrameworkLoaded();
 		}

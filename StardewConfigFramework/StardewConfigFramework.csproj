@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <DeployModFolderName>$(MSBuildProjectName)</DeployModFolderName>
   </PropertyGroup>
@@ -43,21 +43,17 @@
     <Compile Include="OptionModels\ModOptionSelection.cs" />
     <Compile Include="OptionModels\ModOptionRange.cs" />
     <Compile Include="OptionModels\Settings.cs" />
-    <Compile Include="SettingsPanel\SettingsPage.cs" />
+    <Compile Include="SettingsPanel\ModSettingsPage.cs" />
     <Compile Include="SettingsPanel\ModPage.cs" />
     <Compile Include="SettingsPanel\Components\DropDown.cs" />
-    <Compile Include="SettingsPanel\Components\TabButton.cs" />
+    <Compile Include="SettingsPanel\Components\ModSettingsTab.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="manifest.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SettingsPanel\" />
-    <Folder Include="OptionModels\" />
-    <Folder Include="SettingsPanel\Components\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Pathoschild.Stardew.ModBuildConfig.1.6.0\build\Pathoschild.Stardew.ModBuildConfig.targets" Condition="Exists('..\packages\Pathoschild.Stardew.ModBuildConfig.1.6.0\build\Pathoschild.Stardew.ModBuildConfig.targets')" />
 </Project>

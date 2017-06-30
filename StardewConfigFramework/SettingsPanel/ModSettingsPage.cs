@@ -45,6 +45,12 @@ namespace StardewConfigFramework
 			ReloadMenu();
         }
 
+        static public void SetActive()
+        {
+            var gameMenu = (GameMenu)Game1.activeClickableMenu;
+            gameMenu.currentTab = 8;
+        }
+
         public override void receiveRightClick(int x, int y, bool playSound = true) { }
 
 		internal void AddListeners()
@@ -77,7 +83,8 @@ namespace StardewConfigFramework
 
         public override void draw(SpriteBatch b)
         {
-            base.draw(b);
+            //base.draw(b);
+
             Game1.drawDialogueBox(this.xPositionOnScreen, this.yPositionOnScreen, this.width, this.height, false, true, null, false);
         }
 
