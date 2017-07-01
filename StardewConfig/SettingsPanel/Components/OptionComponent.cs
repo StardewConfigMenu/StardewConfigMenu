@@ -15,19 +15,7 @@ namespace StardewConfigMenu
     {
         static protected OptionComponent selected;
 
-        protected Vector2 location = new Vector2();
-
         protected Rectangle bounds;
-
-        protected Vector2 MousePositionRelativeToComponent()
-        {
-            var position = new Vector2();
-
-            position.Y = Game1.getMouseY() - (int)location.Y - this.bounds.Y;
-            position.X = Game1.getMouseX() - (int)location.X - this.bounds.X;
-
-            return position;
-        }
 
         protected bool IsAvailableForSelection()
         {
@@ -58,10 +46,15 @@ namespace StardewConfigMenu
             return OptionComponent.selected == this;
         }
 
+        // For moving the component
         public virtual void draw(SpriteBatch b, int x, int y)
         {
-            this.location.X = x;
-            this.location.Y = y;
+            this.bounds.X = x;
+            this.bounds.Y = y;
+            this.draw(b);
         }
+
+        // static drawing of component
+        public virtual void draw(SpriteBatch b) { }
     }
 }
