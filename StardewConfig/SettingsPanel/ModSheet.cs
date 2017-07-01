@@ -27,14 +27,18 @@ namespace StardewConfigMenu
             this.scrollBarRunner = new Rectangle(this.scrollBar.bounds.X, this.upArrow.bounds.Y + this.upArrow.bounds.Height + Game1.pixelZoom, this.scrollBar.bounds.Width, height - Game1.tileSize * 2 - this.upArrow.bounds.Height - Game1.pixelZoom * 2);
         }
 
-        public override void receiveRightClick(int x, int y, bool playSound = true)
-        {
-            throw new NotImplementedException();
-        }
+        public override void receiveRightClick(int x, int y, bool playSound = true) { }
 
         public override void draw(SpriteBatch b)
         {
             base.draw(b);
+            //drawTextureBox();
+            this.upArrow.draw(b);
+            this.downArrow.draw(b);
+            this.scrollBar.draw(b);
+
+            b.DrawString(Game1.dialogueFont, this.Options.modManifest.Name, new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.White);
+
         }
     }
 }

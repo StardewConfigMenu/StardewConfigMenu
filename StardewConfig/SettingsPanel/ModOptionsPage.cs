@@ -14,7 +14,7 @@ namespace StardewConfigMenu
 	{
 		private ModSettings controller;
         private List<ModSheet> Pages = new List<ModSheet>();
-        private ModOptionDropDown modSelected = new ModOptionDropDown("Mod Options", (int)Game1.smallFont.MeasureString("Stardew Configuration Menu Framework     ").X);
+        private DropDownComponent modSelected = new DropDownComponent("Mod Options", (int)Game1.smallFont.MeasureString("Stardew Configuration Menu Framework     ").X);
 
 		internal ModOptionsPage(ModSettings controller, int x, int y, int width, int height) : base (x, y, width, height, false)
 		{
@@ -69,6 +69,9 @@ namespace StardewConfigMenu
 
             Game1.drawDialogueBox(this.xPositionOnScreen, this.yPositionOnScreen, this.width, this.height, false, true, null, false);
             modSelected.draw(b, (int)(this.xPositionOnScreen + Game1.pixelZoom * 15), (int)(this.yPositionOnScreen + Game1.pixelZoom * 30));
+
+            if (Pages.Count > 0)
+                Pages[modSelected.GetSelectedOption()].draw(b);
         }
 
    	}
