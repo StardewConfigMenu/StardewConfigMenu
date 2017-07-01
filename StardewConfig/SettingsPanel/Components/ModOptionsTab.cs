@@ -7,22 +7,22 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 
-namespace StardewConfigFramework
+namespace StardewConfigMenu
 {
     static internal class Constants
     {
         internal const int TabNumber = 11;
     }
 
-    internal class ModSettingsTab : ClickableComponent
+    internal class ModOptionsTab : ClickableComponent
     {
 
-        private Settings controller;
+        private ModSettings controller;
 
         //
         // Constructors
         //
-        internal ModSettingsTab(Settings controller, Rectangle bounds) : base(bounds, "mods", "Mod Options")
+        internal ModOptionsTab(ModSettings controller, Rectangle bounds) : base(bounds, "mods", "Mod Options")
         {
             this.controller = controller;
             AddListeners();
@@ -59,7 +59,7 @@ namespace StardewConfigFramework
 
             if (this.containsPoint(e.NewPosition.X, e.NewPosition.Y))
             {
-                ModSettingsPage.SetActive();
+                ModOptionsPage.SetActive();
                 Game1.playSound("smallSelect");
             }
         }

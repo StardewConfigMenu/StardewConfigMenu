@@ -3,16 +3,13 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewConfigFramework;
 
-namespace StardewConfigFramework
+namespace SCFTester2
 {
     public class ModEntry: Mod
     {
-
-        internal static IModHelper helper;
-        private Settings panel;
-        internal static IMonitor monitor;
-
+        internal static IModSettingsFramework Settings;
 		/*********
         ** Public methods
         *********/
@@ -20,12 +17,12 @@ namespace StardewConfigFramework
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper)
 		{
-			ModEntry.helper = helper;
-            ModEntry.monitor = this.Monitor;
+            Settings = IModSettingsFramework.Instance;
+            var options = new ModOptions(this);
+            Settings.AddModOptions(options);
 
-			this.panel = new Settings(this);
-            this.StardewConfigFrameworkLoaded();
-		}
+            options.AddModOption(new ModOptionToggle("Test"));
+        }
 
 		/*********
         ** Private methods
@@ -35,7 +32,7 @@ namespace StardewConfigFramework
 		/// <param name="e">The event data.</param>
 		private void StardewConfigFrameworkLoaded()
 		{
-			this.Monitor.Log($"StardewConfigFramework Loaded");
+
 		}
     }
 }

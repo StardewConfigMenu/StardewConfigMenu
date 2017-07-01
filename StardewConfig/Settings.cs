@@ -5,27 +5,21 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
 using System.Collections.Generic;
+using StardewConfigFramework;
 
-namespace StardewConfigFramework
+namespace StardewConfigMenu
 {
 
 	internal delegate void ModAddedSettings();
 
-	public class Settings
+	public class ModSettings: IModSettingsFramework
     {
-        void GraphicsEvents_OnPreRenderGuiEvent(object sender, EventArgs e)
-        {
-
-        }
-
         internal event ModAddedSettings ModAdded;
 
-		public static Settings control;
-
-        internal Settings(ModEntry mod)
+        internal ModSettings(ModEntry mod)
         {
-            Settings.Mod = mod;
-            Settings.control = this;
+            ModSettings.Mod = mod;
+            ModSettings.Instance = this;
 
 			MenuEvents.MenuChanged += MenuOpened;
 			MenuEvents.MenuClosed += MenuClosed;
@@ -38,21 +32,23 @@ namespace StardewConfigFramework
         }
 
 		//internal SettingsPage page;
-		internal ModSettingsTab tab;
-        internal ModSettingsPage page;
+		internal ModOptionsTab tab;
+        internal ModOptionsPage page;
 
 		internal List<ModOptions> ModOptionsList = new List<ModOptions>();
 
-        public void AddModOptions(ModOptions modOptions) {
+        public override void AddModOptions(ModOptions modOptions) {
             // Only one per mod, remove old one
             foreach (ModOptions mod in this.ModOptionsList) {
-                if (mod.modName == modOptions.modName) {
+                if (mod.modManifest.Name == modOptions.modManifest.Name) {
                     ModOptionsList.Remove(mod);
                 }
             }
 
+            Mod.Monitor.Log($"{modOptions.modManifest.Name} has been added their mod options");
+
             ModOptionsList.Add(modOptions);
-            this.ModAdded();
+            this.ModAdded?.Invoke();
         }
 
 		/// <summary>
@@ -73,7 +69,7 @@ namespace StardewConfigFramework
                     pages.Remove(this.page);
                 }
 
-                this.page.RemoveListeners();
+                this.page.RemoveListeners(true);
                 this.page = null;
 			}			
 		}
@@ -96,10 +92,10 @@ namespace StardewConfigFramework
             
             //List<ClickableComponent> tabs = ModEntry.helper.Reflection.GetPrivateField<List<ClickableComponent>>(menu, "tabs").GetValue();
 
-            this.page = new ModSettingsPage(this, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
+            this.page = new ModOptionsPage(this, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
             pages.Add(page);
 
-            this.tab = new ModSettingsTab(this, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * 11, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));
+            this.tab = new ModOptionsTab(this, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * 11, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));
 
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPostRenderGuiEvent += RenderTab;

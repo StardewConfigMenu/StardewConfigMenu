@@ -1,11 +1,14 @@
 ﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <DeployModFolderName>$(MSBuildProjectName)</DeployModFolderName>
+  </PropertyGroup>
+  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{88C67B7F-E19D-49E1-8FBB-E1119AD12B3D}</ProjectGuid>
+    <ProjectGuid>{80310FF8-FEB9-4C59-9370-E7862E8B330A}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>StardewConfigFramework</RootNamespace>
-    <AssemblyName>StardewConfigFramework</AssemblyName>
+    <RootNamespace>StardewConfigMenu</RootNamespace>
+    <AssemblyName>StardewConfigMenu</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <PackageVersion>0.1</PackageVersion>
     <Authors>Juice805</Authors>
@@ -29,16 +32,26 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="StardewConfigFramework, Version=1.0.6390.26672, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\StardewConfigFramework\bin\Debug\StardewConfigFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ModOption.cs" />
-    <Compile Include="ModOptions.cs" />
-    <Compile Include="ModOptionToggle.cs" />
-    <Compile Include="ModOptionSelection.cs" />
-    <Compile Include="ModOptionRange.cs" />
-    <Compile Include="IModSettingsFramework.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsPanel\Components\OptionComponent.cs" />
+    <Compile Include="SettingsPanel\ModOptionsPage.cs" />
+    <Compile Include="SettingsPanel\ModSheet.cs" />
+    <Compile Include="SettingsPanel\Components\DropDown.cs" />
+    <Compile Include="SettingsPanel\Components\ModOptionsTab.cs" />
+    <Compile Include="Utility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="manifest.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

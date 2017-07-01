@@ -6,7 +6,7 @@ using StardewValley.Objects;
 using StardewValley.Tools;
 using System;
 
-namespace StardewConfigFramework
+namespace StardewConfigMenu
 {
     public class Utilities
     {
