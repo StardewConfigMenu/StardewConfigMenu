@@ -113,9 +113,9 @@ namespace StardewConfigMenu
 
         public override void draw(SpriteBatch b, int x, int y)
         {
+            this.dropDownBounds.X = x;
+            this.dropDownBounds.Y = y;
             base.draw(b, x, y);
-            this.dropDownBounds.X = this.bounds.X;
-            this.dropDownBounds.Y = this.bounds.Y;
         }
 
         public override void draw(SpriteBatch b)
