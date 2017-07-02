@@ -9,7 +9,7 @@ Ever want to add a settings menu to your Stardew Valley mod, but didn’t want t
  
 ## Contributers
 
-### Instructions
+### Setup Instructions
 
 1. Download the repo
 2. Open Solution in Visual Studio
