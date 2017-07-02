@@ -34,6 +34,11 @@ namespace StardewConfigFramework
             }
         }
 
+        public ModOption GetOptionWithIdentifier(String identifier)
+        {
+            return list.Find(x => x.identifier == identifier);
+        }
+
         public void AddModOption(ModOption option)
         {
             list.Add(option);

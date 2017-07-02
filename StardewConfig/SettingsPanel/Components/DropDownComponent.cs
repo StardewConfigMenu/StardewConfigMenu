@@ -31,44 +31,61 @@ namespace StardewConfigMenu
         //
         private Rectangle dropDownBounds;
 
-        private int selectedOption = 0;
+        public int selectedOption
+        {
+            get { return dropDownOptions.FindIndex(x => x == this.dropDownDisplayOptions[0]); }
+            set {
+                if (selectedOption == value || value + 1 > dropDownOptions.Count || value < 0)
+                    return;
+                dropDownDisplayOptions.Remove(dropDownOptions[value]);
+                dropDownDisplayOptions.Insert(0, dropDownOptions[value]);
+                this.DropDownOptionSelected?.Invoke(value);
+            }
+        }
 
         private int hoveredChoice = 0;
 
-        public bool disabled = true;
+        public bool disabled 
+        {
+            get {
+                if (_disabled != null)
+                    return disabled;
+                else
+                    return dropDownOptions.Count == 0; }
+            set
+            {
+                this._disabled = value;
+            }
+        }
+
+        private bool? _disabled;
 
         public string label = "";
 
         // Original List
-        private List<string> dropDownOptions = new List<string>();
+        protected List<string> dropDownOptions = new List<string>();
 
         // List where order can be changed
-        private List<string> dropDownDisplayOptions = new List<string>();
+        protected List<string> dropDownDisplayOptions = new List<string>();
 
-        public void ClearOptions()
+        public void ClearOptions(bool displayOnly = false)
         {
-            dropDownOptions.Clear();
+            if (!displayOnly)
+                dropDownOptions.Clear();
             dropDownDisplayOptions.Clear();
             dropDownBounds.Height = this.bounds.Height * this.dropDownOptions.Count;
-            this.selectedOption = 0;
-            this.disabled = true;
         }
 
         public void AddOption(string item)
         {
-            dropDownOptions.Add(item);
-            dropDownDisplayOptions.Add(item);
+            if (!dropDownOptions.Contains(item))
+                dropDownOptions.Add(item);
+            if (!dropDownDisplayOptions.Contains(item))
+                dropDownDisplayOptions.Add(item);
             dropDownBounds.Height = this.bounds.Height * this.dropDownOptions.Count;
-            this.disabled = false;
         }
 
-        public int GetSelectedOption()
-        {
-            // selected option is always 0 in diplay list
-            return dropDownOptions.FindIndex(x => x == this.dropDownDisplayOptions[0]);
-        }
-
-        public void SelectOption(int option)
+        protected virtual void SelectDisplayedOption(int option)
         {
             var selected = dropDownDisplayOptions[option];
             dropDownDisplayOptions.Remove(selected);
@@ -87,6 +104,7 @@ namespace StardewConfigMenu
             this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
         }
 
+        // This contructor requires Draw(b,x,y) to move the object from origin
         public DropDownComponent(string label, int width)
         {
             AddListeners();
@@ -95,15 +113,15 @@ namespace StardewConfigMenu
             this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
         }
 
-        internal void AddListeners()
+        internal override void AddListeners()
         {
             RemoveListeners();
-            ControlEvents.MouseChanged += MouseChanged;
+            base.AddListeners();
         }
 
-        internal void RemoveListeners()
+        internal override void RemoveListeners()
         {
-            ControlEvents.MouseChanged -= MouseChanged;
+            base.RemoveListeners();
             this.UnregisterAsActiveComponent();
         }
 
@@ -146,60 +164,26 @@ namespace StardewConfigMenu
             else
             {
                 IClickableMenu.drawTextureBox(b, Game1.mouseCursors, OptionsDropDown.dropDownBGSource, this.bounds.X, this.bounds.Y, this.bounds.Width - Game1.pixelZoom * 12, this.bounds.Height, Color.White * scale, (float)Game1.pixelZoom, false);
-                if (this.IsAvailableForSelection())
-                {
-                    b.DrawString(Game1.smallFont, (this.selectedOption >= this.dropDownDisplayOptions.Count || this.selectedOption < 0) ? string.Empty : this.dropDownDisplayOptions[this.selectedOption], new Vector2((float)(this.bounds.X + Game1.pixelZoom), (float)(this.bounds.Y + Game1.pixelZoom * 2)), Game1.textColor * scale, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.88f);
-                }
+
+                b.DrawString(Game1.smallFont, (this.selectedOption >= this.dropDownDisplayOptions.Count || this.selectedOption < 0) ? string.Empty : this.dropDownDisplayOptions[0], new Vector2((float)(this.bounds.X + Game1.pixelZoom), (float)(this.bounds.Y + Game1.pixelZoom * 2)), Game1.textColor * scale, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.88f);
                 b.Draw(Game1.mouseCursors, new Vector2((float)(this.bounds.X + this.bounds.Width - Game1.pixelZoom * 12), (float)(this.bounds.Y)), new Rectangle?(OptionsDropDown.dropDownButtonSource), Color.White * scale, 0f, Vector2.Zero, (float)Game1.pixelZoom, SpriteEffects.None, 0.88f);
             }
         }
 
-        private void MouseChanged(object sender, EventArgsMouseStateChanged e)
-        {
-            // only allow one component to be interacted with at a time
-            if (!this.IsAvailableForSelection())
-            {
-                return;
-            }
-            
-            if (e.PriorState.LeftButton == ButtonState.Released)
-            {
-                if(e.NewState.LeftButton == ButtonState.Pressed)
-                {
-                    // clicked
-                    receiveLeftClick(e.NewState.X, e.NewState.Y);
-                }
-            }
-            else if (e.PriorState.LeftButton == ButtonState.Pressed)
-            {
-                if (e.NewState.LeftButton == ButtonState.Pressed)
-                {
-                    // clicked
-                    leftClickHeld(e.NewState.X, e.NewState.Y);
-                } else if (e.NewState.LeftButton == ButtonState.Released)
-                {
-                    // clicked
-                    leftClickReleased(e.NewState.X, e.NewState.Y);
-                }
-            } else
-            {
-                this.UnregisterAsActiveComponent();
-            }
-        }
 
-        public void receiveLeftClick(int x, int y)
-        {
 
+        protected override void leftClicked(int x, int y)
+        {
             if (!this.disabled && this.bounds.Contains(x, y))
             {
                 this.RegisterAsActiveComponent();
-                this.hoveredChoice = this.selectedOption;
+                this.hoveredChoice = 0;
                 this.leftClickHeld(x, y);
                 Game1.playSound("shwip");
             }
         }
 
-        public void leftClickHeld(int x, int y)
+        protected override void leftClickHeld(int x, int y)
         {
             if (!this.disabled && this.IsActiveComponent() && this.dropDownBounds.Contains(x, y))
             {
@@ -208,15 +192,14 @@ namespace StardewConfigMenu
             }
         }
 
-        public void leftClickReleased(int x, int y)
+        protected override void leftClickReleased(int x, int y)
         {
             if (this.dropDownBounds.Contains(x, y) && this.IsActiveComponent())
             {
                 if (!this.disabled && this.dropDownOptions.Count > 0)
                 {
-                    this.SelectOption(this.hoveredChoice);
-                    this.selectedOption = 0;
-                    this.DropDownOptionSelected?.Invoke(GetSelectedOption());
+                    this.SelectDisplayedOption(this.hoveredChoice);
+                    this.DropDownOptionSelected?.Invoke(selectedOption);
                 }
 
             }
@@ -224,7 +207,7 @@ namespace StardewConfigMenu
             this.UnregisterAsActiveComponent();
         }
 
-        public void receiveKeyPress(Keys key)
+        protected void receiveKeyPress(Keys key)
         {
             if (Game1.options.snappyMenus && Game1.options.gamepadControls)
             {

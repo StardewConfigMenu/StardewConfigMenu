@@ -21,7 +21,7 @@ namespace SCFTester2
             var options = new ModOptions(this);
             Settings.AddModOptions(options);
 
-            options.AddModOption(new ModOptionToggle("Test"));
+            options.AddModOption(new ModOptionToggle("Test", "test"));
         }
 
 		/*********

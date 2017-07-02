@@ -14,19 +14,24 @@ namespace StardewConfigFramework
     {
         public event ModOptionSelectionHandler ValueChanged;
 
-        public ModOptionSelection(string labelText, List<String> list, int defaultSelection = 0, bool enabled = true) : base(labelText, enabled)
+        public ModOptionSelection(string labelText, String identifier, List<String> list, int defaultSelection = 0, bool enabled = true) : base(labelText, identifier, enabled)
         {
             this.List = list;
-            this.Selection = defaultSelection;
+            this._Selection = defaultSelection;
         }
 
         public List<String> List { get; private set; }
-        public int Selection { get; private set; }
-
-        public void MakeSelection(int selection)
-        {
-            this.Selection = selection;
-            this.ValueChanged(this.Selection);
+        private int _Selection;
+        public int Selection {
+            get {
+                return _Selection;
+            }
+            set {
+                if (value == this.Selection)
+                    return;
+                _Selection = value;
+                this.ValueChanged?.Invoke(value);
+            }
         }
     }
 }
