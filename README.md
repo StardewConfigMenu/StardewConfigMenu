@@ -3,9 +3,9 @@ Ever want to add a settings menu to your Stardew Valley mod, but didn’t want t
 
 ## Contents
 
- - [For Contributers](#Contributers)
- - [For Modders](#Modders)
- - [For Users](#Users)
+ - [For Contributers](#contributers)
+ - [For Modders](#modders)
+ - [For Users](#users)
  
 ## Contributers
 
