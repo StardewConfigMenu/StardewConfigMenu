@@ -7,9 +7,9 @@ using StardewValley.Menus;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using StardewConfigFramework;
+using StardewConfigMenu.Panel.Components;
 
-
-namespace StardewConfigMenu
+namespace StardewConfigMenu.Panel
 {
     internal class ModSheet: IClickableMenu
 	{
@@ -20,6 +20,14 @@ namespace StardewConfigMenu
         private ClickableTextureComponent scrollBar;
         private Rectangle scrollBarRunner;
 
+        internal bool invisible
+        {
+            set
+            {
+                Options.ForEach(x => { x.invisible = value; });
+            }
+        }
+
         private int startingOption = 0;
 
         internal ModSheet(ModOptions modOptions, int x, int y, int width, int height): base(x, y, width, height) {
@@ -28,7 +36,16 @@ namespace StardewConfigMenu
                 // check type of option
                 Type t = modOptions.list[i].GetType();
                 if (t.Equals(typeof(ModOptionSelection)))
-                    Options.Add(new ModDropDownOption((modOptions.list[i] as ModOptionSelection), 250));
+                {
+                    int max = 250;
+                    var option = (modOptions.list[i] as ModOptionSelection);
+                    option.List.ForEach(optionString => { max = Math.Max( (int) Game1.smallFont.MeasureString(optionString + "     ").X, max); });
+
+                    Options.Add(new ModDropDownComponent((modOptions.list[i] as ModOptionSelection), max));
+                }
+                if (t.Equals(typeof(ModOptionToggle)))
+                    Options.Add(new ModCheckBoxComponent((modOptions.list[i] as ModOptionToggle), (modOptions.list[i] as ModOptionToggle).enabled));
+
                 // create proper component
                 // add to Options
             }

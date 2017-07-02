@@ -6,14 +6,15 @@ using StardewValley;
 using StardewValley.Menus;
 using System.Collections.Generic;
 using StardewConfigFramework;
+using StardewConfigMenu.Panel;
 
 namespace StardewConfigMenu
 {
-
 	internal delegate void ModAddedSettings();
 
 	public class ModSettings: IModSettingsFramework
     {
+        public static int? pageIndex = null;
         internal event ModAddedSettings ModAdded;
 
         internal ModSettings(ModEntry mod)
@@ -71,8 +72,9 @@ namespace StardewConfigMenu
 
                 this.page.RemoveListeners(true);
                 this.page = null;
-			}			
-		}
+                ModSettings.pageIndex = null;
+            }
+        }
 
 		/// <summary>
 		/// Attaches the delegates that handle the button click and draw method of the tab
@@ -81,6 +83,8 @@ namespace StardewConfigMenu
 		{
             if (!(e.NewMenu is GameMenu)) {
                 this.tab = null;
+                this.page = null;
+                ModSettings.pageIndex = null;
                 return; 
             }
 
@@ -93,6 +97,7 @@ namespace StardewConfigMenu
             //List<ClickableComponent> tabs = ModEntry.helper.Reflection.GetPrivateField<List<ClickableComponent>>(menu, "tabs").GetValue();
 
             this.page = new ModOptionsPage(this, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
+            ModSettings.pageIndex = pages.Count;
             pages.Add(page);
 
             this.tab = new ModOptionsTab(this, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * 11, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));

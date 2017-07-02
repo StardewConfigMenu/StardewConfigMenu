@@ -22,15 +22,19 @@ namespace SCFTester2
             Settings.AddModOptions(options);
 
             options.AddModOption(new ModOptionToggle("Test", "test"));
+            options.AddModOption(new ModOptionSelection("Empty Dropdown", "empty", new System.Collections.Generic.List<string>()));
+            var list = new System.Collections.Generic.List<string>();
+            list.Add("Option available");
+            options.AddModOption(new ModOptionSelection("Disabled Dropdown", "disabled", list, 0, false));
         }
 
-		/*********
+        /*********
         ** Private methods
         *********/
-		/// <summary>The method invoked when the game is opened.</summary>
-		/// <param name="sender">The event sender.</param>
-		/// <param name="e">The event data.</param>
-		private void StardewConfigFrameworkLoaded()
+        /// <summary>The method invoked when the game is opened.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event data.</param>
+        private void StardewConfigFrameworkLoaded()
 		{
 
 		}

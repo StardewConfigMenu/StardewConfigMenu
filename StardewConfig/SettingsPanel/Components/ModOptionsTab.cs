@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 
-namespace StardewConfigMenu
+namespace StardewConfigMenu.Panel
 {
     static internal class Constants
     {

@@ -9,7 +9,7 @@ using StardewConfigFramework;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu
+namespace StardewConfigMenu.Panel.Components
 {
     internal delegate void DropDownOptionSelected(int selected);
 
@@ -45,22 +45,20 @@ namespace StardewConfigMenu
 
         private int hoveredChoice = 0;
 
-        public bool disabled 
+        public override bool enabled 
         {
             get {
-                if (_disabled != null)
-                    return disabled;
+                if (!_enabled)
+                    return _enabled;
                 else
-                    return dropDownOptions.Count == 0; }
+                    return dropDownOptions.Count != 0; }
             set
             {
-                this._disabled = value;
+                _enabled = value;
             }
         }
 
-        private bool? _disabled;
-
-        public string label = "";
+        private bool _enabled;
 
         // Original List
         protected List<string> dropDownOptions = new List<string>();
@@ -96,7 +94,7 @@ namespace StardewConfigMenu
         // Constructors
         //
 
-        public DropDownComponent(string label, int width, int x, int y)
+        public DropDownComponent(string label, int width, int x, int y, bool enabled = true) : base(label, enabled)
         {
             AddListeners();
             this.label = label;
@@ -105,7 +103,7 @@ namespace StardewConfigMenu
         }
 
         // This contructor requires Draw(b,x,y) to move the object from origin
-        public DropDownComponent(string label, int width)
+        public DropDownComponent(string label, int width, bool enabled = true) : base(label, enabled)
         {
             AddListeners();
             this.label = label;
@@ -138,7 +136,7 @@ namespace StardewConfigMenu
 
         public override void draw(SpriteBatch b)
         {
-            float scale = (!this.disabled) ? 1f : 0.33f;
+            float scale = (this.enabled) ? 1f : 0.33f;
 
             var labelSize = Game1.dialogueFont.MeasureString(this.label);
 
@@ -174,7 +172,7 @@ namespace StardewConfigMenu
 
         protected override void leftClicked(int x, int y)
         {
-            if (!this.disabled && this.bounds.Contains(x, y))
+            if (this.enabled && this.bounds.Contains(x, y))
             {
                 this.RegisterAsActiveComponent();
                 this.hoveredChoice = 0;
@@ -185,7 +183,7 @@ namespace StardewConfigMenu
 
         protected override void leftClickHeld(int x, int y)
         {
-            if (!this.disabled && this.IsActiveComponent() && this.dropDownBounds.Contains(x, y))
+            if (this.enabled && this.IsActiveComponent() && this.dropDownBounds.Contains(x, y))
             {
                 this.dropDownBounds.Y = Math.Min(this.dropDownBounds.Y, Game1.viewport.Height - this.dropDownBounds.Height);
                 this.hoveredChoice = (int)Math.Max(Math.Min((float)(y - this.dropDownBounds.Y) / (float)this.bounds.Height, (float)(this.dropDownOptions.Count - 1)), 0f);
@@ -196,7 +194,7 @@ namespace StardewConfigMenu
         {
             if (this.dropDownBounds.Contains(x, y) && this.IsActiveComponent())
             {
-                if (!this.disabled && this.dropDownOptions.Count > 0)
+                if (this.enabled && this.dropDownOptions.Count > 0)
                 {
                     this.SelectDisplayedOption(this.hoveredChoice);
                     this.DropDownOptionSelected?.Invoke(selectedOption);

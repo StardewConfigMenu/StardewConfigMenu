@@ -7,26 +7,35 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewValley;
+using StardewValley.Menus;
 using StardewModdingAPI.Events;
 
 
 
-namespace StardewConfigMenu
+namespace StardewConfigMenu.Panel.Components
 {
-    internal class OptionComponent
+    abstract class OptionComponent
     {
-        static protected OptionComponent selected;
+        static protected OptionComponent selectedComponent;
 
         protected Rectangle bounds;
+        public abstract bool enabled { get; set; }
+        protected string label;
 
         public int Height => this.bounds.Height;
         public int Width => this.bounds.Width;
         public int X => this.bounds.X;
         public int Y => this.bounds.Y;
 
+        public OptionComponent(string label, bool enabled = true)
+        {
+            this.label = label;
+            this.enabled = enabled;
+        }
+
         protected bool IsAvailableForSelection()
         {
-            if (OptionComponent.selected == this || OptionComponent.selected == null)
+            if (OptionComponent.selectedComponent == this || OptionComponent.selectedComponent == null)
             {
                 return true;
             } else
@@ -37,20 +46,20 @@ namespace StardewConfigMenu
 
         protected void RegisterAsActiveComponent()
         {
-            OptionComponent.selected = this;
+            OptionComponent.selectedComponent = this;
         }
 
         protected void UnregisterAsActiveComponent()
         {
-            if (OptionComponent.selected == this)
+            if (OptionComponent.selectedComponent == this)
             {
-                OptionComponent.selected = null;
+                OptionComponent.selectedComponent = null;
             }
         }
 
         protected bool IsActiveComponent()
         {
-            return OptionComponent.selected == this;
+            return OptionComponent.selectedComponent == this;
         }
 
         // For moving the component
@@ -76,10 +85,12 @@ namespace StardewConfigMenu
             this.UnregisterAsActiveComponent();
         }
 
+        internal bool invisible = false;
+
         protected virtual void MouseChanged(object sender, EventArgsMouseStateChanged e)
         {
-            // only allow one component to be interacted with at a time
-            if (!this.IsAvailableForSelection()) { return; }
+            // only allow one component to be interacted with at a time, and must be on settings tab
+            if (!this.IsAvailableForSelection() || (Game1.activeClickableMenu as GameMenu).currentTab != ModSettings.pageIndex || invisible) { return; }
 
             if (e.PriorState.LeftButton == ButtonState.Released)
             {

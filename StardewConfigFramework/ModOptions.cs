@@ -36,12 +36,29 @@ namespace StardewConfigFramework
 
         public ModOption GetOptionWithIdentifier(String identifier)
         {
-            return list.Find(x => x.identifier == identifier);
+            try
+            {
+                return list.Find(x => x.identifier == identifier);
+            } catch
+            {
+                return null;
+            }
+            
         }
 
         public void AddModOption(ModOption option)
         {
-            list.Add(option);
+            try
+            {
+                var old = this.list.Find(x => { return x.identifier == option.identifier; });
+                list.Remove(old);
+            } finally
+            {
+                this.list.Add(option);
+            } 
+                
+            
+
         }
 
         internal ModOption[] GetArray()

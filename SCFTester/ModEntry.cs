@@ -22,11 +22,14 @@ namespace SCFTester
             var options = new ModOptions(this);
             Settings.AddModOptions(options);
 
+            options.GetOptionWithIdentifier("");
+
             options.AddModOption(new ModOptionToggle("Test", "toggle"));
 
             var dropdownoptions = new List<string>();
             dropdownoptions.Add("Toggle");
             dropdownoptions.Add("Always On");
+            dropdownoptions.Add("Always Off");
             var dropdown = new ModOptionSelection("Dropdown", "drop", dropdownoptions);
 
             options.AddModOption(dropdown);
@@ -36,10 +39,12 @@ namespace SCFTester
             GraphicsEvents.OnPostRenderEvent += (sender, e) =>
             {
 
-                if (dropdown.Selection == 1 || toggledOn)
-                {
-                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdownoptions[dropdown.Selection], new Vector2(Game1.getMouseX(), Game1.getMouseY()),Color.Black );
-                }
+                if (dropdown.Selection == 2)
+                    toggledOn = toggledOn;
+                if (dropdown.Selection == 1)
+                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdownoptions[dropdown.Selection], new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
+                if (toggledOn)
+                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdownoptions[0], new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
             };
         }
 
@@ -47,7 +52,7 @@ namespace SCFTester
 
         private void Dropdown_ValueChanged(int selection)
         {
-            if (selection == 1)
+            if (selection == 0)
                 toggledOn = !toggledOn;
         }
 

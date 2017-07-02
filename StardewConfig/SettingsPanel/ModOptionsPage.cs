@@ -7,14 +7,15 @@ using StardewValley.Menus;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.BellsAndWhistles;
+using StardewConfigMenu.Panel.Components;
 
-
-namespace StardewConfigMenu
+namespace StardewConfigMenu.Panel
 {
     public class ModOptionsPage: IClickableMenu
 	{
+
 		private ModSettings controller;
-        private List<ModSheet> Pages = new List<ModSheet>();
+        private List<ModSheet> Sheets = new List<ModSheet>();
         private DropDownComponent modSelected;
 
 		internal ModOptionsPage(ModSettings controller, int x, int y, int width, int height) : base (x, y, width, height, false)
@@ -28,15 +29,26 @@ namespace StardewConfigMenu
         static public void SetActive()
         {
             var gameMenu = (GameMenu)Game1.activeClickableMenu;
-            gameMenu.currentTab = 8;
+            if (ModSettings.pageIndex != null)
+                gameMenu.currentTab = (int) ModSettings.pageIndex;
         }
 
         public override void receiveRightClick(int x, int y, bool playSound = true) { }
 
         internal void AddListeners()
         {
-            controller.ModAdded += ReloadMenu;
             RemoveListeners();
+
+            controller.ModAdded += ReloadMenu;
+            modSelected.DropDownOptionSelected += DisableBackgroundSheets;
+        }
+
+        private void DisableBackgroundSheets(int selected)
+        {
+            for (int i = 0; i < Sheets.Count; i++)
+            {
+                 Sheets[i].invisible = (i != modSelected.selectedOption);
+            }
         }
 
         internal void RemoveListeners(bool children = false)
@@ -47,17 +59,18 @@ namespace StardewConfigMenu
             }
 
             controller.ModAdded -= ReloadMenu;
+            modSelected.DropDownOptionSelected -= DisableBackgroundSheets;
         }
 
         private void ReloadMenu() {
             // Reset Menu and pages
-            this.Pages.Clear();
+            this.Sheets.Clear();
             this.modSelected.ClearOptions();
 
             for (int i = 0; i < this.controller.ModOptionsList.Count; i++) {
                 
                 // Create mod page and add it
-				this.Pages.Add(new ModSheet(this.controller.ModOptionsList[i], (int)(this.xPositionOnScreen + Game1.pixelZoom * 15), (int)(this.yPositionOnScreen + Game1.pixelZoom * 55), this.width - (Game1.pixelZoom * 15), this.height - Game1.pixelZoom * 65));
+				this.Sheets.Add(new ModSheet(this.controller.ModOptionsList[i], (int)(this.xPositionOnScreen + Game1.pixelZoom * 15), (int)(this.yPositionOnScreen + Game1.pixelZoom * 55), this.width - (Game1.pixelZoom * 15), this.height - Game1.pixelZoom * 65));
 
                 // Add names to mod selector dropdown
                 this.modSelected.AddOption(this.controller.ModOptionsList[i].modManifest.Name);
@@ -75,8 +88,8 @@ namespace StardewConfigMenu
 
             //Game1.draw
 
-            if (Pages.Count > 0)
-                Pages[modSelected.selectedOption].draw(b);
+            if (Sheets.Count > 0)
+                Sheets[modSelected.selectedOption].draw(b);
 
             // draw mod select dropdown last, should cover mod settings
             modSelected.draw(b);

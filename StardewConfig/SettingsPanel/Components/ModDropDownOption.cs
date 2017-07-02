@@ -4,15 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StardewConfigFramework;
+using Microsoft.Xna.Framework.Graphics;
 
 
-namespace StardewConfigMenu
+namespace StardewConfigMenu.Panel.Components
 {
-    internal class ModDropDownOption : DropDownComponent
+    internal class ModDropDownComponent : DropDownComponent
     {
         private ModOptionSelection ModData;
 
-        protected new List<string> dropDownOptions => ModData.List;
+        public override bool enabled
+        {
+            get
+            {
+                if (!ModData.enabled)
+                    return ModData.enabled;
+                else
+                    return dropDownOptions.Count != 0;
+            }
+        }
 
         public new int selectedOption
         {
@@ -27,9 +37,10 @@ namespace StardewConfigMenu
             }
         }
 
-        public ModDropDownOption(ModOptionSelection option, int width) : base(option.LabelText, width)
+        public ModDropDownComponent(ModOptionSelection option, int width) : base(option.LabelText, width)
         {
             this.ModData = option;
+            base.dropDownOptions = ModData.List;
 
             ReloadData();
             this.SelectDisplayedOption(option.Selection);
@@ -50,6 +61,9 @@ namespace StardewConfigMenu
 
         protected override void SelectDisplayedOption(int DisplayedSelection)
         {
+            if (dropDownOptions.Count == 0)
+                return;
+
             var selected = dropDownDisplayOptions[DisplayedSelection];
             ModData.Selection = dropDownOptions.IndexOf(selected);
             base.SelectDisplayedOption(DisplayedSelection);

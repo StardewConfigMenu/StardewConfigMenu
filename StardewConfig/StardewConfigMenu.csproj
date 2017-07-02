@@ -42,6 +42,8 @@
     <Compile Include="ModEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SettingsPanel\Components\ModCheckBoxComponent.cs" />
+    <Compile Include="SettingsPanel\Components\CheckBoxComponent.cs" />
     <Compile Include="SettingsPanel\Components\ModDropDownOption.cs" />
     <Compile Include="SettingsPanel\Components\OptionComponent.cs" />
     <Compile Include="SettingsPanel\ModOptionsPage.cs" />
