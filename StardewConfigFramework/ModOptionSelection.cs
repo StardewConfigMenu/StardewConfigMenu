@@ -15,12 +15,12 @@ namespace StardewConfigFramework
     {
         public event ModOptionSelectionHandler ValueChanged;
 
-        public ModOptionSelection(string identifier, String label, int defaultSelection = 0, bool enabled = true) : base(identifier, label, enabled)
+        public ModOptionSelection(string identifier, string label, int defaultSelection = 0, bool enabled = true) : base(identifier, label, enabled)
         {
             this._Selection = defaultSelection;
         }
 
-        public ModOptionSelection(string labelText, String identifier, ModSelectionOptionChoices choices, int defaultSelection = 0, bool enabled = true) : base(labelText, identifier, enabled)
+        public ModOptionSelection(string identifier, string labelText,  ModSelectionOptionChoices choices, int defaultSelection = 0, bool enabled = true) : base(labelText, identifier, enabled)
         {
             this.Choices = choices;
             
@@ -92,26 +92,36 @@ namespace StardewConfigFramework
             base.Contains(identifier);
         }
 
-		public string IdentifierOf(int index)
+		public int IndexOf(string label)
 		{
-            String[] myKeys = new String[Keys.Count];
-            Keys.CopyTo(myKeys, 0);
-            return myKeys[index];
-		}
+            return this.Labels.IndexOf(label);
+        }
+
+        public string IdentifierOf(int index)
+        {
+            String[] myValues = new String[Keys.Count];
+            Values.CopyTo(myValues, 0);
+            return myValues[index];
+        }
 
         /// <summary>
         /// Gets the Index of the identifier.
         /// </summary>
         /// <returns>the index, or -1 if not found.</returns>
         /// <param name="identifier">Identifier.</param>
-		public int IndexOf(string identifier)
+		public int IndexOfIdentifier(string identifier)
 		{
-			String[] myKeys = new String[Keys.Count];
-			Keys.CopyTo(myKeys, 0);
-			return new List<string>(myKeys).IndexOf(identifier);
+			return this.Identifiers.IndexOf(identifier);
 		}
 
-		public string LabelOf(int index)
+        public string IdentifierOfIndex(int index)
+        {
+            String[] myKeys = new String[Keys.Count];
+            Keys.CopyTo(myKeys, 0);
+            return myKeys[index];
+        }
+
+        public string LabelOf(int index)
 		{
 			return this[index];
 		}
@@ -123,14 +133,22 @@ namespace StardewConfigFramework
 
         public List<string> Identifiers {
             get {
-                return new List<string>(this.Keys as IEnumerable<string>);
+                if (this.Keys.Count == 0)
+                    return new List<string>();
+                String[] identifiers = new String[this.Values.Count];
+                this.Values.CopyTo(identifiers, 0);
+                return new List<string>(identifiers);
             }
         }
 
 		public List<string> Labels {
 			get
 			{
-                return new List<string>(this.Values as IEnumerable<string>);
+                if (this.Values.Count == 0)
+                    return new List<string>();
+                String[] values = new String[this.Values.Count];
+                this.Values.CopyTo(values, 0);
+                return new List<string>(values);
 			}
 		}
 

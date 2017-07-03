@@ -13,7 +13,7 @@ namespace StardewConfigFramework
         public string identifier { get; protected set; }
         public bool enabled;
 
-        internal ModOption(String identifier, String label, bool enabled = true)
+        internal ModOption(string identifier, string label, bool enabled = true)
         {
             this.identifier = identifier;
             this.LabelText = label;

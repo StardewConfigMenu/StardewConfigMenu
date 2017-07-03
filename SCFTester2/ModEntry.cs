@@ -21,13 +21,13 @@ namespace SCFTester2
             var options = new ModOptions(this);
             Settings.AddModOptions(options);
 
-            options.AddModOption(new ModOptionToggle("Test", "test"));
-            options.AddModOption(new ModOptionSelection("Empty Dropdown", "empty", new ModSelectionOptionChoices()));
+            options.AddModOption(new ModOptionToggle("test", "Test"));
+            options.AddModOption(new ModOptionSelection("empty", "Empty Dropdown", new ModSelectionOptionChoices()));
             var list = new ModSelectionOptionChoices();
             list.Add("available","Option Available");
-            options.AddModOption(new ModOptionSelection("Disabled Dropdown", "disabled", list, 0, false));
+            options.AddModOption(new ModOptionSelection("disabled",  "Disabled Dropdown", list, 0, false));
 
-            var label = new ModOptionCategoryLabel("Category Label", "catlabel");
+            var label = new ModOptionCategoryLabel("catlabel", "Category Label");
             options.AddModOption(label);
         }
 

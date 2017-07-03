@@ -82,6 +82,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
                 return;
 
             var selected = dropDownDisplayOptions[DisplayedSelection];
+            
             ModData.Selection = this.ModData.Choices.IndexOf(selected);
             base.SelectDisplayedOption(DisplayedSelection);
         }

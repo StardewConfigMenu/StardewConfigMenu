@@ -12,7 +12,7 @@ namespace StardewConfigFramework
     {
         public event ModOptionStepperHandler ValueChanged;
 
-        public ModOptionStepper(string labelText, String identifier, decimal min, decimal max, decimal stepsize, decimal defaultSelection, bool enabled = true) : base(labelText, identifier, enabled)
+        public ModOptionStepper(string identifier, string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, bool enabled = true) : base(identifier, labelText, enabled)
         {
             this.min = Math.Round(min, 3);
             this.max = Math.Round(max, 3);

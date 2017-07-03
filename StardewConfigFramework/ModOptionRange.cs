@@ -12,7 +12,7 @@ namespace StardewConfigFramework
     {
         public event ModOptionRangeHandler ValueChanged;
 
-        public ModOptionRange(string identifier, String label, float min, float max, float defaultSelection, bool enabled = true) : base(identifier, label, enabled)
+        public ModOptionRange(string identifier, string label, float min, float max, float defaultSelection, bool enabled = true) : base(identifier, label, enabled)
         {
             this.Value = defaultSelection;
         }

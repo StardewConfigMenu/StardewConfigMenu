@@ -13,7 +13,7 @@ namespace StardewConfigFramework
 
 		public event ModOptionToggleHandler ValueChanged;
 
-		public ModOptionToggle(string labelText, String identifier, bool isOn = true, bool enabled = true) : base(labelText, identifier, enabled)
+		public ModOptionToggle(string identifier, string labelText, bool isOn = true, bool enabled = true) : base(identifier, labelText, enabled)
 		{
 			this.IsOn = isOn;
 		}
