@@ -26,6 +26,9 @@ namespace SCFTester2
             var list = new System.Collections.Generic.List<string>();
             list.Add("Option available");
             options.AddModOption(new ModOptionSelection("Disabled Dropdown", "disabled", list, 0, false));
+
+            var label = new ModOptionCategoryLabel("Category Label", "catlabel");
+            options.AddModOption(label);
         }
 
         /*********

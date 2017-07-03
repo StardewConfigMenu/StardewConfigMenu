@@ -40,6 +40,7 @@
     <Compile Include="ModOptionSelection.cs" />
     <Compile Include="ModOptionRange.cs" />
     <Compile Include="IModSettingsFramework.cs" />
+    <Compile Include="ModOptionCategoryLabel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
