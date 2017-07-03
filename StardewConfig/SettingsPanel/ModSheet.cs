@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -51,7 +51,7 @@ namespace StardewConfigMenu.Panel
                 {
                     int max = 350;
                     var option = (modOptions.list[i] as ModOptionSelection);
-                    option.List.ForEach(choice => { max = Math.Max( (int) Game1.smallFont.MeasureString(choice.label + "     ").X, max); });
+                    option.Choices.Labels.ForEach(choice => { max = Math.Max( (int) Game1.smallFont.MeasureString(choice + "     ").X, max); });
 
                     Options.Add(new ModDropDownComponent((modOptions.list[i] as ModOptionSelection), max));
                 }

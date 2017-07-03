@@ -31,9 +31,9 @@ namespace SCFTester
 
             dropdown = new ModOptionSelection("Dropdown", "drop");
 
-            dropdown.AddChoice("Toggle", "toggle");
-            dropdown.AddChoice("Always On", "on");
-            dropdown.AddChoice("Always Off", "off");
+			dropdown.Choices.Add("toggle", "Toggle");
+			dropdown.Choices.Add("on", "Always On");
+            dropdown.Choices.Add("off", "Always Off");
 
             options.AddModOption(dropdown);
 
@@ -50,9 +50,9 @@ namespace SCFTester
                 if (dropdown.Selection == 2)
                     checkbox2.IsOn = false;
                 if (dropdown.Selection == 1)
-                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.LabelOf(1), new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
+                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf(1), new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
                 if (toggledOn)
-                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.LabelOf(0), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
+                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf(0), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
             };
 
 

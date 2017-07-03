@@ -10,12 +10,9 @@ using StardewConfigMenu.Panel;
 
 namespace StardewConfigMenu
 {
-	internal delegate void ModAddedSettings();
-
 	public class ModSettings: IModSettingsFramework
     {
         public static int? pageIndex = null;
-        internal event ModAddedSettings ModAdded;
 
         internal ModSettings(ModEntry mod)
         {
@@ -49,7 +46,6 @@ namespace StardewConfigMenu
             Mod.Monitor.Log($"{modOptions.modManifest.Name} has been added their mod options");
 
             ModOptionsList.Add(modOptions);
-            this.ModAdded?.Invoke();
         }
 
 		/// <summary>

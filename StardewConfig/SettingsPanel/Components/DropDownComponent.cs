@@ -33,12 +33,15 @@ namespace StardewConfigMenu.Panel.Components
 
         public virtual int selectedOption
         {
-            get { return dropDownOptions.FindIndex(x => x == this.dropDownDisplayOptions[0]); }
+            get { return dropDownOptions.IndexOf(this.dropDownDisplayOptions[0]); }
             set {
-                if (selectedOption == value || value + 1 > dropDownOptions.Count || value < 0)
+                if (selectedOption == value)
                     return;
-                dropDownDisplayOptions.Remove(dropDownOptions[value]);
-                dropDownDisplayOptions.Insert(0, dropDownOptions[value]);
+
+                var index = dropDownDisplayOptions.IndexOf(dropDownOptions[value]);
+
+				dropDownDisplayOptions.Insert(0, dropDownOptions[value]);
+                dropDownDisplayOptions.RemoveAt(index + 1);
                 this.DropDownOptionSelected?.Invoke(value);
             }
         }
@@ -73,60 +76,64 @@ namespace StardewConfigMenu.Panel.Components
 
         protected virtual List<string> dropDownDisplayOptions
         {
-            get { return _dropDownDisplayOptions; }
-        }
+			get
+			{
+                if (_dropDownOptions.Count == 0)
+				{
+					_dropDownDisplayOptions.Clear();
+				}
+				else
+				{
+					var options = dropDownOptions;
+					var toRemove = _dropDownDisplayOptions.Except(options).ToList();
+					var toAdd = options.Except(_dropDownDisplayOptions).ToList();
 
-        internal void ClearOptions(bool displayOnly = false)
-        {
-            if (!displayOnly)
-                dropDownOptions.Clear();
-            dropDownDisplayOptions.Clear();
-            dropDownBounds.Height = this.bounds.Height * this.dropDownOptions.Count;
-        }
+					_dropDownDisplayOptions.RemoveAll(x => toRemove.Contains(x));
+					_dropDownDisplayOptions.AddRange(toAdd);
+				}
 
-        internal void AddOption(string item)
-        {
-            if (!dropDownOptions.Contains(item))
-                dropDownOptions.Add(item);
-            if (!dropDownDisplayOptions.Contains(item))
-                dropDownDisplayOptions.Add(item);
-            dropDownBounds.Height = this.bounds.Height * this.dropDownOptions.Count;
-        }
-
-        internal void InsertOption(int index, string item)
-        {
-            if (!dropDownOptions.Contains(item))
-                dropDownOptions.Insert(index, item);
-            if (!dropDownDisplayOptions.Contains(item))
-                dropDownDisplayOptions.Insert(index, item);
-            dropDownBounds.Height = this.bounds.Height * this.dropDownOptions.Count;
+				dropDownBounds.Height = this.bounds.Height * dropDownOptions.Count;
+				return _dropDownDisplayOptions;
+			}
         }
 
         protected virtual void SelectDisplayedOption(int option)
         {
+            if (option == 0)
+                return;
             var selected = dropDownDisplayOptions[option];
             dropDownDisplayOptions.Insert(0, selected);
-            dropDownDisplayOptions.RemoveAt(option + 1);            
-        }
+            dropDownDisplayOptions.RemoveAt(option + 1);
+			this.DropDownOptionSelected?.Invoke(selectedOption);
+		}
 
         //
         // Constructors
         //
 
-        public DropDownComponent(string label, int width, int x, int y, bool enabled = true) : base(label, enabled)
+        public DropDownComponent(List<string> choices, string label, int width, int x, int y, bool enabled = true) : base(label, enabled)
         {
-            this.label = label;
+			this.dropDownOptions.AddRange(choices);
+			this.label = label;
             this.bounds = new Rectangle(x, y, width + Game1.pixelZoom * 12, 11 * Game1.pixelZoom);
             this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
         }
 
         // This contructor requires Draw(b,x,y) to move the object from origin
-        public DropDownComponent(string label, int width, bool enabled = true) : base(label, enabled)
+        public DropDownComponent(List<string> choices, string label, int width, bool enabled = true) : base(label, enabled)
         {
+            this.dropDownOptions.AddRange(choices);
             this.label = label;
             this.bounds = new Rectangle(0, 0, width + Game1.pixelZoom * 12, 11 * Game1.pixelZoom);
             this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
         }
+
+        protected DropDownComponent(string label, int width, bool enabled = true) : base(label, enabled)
+		{
+			this.label = label;
+			this.bounds = new Rectangle(0, 0, width + Game1.pixelZoom * 12, 11 * Game1.pixelZoom);
+			this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
+		}
 
         //
         // Methods
@@ -143,6 +150,8 @@ namespace StardewConfigMenu.Panel.Components
         {
             float scale = (this.enabled) ? 1f : 0.33f;
 
+            var displayedChoices = this.dropDownDisplayOptions;
+
             var labelSize = Game1.dialogueFont.MeasureString(this.label);
 
             // Draw Label
@@ -154,13 +163,13 @@ namespace StardewConfigMenu.Panel.Components
                 // Draw Background of dropdown
                 IClickableMenu.drawTextureBox(b, Game1.mouseCursors, OptionsDropDown.dropDownBGSource, this.dropDownBounds.X, this.dropDownBounds.Y, this.dropDownBounds.Width, this.dropDownBounds.Height, Color.White * scale, (float)Game1.pixelZoom, false);
 
-                for (int i = 0; i < this.dropDownDisplayOptions.Count; i++)
+                for (int i = 0; i < displayedChoices.Count; i++)
                 {
                     if (i == this.hoveredChoice && dropDownBounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
                     {
                         b.Draw(Game1.staminaRect, new Rectangle(this.dropDownBounds.X, this.dropDownBounds.Y + i * this.bounds.Height, this.dropDownBounds.Width, this.bounds.Height), new Rectangle?(new Rectangle(0, 0, 1, 1)), Color.Wheat, 0f, Vector2.Zero, SpriteEffects.None, 0.975f);
                     }
-                    b.DrawString(Game1.smallFont, this.dropDownDisplayOptions[i], new Vector2((float)(this.dropDownBounds.X + Game1.pixelZoom), (float)(this.dropDownBounds.Y + Game1.pixelZoom * 2 + this.bounds.Height * i)), Game1.textColor * scale, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.98f);
+                    b.DrawString(Game1.smallFont, displayedChoices[i], new Vector2((float)(this.dropDownBounds.X + Game1.pixelZoom), (float)(this.dropDownBounds.Y + Game1.pixelZoom * 2 + this.bounds.Height * i)), Game1.textColor * scale, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.98f);
                 }
                 b.Draw(Game1.mouseCursors, new Vector2((float)(this.bounds.X + this.bounds.Width - Game1.pixelZoom * 12), (float)(this.bounds.Y)), new Rectangle?(OptionsDropDown.dropDownButtonSource), Color.Wheat * scale, 0f, Vector2.Zero, (float)Game1.pixelZoom, SpriteEffects.None, 0.981f);
             }
@@ -168,7 +177,7 @@ namespace StardewConfigMenu.Panel.Components
             {
                 IClickableMenu.drawTextureBox(b, Game1.mouseCursors, OptionsDropDown.dropDownBGSource, this.bounds.X, this.bounds.Y, this.bounds.Width - Game1.pixelZoom * 12, this.bounds.Height, Color.White * scale, (float)Game1.pixelZoom, false);
 
-                b.DrawString(Game1.smallFont, (this.selectedOption >= this.dropDownDisplayOptions.Count || this.selectedOption < 0) ? string.Empty : this.dropDownDisplayOptions[0], new Vector2((float)(this.bounds.X + Game1.pixelZoom), (float)(this.bounds.Y + Game1.pixelZoom * 2)), Game1.textColor * scale, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.88f);
+                b.DrawString(Game1.smallFont, (this.selectedOption >= displayedChoices.Count || this.selectedOption < 0) ? string.Empty : displayedChoices[0], new Vector2((float)(this.bounds.X + Game1.pixelZoom), (float)(this.bounds.Y + Game1.pixelZoom * 2)), Game1.textColor * scale, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.88f);
                 b.Draw(Game1.mouseCursors, new Vector2((float)(this.bounds.X + this.bounds.Width - Game1.pixelZoom * 12), (float)(this.bounds.Y)), new Rectangle?(OptionsDropDown.dropDownButtonSource), Color.White * scale, 0f, Vector2.Zero, (float)Game1.pixelZoom, SpriteEffects.None, 0.88f);
             }
         }
@@ -202,7 +211,6 @@ namespace StardewConfigMenu.Panel.Components
                 if (this.enabled && this.dropDownOptions.Count > 0)
                 {
                     this.SelectDisplayedOption(this.hoveredChoice);
-                    this.DropDownOptionSelected?.Invoke(selectedOption);
                 }
 
             }

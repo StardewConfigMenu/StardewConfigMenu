@@ -9,7 +9,7 @@ namespace StardewConfigFramework
 {
     public class ModOptionCategoryLabel : ModOption
     {
-        public ModOptionCategoryLabel(String text, String identifier) : base(text, identifier)
+        public ModOptionCategoryLabel(String identifier, String label) : base(identifier, label)
         {
             
         }

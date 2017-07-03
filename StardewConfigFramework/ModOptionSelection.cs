@@ -15,19 +15,19 @@ namespace StardewConfigFramework
     {
         public event ModOptionSelectionHandler ValueChanged;
 
-        public ModOptionSelection(string labelText, String identifier, int defaultSelection = 0, bool enabled = true) : base(labelText, identifier, enabled)
+        public ModOptionSelection(string identifier, String label, int defaultSelection = 0, bool enabled = true) : base(identifier, label, enabled)
         {
             this._Selection = defaultSelection;
         }
 
-        public ModOptionSelection(string labelText, String identifier, List<SelectionChoice> list, int defaultSelection = 0, bool enabled = true) : base(labelText, identifier, enabled)
+        public ModOptionSelection(string labelText, String identifier, ModSelectionOptionChoices choices, int defaultSelection = 0, bool enabled = true) : base(labelText, identifier, enabled)
         {
-            this.List = list;
+            this.Choices = choices;
             
             this.Selection = defaultSelection;
         }
 
-        public List<SelectionChoice> List { get; private set; }  = new List<SelectionChoice>(); 
+        public ModSelectionOptionChoices Choices { get; private set; }  = new ModSelectionOptionChoices(); 
 
         private int _Selection = 0;
         public int Selection {
@@ -35,8 +35,6 @@ namespace StardewConfigFramework
                 return _Selection;
             }
             set {
-                if (value == this.Selection || value > this.List.Count - 1)
-                    return;
                 _Selection = value;
                 this.ValueChanged?.Invoke(value);
             }
@@ -44,72 +42,119 @@ namespace StardewConfigFramework
 
         public string SelectionIdentifier
         {
-            get { return List[Selection].identifier; }
-        }
-
-        public void AddChoice(string label, string identifier)
-        {
-            try
-            {
-                var item = List.Find(x => { return x.identifier == identifier; });
-                List.Remove(item);
-            }
-            finally
-            {
-                this.List.Add(new SelectionChoice(label, identifier));
-            }
-        }
-
-        public void RemoveChoice(string identifier)
-        {
-            try
-            {
-                var item = List.Find(x => { return x.identifier == identifier; });
-                List.Remove(item);
-            }
-            catch { }
-        }
-
-        public int? IndexOf(string identifier)
-        {
-            try
-            {
-                return List.FindIndex(x => { return x.identifier == identifier; });
-            } catch
-            {
-                return null;
-            }
-        }
-
-        public string IdentifierOf(int index)
-        {
-            return List[index].identifier;
-        }
-
-        public string LabelOf(int index)
-        {
-            return List[index].label;
-        }
-
-        public string LabelOf(string identifier)
-        {
-            var index = IndexOf(identifier);
-            if (index == null)
-                return null;
-            else
-                return List[(int) index].label;
+            get { return Choices.IdentifierOf(Selection); }
         }
     }
 
-    public class SelectionChoice
+    /// <summary>
+    /// Contains the choices of a ModOptionSelection
+    /// </summary>
+    public class ModSelectionOptionChoices : OrderedDictionary
     {
-        public SelectionChoice( string label, string identifier)
-        {
-            this.label = label;
-            this.identifier = identifier;
+		public new string this[int key]
+		{
+			get
+			{
+				return base[key] as string;
+			}
+			set
+			{
+				base[key] = value;
+			}
+		}
+
+		public string this[string identifier]
+		{
+			get
+			{
+				return base[identifier] as string;
+			}
+			set
+			{
+				base[identifier] = value;
+			}
+		}
+
+        public void Insert(int index, string identifier, string label) {
+            base.Insert(index, identifier, label);
         }
 
-        public string label { get; private set; }
-        public string identifier { get; private set; }
+        public void Add(string identifier, string label) {
+            base.Remove(identifier);
+            base.Add(identifier, label);
+        }
+
+        public void Remove(string identifier) {
+            base.Remove(identifier);
+        }
+
+        public void Contains(string identifier) {
+            base.Contains(identifier);
+        }
+
+		public string IdentifierOf(int index)
+		{
+            String[] myKeys = new String[Keys.Count];
+            Keys.CopyTo(myKeys, 0);
+            return myKeys[index];
+		}
+
+        /// <summary>
+        /// Gets the Index of the identifier.
+        /// </summary>
+        /// <returns>the index, or -1 if not found.</returns>
+        /// <param name="identifier">Identifier.</param>
+		public int IndexOf(string identifier)
+		{
+			String[] myKeys = new String[Keys.Count];
+			Keys.CopyTo(myKeys, 0);
+			return new List<string>(myKeys).IndexOf(identifier);
+		}
+
+		public string LabelOf(int index)
+		{
+			return this[index];
+		}
+
+		public string LabelOf(string identifier)
+		{
+            return this[identifier];
+		}
+
+        public List<string> Identifiers {
+            get {
+                return new List<string>(this.Keys as IEnumerable<string>);
+            }
+        }
+
+		public List<string> Labels {
+			get
+			{
+                return new List<string>(this.Values as IEnumerable<string>);
+			}
+		}
+
+		// Blocking other options
+
+		public new string this[object stop]
+		{
+			get { throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices"); }
+			set { throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices"); }
+		}
+
+		public new void Add(object dont, object use) {
+            throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices");
+        }
+
+        public new void Remove(object stop) {
+            throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices");
+        }
+
+        public new void Insert(int index, object dont, object use) {
+			throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices");
+		}
+
     }
+
+
 }

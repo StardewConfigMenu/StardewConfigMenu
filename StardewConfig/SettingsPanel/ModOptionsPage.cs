@@ -21,10 +21,23 @@ namespace StardewConfigMenu.Panel
 		internal ModOptionsPage(ModSettings controller, int x, int y, int width, int height) : base (x, y, width, height, false)
 		{
             this.controller = controller;
-            modSelected = new DropDownComponent("", (int)Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int)(this.xPositionOnScreen + Game1.pixelZoom * 15), (int)(this.yPositionOnScreen + Game1.pixelZoom * 30));
-            AddListeners();
-			ReloadMenu();
-        }
+
+            var modChoices = new List<string>();
+
+			for (int i = 0; i < this.controller.ModOptionsList.Count; i++)
+			{
+
+				// Create mod page and add it
+				this.Sheets.Add(new ModSheet(this.controller.ModOptionsList[i], (int)(this.xPositionOnScreen + Game1.pixelZoom * 15), (int)(this.yPositionOnScreen + Game1.pixelZoom * 55), this.width - (Game1.pixelZoom * 15), this.height - Game1.pixelZoom * 65));
+
+                // Add names to mod selector dropdown
+                modChoices.Add(this.controller.ModOptionsList[i].modManifest.Name);
+			}
+
+            modSelected = new DropDownComponent(modChoices, "", (int)Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int)(this.xPositionOnScreen + Game1.pixelZoom * 15), (int)(this.yPositionOnScreen + Game1.pixelZoom * 30));
+			AddListeners();
+
+		}
 
         static public void SetActive()
         {
@@ -39,7 +52,6 @@ namespace StardewConfigMenu.Panel
         {
             RemoveListeners();
 
-            controller.ModAdded += ReloadMenu;
             modSelected.DropDownOptionSelected += DisableBackgroundSheets;
         }
 
@@ -59,23 +71,14 @@ namespace StardewConfigMenu.Panel
                 Sheets.ForEach(x => { x.RemoveListeners(true); });
             }
 
-            controller.ModAdded -= ReloadMenu;
             modSelected.DropDownOptionSelected -= DisableBackgroundSheets;
         }
 
         private void ReloadMenu() {
             // Reset Menu and pages
             this.Sheets.Clear();
-            this.modSelected.ClearOptions();
 
-            for (int i = 0; i < this.controller.ModOptionsList.Count; i++) {
-                
-                // Create mod page and add it
-				this.Sheets.Add(new ModSheet(this.controller.ModOptionsList[i], (int)(this.xPositionOnScreen + Game1.pixelZoom * 15), (int)(this.yPositionOnScreen + Game1.pixelZoom * 55), this.width - (Game1.pixelZoom * 15), this.height - Game1.pixelZoom * 65));
 
-                // Add names to mod selector dropdown
-                this.modSelected.AddOption(this.controller.ModOptionsList[i].modManifest.Name);
-            }
 
         }
 
