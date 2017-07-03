@@ -33,7 +33,7 @@ namespace StardewConfigMenu.Panel.Components
 
         public virtual int selectedOption
         {
-            get { return dropDownOptions.IndexOf(this.dropDownDisplayOptions[0]); }
+            get { return (dropDownOptions.Count != 0) ? dropDownOptions.IndexOf(this.dropDownDisplayOptions[0]) : -1; }
             set {
                 if (selectedOption == value)
                     return;
