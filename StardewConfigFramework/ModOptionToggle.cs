@@ -18,23 +18,27 @@ namespace StardewConfigFramework
 			this.IsOn = isOn;
 		}
 
-        public bool IsOn { get; private set; }
+        public bool IsOn {
+            get
+            {
+                return _isOn;
+            }
+            set
+            {
+                if (_isOn == value)
+                    return;
 
-        public void SetOff() {
-            this.IsOn = false;
-            this.ValueChanged(this.IsOn);
+                this._isOn = value;
+                this.ValueChanged?.Invoke(this.IsOn);
+            }
         }
 
-		public void SetOn()
-		{
-			this.IsOn = true;
-            this.ValueChanged(this.IsOn);
-		}
+        private bool _isOn;
 
 		public void Toggle()
 		{
 			this.IsOn = !this.IsOn;
-            this.ValueChanged(this.IsOn);
+            this.ValueChanged?.Invoke(this.IsOn);
 		}
 	}
 }

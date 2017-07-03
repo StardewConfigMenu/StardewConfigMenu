@@ -56,6 +56,7 @@ namespace StardewConfigMenu.Panel
             if (children)
             {
                 modSelected.RemoveListeners();
+                Sheets.ForEach(x => { x.RemoveListeners(true); });
             }
 
             controller.ModAdded -= ReloadMenu;
@@ -85,8 +86,6 @@ namespace StardewConfigMenu.Panel
             Game1.drawDialogueBox(this.xPositionOnScreen, this.yPositionOnScreen, this.width, this.height, false, true, null, false);
 
             base.drawHorizontalPartition(b, (int)(this.yPositionOnScreen + Game1.pixelZoom * 40));
-
-            //Game1.draw
 
             if (Sheets.Count > 0)
                 Sheets[modSelected.selectedOption].draw(b);

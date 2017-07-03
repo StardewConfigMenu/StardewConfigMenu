@@ -7,7 +7,7 @@ using StardewConfigFramework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace StardewConfigMenu.Panel.Components
+namespace StardewConfigMenu.Panel.Components.ModOptions
 {
     internal class ModDropDownComponent : DropDownComponent
     {
@@ -24,7 +24,7 @@ namespace StardewConfigMenu.Panel.Components
             }
         }
 
-        public new int selectedOption
+        public override int selectedOption
         {
             get { return dropDownOptions.FindIndex(x => x == this.dropDownDisplayOptions[0]); }
             set

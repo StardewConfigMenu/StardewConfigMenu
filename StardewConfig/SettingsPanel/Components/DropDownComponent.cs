@@ -31,7 +31,7 @@ namespace StardewConfigMenu.Panel.Components
         //
         private Rectangle dropDownBounds;
 
-        public int selectedOption
+        public virtual int selectedOption
         {
             get { return dropDownOptions.FindIndex(x => x == this.dropDownDisplayOptions[0]); }
             set {
@@ -52,7 +52,7 @@ namespace StardewConfigMenu.Panel.Components
                     return _enabled;
                 else
                     return dropDownOptions.Count != 0; }
-            set
+            protected set
             {
                 _enabled = value;
             }
@@ -96,7 +96,6 @@ namespace StardewConfigMenu.Panel.Components
 
         public DropDownComponent(string label, int width, int x, int y, bool enabled = true) : base(label, enabled)
         {
-            AddListeners();
             this.label = label;
             this.bounds = new Rectangle(x, y, width + Game1.pixelZoom * 12, 11 * Game1.pixelZoom);
             this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
@@ -105,22 +104,9 @@ namespace StardewConfigMenu.Panel.Components
         // This contructor requires Draw(b,x,y) to move the object from origin
         public DropDownComponent(string label, int width, bool enabled = true) : base(label, enabled)
         {
-            AddListeners();
             this.label = label;
             this.bounds = new Rectangle(0, 0, width + Game1.pixelZoom * 12, 11 * Game1.pixelZoom);
             this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
-        }
-
-        internal override void AddListeners()
-        {
-            RemoveListeners();
-            base.AddListeners();
-        }
-
-        internal override void RemoveListeners()
-        {
-            base.RemoveListeners();
-            this.UnregisterAsActiveComponent();
         }
 
         //
@@ -141,7 +127,7 @@ namespace StardewConfigMenu.Panel.Components
             var labelSize = Game1.dialogueFont.MeasureString(this.label);
 
             // Draw Label
-            b.DrawString(Game1.dialogueFont, this.label, new Vector2((float)(this.bounds.X + this.bounds.Width + Game1.pixelZoom), (float)(this.bounds.Y + ((this.bounds.Height - labelSize.Y) / 2))), Game1.textColor);
+            Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float)(this.bounds.X + this.bounds.Width + Game1.pixelZoom * 2), (float)(this.bounds.Y + ((this.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 
             // If menu is being clicked, and no other components are in use (to prevent click overlap of the dropdown)
             if (this.IsActiveComponent())
@@ -205,7 +191,7 @@ namespace StardewConfigMenu.Panel.Components
             this.UnregisterAsActiveComponent();
         }
 
-        protected void receiveKeyPress(Keys key)
+        protected override void receiveKeyPress(Keys key)
         {
             if (Game1.options.snappyMenus && Game1.options.gamepadControls)
             {

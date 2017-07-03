@@ -11,7 +11,7 @@ namespace StardewConfigFramework
     {
         public string LabelText { get; protected set; }
         public string identifier { get; protected set; }
-        public bool enabled { get; protected set; }
+        public bool enabled;
 
         internal ModOption(String text, String identifier, bool enabled = true)
         {
@@ -19,10 +19,5 @@ namespace StardewConfigFramework
             this.LabelText = text;
             this.enabled = enabled;
         }
-    }
-
-    public interface IModOption
-    {
-        void draw();
     }
 }

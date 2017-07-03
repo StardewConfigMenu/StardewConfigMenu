@@ -24,28 +24,51 @@ namespace SCFTester
 
             options.GetOptionWithIdentifier("");
 
-            options.AddModOption(new ModOptionToggle("Test", "toggle"));
+            var disableDrop = new ModOptionToggle("Checkbox", "toggle");
+            options.AddModOption(disableDrop);
+
+            disableDrop.ValueChanged += DisableDrop_ValueChanged;
 
             var dropdownoptions = new List<string>();
             dropdownoptions.Add("Toggle");
             dropdownoptions.Add("Always On");
             dropdownoptions.Add("Always Off");
-            var dropdown = new ModOptionSelection("Dropdown", "drop", dropdownoptions);
+            dropdown = new ModOptionSelection("Dropdown", "drop", dropdownoptions);
 
             options.AddModOption(dropdown);
 
             dropdown.ValueChanged += Dropdown_ValueChanged;
 
+            var checkbox2 = new ModOptionToggle("Checkbox2", "toggle2");
+
+            options.AddModOption(checkbox2);
+
+
             GraphicsEvents.OnPostRenderEvent += (sender, e) =>
             {
 
                 if (dropdown.Selection == 2)
-                    toggledOn = toggledOn;
+                    checkbox2.IsOn = false;
                 if (dropdown.Selection == 1)
                     Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdownoptions[dropdown.Selection], new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
                 if (toggledOn)
                     Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdownoptions[0], new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
             };
+
+
+            options.AddModOption(new ModOptionToggle("Checkbox3", "toggle3"));
+            options.AddModOption(new ModOptionToggle("Checkbox4", "toggle4"));
+            options.AddModOption(new ModOptionToggle("Checkbox5", "toggle5"));
+            options.AddModOption(new ModOptionToggle("Checkbox6", "toggle6"));
+            options.AddModOption(new ModOptionToggle("Checkbox7", "toggle7"));
+            options.AddModOption(new ModOptionToggle("Checkbox8", "toggle8"));
+        }
+
+        private ModOptionSelection dropdown;
+
+        private void DisableDrop_ValueChanged(bool isOn)
+        {
+            dropdown.enabled = isOn;
         }
 
         private bool toggledOn = false;

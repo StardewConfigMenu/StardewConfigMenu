@@ -23,10 +23,11 @@ Feel free to submit pull requests. This is my first C# project so it is quite sl
 ### Todo
 
  - [x] Dropdown Component
- - [ ] Checkbox Component
+ - [x] Checkbox Component
  - [ ] Slider Component
  - [ ] Plus/Minus Component
  - [ ] Text Input Component
+ - [ ] Keybind Setting Component
  - [ ] More robust testing mods
  - [ ] __CODE CLEANUP/ORGANIZATION__
  - [ ] Wiki

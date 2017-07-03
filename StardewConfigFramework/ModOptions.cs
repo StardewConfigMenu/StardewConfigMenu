@@ -43,7 +43,6 @@ namespace StardewConfigFramework
             {
                 return null;
             }
-            
         }
 
         public void AddModOption(ModOption option)
@@ -56,9 +55,19 @@ namespace StardewConfigFramework
             {
                 this.list.Add(option);
             } 
-                
-            
+        }
 
+        public void InsertModOption(ModOption option, int index)
+        {
+            try
+            {
+                var old = this.list.Find(x => { return x.identifier == option.identifier; });
+                list.Remove(old);
+            }
+            finally
+            {
+                this.list.Insert(index, option);
+            }
         }
 
         internal ModOption[] GetArray()

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewValley;
+using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
 using StardewModdingAPI.Events;
 
@@ -18,8 +19,8 @@ namespace StardewConfigMenu.Panel.Components
     {
         static protected OptionComponent selectedComponent;
 
-        protected Rectangle bounds;
-        public abstract bool enabled { get; set; }
+        protected Rectangle bounds = new Rectangle();
+        public abstract bool enabled { get; protected set;  }
         protected string label;
 
         public int Height => this.bounds.Height;
@@ -31,11 +32,12 @@ namespace StardewConfigMenu.Panel.Components
         {
             this.label = label;
             this.enabled = enabled;
+            this.AddListeners();
         }
 
         protected bool IsAvailableForSelection()
         {
-            if (OptionComponent.selectedComponent == this || OptionComponent.selectedComponent == null)
+            if (IsActiveComponent() || OptionComponent.selectedComponent == null)
             {
                 return true;
             } else
@@ -51,7 +53,7 @@ namespace StardewConfigMenu.Panel.Components
 
         protected void UnregisterAsActiveComponent()
         {
-            if (OptionComponent.selectedComponent == this)
+            if (this.IsActiveComponent())
             {
                 OptionComponent.selectedComponent = null;
             }
@@ -89,7 +91,10 @@ namespace StardewConfigMenu.Panel.Components
 
         protected virtual void MouseChanged(object sender, EventArgsMouseStateChanged e)
         {
-            // only allow one component to be interacted with at a time, and must be on settings tab
+            if (GameMenu.forcePreventClose) { return; }
+            if (!(Game1.activeClickableMenu is GameMenu)) { return; }
+
+                // only allow one component to be interacted with at a time, and must be on settings tab
             if (!this.IsAvailableForSelection() || (Game1.activeClickableMenu as GameMenu).currentTab != ModSettings.pageIndex || invisible) { return; }
 
             if (e.PriorState.LeftButton == ButtonState.Released)
@@ -122,5 +127,7 @@ namespace StardewConfigMenu.Panel.Components
         protected virtual void leftClickHeld(int x, int y) { }
 
         protected virtual void leftClickReleased(int x, int y) { }
+
+        protected virtual void receiveKeyPress(Keys key) {  }
     }
 }
