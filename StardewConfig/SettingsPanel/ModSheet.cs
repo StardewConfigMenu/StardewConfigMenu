@@ -45,9 +45,9 @@ namespace StardewConfigMenu.Panel
             {
                 // check type of option
                 Type t = modOptions.list[i].GetType();
-                if (t.Equals(typeof(ModOption)))
-                    Options.Add(new OptionCategoryLabel(modOptions.list[i].LabelText));
-                if (t.Equals(typeof(ModOptionSelection)))
+                if (t.Equals(typeof(ModOptionCategoryLabel)))
+                    Options.Add(new OptionCategoryLabel(modOptions.list[i] as ModOptionCategoryLabel));
+                else if (t.Equals(typeof(ModOptionSelection)))
                 {
                     int max = 350;
                     var option = (modOptions.list[i] as ModOptionSelection);
@@ -55,7 +55,7 @@ namespace StardewConfigMenu.Panel
 
                     Options.Add(new ModDropDownComponent((modOptions.list[i] as ModOptionSelection), max));
                 }
-                if (t.Equals(typeof(ModOptionToggle)))
+                else if (t.Equals(typeof(ModOptionToggle)))
                     Options.Add(new ModCheckBoxComponent((modOptions.list[i] as ModOptionToggle), (modOptions.list[i] as ModOptionToggle).enabled));
 
                 // create proper component

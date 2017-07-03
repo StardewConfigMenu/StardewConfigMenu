@@ -10,7 +10,7 @@ using StardewValley;
 using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
 using StardewModdingAPI.Events;
-
+using StardewConfigFramework;
 
 
 namespace StardewConfigMenu.Panel.Components
@@ -23,8 +23,11 @@ namespace StardewConfigMenu.Panel.Components
             protected set { }
         }
 
-        public OptionCategoryLabel(string labelText) : base(labelText)
+        private ModOptionCategoryLabel option;
+
+        public OptionCategoryLabel(ModOptionCategoryLabel option) : base(option.LabelText)
         {
+            this.option = option;
             this.bounds.Height = SpriteText.getHeightOfString(this.label);
             this.bounds.Width = SpriteText.getWidthOfString(this.label);
         }
