@@ -51,7 +51,7 @@ namespace StardewConfigMenu.Panel
                 {
                     int max = 350;
                     var option = (modOptions.list[i] as ModOptionSelection);
-                    option.List.ForEach(optionString => { max = Math.Max( (int) Game1.smallFont.MeasureString(optionString + "     ").X, max); });
+                    option.List.ForEach(choice => { max = Math.Max( (int) Game1.smallFont.MeasureString(choice.label + "     ").X, max); });
 
                     Options.Add(new ModDropDownComponent((modOptions.list[i] as ModOptionSelection), max));
                 }

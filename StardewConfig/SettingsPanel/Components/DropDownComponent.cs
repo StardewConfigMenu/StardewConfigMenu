@@ -29,7 +29,7 @@ namespace StardewConfigMenu.Panel.Components
         //
         // Fields
         //
-        private Rectangle dropDownBounds;
+        protected Rectangle dropDownBounds;
 
         public virtual int selectedOption
         {
@@ -61,12 +61,22 @@ namespace StardewConfigMenu.Panel.Components
         private bool _enabled;
 
         // Original List
-        protected List<string> dropDownOptions = new List<string>();
+        private List<string> _dropDownOptions = new List<string>();
+
+        protected virtual List<string> dropDownOptions
+        {
+            get { return _dropDownOptions;  }
+        }
 
         // List where order can be changed
-        protected List<string> dropDownDisplayOptions = new List<string>();
+        private List<string> _dropDownDisplayOptions = new List<string>();
 
-        public void ClearOptions(bool displayOnly = false)
+        protected virtual List<string> dropDownDisplayOptions
+        {
+            get { return _dropDownDisplayOptions; }
+        }
+
+        internal void ClearOptions(bool displayOnly = false)
         {
             if (!displayOnly)
                 dropDownOptions.Clear();
@@ -74,7 +84,7 @@ namespace StardewConfigMenu.Panel.Components
             dropDownBounds.Height = this.bounds.Height * this.dropDownOptions.Count;
         }
 
-        public void AddOption(string item)
+        internal void AddOption(string item)
         {
             if (!dropDownOptions.Contains(item))
                 dropDownOptions.Add(item);
@@ -83,11 +93,20 @@ namespace StardewConfigMenu.Panel.Components
             dropDownBounds.Height = this.bounds.Height * this.dropDownOptions.Count;
         }
 
+        internal void InsertOption(int index, string item)
+        {
+            if (!dropDownOptions.Contains(item))
+                dropDownOptions.Insert(index, item);
+            if (!dropDownDisplayOptions.Contains(item))
+                dropDownDisplayOptions.Insert(index, item);
+            dropDownBounds.Height = this.bounds.Height * this.dropDownOptions.Count;
+        }
+
         protected virtual void SelectDisplayedOption(int option)
         {
             var selected = dropDownDisplayOptions[option];
-            dropDownDisplayOptions.Remove(selected);
             dropDownDisplayOptions.Insert(0, selected);
+            dropDownDisplayOptions.RemoveAt(option + 1);            
         }
 
         //

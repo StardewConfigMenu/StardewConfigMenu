@@ -4,7 +4,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewConfigFramework;
-using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace SCFTester
 {
@@ -29,11 +29,11 @@ namespace SCFTester
 
             disableDrop.ValueChanged += DisableDrop_ValueChanged;
 
-            var dropdownoptions = new List<string>();
-            dropdownoptions.Add("Toggle");
-            dropdownoptions.Add("Always On");
-            dropdownoptions.Add("Always Off");
-            dropdown = new ModOptionSelection("Dropdown", "drop", dropdownoptions);
+            dropdown = new ModOptionSelection("Dropdown", "drop");
+
+            dropdown.AddChoice("Toggle", "toggle");
+            dropdown.AddChoice("Always On", "on");
+            dropdown.AddChoice("Always Off", "off");
 
             options.AddModOption(dropdown);
 
@@ -50,9 +50,9 @@ namespace SCFTester
                 if (dropdown.Selection == 2)
                     checkbox2.IsOn = false;
                 if (dropdown.Selection == 1)
-                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdownoptions[dropdown.Selection], new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
+                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.LabelOf(1), new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
                 if (toggledOn)
-                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdownoptions[0], new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
+                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.LabelOf(0), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
             };
 
 
