@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,9 +13,9 @@ using StardewModdingAPI.Events;
 using StardewConfigFramework;
 
 
-namespace StardewConfigMenu.Panel.Components
+namespace StardewConfigMenu.Panel.Components.ModOptions
 {
-    class OptionCategoryLabel: OptionComponent
+    class ModCategoryLabelComponent: OptionComponent
     {
 
         public override bool enabled {
@@ -25,14 +25,14 @@ namespace StardewConfigMenu.Panel.Components
 
         private ModOptionCategoryLabel option;
 
-        public OptionCategoryLabel(ModOptionCategoryLabel option) : base(option.LabelText)
+        public ModCategoryLabelComponent(ModOptionCategoryLabel option) : base(option.LabelText)
         {
             this.option = option;
             this.bounds.Height = SpriteText.getHeightOfString(this.label);
             this.bounds.Width = SpriteText.getWidthOfString(this.label);
         }
 
-        public OptionCategoryLabel(string labelText, int x, int y) : base(labelText)
+        public ModCategoryLabelComponent(string labelText, int x, int y) : base(labelText)
         {
             this.bounds.X = x;
             this.bounds.Y = y;
