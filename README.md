@@ -27,7 +27,7 @@ Feel free to submit pull requests. This is my first C# project so it is quite sl
  - [ ] Saving
  - [x] Dropdown Component
  - [x] Checkbox Component
- - [ ] Button Component
+ - [x] Button Component
  - [ ] Slider Component
  - [ ] Plus/Minus Component
  - [ ] Text Input Component
