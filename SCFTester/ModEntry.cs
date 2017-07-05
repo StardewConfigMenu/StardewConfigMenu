@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -48,12 +48,12 @@ namespace SCFTester
             GraphicsEvents.OnPostRenderEvent += (sender, e) =>
             {
 
-                if (dropdown.Selection == 2)
+                if (dropdown.Selection == "off")
                     checkbox2.IsOn = false;
-                if (dropdown.Selection == 1 || (options.GetOptionWithIdentifier("toggle3") as ModOptionToggle).IsOn)
-                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf(1), new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
+                if (dropdown.Selection == "on" || (options.GetOptionWithIdentifier("toggle3") as ModOptionToggle).IsOn)
+                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf("on"), new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
                 if (toggledOn)
-                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf(0), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
+                    Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf("toggle"), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
             };
 
 
@@ -66,25 +66,23 @@ namespace SCFTester
 
         private ModOptionSelection dropdown;
 
-        private void DisableDrop_ValueChanged(bool isOn)
+        private void DisableDrop_ValueChanged(string identifier, bool isOn)
         {
             dropdown.enabled = isOn;
         }
 
         private bool toggledOn = false;
 
-        private void Dropdown_ValueChanged(int selection)
+        private void Dropdown_ValueChanged(string identifier, string selection)
         {
-            if (selection == 0)
+            if (selection == "toggle")
                 toggledOn = !toggledOn;
         }
 
         /*********
         ** Private methods
         *********/
-        /// <summary>The method invoked when the game is opened.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event data.</param>
+
         private void StardewConfigFrameworkLoaded()
 		{
 

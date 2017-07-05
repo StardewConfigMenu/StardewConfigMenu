@@ -44,7 +44,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsPanel\Components\ModOptions\ModCheckBoxComponent.cs" />
     <Compile Include="SettingsPanel\Components\CheckBoxComponent.cs" />
-    <Compile Include="SettingsPanel\Components\ModOptions\ModDropDownOption.cs" />
+    <Compile Include="SettingsPanel\Components\ModOptions\ModDropDownComponent.cs" />
     <Compile Include="SettingsPanel\Components\OptionCategoryLabel.cs" />
     <Compile Include="SettingsPanel\Components\OptionComponent.cs" />
     <Compile Include="SettingsPanel\ModOptionsPage.cs" />

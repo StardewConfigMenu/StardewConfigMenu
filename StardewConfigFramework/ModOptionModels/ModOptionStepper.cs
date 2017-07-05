@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -6,7 +6,7 @@ using StardewValley;
 
 namespace StardewConfigFramework
 {
-    public delegate void ModOptionStepperHandler(decimal currentValue);
+    public delegate void ModOptionStepperHandler(string identifier, decimal currentValue);
 
     public class ModOptionStepper : ModOption
     {
@@ -25,29 +25,35 @@ namespace StardewConfigFramework
 
         public decimal min { get; private set; }
         public decimal max { get; private set; }
-        public decimal Value { get; private set; }
         public decimal stepSize { get; private set; }
 
-        public void SetValue(decimal selection)
-        {
-            var valid = CheckValidInput(Math.Round((decimal)selection, 3));
-            var newVal = valid - ((valid - min) % stepSize);
-            if (newVal != this.Value)
-            {
-                this.Value = newVal;
-                this.ValueChanged(this.Value);
-            }
+        private decimal _Value;
+        public decimal Value { 
             
+            get {
+                return _Value;
+            } 
+
+            set {
+				var valid = CheckValidInput(Math.Round(value, 3));
+                var newVal = (int)((valid - min) / stepSize) * stepSize + min;
+				if (newVal != this._Value)
+				{
+					this._Value = newVal;
+                    this.ValueChanged?.Invoke(this.identifier, this._Value);
+				}
+            } 
         }
+
 
         public void StepUp()
         {
-            this.SetValue(this.Value + this.stepSize);
+            this.Value = this.Value + this.stepSize;
         }
 
         public void StepDown()
         {
-            this.SetValue(this.Value - this.stepSize);
+            this.Value = this.Value - this.stepSize;
         }
 
         private decimal CheckValidInput(decimal input)

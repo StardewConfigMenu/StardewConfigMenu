@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using Microsoft.Xna.Framework;
@@ -8,42 +8,48 @@ using StardewValley;
 
 namespace StardewConfigFramework
 {
-    public delegate void ModOptionSelectionHandler(int selection);
-
+    public delegate void ModOptionSelectionHandler(string ComponentIdentifier, string selectionIdentifier);
 
     public class ModOptionSelection : ModOption
     {
         public event ModOptionSelectionHandler ValueChanged;
 
-        public ModOptionSelection(string identifier, string label, int defaultSelection = 0, bool enabled = true) : base(identifier, label, enabled)
-        {
-            this._Selection = defaultSelection;
-        }
-
-        public ModOptionSelection(string identifier, string labelText,  ModSelectionOptionChoices choices, int defaultSelection = 0, bool enabled = true) : base(labelText, identifier, enabled)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:StardewConfigFramework.ModOptionSelection"/> class.
+		/// </summary>
+		/// <param name="labelText">Label text.</param>
+		/// <param name="identifier">Identifier.</param>
+		/// <param name="choices">Choices. Must contain at least one choice.</param>
+		/// <param name="defaultSelection">Default selection.</param>
+		/// <param name="enabled">If set to <c>true</c> enabled.</param>
+        public ModOptionSelection(string identifier, string labelText,  ModSelectionOptionChoices choices, int defaultSelection = 0, bool enabled = true) : base(identifier, labelText, enabled)
         {
             this.Choices = choices;
             
-            this.Selection = defaultSelection;
+            this.SelectionIndex = defaultSelection;
         }
+
+		public ModOptionSelection(string identifier, string labelText, bool enabled = true) : base(identifier, labelText, enabled) { }
 
         public ModSelectionOptionChoices Choices { get; private set; }  = new ModSelectionOptionChoices(); 
 
-        private int _Selection = 0;
-        public int Selection {
+        private int _SelectionIndex = 0;
+        public int SelectionIndex {
             get {
-                return _Selection;
+                return _SelectionIndex;
             }
-            set {
-                _Selection = value;
-                this.ValueChanged?.Invoke(value);
+            set {                    
+                if (value > ((this.Choices.Count == 0) ? this.Choices.Count : this.Choices.Count - 1) || value < 0)
+                    throw new IndexOutOfRangeException("Selection is out of range of Choices");
+                
+                if (_SelectionIndex != value) {
+					_SelectionIndex = value;
+                    this.ValueChanged?.Invoke(this.identifier, this.Selection);
+				}
             }
         }
 
-        public string SelectionIdentifier
-        {
-            get { return Choices.IdentifierOf(Selection); }
-        }
+        public string Selection => Choices.IdentifierOfIndex(this._SelectionIndex);
     }
 
     /// <summary>
@@ -84,6 +90,10 @@ namespace StardewConfigFramework
             base.Add(identifier, label);
         }
 
+        /// <summary>
+        /// Remove the specified identifier.
+        /// </summary>
+        /// <param name="identifier">Identifier.</param>
         public void Remove(string identifier) {
             base.Remove(identifier);
         }
@@ -97,11 +107,9 @@ namespace StardewConfigFramework
             return this.Labels.IndexOf(label);
         }
 
-        public string IdentifierOf(int index)
+        public string IdentifierOf(string label)
         {
-            String[] myValues = new String[Keys.Count];
-            Values.CopyTo(myValues, 0);
-            return myValues[index];
+            return this.IdentifierOfIndex(this.Labels.IndexOf(label));
         }
 
         /// <summary>
@@ -133,11 +141,12 @@ namespace StardewConfigFramework
 
         public List<string> Identifiers {
             get {
-                if (this.Keys.Count == 0)
-                    return new List<string>();
-                String[] identifiers = new String[this.Values.Count];
-                this.Values.CopyTo(identifiers, 0);
-                return new List<string>(identifiers);
+				if (this.Keys.Count == 0)
+					return new List<string>();
+
+                String[] myKeys = new String[Keys.Count];
+				Keys.CopyTo(myKeys, 0);
+                return new List<string>(myKeys);
             }
         }
 
@@ -146,9 +155,10 @@ namespace StardewConfigFramework
 			{
                 if (this.Values.Count == 0)
                     return new List<string>();
-                String[] values = new String[this.Values.Count];
-                this.Values.CopyTo(values, 0);
-                return new List<string>(values);
+
+				String[] myValues = new String[Values.Count];
+				Values.CopyTo(myValues, 0);
+				return new List<string>(myValues);
 			}
 		}
 

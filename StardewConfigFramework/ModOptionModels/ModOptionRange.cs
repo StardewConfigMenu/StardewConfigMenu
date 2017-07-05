@@ -6,7 +6,7 @@ using StardewValley;
 
 namespace StardewConfigFramework
 {
-    public delegate void ModOptionRangeHandler(float currentValue);
+    public delegate void ModOptionRangeHandler(string identifier, float currentValue);
 
     public class ModOptionRange : ModOption
     {
@@ -24,14 +24,14 @@ namespace StardewConfigFramework
         public void SetValue(float selection)
         {
             this.Value = CheckValidInput(selection);
-            this.ValueChanged(this.Value);
+            this.ValueChanged(this.identifier, this.Value);
         }
 
         public void SetValueByPercentage(float percent)
         {
             float newValue = ((max - min) * percent) + min;
             this.Value = CheckValidInput(newValue);
-            this.ValueChanged(this.Value);
+            this.ValueChanged(this.identifier, this.Value);
         }
 
         private float CheckValidInput(float input)

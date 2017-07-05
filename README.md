@@ -27,12 +27,14 @@ Feel free to submit pull requests. This is my first C# project so it is quite sl
  - [ ] Saving
  - [x] Dropdown Component
  - [x] Checkbox Component
+ - [ ] Button Component
  - [ ] Slider Component
  - [ ] Plus/Minus Component
  - [ ] Text Input Component
  - [ ] Keybind Setting Component
  - [ ] More robust testing mods
  - [ ] __CODE CLEANUP/ORGANIZATION__
+ - [ ] Code documentation
  - [ ] Wiki
  
 ## Modders
@@ -50,7 +52,7 @@ For a walkthrough of how to use the framework in your mods [check out the Wiki](
  
 ### Mods
 
- - None yet! [But you can be the first!](#Modders)
+ - None yet! [But you can be the first!](#modders)
  
  
  

@@ -6,7 +6,7 @@ using StardewValley;
 
 namespace StardewConfigFramework
 {
-	public delegate void ModOptionToggleHandler(bool isOn);
+	public delegate void ModOptionToggleHandler(string identifier, bool isOn);
 
 	public class ModOptionToggle : ModOption
 	{
@@ -29,7 +29,7 @@ namespace StardewConfigFramework
                     return;
 
                 this._isOn = value;
-                this.ValueChanged?.Invoke(this.IsOn);
+                this.ValueChanged?.Invoke(this.identifier, this.IsOn);
             }
         }
 
@@ -38,7 +38,7 @@ namespace StardewConfigFramework
 		public void Toggle()
 		{
 			this.IsOn = !this.IsOn;
-            this.ValueChanged?.Invoke(this.IsOn);
+            this.ValueChanged?.Invoke(this.identifier, this.IsOn);
 		}
 	}
 }

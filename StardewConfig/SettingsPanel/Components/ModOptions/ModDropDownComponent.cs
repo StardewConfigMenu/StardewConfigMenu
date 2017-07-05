@@ -26,7 +26,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 
         public override int selectedOption
         {
-            get { return this.ModData.Selection; }
+            get { return this.ModData.SelectionIndex; }
             set
             {
                 if (selectedOption == value)
@@ -34,7 +34,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
                 
 				_dropDownDisplayOptions.Insert(0, dropDownOptions[value]);
 				_dropDownDisplayOptions.RemoveAt(value + 1);
-                this.ModData.Selection = value;
+                this.ModData.SelectionIndex = value;
             }
         }
 
@@ -82,8 +82,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
                 return;
 
             var selected = dropDownDisplayOptions[DisplayedSelection];
-            
-            ModData.Selection = this.ModData.Choices.IndexOf(selected);
+            ModData.SelectionIndex = this.ModData.Choices.IndexOf(selected);
             base.SelectDisplayedOption(DisplayedSelection);
         }
 
