@@ -43,7 +43,7 @@ namespace StardewConfigMenu.Panel
         {
             var gameMenu = (GameMenu)Game1.activeClickableMenu;
             if (ModSettings.pageIndex != null)
-                gameMenu.currentTab = (int) ModSettings.pageIndex;
+                gameMenu.currentTab = (int)ModSettings.pageIndex;
         }
 
         public override void receiveRightClick(int x, int y, bool playSound = true) { }

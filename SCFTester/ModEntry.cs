@@ -41,7 +41,7 @@ namespace SCFTester
 
             options.AddModOption(checkbox2);
 
-            options.AddModOption(new ModOptionToggle("toggle3", "Always On"));
+            options.AddModOption(new ModOptionToggle("toggle3", "Always On", false));
 
             GraphicsEvents.OnPostRenderEvent += (sender, e) =>
             {

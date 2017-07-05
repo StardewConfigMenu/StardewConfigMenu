@@ -45,8 +45,8 @@ namespace StardewConfigMenu.Panel
             {
                 // check type of option
                 Type t = modOptions.list[i].GetType();
-                if (t.Equals(typeof(ModOptionCategoryLabel)))
-                    Options.Add(new OptionCategoryLabel(modOptions.list[i] as ModOptionCategoryLabel));
+                if (t.Equals(typeof(StardewConfigFramework.ModOptionCategoryLabel)))
+                    Options.Add(new ModCategoryLabelComponent((StardewConfigFramework.ModOptionCategoryLabel)(modOptions.list[(int)i] as StardewConfigFramework.ModOptionCategoryLabel)));
                 else if (t.Equals(typeof(ModOptionSelection)))
                 {
                     int minWidth = 350;

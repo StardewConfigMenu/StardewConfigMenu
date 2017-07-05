@@ -53,7 +53,8 @@ namespace StardewConfigMenu
 		/// </summary>
 		private void MenuClosed(object sender, EventArgsClickableMenuClosed e)
 		{
-            GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
+			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
+			GraphicsEvents.OnPreRenderGuiEvent -= HandleJunimo;
 
 			if (this.tab != null) {
 				this.tab.RemoveListeners();
@@ -100,10 +101,35 @@ namespace StardewConfigMenu
 
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPostRenderGuiEvent += RenderTab;
+			GraphicsEvents.OnPreRenderGuiEvent -= HandleJunimo;
+			GraphicsEvents.OnPreRenderGuiEvent += HandleJunimo;
 
 		}
 
-        private void RenderTab(object sender, EventArgs e) {
+		private ClickableTextureComponent junimoNoteIconStorage;
+
+        private void HandleJunimo(object sender, EventArgs e)
+        {
+			var gameMenu = (GameMenu)Game1.activeClickableMenu;
+
+            // Remove Community Center Icon from Options, Exit Game, and Mod Options pages
+			if (gameMenu.currentTab == ModSettings.pageIndex || gameMenu.currentTab == 6 || gameMenu.currentTab == 7)
+			{
+				if (gameMenu.junimoNoteIcon != null)
+				{
+					this.junimoNoteIconStorage = gameMenu.junimoNoteIcon;
+					gameMenu.junimoNoteIcon = null;
+				}
+			}
+			else if (this.junimoNoteIconStorage != null)
+			{
+				gameMenu.junimoNoteIcon = this.junimoNoteIconStorage;
+				this.junimoNoteIconStorage = null;
+			}
+        }
+
+
+		private void RenderTab(object sender, EventArgs e) {
 
             if (!(Game1.activeClickableMenu is GameMenu))
                 return;

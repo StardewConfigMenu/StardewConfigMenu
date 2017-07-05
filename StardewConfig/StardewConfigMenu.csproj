@@ -45,7 +45,6 @@
     <Compile Include="SettingsPanel\Components\ModOptions\ModCheckBoxComponent.cs" />
     <Compile Include="SettingsPanel\Components\CheckBoxComponent.cs" />
     <Compile Include="SettingsPanel\Components\ModOptions\ModDropDownComponent.cs" />
-    <Compile Include="SettingsPanel\Components\OptionCategoryLabel.cs" />
     <Compile Include="SettingsPanel\Components\OptionComponent.cs" />
     <Compile Include="SettingsPanel\ModOptionsPage.cs" />
     <Compile Include="SettingsPanel\ModSheet.cs" />
@@ -54,6 +53,7 @@
     <Compile Include="Utility.cs" />
     <Compile Include="SettingsPanel\Components\ButtonComponent.cs" />
     <Compile Include="SettingsPanel\Components\ModOptions\ModButtonComponent.cs" />
+    <Compile Include="SettingsPanel\Components\ModOptions\ModCategoryLabelComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
