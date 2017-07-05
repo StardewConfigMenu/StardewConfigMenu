@@ -52,6 +52,8 @@
     <Compile Include="SettingsPanel\Components\DropDownComponent.cs" />
     <Compile Include="SettingsPanel\Components\ModOptionsTab.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="SettingsPanel\Components\ButtonComponent.cs" />
+    <Compile Include="SettingsPanel\Components\ModOptions\ModButtonComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

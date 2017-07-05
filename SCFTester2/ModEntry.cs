@@ -29,7 +29,37 @@ namespace SCFTester2
 
             var label = new ModOptionCategoryLabel("catlabel", "Category Label");
             options.AddModOption(label);
-        }
+
+            var button = new ModOptionTrigger("setButton", "Click Me!", OptionActionType.SET);
+            button.ActionTriggered += (identifier) => {
+                options.GetOptionWithIdentifier("disabled").enabled = !options.GetOptionWithIdentifier("disabled").enabled;
+            };
+            options.AddModOption(button);
+
+            var clearButton = new ModOptionTrigger("clearButton", "Clear Button", OptionActionType.CLEAR);
+            clearButton.ActionTriggered += (identifier) => {
+                switch (clearButton.LabelText) {
+					case "Clear Button":
+						clearButton.LabelText = "Are you sure?";
+                        clearButton.type = OptionActionType.OK;
+						break;
+					case "Are you sure?":
+						clearButton.LabelText = "Cleared";
+                        clearButton.type = OptionActionType.DONE;
+						break;
+					case "Cleared":
+						clearButton.LabelText = "Clear Button";
+                        clearButton.type = OptionActionType.CLEAR;
+						break;
+                }
+            };
+
+            options.AddModOption(clearButton);
+
+			options.AddModOption(new ModOptionTrigger("doneButton", "Done Button", OptionActionType.DONE));
+            options.AddModOption(new ModOptionTrigger("giftButton", "Gift Button", OptionActionType.GIFT));
+            options.AddModOption(new ModOptionTrigger("okButton", "OK Button", OptionActionType.OK));
+		}
 
         /*********
         ** Private methods

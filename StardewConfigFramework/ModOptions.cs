@@ -12,7 +12,7 @@ namespace StardewConfigFramework
     {
         public IManifest modManifest { get; private set; }
 
-        public List<ModOption> list = new List<ModOption>();
+        public List<ModOption> list { get; internal set; } = new List<ModOption>();
 
         public ModOptions(Mod mod)
         {
@@ -34,46 +34,35 @@ namespace StardewConfigFramework
             }
         }
 
-        public ModOption GetOptionWithIdentifier(String identifier)
+        public ModOption GetOptionWithIdentifier(string identifier)
         {
-            try
-            {
-                return list.Find(x => x.identifier == identifier);
-            } catch
-            {
-                return null;
-            }
+			return list.Find(x => x.identifier == identifier);
+        }
+
+        public ModOption RemoveAtIndex(int index)  {
+            var old = list[index];
+            this.list.RemoveAt(index);
+            return old;
+        }
+
+        // Add remove method
+        public ModOption RemoveModOptionWithIdentifier(string identifier) {
+			var old = this.list.Find(x => { return x.identifier == identifier; });
+			list.Remove(old);
+            return old;
         }
 
         public void AddModOption(ModOption option)
         {
-            try
-            {
-                var old = this.list.Find(x => { return x.identifier == option.identifier; });
-                list.Remove(old);
-            } finally
-            {
-                this.list.Add(option);
-            } 
-        }
+            RemoveModOptionWithIdentifier(option.identifier);
+            this.list.Add(option);
+		}
 
         public void InsertModOption(ModOption option, int index)
         {
-            try
-            {
-                var old = this.list.Find(x => { return x.identifier == option.identifier; });
-                list.Remove(old);
-            }
-            finally
-            {
-                this.list.Insert(index, option);
-            }
-        }
-
-        internal ModOption[] GetArray()
-        {
-            return list.ToArray();
-        }
+            this.RemoveModOptionWithIdentifier(option.identifier);
+            this.list.Insert(index, option);
+		}
 
         private enum SETTINGS_LOAD_RESPONSE
         {

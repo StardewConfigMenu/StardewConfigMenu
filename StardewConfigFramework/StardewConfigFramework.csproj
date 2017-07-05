@@ -41,6 +41,7 @@
     <Compile Include="ModOptionModels\ModOptionStepper.cs" />
     <Compile Include="ModOptionModels\ModOptionToggle.cs" />
     <Compile Include="ModOptionModels\ModOption.cs" />
+    <Compile Include="ModOptionModels\ModOptionTrigger.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

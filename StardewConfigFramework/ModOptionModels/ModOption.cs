@@ -9,8 +9,8 @@ namespace StardewConfigFramework
 {
     public abstract class ModOption
     {
-        public string LabelText { get; protected set; }
-        public string identifier { get; protected set; }
+        public string LabelText { get; set; }
+        readonly public string identifier;
         public bool enabled;
 
         internal ModOption(string identifier, string label, bool enabled = true)

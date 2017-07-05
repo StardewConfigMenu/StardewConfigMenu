@@ -22,8 +22,6 @@ namespace SCFTester
             var options = new ModOptions(this);
             Settings.AddModOptions(options);
 
-            options.GetOptionWithIdentifier("");
-
             var disableDrop = new ModOptionToggle("toggle", "Checkbox");
             options.AddModOption(disableDrop);
 

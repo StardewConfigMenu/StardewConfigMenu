@@ -20,8 +20,28 @@ namespace StardewConfigMenu.Panel.Components
         static protected OptionComponent selectedComponent;
 
         protected Rectangle bounds = new Rectangle();
-        public abstract bool enabled { get; protected set;  }
-        protected string label;
+        public virtual bool enabled { 
+            get {
+                return _enabled;
+            }
+            protected set {
+                _enabled = value;
+            }  
+        }
+
+		public virtual string label
+		{
+			get
+			{
+				return _label;
+			}
+			protected set
+			{
+				_label = value;
+			}
+		}
+        protected bool _enabled;
+        protected string _label;
 
         public int Height => this.bounds.Height;
         public int Width => this.bounds.Width;
@@ -30,8 +50,8 @@ namespace StardewConfigMenu.Panel.Components
 
         public OptionComponent(string label, bool enabled = true)
         {
-            this.label = label;
-            this.enabled = enabled;
+            this._label = label;
+            this._enabled = enabled;
             this.AddListeners();
         }
 
@@ -75,13 +95,13 @@ namespace StardewConfigMenu.Panel.Components
         // static drawing of component
         public virtual void draw(SpriteBatch b) { }
 
-        internal virtual void AddListeners()
+        internal void AddListeners()
         {
             RemoveListeners();
             ControlEvents.MouseChanged += MouseChanged;
         }
 
-        internal virtual void RemoveListeners()
+        internal void RemoveListeners()
         {
             ControlEvents.MouseChanged -= MouseChanged;
             this.UnregisterAsActiveComponent();

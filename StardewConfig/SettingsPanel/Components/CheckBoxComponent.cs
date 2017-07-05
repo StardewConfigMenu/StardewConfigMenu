@@ -22,47 +22,43 @@ namespace StardewConfigMenu.Panel.Components
         // Static Fields
         //
 
-        public override bool enabled
-        {
-            get
-            {
-                return _enabled;
-            }
-            protected set
-            {
-                _enabled = value;
-            }
+        public virtual bool IsChecked 
+        { 
+            get{
+                return _IsChecked;
+            } 
+            protected set {
+                _IsChecked = value;
+				this.CheckBoxToggled?.Invoke(value);
+			} 
         }
 
-        private bool _enabled;
-
-        public virtual bool IsChecked { get; protected set; }
+		private bool _IsChecked;
 
 
-        //
-        // Fields
-        //
+		//
+		// Fields
+		//
 
-        internal CheckBoxComponent(string label, bool isChecked, int x, int y, bool enabled = true) : base(label, enabled)
+		internal CheckBoxComponent(string label, bool isChecked, int x, int y, bool enabled = true) : base(label, enabled)
         {
             this.bounds = new Rectangle(x,y, Game1.pixelZoom * OptionsCheckbox.sourceRectChecked.Width, Game1.pixelZoom * OptionsCheckbox.sourceRectChecked.Height);
-            this.IsChecked = isChecked;
+            this._IsChecked = isChecked;
         }
 
         internal CheckBoxComponent(string label, bool isChecked, bool enabled = true) : base(label, enabled)
         {
             this.bounds = new Rectangle(0, 0, Game1.pixelZoom * OptionsCheckbox.sourceRectChecked.Width, Game1.pixelZoom * OptionsCheckbox.sourceRectChecked.Height);
-            this.IsChecked = isChecked;
+            this._IsChecked = isChecked;
         }
 
         protected override void leftClicked(int x, int y)
         {
             base.leftClicked(x, y);
 
-            if (this.bounds.Contains(x,y))
+            if (this.bounds.Contains(x,y) && enabled)
             {
                 IsChecked = !IsChecked;
-                this.CheckBoxToggled?.Invoke(IsChecked);
             }
         }
 
@@ -74,11 +70,8 @@ namespace StardewConfigMenu.Panel.Components
 
             var labelSize = Game1.dialogueFont.MeasureString(this.label);
 
-            Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float)(this.bounds.X + this.bounds.Width + Game1.pixelZoom * 4), (float)(this.bounds.Y + ((this.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
+            Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float)(this.bounds.Right + Game1.pixelZoom * 4), (float)(this.bounds.Y + ((this.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 
         }
-
     }
-
 }
-

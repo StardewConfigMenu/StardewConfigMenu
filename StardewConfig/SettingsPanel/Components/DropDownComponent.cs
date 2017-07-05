@@ -61,8 +61,6 @@ namespace StardewConfigMenu.Panel.Components
             }
         }
 
-        private bool _enabled;
-
         // Original List
         private List<string> _dropDownOptions = new List<string>();
 
@@ -97,33 +95,40 @@ namespace StardewConfigMenu.Panel.Components
 			}
         }
 
-        protected virtual void SelectDisplayedOption(int option)
+        protected virtual void SelectDisplayedOption(int DisplayedSelection)
         {
-            if (option == 0)
+            if (DisplayedSelection == 0)
                 return;
-            var selected = dropDownDisplayOptions[option];
+            var selected = dropDownDisplayOptions[DisplayedSelection];
             dropDownDisplayOptions.Insert(0, selected);
-            dropDownDisplayOptions.RemoveAt(option + 1);
+            dropDownDisplayOptions.RemoveAt(DisplayedSelection + 1);
 			this.DropDownOptionSelected?.Invoke(selectedOption);
 		}
 
-        //
-        // Constructors
-        //
+		//
+		// Constructors
+		//
 
-        public DropDownComponent(List<string> choices, string label, int width, int x, int y, bool enabled = true) : base(label, enabled)
-        {
-			this.dropDownOptions.AddRange(choices);
+		public DropDownComponent(List<string> choices, string label, int width, int x, int y, bool enabled = true) : base(label, enabled)
+		{
+            this._dropDownOptions.AddRange(choices);
 			this.label = label;
-            this.bounds = new Rectangle(x, y, width + Game1.pixelZoom * 12, 11 * Game1.pixelZoom);
-            this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
-        }
+			this.bounds = new Rectangle(x, y, width + Game1.pixelZoom * 12, 11 * Game1.pixelZoom);
+			this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
+		}
+
+		public DropDownComponent(string label, int width, int x, int y, bool enabled = true) : base(label, enabled)
+		{
+			this.label = label;
+			this.bounds = new Rectangle(x, y, width + Game1.pixelZoom * 12, 11 * Game1.pixelZoom);
+			this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
+		}
 
         // This contructor requires Draw(b,x,y) to move the object from origin
         public DropDownComponent(List<string> choices, string label, int width, bool enabled = true) : base(label, enabled)
         {
-            this.dropDownOptions.AddRange(choices);
-            this.label = label;
+			this._dropDownOptions.AddRange(choices);
+			this.label = label;
             this.bounds = new Rectangle(0, 0, width + Game1.pixelZoom * 12, 11 * Game1.pixelZoom);
             this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
         }

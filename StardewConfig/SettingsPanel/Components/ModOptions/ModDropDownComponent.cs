@@ -11,18 +11,26 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 {
     internal class ModDropDownComponent : DropDownComponent
     {
-        private ModOptionSelection ModData;
+        readonly private ModOptionSelection ModData;
 
-        public override bool enabled
-        {
-            get
-            {
-                if (!ModData.enabled)
-                    return ModData.enabled;
-                else
-                    return dropDownOptions.Count != 0;
-            }
-        }
+		public override bool enabled
+		{
+			get
+			{
+				if (!ModData.enabled)
+					return ModData.enabled;
+				else
+					return dropDownOptions.Count != 0;
+			}
+		}
+
+		public override string label
+		{
+			get
+			{
+                return ModData.LabelText;
+			}
+		}
 
         public override int selectedOption
         {
@@ -69,12 +77,15 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 
         private List<string> _dropDownDisplayOptions = new List<string>();
 
-        public ModDropDownComponent(ModOptionSelection option, int width) : base(option.LabelText, width)
-        {
-            this.ModData = option;
+        public ModDropDownComponent(ModOptionSelection option, int width) : base(option.LabelText, width, option.enabled)
+		{
+			this.ModData = option;
+		}
 
-            // LongestString = option.List.GroupBy(str => str == null ? 0 : str.Length).OrderByDescending(g => g.Key).First();
-        }
+        public ModDropDownComponent(ModOptionSelection option, int width, int x, int y) : base(option.LabelText, width, x, y)
+		{
+			this.ModData = option;
+		}
 
         protected override void SelectDisplayedOption(int DisplayedSelection)
         {

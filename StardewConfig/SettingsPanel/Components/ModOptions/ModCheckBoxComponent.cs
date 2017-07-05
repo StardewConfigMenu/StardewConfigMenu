@@ -22,26 +22,42 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
         //
         // Fields
         //
-        private ModOptionToggle option;
+        readonly private ModOptionToggle Option;
 
         public override bool IsChecked {
-            get { return option.IsOn;  }
+            get { return Option.IsOn;  }
             protected set
             {
-                if (option == null)
+                if (Option == null)
                     return; // used to ignore base class assignment
-                this.option.IsOn = value;
+                this.Option.IsOn = value;
             }
         }
 
-        internal ModCheckBoxComponent(ModOptionToggle option, int x, int y, bool enabled = true) : base(option.LabelText, option.IsOn, x, y, enabled)
+		public override bool enabled
+		{
+			get
+			{
+                return Option.enabled;
+			}
+		}
+
+		public override string label
+		{
+			get
+			{
+				return Option.LabelText;
+			}
+		}
+
+        internal ModCheckBoxComponent(ModOptionToggle option, int x, int y) : base(option.LabelText, option.IsOn, x, y, option.enabled)
         {
-            this.option = option;
+            this.Option = option;
         }
 
-        internal ModCheckBoxComponent(ModOptionToggle option, bool enabled = true) : base(option.LabelText, option.IsOn, enabled)
+        internal ModCheckBoxComponent(ModOptionToggle option) : base(option.LabelText, option.IsOn, option.enabled)
         {
-            this.option = option;
+            this.Option = option;
         }
 
     }

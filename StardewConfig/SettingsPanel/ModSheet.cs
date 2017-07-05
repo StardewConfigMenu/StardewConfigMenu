@@ -49,18 +49,20 @@ namespace StardewConfigMenu.Panel
                     Options.Add(new OptionCategoryLabel(modOptions.list[i] as ModOptionCategoryLabel));
                 else if (t.Equals(typeof(ModOptionSelection)))
                 {
-                    int max = 350;
+                    int minWidth = 350;
                     var option = (modOptions.list[i] as ModOptionSelection);
-                    option.Choices.Labels.ForEach(choice => { max = Math.Max( (int) Game1.smallFont.MeasureString(choice + "     ").X, max); });
+                    option.Choices.Labels.ForEach(choice => { minWidth = Math.Max((int)Game1.smallFont.MeasureString(choice + "     ").X, minWidth); });
 
-                    Options.Add(new ModDropDownComponent((modOptions.list[i] as ModOptionSelection), max));
+                    Options.Add(new ModDropDownComponent(option, minWidth));
                 }
                 else if (t.Equals(typeof(ModOptionToggle)))
-                    Options.Add(new ModCheckBoxComponent((modOptions.list[i] as ModOptionToggle), (modOptions.list[i] as ModOptionToggle).enabled));
+                    Options.Add(new ModCheckBoxComponent(modOptions.list[i] as ModOptionToggle));
+                else if (t.Equals(typeof(ModOptionTrigger)))
+                    Options.Add(new ModButtonComponent(modOptions.list[i] as ModOptionTrigger));
 
-                // create proper component
-                // add to Options
-            }
+				// create proper component
+				// add to Options
+			}
             this.upArrow = new ClickableTextureComponent(new Rectangle(this.xPositionOnScreen + width + Game1.tileSize / 4, this.yPositionOnScreen, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), (float)Game1.pixelZoom, false);
             this.downArrow = new ClickableTextureComponent(new Rectangle(this.xPositionOnScreen + width + Game1.tileSize / 4, this.yPositionOnScreen + height - 12 * Game1.pixelZoom, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 472, 11, 12), (float)Game1.pixelZoom, false);
             this.scrollBar = new ClickableTextureComponent(new Rectangle(this.upArrow.bounds.X + Game1.pixelZoom * 3, this.upArrow.bounds.Y + this.upArrow.bounds.Height + Game1.pixelZoom, 6 * Game1.pixelZoom, 10 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(435, 463, 6, 10), (float)Game1.pixelZoom, false);
