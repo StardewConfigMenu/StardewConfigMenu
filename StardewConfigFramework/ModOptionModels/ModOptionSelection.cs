@@ -1,4 +1,4 @@
-﻿﻿﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using Microsoft.Xna.Framework;
@@ -22,9 +22,10 @@ namespace StardewConfigFramework
 		/// <param name="choices">Choices. Must contain at least one choice.</param>
 		/// <param name="defaultSelection">Default selection.</param>
 		/// <param name="enabled">If set to <c>true</c> enabled.</param>
-        public ModOptionSelection(string identifier, string labelText,  ModSelectionOptionChoices choices, int defaultSelection = 0, bool enabled = true) : base(identifier, labelText, enabled)
+        public ModOptionSelection(string identifier, string labelText,  ModSelectionOptionChoices choices = null, int defaultSelection = 0, bool enabled = true) : base(identifier, labelText, enabled)
         {
-            this.Choices = choices;
+			if (choices != null)
+            	this.Choices = choices;
             
             this.SelectionIndex = defaultSelection;
         }
