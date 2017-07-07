@@ -19,6 +19,7 @@ namespace SCFTester2
 		{
             Settings = IModSettingsFramework.Instance;
             var options = new ModOptions(this);
+            //var options = ModOptions.LoadUserSettings(this);
             Settings.AddModOptions(options);
 
             options.AddModOption(new ModOptionToggle("test", "Test"));
@@ -58,8 +59,19 @@ namespace SCFTester2
 
 			options.AddModOption(new ModOptionTrigger("doneButton", "Done Button", OptionActionType.DONE));
             options.AddModOption(new ModOptionTrigger("giftButton", "Gift Button", OptionActionType.GIFT));
-            options.AddModOption(new ModOptionTrigger("okButton", "OK Button", OptionActionType.OK));
-		}
+
+            var saveButton = new ModOptionTrigger("okButton", "OK Button", OptionActionType.OK);
+            options.AddModOption(saveButton);
+
+            saveButton.ActionTriggered += (id) =>
+            {
+                //options.SaveUserSettings();
+            };
+
+
+        }
+
+
 
         /*********
         ** Private methods

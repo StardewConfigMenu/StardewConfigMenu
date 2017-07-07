@@ -20,7 +20,8 @@ namespace StardewConfigMenu.Panel.Components
         static protected OptionComponent selectedComponent;
 
         protected Rectangle bounds = new Rectangle();
-        public virtual bool enabled { 
+        public virtual bool enabled
+        { 
             get {
                 return _enabled;
             }
@@ -40,8 +41,8 @@ namespace StardewConfigMenu.Panel.Components
 				_label = value;
 			}
 		}
-        protected bool _enabled;
-        protected string _label;
+        internal protected bool _enabled;
+        internal protected string _label;
 
         public int Height => this.bounds.Height;
         public int Width => this.bounds.Width;

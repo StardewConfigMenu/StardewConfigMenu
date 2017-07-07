@@ -4,6 +4,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 
 namespace StardewConfigFramework
@@ -12,66 +13,61 @@ namespace StardewConfigFramework
     {
         public IManifest modManifest { get; private set; }
 
-        public List<ModOption> list { get; internal set; } = new List<ModOption>();
+        public IList<ModOption> List
+        {
+            get
+            {
+                return OptionList.AsReadOnly();
+            }
+        }
+
+        internal List<ModOption> OptionList { get; set; } = new List<ModOption>();
 
         public ModOptions(Mod mod)
         {
             //this.modName = modName;
             this.modManifest = mod.ModManifest;
-            //Load from JSON using Settings
-
-            switch (this.LoadUserSettings())
-            {
-                case SETTINGS_LOAD_RESPONSE.NONE:
-                    mod.Monitor.Log($"User has no saved settings file, creating");
-                    break;
-                case SETTINGS_LOAD_RESPONSE.SUCCESS:
-                    mod.Monitor.Log($"User data successfully loaded");
-                    break;
-                case SETTINGS_LOAD_RESPONSE.UNKNOWN:
-                    mod.Monitor.Log($"Failed to load user data");
-                    break;
-            }
         }
 
         public ModOption GetOptionWithIdentifier(string identifier)
         {
-			return list.Find(x => x.identifier == identifier);
+			return OptionList.Find(x => x.identifier == identifier);
         }
 
         public ModOption RemoveAtIndex(int index)  {
-            var old = list[index];
-            this.list.RemoveAt(index);
+            var old = OptionList[index];
+            this.OptionList.RemoveAt(index);
             return old;
         }
 
         // Add remove method
         public ModOption RemoveModOptionWithIdentifier(string identifier) {
-			var old = this.list.Find(x => { return x.identifier == identifier; });
-			list.Remove(old);
+			var old = this.OptionList.Find(x => { return x.identifier == identifier; });
+			OptionList.Remove(old);
             return old;
         }
 
         public void AddModOption(ModOption option)
         {
             RemoveModOptionWithIdentifier(option.identifier);
-            this.list.Add(option);
+            this.OptionList.Add(option);
 		}
 
         public void InsertModOption(ModOption option, int index)
         {
             this.RemoveModOptionWithIdentifier(option.identifier);
-            this.list.Insert(index, option);
+            this.OptionList.Insert(index, option);
 		}
 
-        private enum SETTINGS_LOAD_RESPONSE
+        /* TODO
+        public static ModOptions LoadUserSettings(Mod mod)
         {
-            UNKNOWN, SUCCESS, NONE
+            return IModSettingsFramework.Instance.LoadModOptions(mod);
         }
 
-        private SETTINGS_LOAD_RESPONSE LoadUserSettings()
+        public void SaveUserSettings()
         {
-            return SETTINGS_LOAD_RESPONSE.UNKNOWN;
-        }
+            IModSettingsFramework.Instance.SaveModOptions(this);
+        }*/
     }
 }

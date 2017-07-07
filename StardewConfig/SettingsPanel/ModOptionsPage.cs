@@ -77,14 +77,14 @@ namespace StardewConfigMenu.Panel
         private void ReloadMenu() {
             // Reset Menu and pages
             this.Sheets.Clear();
-
-
-
         }
+
+        //private OptionComponent tester = new PlusMinusComponent("Test", -10, 100, 5, 20);
 
         public override void draw(SpriteBatch b)
         {
             //base.draw(b);
+            //tester.draw(b);
 
             Game1.drawDialogueBox(this.xPositionOnScreen, this.yPositionOnScreen, this.width, this.height, false, true, null, false);
 

@@ -7,23 +7,38 @@ using StardewValley.Menus;
 using System.Collections.Generic;
 using StardewConfigFramework;
 using StardewConfigMenu.Panel;
+using System.IO;
 
 namespace StardewConfigMenu
 {
 	public class ModSettings: IModSettingsFramework
     {
         public static int? pageIndex = null;
+        static internal ModEntry Mod;
 
         internal ModSettings(ModEntry mod)
         {
             ModSettings.Mod = mod;
             ModSettings.Instance = this;
-
 			MenuEvents.MenuChanged += MenuOpened;
 			MenuEvents.MenuClosed += MenuClosed;
 		}
 
-        static internal ModEntry Mod;
+        /*
+        public override void SaveModOptions(ModOptions options)
+        {
+            string path = Path.Combine("mods", $"{options.modManifest.UniqueID}.json");
+            Mod.Helper.WriteJsonFile<ModOptions>(path, options);
+        }
+
+        public override ModOptions LoadModOptions(Mod mod)
+        {
+            string path = Path.Combine("mods", $"{mod.ModManifest.UniqueID}.json");
+            var data = Mod.Helper.ReadJsonFile<ModOptions>(path);
+            if (data == null)
+                return new ModOptions(mod);
+            else return data;
+        }*/
 
         static internal void Log(string str, LogLevel level = LogLevel.Debug) {
             Mod.Monitor.Log(str, level);

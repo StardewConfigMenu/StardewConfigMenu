@@ -41,28 +41,30 @@ namespace StardewConfigMenu.Panel
         private int startingOption = 0;
 
         internal ModSheet(ModOptions modOptions, int x, int y, int width, int height): base(x, y, width, height) {
-            for(int i = 0; i < modOptions.list.Count; i++)
+            for(int i = 0; i < modOptions.List.Count; i++)
             {
                 // check type of option
-                Type t = modOptions.list[i].GetType();
+                Type t = modOptions.List[i].GetType();
                 if (t.Equals(typeof(StardewConfigFramework.ModOptionCategoryLabel)))
-                    Options.Add(new ModCategoryLabelComponent((StardewConfigFramework.ModOptionCategoryLabel)(modOptions.list[(int)i] as StardewConfigFramework.ModOptionCategoryLabel)));
+                    Options.Add(new ModCategoryLabelComponent((StardewConfigFramework.ModOptionCategoryLabel)(modOptions.List[(int)i] as StardewConfigFramework.ModOptionCategoryLabel)));
                 else if (t.Equals(typeof(ModOptionSelection)))
                 {
                     int minWidth = 350;
-                    var option = (modOptions.list[i] as ModOptionSelection);
+                    var option = (modOptions.List[i] as ModOptionSelection);
                     option.Choices.Labels.ForEach(choice => { minWidth = Math.Max((int)Game1.smallFont.MeasureString(choice + "     ").X, minWidth); });
 
                     Options.Add(new ModDropDownComponent(option, minWidth));
                 }
                 else if (t.Equals(typeof(ModOptionToggle)))
-                    Options.Add(new ModCheckBoxComponent(modOptions.list[i] as ModOptionToggle));
+                    Options.Add(new ModCheckBoxComponent(modOptions.List[i] as ModOptionToggle));
                 else if (t.Equals(typeof(ModOptionTrigger)))
-                    Options.Add(new ModButtonComponent(modOptions.list[i] as ModOptionTrigger));
+                    Options.Add(new ModButtonComponent(modOptions.List[i] as ModOptionTrigger));
+                else if (t.Equals(typeof(ModOptionStepper)))
+                    Options.Add(new ModPlusMinusComponent(modOptions.List[i] as ModOptionStepper));
 
-				// create proper component
-				// add to Options
-			}
+                // create proper component
+                // add to Options
+            }
             this.upArrow = new ClickableTextureComponent(new Rectangle(this.xPositionOnScreen + width + Game1.tileSize / 4, this.yPositionOnScreen, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), (float)Game1.pixelZoom, false);
             this.downArrow = new ClickableTextureComponent(new Rectangle(this.xPositionOnScreen + width + Game1.tileSize / 4, this.yPositionOnScreen + height - 12 * Game1.pixelZoom, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 472, 11, 12), (float)Game1.pixelZoom, false);
             this.scrollBar = new ClickableTextureComponent(new Rectangle(this.upArrow.bounds.X + Game1.pixelZoom * 3, this.upArrow.bounds.Y + this.upArrow.bounds.Height + Game1.pixelZoom, 6 * Game1.pixelZoom, 10 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(435, 463, 6, 10), (float)Game1.pixelZoom, false);

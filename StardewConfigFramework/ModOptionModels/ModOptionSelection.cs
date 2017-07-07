@@ -124,6 +124,8 @@ namespace StardewConfigFramework
 
         public string IdentifierOfIndex(int index)
         {
+            if (Keys.Count == 0)
+                return string.Empty;
             String[] myKeys = new String[Keys.Count];
             Keys.CopyTo(myKeys, 0);
             return myKeys[index];
@@ -183,6 +185,5 @@ namespace StardewConfigFramework
 		}
 
     }
-
 
 }

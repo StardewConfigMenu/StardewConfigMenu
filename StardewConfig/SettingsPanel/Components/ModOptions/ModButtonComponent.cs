@@ -24,16 +24,14 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 			}
 		}
 
-		internal ModButtonComponent(ModOptionTrigger option, int x, int y) : base(option.LabelText, option.type, option.enabled)
+		internal ModButtonComponent(ModOptionTrigger option, int x, int y) : base(option.LabelText, option.type, x, y, option.enabled)
         {
 			this.Option = option;
-			this.bounds = new Rectangle(x, y, (int)buttonScale * this.buttonSource.Width, (int)buttonScale * this.buttonSource.Height);
 		}
 
         internal ModButtonComponent(ModOptionTrigger option) : base(option.LabelText, option.type, option.enabled)
         {
             this.Option = option;
-			this.bounds = new Rectangle(0, 0, (int)buttonScale * this.buttonSource.Width, (int)buttonScale * this.buttonSource.Height);
 		}
 
         public override OptionActionType ActionType

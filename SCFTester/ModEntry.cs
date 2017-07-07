@@ -43,6 +43,22 @@ namespace SCFTester
 
             options.AddModOption(new ModOptionToggle("toggle3", "Always On", false));
 
+            
+
+            var slider = new ModOptionRange("range", "Slider", 10, 25, 15);
+            var stepper = new ModOptionStepper("stepper", "Plus/Minus Controls", 5, 105, 5, 25);
+
+            options.AddModOption(slider);
+            options.AddModOption(stepper);
+
+            options.AddModOption(new ModOptionToggle("stepperCheck", "Show Stepper Value", false));
+
+            options.AddModOption(new ModOptionToggle("toggle5", "Checkbox5"));
+            options.AddModOption(new ModOptionToggle("toggle6", "Checkbox6"));
+            options.AddModOption(new ModOptionToggle("toggle7", "Checkbox7"));
+            options.AddModOption(new ModOptionToggle("toggle8", "Checkbox8"));
+
+
             GraphicsEvents.OnPostRenderEvent += (sender, e) =>
             {
 
@@ -52,14 +68,12 @@ namespace SCFTester
                     Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf("on"), new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
                 if (toggledOn)
                     Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf("toggle"), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
+
+                if ((options.GetOptionWithIdentifier("stepperCheck") as ModOptionToggle).IsOn)
+                {
+                    Game1.spriteBatch.DrawString(Game1.dialogueFont, stepper.Value.ToString(), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
+                }
             };
-
-
-            options.AddModOption(new ModOptionToggle("toggle4", "Checkbox4"));
-            options.AddModOption(new ModOptionToggle("toggle5", "Checkbox5"));
-            options.AddModOption(new ModOptionToggle("toggle6", "Checkbox6"));
-            options.AddModOption(new ModOptionToggle("toggle7", "Checkbox7"));
-            options.AddModOption(new ModOptionToggle("toggle8", "Checkbox8"));
         }
 
         private ModOptionSelection dropdown;
