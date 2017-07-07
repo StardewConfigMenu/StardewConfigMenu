@@ -54,5 +54,6 @@ For a walkthrough of how to use the framework in your mods [check out the Wiki](
 
  - None yet! [But you can be the first!](#modders)
  
- 
- 
+### Credit
+
+The idea and look of the tab comes from [UiModSuite](http://www.nexusmods.com/stardewvalley/mods/1023/?) by [demiacle](https://github.com/demiacle)
