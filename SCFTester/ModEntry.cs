@@ -46,7 +46,7 @@ namespace SCFTester
             
 
             var slider = new ModOptionRange("range", "Slider", 10, 25, 15);
-            var stepper = new ModOptionStepper("stepper", "Plus/Minus Controls", 5, 105, 5, 25);
+            var stepper = new ModOptionStepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, 26, DisplayType.PERCENT);
 
             options.AddModOption(slider);
             options.AddModOption(stepper);

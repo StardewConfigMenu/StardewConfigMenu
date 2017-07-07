@@ -32,8 +32,8 @@ namespace StardewConfigMenu.Panel.Components
 
             this.bounds = new Rectangle(x, y, Game1.pixelZoom * OptionsPlusMinus.minusButtonSource.Width, Game1.pixelZoom * OptionsPlusMinus.minusButtonSource.Height);
 
-            var maxRect = Game1.dialogueFont.MeasureString(this._max.ToString());
-            var minRect = Game1.dialogueFont.MeasureString(this._min.ToString());
+            var maxRect = Game1.dialogueFont.MeasureString((this._max + this._stepSize % 1).ToString());
+            var minRect = Game1.dialogueFont.MeasureString((this._min - this._stepSize % 1).ToString());
 
             ValueMaxLabelSize = (maxRect.X > minRect.X) ? maxRect : minRect;
         }
@@ -52,8 +52,8 @@ namespace StardewConfigMenu.Panel.Components
 
             this.bounds = new Rectangle(0, 0, Game1.pixelZoom * OptionsPlusMinus.minusButtonSource.Width, Game1.pixelZoom * OptionsPlusMinus.minusButtonSource.Height);
 
-            var maxRect = Game1.dialogueFont.MeasureString(this._max.ToString());
-            var minRect = Game1.dialogueFont.MeasureString(this._min.ToString());
+            var maxRect = Game1.dialogueFont.MeasureString((this._max + this._stepSize % 1 ).ToString());
+            var minRect = Game1.dialogueFont.MeasureString((this._min - this._stepSize % 1).ToString());
 
             ValueMaxLabelSize = (maxRect.X > minRect.X) ? maxRect : minRect;
         }
