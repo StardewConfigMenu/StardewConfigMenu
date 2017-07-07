@@ -29,13 +29,13 @@ Feel free to submit pull requests. This is my first C# project so it is quite sl
  - [x] Checkbox Component
  - [x] Button Component
  - [ ] Slider Component
- - [ ] Plus/Minus Component
+ - [x] Plus/Minus Component
  - [ ] Text Input Component
  - [ ] Keybind Setting Component
  - [ ] More robust testing mods
  - [ ] __CODE CLEANUP/ORGANIZATION__
  - [ ] Code documentation
- - [ ] Wiki
+ - [ ] More Wiki
  
 ## Modders
 
