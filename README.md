@@ -1,4 +1,4 @@
-# StardewConfigFramework
+# StardewConfigMenu
 Ever want to add a settings menu to your Stardew Valley mod, but didn’t want to go through the hassle of building one from scratch? Well, you’re in luck! I did it for you!
 
 ![StardewConfigFramework Menu](/docs/prettymenu.png)
