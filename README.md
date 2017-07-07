@@ -24,7 +24,7 @@ Feel free to submit pull requests. This is my first C# project so it is quite sl
 
 ### Todo
 
- - [ ] Saving
+ - [ ] Centralized Saving
  - [x] Dropdown Component
  - [x] Checkbox Component
  - [x] Button Component
