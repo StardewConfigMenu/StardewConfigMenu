@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -89,7 +89,7 @@ namespace StardewConfigMenu.Panel
             {
                 Sheets[modSelected.selectedOption].draw(b);
 
-                if ((Game1.getMouseX() > this.modSelected.X && Game1.getMouseX() < this.modSelected.X + this.modSelected.Width) && (Game1.getMouseY() > this.modSelected.Y && Game1.getMouseY() < this.modSelected.Y + this.modSelected.Height))
+                if ((Game1.getMouseX() > this.modSelected.X && Game1.getMouseX() < this.modSelected.X + this.modSelected.Width) && (Game1.getMouseY() > this.modSelected.Y && Game1.getMouseY() < this.modSelected.Y + this.modSelected.Height) && !modSelected.IsActiveComponent())
                 {
                     IClickableMenu.drawHoverText(Game1.spriteBatch, this.controller.ModOptionsList[modSelected.selectedOption].modManifest.Description, Game1.smallFont);
                 }

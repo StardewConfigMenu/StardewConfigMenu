@@ -80,7 +80,7 @@ namespace StardewConfigMenu.Panel.Components
             }
         }
 
-        protected bool IsActiveComponent()
+        internal bool IsActiveComponent()
         {
             return OptionComponent.selectedComponent == this;
         }
