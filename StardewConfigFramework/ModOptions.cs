@@ -4,7 +4,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 
 
 namespace StardewConfigFramework
