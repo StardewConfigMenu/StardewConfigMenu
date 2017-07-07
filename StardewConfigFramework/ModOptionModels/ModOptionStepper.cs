@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -12,14 +12,14 @@ namespace StardewConfigFramework
     {
         public event ModOptionStepperHandler ValueChanged;
 
-        public ModOptionStepper(string identifier, string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, DisplayType type = DisplayType.NONE, bool enabled = true) : base(identifier, labelText, enabled)
+        public ModOptionStepper(string identifier, string labelText, decimal min, decimal max, decimal stepsize, decimal defaultValue, DisplayType type = DisplayType.NONE, bool enabled = true) : base(identifier, labelText, enabled)
         {
             this.min = Math.Round(min, 3);
             this.max = Math.Round(max, 3);
             this.stepSize = Math.Round(stepsize, 3);
             this.type = type;
 
-            var valid = CheckValidInput(Math.Round(defaultSelection, 3));
+            var valid = CheckValidInput(Math.Round(defaultValue, 3));
             this.Value = valid - ((valid - min) % stepSize);
 
         }
