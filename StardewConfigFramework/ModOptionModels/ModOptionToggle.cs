@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -38,7 +38,6 @@ namespace StardewConfigFramework
 		public void Toggle()
 		{
 			this.IsOn = !this.IsOn;
-            this.ValueChanged?.Invoke(this.identifier, this.IsOn);
 		}
 	}
 }
