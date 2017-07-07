@@ -24,13 +24,12 @@ namespace StardewConfigFramework
 		/// <param name="enabled">If set to <c>true</c> enabled.</param>
 		public ModOptionSelection(string identifier, string labelText, ModSelectionOptionChoices choices = null, int defaultSelection = 0, bool enabled = true) : base(identifier, labelText, enabled)
 		{
-			if (choices != null)
+			if (choices != null) {
 				this.Choices = choices;
+				this.SelectionIndex = defaultSelection;
+			}
 
-			this.SelectionIndex = defaultSelection;
 		}
-
-		public ModOptionSelection(string identifier, string labelText, bool enabled = true) : base(identifier, labelText, enabled) { }
 
 		public ModSelectionOptionChoices Choices { get; private set; } = new ModSelectionOptionChoices();
 
@@ -59,16 +58,16 @@ namespace StardewConfigFramework
 		{
 			get
 			{
-				return Choices.IdentifierOfIndex(this._SelectionIndex);
+				return Choices.IdentifierOf(this._SelectionIndex);
 			}
 			set
 			{
 				if (!Choices.Contains(value))
 					throw new IndexOutOfRangeException("Identifier does not exist in Choices");
 
-				if (_SelectionIndex != Choices.IndexOfIdentifier(value))
+				if (_SelectionIndex != Choices.IndexOf(value))
 				{
-					_SelectionIndex = Choices.IndexOfIdentifier(value);
+					_SelectionIndex = Choices.IndexOf(value);
 					this.ValueChanged?.Invoke(this.identifier, this.Selection);
 				}
 			}
@@ -80,6 +79,10 @@ namespace StardewConfigFramework
 	/// </summary>
 	public class ModSelectionOptionChoices : OrderedDictionary
 	{
+		/// <summary>
+		/// Gets or sets the Label with the specified key.
+		/// </summary>
+		/// <param name="key">Key.</param>
 		public new string this[int key]
 		{
 			get
@@ -92,6 +95,10 @@ namespace StardewConfigFramework
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the Labeel with the specified identifier.
+		/// </summary>
+		/// <param name="identifier">Identifier.</param>
 		public string this[string identifier]
 		{
 			get
@@ -129,14 +136,14 @@ namespace StardewConfigFramework
 			return base.Contains(identifier);
 		}
 
-		public int IndexOf(string label)
+		public int IndexOfLabel(string label)
 		{
 			return this.Labels.IndexOf(label);
 		}
 
-		public string IdentifierOf(string label)
+		public string IdentifierOfLabel(string label)
 		{
-			return this.IdentifierOfIndex(this.Labels.IndexOf(label));
+			return this.IdentifierOf(this.Labels.IndexOf(label));
 		}
 
 		/// <summary>
@@ -144,12 +151,12 @@ namespace StardewConfigFramework
 		/// </summary>
 		/// <returns>the index, or -1 if not found.</returns>
 		/// <param name="identifier">Identifier.</param>
-		public int IndexOfIdentifier(string identifier)
+		public int IndexOf(string identifier)
 		{
 			return this.Identifiers.IndexOf(identifier);
 		}
 
-		public string IdentifierOfIndex(int index)
+		public string IdentifierOf(int index)
 		{
 			if (Keys.Count == 0)
 				return string.Empty;
