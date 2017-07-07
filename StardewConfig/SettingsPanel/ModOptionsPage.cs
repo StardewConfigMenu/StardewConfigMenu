@@ -74,11 +74,6 @@ namespace StardewConfigMenu.Panel
             modSelected.DropDownOptionSelected -= DisableBackgroundSheets;
         }
 
-        private void ReloadMenu() {
-            // Reset Menu and pages
-            this.Sheets.Clear();
-        }
-
         //private OptionComponent tester = new PlusMinusComponent("Test", -10, 100, 5, 20);
 
         public override void draw(SpriteBatch b)
@@ -91,11 +86,19 @@ namespace StardewConfigMenu.Panel
             base.drawHorizontalPartition(b, (int)(this.yPositionOnScreen + Game1.pixelZoom * 40));
 
             if (Sheets.Count > 0)
+            {
                 Sheets[modSelected.selectedOption].draw(b);
+
+                if ((Game1.getMouseX() > this.modSelected.X && Game1.getMouseX() < this.modSelected.X + this.modSelected.Width) && (Game1.getMouseY() > this.modSelected.Y && Game1.getMouseY() < this.modSelected.Y + this.modSelected.Height))
+                {
+                    IClickableMenu.drawHoverText(Game1.spriteBatch, this.controller.ModOptionsList[modSelected.selectedOption].modManifest.Description, Game1.smallFont);
+                }
+            }
 
             // draw mod select dropdown last, should cover mod settings
             modSelected.draw(b);
             SpriteText.drawString(b, "Mod Options", modSelected.X + modSelected.Width + Game1.pixelZoom * 5, modSelected.Y);
+
 
         }
 

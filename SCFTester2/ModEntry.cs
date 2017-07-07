@@ -23,10 +23,12 @@ namespace SCFTester2
             Settings.AddModOptions(options);
 
             options.AddModOption(new ModOptionToggle("test", "Test"));
-            options.AddModOption(new ModOptionSelection("empty", "Empty Dropdown", new ModSelectionOptionChoices()));
             var list = new ModSelectionOptionChoices();
             list.Add("available","Option Available");
             options.AddModOption(new ModOptionSelection("disabled",  "Disabled Dropdown", list, 0, false));
+
+            var stepper = new ModOptionStepper("stepper", "Plus/Minus Controls", (decimal)5.0, (decimal)105.0, (decimal)1.5, 26, DisplayType.PERCENT);
+            options.AddModOption(stepper);
 
             var label = new ModOptionCategoryLabel("catlabel", "Category Label");
             options.AddModOption(label);
@@ -62,6 +64,9 @@ namespace SCFTester2
 
             var saveButton = new ModOptionTrigger("okButton", "OK Button", OptionActionType.OK);
             options.AddModOption(saveButton);
+
+            options.AddModOption(new ModOptionSelection("empty", "Empty Dropdown", new ModSelectionOptionChoices()));
+
 
             saveButton.ActionTriggered += (id) =>
             {
