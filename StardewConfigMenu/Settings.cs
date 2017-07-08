@@ -125,7 +125,10 @@ namespace StardewConfigMenu
 
         private void HandleJunimo(object sender, EventArgs e)
         {
-			var gameMenu = (GameMenu)Game1.activeClickableMenu;
+			if (!(Game1.activeClickableMenu is GameMenu))
+				return;
+
+			var gameMenu = Game1.activeClickableMenu as GameMenu;
 
             // Remove Community Center Icon from Options, Exit Game, and Mod Options pages
 			if (gameMenu.currentTab == ModSettings.pageIndex || gameMenu.currentTab == 6 || gameMenu.currentTab == 7)
