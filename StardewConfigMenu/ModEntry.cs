@@ -8,12 +8,12 @@ using StardewValley;
 
 namespace StardewConfigMenu
 {
-    public class ModEntry: Mod
-    {
+	public class ModEntry: Mod
+	{
 
-        internal static IModHelper helper;
-        private ModSettings panel;
-        internal static IMonitor monitor;
+		internal static IModHelper helper;
+		private ModSettings panel;
+		internal static IMonitor monitor;
 
 		/*********
         ** Public methods
@@ -23,10 +23,10 @@ namespace StardewConfigMenu
 		public override void Entry(IModHelper helper)
 		{
 			ModEntry.helper = helper;
-            ModEntry.monitor = this.Monitor;
+			ModEntry.monitor = this.Monitor;
 
 			this.panel = new ModSettings(this);
-            this.StardewConfigFrameworkLoaded();
+			this.StardewConfigFrameworkLoaded();
 
 		}
 
@@ -40,5 +40,5 @@ namespace StardewConfigMenu
 		{
 			this.Monitor.Log($"StardewConfigFramework Loaded");
 		}
-    }
+	}
 }

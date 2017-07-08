@@ -8,7 +8,7 @@ using System.Collections.Specialized;
 
 namespace SCFTester
 {
-	public class ModEntry : Mod
+	public class ModEntry: Mod
 	{
 		internal static IModSettingsFramework Settings;
 		/*********
@@ -47,7 +47,7 @@ namespace SCFTester
 
 
 			var slider = new ModOptionRange("range", "Slider", 10, 25, 15);
-			var stepper = new ModOptionStepper("stepper", "Plus/Minus Controls", (decimal)5.0, (decimal)105.0, (decimal)1.5, 26, DisplayType.PERCENT);
+			var stepper = new ModOptionStepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, 26, DisplayType.PERCENT);
 
 			options.AddModOption(slider);
 			options.AddModOption(stepper);
@@ -60,8 +60,7 @@ namespace SCFTester
 			options.AddModOption(new ModOptionToggle("toggle8", "Checkbox8"));
 
 
-			GraphicsEvents.OnPostRenderEvent += (sender, e) =>
-			{
+			GraphicsEvents.OnPostRenderEvent += (sender, e) => {
 
 				if (dropdown.Selection == "off")
 					checkbox2.IsOn = false;

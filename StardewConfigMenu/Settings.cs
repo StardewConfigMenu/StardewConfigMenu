@@ -12,56 +12,60 @@ using System.IO;
 namespace StardewConfigMenu
 {
 	public class ModSettings: IModSettingsFramework
-    {
-        public static int? pageIndex = null;
-        static internal ModEntry Mod;
+	{
+		public static int? pageIndex = null;
+		static internal ModEntry Mod;
 
-        internal ModSettings(ModEntry mod)
-        {
-            ModSettings.Mod = mod;
-            ModSettings.Instance = this;
+		internal ModSettings(ModEntry mod)
+		{
+			ModSettings.Mod = mod;
+			ModSettings.Instance = this;
 			MenuEvents.MenuChanged += MenuOpened;
 			MenuEvents.MenuClosed += MenuClosed;
 		}
 
-        /*
-        public override void SaveModOptions(ModOptions options)
-        {
-            string path = Path.Combine("mods", $"{options.modManifest.UniqueID}.json");
-            Mod.Helper.WriteJsonFile<ModOptions>(path, options);
-        }
+		/*
+		public override void SaveModOptions(ModOptions options)
+		{
+				string path = Path.Combine("mods", $"{options.modManifest.UniqueID}.json");
+				Mod.Helper.WriteJsonFile<ModOptions>(path, options);
+		}
 
-        public override ModOptions LoadModOptions(Mod mod)
-        {
-            string path = Path.Combine("mods", $"{mod.ModManifest.UniqueID}.json");
-            var data = Mod.Helper.ReadJsonFile<ModOptions>(path);
-            if (data == null)
-                return new ModOptions(mod);
-            else return data;
-        }*/
+		public override ModOptions LoadModOptions(Mod mod)
+		{
+				string path = Path.Combine("mods", $"{mod.ModManifest.UniqueID}.json");
+				var data = Mod.Helper.ReadJsonFile<ModOptions>(path);
+				if (data == null)
+						return new ModOptions(mod);
+				else return data;
+		}*/
 
-        static internal void Log(string str, LogLevel level = LogLevel.Debug) {
-            Mod.Monitor.Log(str, level);
-        }
+		static internal void Log(string str, LogLevel level = LogLevel.Debug)
+		{
+			Mod.Monitor.Log(str, level);
+		}
 
 		//internal SettingsPage page;
 		internal ModOptionsTab tab;
-        internal ModOptionsPage page;
+		internal ModOptionsPage page;
 
 		internal List<ModOptions> ModOptionsList = new List<ModOptions>();
 
-        public override void AddModOptions(ModOptions modOptions) {
-            // Only one per mod, remove old one
-            foreach (ModOptions mod in this.ModOptionsList) {
-                if (mod.modManifest.Name == modOptions.modManifest.Name) {
-                    ModOptionsList.Remove(mod);
-                }
-            }
+		public override void AddModOptions(ModOptions modOptions)
+		{
+			// Only one per mod, remove old one
+			foreach (ModOptions mod in this.ModOptionsList)
+			{
+				if (mod.modManifest.Name == modOptions.modManifest.Name)
+				{
+					ModOptionsList.Remove(mod);
+				}
+			}
 
-            Mod.Monitor.Log($"{modOptions.modManifest.Name} has been added their mod options");
+			Mod.Monitor.Log($"{modOptions.modManifest.Name} has been added their mod options");
 
-            ModOptionsList.Add(modOptions);
-        }
+			ModOptionsList.Add(modOptions);
+		}
 
 		/// <summary>
 		/// Removes the delegates that handle the button click and draw method of the tab
@@ -71,48 +75,52 @@ namespace StardewConfigMenu
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPreRenderGuiEvent -= HandleJunimo;
 
-			if (this.tab != null) {
+			if (this.tab != null)
+			{
 				this.tab.RemoveListeners();
 				this.tab = null;
-            }
+			}
 
-            if (this.page != null) {
-                if (e.PriorMenu is GameMenu) {
-                    List<IClickableMenu> pages = ModEntry.helper.Reflection.GetPrivateField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
-                    pages.Remove(this.page);
-                }
+			if (this.page != null)
+			{
+				if (e.PriorMenu is GameMenu)
+				{
+					List<IClickableMenu> pages = ModEntry.helper.Reflection.GetPrivateField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
+					pages.Remove(this.page);
+				}
 
-                this.page.RemoveListeners(true);
-                this.page = null;
-                ModSettings.pageIndex = null;
-            }
-        }
+				this.page.RemoveListeners(true);
+				this.page = null;
+				ModSettings.pageIndex = null;
+			}
+		}
 
 		/// <summary>
 		/// Attaches the delegates that handle the button click and draw method of the tab
-        /// </summary>
+		/// </summary>
 		private void MenuOpened(object sender, EventArgsClickableMenuChanged e)
 		{
-            if (!(e.NewMenu is GameMenu)) {
-                this.tab = null;
-                this.page = null;
-                ModSettings.pageIndex = null;
-                return; 
-            }
+			if (!(e.NewMenu is GameMenu))
+			{
+				this.tab = null;
+				this.page = null;
+				ModSettings.pageIndex = null;
+				return;
+			}
 
-            GameMenu menu = (GameMenu) e.NewMenu;
-            List<IClickableMenu> pages = ModEntry.helper.Reflection.GetPrivateField<List<IClickableMenu>>(menu, "pages").GetValue();
+			GameMenu menu = (GameMenu) e.NewMenu;
+			List<IClickableMenu> pages = ModEntry.helper.Reflection.GetPrivateField<List<IClickableMenu>>(menu, "pages").GetValue();
 
-            var options = pages.Find(x => { return x is OptionsPage; });
-            int width = options.width;
-            
-            //List<ClickableComponent> tabs = ModEntry.helper.Reflection.GetPrivateField<List<ClickableComponent>>(menu, "tabs").GetValue();
+			var options = pages.Find(x => { return x is OptionsPage; });
+			int width = options.width;
 
-            this.page = new ModOptionsPage(this, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
-            ModSettings.pageIndex = pages.Count;
-            pages.Add(page);
+			//List<ClickableComponent> tabs = ModEntry.helper.Reflection.GetPrivateField<List<ClickableComponent>>(menu, "tabs").GetValue();
 
-            this.tab = new ModOptionsTab(this, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * 11, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));
+			this.page = new ModOptionsPage(this, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
+			ModSettings.pageIndex = pages.Count;
+			pages.Add(page);
+
+			this.tab = new ModOptionsTab(this, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * 11, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));
 
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPostRenderGuiEvent += RenderTab;
@@ -123,14 +131,14 @@ namespace StardewConfigMenu
 
 		private ClickableTextureComponent junimoNoteIconStorage;
 
-        private void HandleJunimo(object sender, EventArgs e)
-        {
+		private void HandleJunimo(object sender, EventArgs e)
+		{
 			if (!(Game1.activeClickableMenu is GameMenu))
 				return;
 
 			var gameMenu = Game1.activeClickableMenu as GameMenu;
 
-            // Remove Community Center Icon from Options, Exit Game, and Mod Options pages
+			// Remove Community Center Icon from Options, Exit Game, and Mod Options pages
 			if (gameMenu.currentTab == ModSettings.pageIndex || gameMenu.currentTab == 6 || gameMenu.currentTab == 7)
 			{
 				if (gameMenu.junimoNoteIcon != null)
@@ -138,29 +146,29 @@ namespace StardewConfigMenu
 					this.junimoNoteIconStorage = gameMenu.junimoNoteIcon;
 					gameMenu.junimoNoteIcon = null;
 				}
-			}
-			else if (this.junimoNoteIconStorage != null)
+			} else if (this.junimoNoteIconStorage != null)
 			{
 				gameMenu.junimoNoteIcon = this.junimoNoteIconStorage;
 				this.junimoNoteIconStorage = null;
 			}
-        }
+		}
 
 
-		private void RenderTab(object sender, EventArgs e) {
+		private void RenderTab(object sender, EventArgs e)
+		{
 
-            if (!(Game1.activeClickableMenu is GameMenu))
-                return;
+			if (!(Game1.activeClickableMenu is GameMenu))
+				return;
 
-            var gameMenu = (GameMenu)Game1.activeClickableMenu;
+			var gameMenu = (GameMenu) Game1.activeClickableMenu;
 
-            if (gameMenu.currentTab == GameMenu.mapTab) { return; }
+			if (gameMenu.currentTab == GameMenu.mapTab) { return; }
 
-            if (tab != null)
-                tab.draw(Game1.spriteBatch);
+			if (tab != null)
+				tab.draw(Game1.spriteBatch);
 
-            //var b = Game1.spriteBatch;
+			//var b = Game1.spriteBatch;
 			//this.tab.draw(b);
 		}
-    }
+	}
 }

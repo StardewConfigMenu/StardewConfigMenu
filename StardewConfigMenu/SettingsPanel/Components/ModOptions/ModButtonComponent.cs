@@ -4,50 +4,48 @@ using Microsoft.Xna.Framework;
 
 namespace StardewConfigMenu.Panel.Components.ModOptions
 {
-    internal class ModButtonComponent : ButtonComponent
-    {
-        readonly ModOptionTrigger Option;
+	internal class ModButtonComponent: ButtonComponent
+	{
+		readonly ModOptionTrigger Option;
 
-        public override bool enabled
+		public override bool enabled
 		{
-			get
-			{
+			get {
 				return Option.enabled;
 			}
 		}
 
 		public override string label
 		{
-			get
-			{
+			get {
 				return Option.LabelText;
 			}
 		}
 
 		internal ModButtonComponent(ModOptionTrigger option, int x, int y) : base(option.LabelText, option.type, x, y, option.enabled)
-        {
+		{
 			this.Option = option;
 		}
 
-        internal ModButtonComponent(ModOptionTrigger option) : base(option.LabelText, option.type, option.enabled)
-        {
-            this.Option = option;
+		internal ModButtonComponent(ModOptionTrigger option) : base(option.LabelText, option.type, option.enabled)
+		{
+			this.Option = option;
 		}
 
-        public override OptionActionType ActionType
-        {
-            get
-            {
-                if (Option == null)
-                    return _ActionType;
-                if (this.Option.type != _ActionType) {
-                    _ActionType = this.Option.type;
-					this.bounds.Width = (int)buttonScale * this.buttonSource.Width;
-					this.bounds.Height = (int)buttonScale * this.buttonSource.Height;
-                }
-                return this.Option.type;
-            }
-        }
+		public override OptionActionType ActionType
+		{
+			get {
+				if (Option == null)
+					return _ActionType;
+				if (this.Option.type != _ActionType)
+				{
+					_ActionType = this.Option.type;
+					this.bounds.Width = (int) buttonScale * this.buttonSource.Width;
+					this.bounds.Height = (int) buttonScale * this.buttonSource.Height;
+				}
+				return this.Option.type;
+			}
+		}
 
 		protected override void leftClicked(int x, int y)
 		{
@@ -55,8 +53,8 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 
 			if (this.bounds.Contains(x, y) && enabled)
 			{
-                this.Option.Trigger();
+				this.Option.Trigger();
 			}
 		}
-    }
+	}
 }

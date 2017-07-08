@@ -22,24 +22,20 @@ namespace StardewConfigMenu.Panel.Components
 		protected Rectangle bounds = new Rectangle();
 		public virtual bool enabled
 		{
-			get
-			{
+			get {
 				return _enabled;
 			}
-			protected set
-			{
+			protected set {
 				_enabled = value;
 			}
 		}
 
 		public virtual string label
 		{
-			get
-			{
+			get {
 				return _label;
 			}
-			protected set
-			{
+			protected set {
 				_label = value;
 			}
 		}
@@ -63,8 +59,7 @@ namespace StardewConfigMenu.Panel.Components
 			if (IsActiveComponent() || OptionComponent.selectedComponent == null)
 			{
 				return true;
-			}
-			else
+			} else
 			{
 				return false;
 			}
@@ -128,19 +123,16 @@ namespace StardewConfigMenu.Panel.Components
 					// clicked
 					leftClicked(e.NewState.X, e.NewState.Y);
 				}
-			}
-			else if (e.PriorState.LeftButton == ButtonState.Pressed)
+			} else if (e.PriorState.LeftButton == ButtonState.Pressed)
 			{
 				if (e.NewState.LeftButton == ButtonState.Pressed)
 				{
 					leftClickHeld(e.NewState.X, e.NewState.Y);
-				}
-				else if (e.NewState.LeftButton == ButtonState.Released)
+				} else if (e.NewState.LeftButton == ButtonState.Released)
 				{
 					leftClickReleased(e.NewState.X, e.NewState.Y);
 				}
-			}
-			else
+			} else
 			{
 				this.UnregisterAsActiveComponent();
 			}

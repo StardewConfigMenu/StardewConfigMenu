@@ -13,8 +13,7 @@ namespace StardewConfigFramework
 
 		public IList<ModOption> List
 		{
-			get
-			{
+			get {
 				return OptionList.AsReadOnly();
 			}
 		}
@@ -70,8 +69,7 @@ namespace StardewConfigFramework
 
 		public void SaveUserSettings()
 		{
-			JsonSerializerSettings settings = new JsonSerializerSettings
-			{
+			JsonSerializerSettings settings = new JsonSerializerSettings {
 				TypeNameHandling = TypeNameHandling.All
 			};
 

@@ -6,7 +6,7 @@ namespace StardewConfigFramework
 {
 	public delegate void ModOptionSelectionHandler(string ComponentIdentifier, string selectionIdentifier);
 
-	public class ModOptionSelection : ModOption
+	public class ModOptionSelection: ModOption
 	{
 		public event ModOptionSelectionHandler ValueChanged;
 
@@ -20,7 +20,8 @@ namespace StardewConfigFramework
 		/// <param name="enabled">If set to <c>true</c> enabled.</param>
 		public ModOptionSelection(string identifier, string labelText, ModSelectionOptionChoices choices = null, int defaultSelection = 0, bool enabled = true) : base(identifier, labelText, enabled)
 		{
-			if (choices != null) {
+			if (choices != null)
+			{
 				this.Choices = choices;
 				this.SelectionIndex = defaultSelection;
 			}
@@ -32,12 +33,10 @@ namespace StardewConfigFramework
 		private int _SelectionIndex = 0;
 		public int SelectionIndex
 		{
-			get
-			{
+			get {
 				return _SelectionIndex;
 			}
-			set
-			{
+			set {
 				if (value > ((this.Choices.Count == 0) ? this.Choices.Count : this.Choices.Count - 1) || value < 0)
 					throw new IndexOutOfRangeException("Selection is out of range of Choices");
 
@@ -52,12 +51,10 @@ namespace StardewConfigFramework
 		//public string Selection => Choices.IdentifierOfIndex(this._SelectionIndex);
 		public string Selection
 		{
-			get
-			{
+			get {
 				return Choices.IdentifierOf(this._SelectionIndex);
 			}
-			set
-			{
+			set {
 				if (!Choices.Contains(value))
 					throw new IndexOutOfRangeException("Identifier does not exist in Choices");
 
@@ -73,7 +70,7 @@ namespace StardewConfigFramework
 	/// <summary>
 	/// Contains the choices of a ModOptionSelection
 	/// </summary>
-	public class ModSelectionOptionChoices : OrderedDictionary
+	public class ModSelectionOptionChoices: OrderedDictionary
 	{
 		/// <summary>
 		/// Gets or sets the Label with the specified key.
@@ -81,12 +78,10 @@ namespace StardewConfigFramework
 		/// <param name="key">Key.</param>
 		public new string this[int key]
 		{
-			get
-			{
+			get {
 				return base[key] as string;
 			}
-			set
-			{
+			set {
 				base[key] = value;
 			}
 		}
@@ -97,12 +92,10 @@ namespace StardewConfigFramework
 		/// <param name="identifier">Identifier.</param>
 		public string this[string identifier]
 		{
-			get
-			{
+			get {
 				return base[identifier] as string;
 			}
-			set
-			{
+			set {
 				base[identifier] = value;
 			}
 		}
@@ -173,8 +166,7 @@ namespace StardewConfigFramework
 
 		public List<string> Identifiers
 		{
-			get
-			{
+			get {
 				if (this.Keys.Count == 0)
 					return new List<string>();
 
@@ -186,8 +178,7 @@ namespace StardewConfigFramework
 
 		public List<string> Labels
 		{
-			get
-			{
+			get {
 				if (this.Values.Count == 0)
 					return new List<string>();
 
