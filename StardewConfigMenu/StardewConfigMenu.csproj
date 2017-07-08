@@ -34,10 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="StardewConfigFramework">
-      <HintPath>..\packages\Juice805.StardewConfigFramework.0.7.1\lib\net45\StardewConfigFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="StardewConfigFramework">
+      <HintPath>..\StardewConfigFramework\bin\Debug\StardewConfigFramework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModEntry.cs" />
