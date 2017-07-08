@@ -3,8 +3,8 @@
   "Authour": "Juice805",
   "Version": {
     "MajorVersion": 0,
-    "MinorVersion": 1,
-    "PatchVersion": 0,
+    "MinorVersion": 7,
+    "PatchVersion": 1,
     "Build": ""
   },
   "Description": "Allows modders easy access to a unified configuration menu.",
