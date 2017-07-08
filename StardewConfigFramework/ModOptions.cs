@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using StardewValley;
+﻿using StardewModdingAPI;
 using System.Collections.Generic;
 //using Newtonsoft.Json;
 

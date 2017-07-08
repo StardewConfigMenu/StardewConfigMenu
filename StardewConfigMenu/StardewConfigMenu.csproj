@@ -33,11 +33,11 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="StardewConfigFramework, Version=1.0.6390.26672, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\StardewConfigFramework\bin\Debug\StardewConfigFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="StardewConfigFramework">
+      <HintPath>..\packages\Juice805.StardewConfigFramework.0.7.1\lib\net45\StardewConfigFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModEntry.cs" />

@@ -1,9 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using StardewValley;
-
+﻿
 namespace StardewConfigFramework
 {
     public delegate void ModOptionRangeHandler(string identifier, float currentValue);
