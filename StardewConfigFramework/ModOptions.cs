@@ -38,16 +38,16 @@ namespace StardewConfigFramework {
 			this.OptionsVersion = version;
 		}
 
-		public void UpdateManifest(IManifest manifest) {
+		private void UpdateManifest(IManifest manifest) {
 			this.modManifest = manifest;
-		}
-
-		public ModOption GetOptionWithIdentifier(string identifier) {
-			return OptionList.Find(x => x.identifier == identifier);
 		}
 
 		public T GetOptionWithIdentifier<T>(string identifier) where T : ModOption {
 			return OptionList.Find(x => x.identifier == identifier) as T;
+		}
+
+		public ModOption GetOptionWithIdentifier(string identifier) {
+			return OptionList.Find(x => x.identifier == identifier);
 		}
 
 		public Type GetTypeOfIdentifier(string identifier) {

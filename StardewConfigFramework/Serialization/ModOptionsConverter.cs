@@ -87,6 +87,7 @@ namespace StardewConfigFramework.Serialization {
 
 						} else if ((checker = option.Value<float?>(nameof(ModOptionRange.max))) != null) {
 
+							// TODO Update this for Ranges
 							float min = option.Value<float>(nameof(ModOptionRange.min));
 							float selection = option.Value<float>(nameof(ModOptionRange.Value));
 
@@ -100,42 +101,6 @@ namespace StardewConfigFramework.Serialization {
 
 					return new ModOptions(version, optionList);
 				}
-				/*
-				JObject modOptions = JObject.Load(reader);
-
-				var version = modOptions.Value<Version>("OptionsVersion");
-				foreach (var prop in modOptions) {
-					//prop.
-				}
-
-				JToken token = JToken.Load(reader);
-
-				var children = token.Children();
-				var enumerator = children.GetEnumerator();
-
-				List<ModOption> list = new List<ModOption>();
-
-
-				while (enumerator.MoveNext()) {
-					var value = enumerator.Current;
-					Console.WriteLine(value);
-
-					ModOption obj;
-
-					if ((obj = value.Value<ModOptionSelection>()) != null) {
-						list.Add(obj as ModOptionSelection);
-					} else if ((obj = value.Value<ModOptionStepper>()) != null) {
-						list.Add(obj as ModOptionStepper);
-					} else if ((obj = value.Value<ModOptionRange>()) != null) {
-						list.Add(obj as ModOptionRange);
-					} else if ((obj = value.Value<ModOptionToggle>()) != null) {
-						list.Add(obj as ModOptionToggle);
-					} else if ((obj = value.Value<ModOptionTrigger>()) != null) {
-						list.Add(obj as ModOptionTrigger);
-					} else if ((obj = value.Value<ModOptionCategoryLabel>()) != null) {
-						list.Add(obj as ModOptionCategoryLabel);
-					} 
-				}*/
 			}
 
 			// unknown
