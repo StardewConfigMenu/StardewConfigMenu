@@ -37,7 +37,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		version = 0.7.1
+		version = 0.9.1
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.FileWidth = 80
@@ -64,5 +64,6 @@ Global
 		$2.SpaceBeforeColonInBaseTypeDeclaration = False
 		$0.DotNetNamingPolicy = $3
 		$3.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$0.StandardHeader = $4
 	EndGlobalSection
 EndGlobal

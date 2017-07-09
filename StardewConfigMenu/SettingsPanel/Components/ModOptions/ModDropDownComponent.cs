@@ -33,7 +33,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 		public override int SelectionIndex
 		{
 			get {
-				if (_dropDownDisplayOptions[0] != dropDownOptions[this.ModData.SelectionIndex]) {
+				if (dropDownOptions.Count > 0 && _dropDownDisplayOptions[0] != dropDownOptions[this.ModData.SelectionIndex]) {
 					_dropDownDisplayOptions.Insert(0, dropDownOptions[this.ModData.SelectionIndex]);
 					_dropDownDisplayOptions.RemoveAt(this.ModData.SelectionIndex + 1);
 				}

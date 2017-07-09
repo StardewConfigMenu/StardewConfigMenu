@@ -24,7 +24,7 @@ Feel free to submit pull requests. This is my first C# project so it is quite sl
 
 ### Todo
 
- - [ ] Centralized Saving
+ - [x] Centralized Saving
  - [x] Dropdown Component
  - [x] Checkbox Component
  - [x] Button Component
@@ -35,7 +35,7 @@ Feel free to submit pull requests. This is my first C# project so it is quite sl
  - [ ] More robust testing mods
  - [ ] __CODE CLEANUP/ORGANIZATION__
  - [ ] Code documentation
- - [ ] More Wiki
+ - [ ] Complete Wiki
  
 ## Modders
 

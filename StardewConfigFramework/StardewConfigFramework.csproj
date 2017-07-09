@@ -8,16 +8,19 @@
     <RootNamespace>StardewConfigFramework</RootNamespace>
     <AssemblyName>StardewConfigFramework</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <PackageVersion>0.7.1</PackageVersion>
+    <PackageVersion>0.9</PackageVersion>
     <Authors>Juice805</Authors>
     <Description>A Unified Mod Options Page For Modders &amp; Users. Keep all your mod settings in one place!</Description>
-    <ReleaseVersion>0.7.1</ReleaseVersion>
+    <ReleaseVersion>0.9.1</ReleaseVersion>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>Juice805.StardewConfigFramework</PackageId>
     <PackageIconUrl>https://github.com/Juice805/StardewConfigMenu/blob/master/docs/buttonicons/ok.png?raw=true</PackageIconUrl>
     <Owners>Juice805</Owners>
     <PackageProjectUrl>https://github.com/Juice805/StardewConfigMenu</PackageProjectUrl>
-    <PackageReleaseNotes>Initial Release v0.7.1</PackageReleaseNotes>
+    <PackageReleaseNotes>Saving/Loading of ModOptions is here!
+ - Can load/save specific farmer settings or user settings, only one at a time.
+ - Fixed bug where inserting a choice with a duplicate identifier would create doubles
+ - Added Replace method for ModOptionSelection.Choices, good for loading from configs</PackageReleaseNotes>
     <Summary>A Unified Mod Options Page For Modders &amp; Users. Keep all your mod settings in one place!</Summary>
     <PackageTags>Stardew Valley Config Menu Options</PackageTags>
     <Title>StardewConfigFramework</Title>

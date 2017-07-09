@@ -84,7 +84,6 @@ namespace SCFTester2
 			};
 
 			SaveEvents.AfterLoad += SaveEvents_AfterLoad;
-			PlayerEvents.FarmerChanged += PlayerEvents_FarmerChanged;
 		}
 
 		private void SaveEvents_AfterLoad(object sender, EventArgs e) {
