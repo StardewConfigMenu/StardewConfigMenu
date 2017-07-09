@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using Newtonsoft.Json;
 
 namespace StardewConfigFramework
 {
@@ -18,19 +19,27 @@ namespace StardewConfigFramework
 		/// <param name="choices">Choices. Must contain at least one choice.</param>
 		/// <param name="defaultSelection">Default selection.</param>
 		/// <param name="enabled">If set to <c>true</c> enabled.</param>
-		public ModOptionSelection(string identifier, string labelText, ModSelectionOptionChoices choices = null, int defaultSelection = 0, bool enabled = true) : base(identifier, labelText, enabled)
-		{
-			if (choices != null)
-			{
+		[JsonConstructor]
+		public ModOptionSelection(string identifier, string labelText, ModSelectionOptionChoices choices = null, int defaultSelection = 0, bool enabled = true) : base(identifier, labelText, enabled) {
+			if (choices != null) {
 				this.Choices = choices;
 				this.SelectionIndex = defaultSelection;
 			}
 
 		}
 
+		public ModOptionSelection(string identifier, string labelText, ModSelectionOptionChoices choices, string defaultSelection, bool enabled = true) : base(identifier, labelText, enabled) {
+			if (choices != null) {
+				this.Choices = choices;
+				if (choices.Count > 0)
+					this.Selection = defaultSelection;
+			}
+		}
+
 		public ModSelectionOptionChoices Choices { get; private set; } = new ModSelectionOptionChoices();
 
 		private int _SelectionIndex = 0;
+		[JsonIgnore]
 		public int SelectionIndex
 		{
 			get {
@@ -102,13 +111,19 @@ namespace StardewConfigFramework
 
 		public void Insert(int index, string identifier, string label)
 		{
+			base.Remove(identifier);
 			base.Insert(index, identifier, label);
 		}
 
-		public void Add(string identifier, string label)
-		{
+		public void Add(string identifier, string label) {
 			base.Remove(identifier);
 			base.Add(identifier, label);
+		}
+
+		public void Replace(string identifier, string label) {
+			var index = IndexOf(identifier);
+			base.Remove(identifier);
+			base.Insert(index, identifier, label);
 		}
 
 		/// <summary>

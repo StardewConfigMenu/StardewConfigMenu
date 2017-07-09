@@ -1,4 +1,5 @@
-﻿
+﻿using Newtonsoft.Json;
+
 namespace StardewConfigFramework
 {
 	public delegate void ModOptionRangeHandler(string identifier, float currentValue);
@@ -7,6 +8,7 @@ namespace StardewConfigFramework
 	{
 		public event ModOptionRangeHandler ValueChanged;
 
+		[JsonConstructor]
 		public ModOptionRange(string identifier, string label, float min, float max, float defaultSelection, bool enabled = true) : base(identifier, label, enabled)
 		{
 			this.Value = defaultSelection;

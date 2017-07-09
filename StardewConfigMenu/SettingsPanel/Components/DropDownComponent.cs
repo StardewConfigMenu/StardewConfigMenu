@@ -31,11 +31,11 @@ namespace StardewConfigMenu.Panel.Components
 		//
 		protected Rectangle dropDownBounds;
 
-		public virtual int selectedOption
+		public virtual int SelectionIndex
 		{
 			get { return (dropDownOptions.Count != 0) ? dropDownOptions.IndexOf(this.dropDownDisplayOptions[0]) : -1; }
 			set {
-				if (selectedOption == value)
+				if (SelectionIndex == value)
 					return;
 
 				var index = dropDownDisplayOptions.IndexOf(dropDownOptions[value]);
@@ -100,7 +100,7 @@ namespace StardewConfigMenu.Panel.Components
 			var selected = dropDownDisplayOptions[DisplayedSelection];
 			dropDownDisplayOptions.Insert(0, selected);
 			dropDownDisplayOptions.RemoveAt(DisplayedSelection + 1);
-			this.DropDownOptionSelected?.Invoke(selectedOption);
+			this.DropDownOptionSelected?.Invoke(SelectionIndex);
 		}
 
 		//
@@ -179,7 +179,7 @@ namespace StardewConfigMenu.Panel.Components
 			{
 				IClickableMenu.drawTextureBox(b, Game1.mouseCursors, OptionsDropDown.dropDownBGSource, this.bounds.X, this.bounds.Y, this.bounds.Width - Game1.pixelZoom * 12, this.bounds.Height, Color.White * scale, (float) Game1.pixelZoom, false);
 
-				b.DrawString(Game1.smallFont, (this.selectedOption >= displayedChoices.Count || this.selectedOption < 0) ? string.Empty : displayedChoices[0], new Vector2((float) (this.bounds.X + Game1.pixelZoom), (float) (this.bounds.Y + Game1.pixelZoom * 2)), Game1.textColor * scale, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.88f);
+				b.DrawString(Game1.smallFont, (this.SelectionIndex >= displayedChoices.Count || this.SelectionIndex < 0) ? string.Empty : displayedChoices[0], new Vector2((float) (this.bounds.X + Game1.pixelZoom), (float) (this.bounds.Y + Game1.pixelZoom * 2)), Game1.textColor * scale, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.88f);
 				b.Draw(Game1.mouseCursors, new Vector2((float) (this.bounds.X + this.bounds.Width - Game1.pixelZoom * 12), (float) (this.bounds.Y)), new Rectangle?(OptionsDropDown.dropDownButtonSource), Color.White * scale, 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.88f);
 			}
 		}

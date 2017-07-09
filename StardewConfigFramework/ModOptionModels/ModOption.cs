@@ -1,4 +1,5 @@
-﻿
+﻿using Newtonsoft.Json;
+
 namespace StardewConfigFramework
 {
 	public abstract class ModOption

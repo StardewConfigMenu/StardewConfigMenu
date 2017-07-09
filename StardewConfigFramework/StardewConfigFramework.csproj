@@ -56,6 +56,10 @@
     <Compile Include="ModOptionModels\ModOptionToggle.cs" />
     <Compile Include="ModOptionModels\ModOption.cs" />
     <Compile Include="ModOptionModels\ModOptionTrigger.cs" />
+    <Compile Include="Serialization\ModOptionsConverter.cs" />
+    <Compile Include="SMAPI\SemanticVersion.cs" />
+    <Compile Include="SMAPI\ManifestFieldConverter.cs" />
+    <Compile Include="SMAPI\SParseException.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

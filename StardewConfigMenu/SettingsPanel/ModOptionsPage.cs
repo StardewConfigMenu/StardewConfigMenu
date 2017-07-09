@@ -59,7 +59,7 @@ namespace StardewConfigMenu.Panel
 		{
 			for (int i = 0; i < Sheets.Count; i++)
 			{
-				Sheets[i].invisible = (i != modSelected.selectedOption);
+				Sheets[i].invisible = (i != modSelected.SelectionIndex);
 			}
 		}
 
@@ -87,11 +87,11 @@ namespace StardewConfigMenu.Panel
 
 			if (Sheets.Count > 0)
 			{
-				Sheets[modSelected.selectedOption].draw(b);
+				Sheets[modSelected.SelectionIndex].draw(b);
 
 				if ((Game1.getMouseX() > this.modSelected.X && Game1.getMouseX() < this.modSelected.X + this.modSelected.Width) && (Game1.getMouseY() > this.modSelected.Y && Game1.getMouseY() < this.modSelected.Y + this.modSelected.Height) && !modSelected.IsActiveComponent())
 				{
-					IClickableMenu.drawHoverText(Game1.spriteBatch, this.controller.ModOptionsList[modSelected.selectedOption].modManifest.Description, Game1.smallFont);
+					IClickableMenu.drawHoverText(Game1.spriteBatch, this.controller.ModOptionsList[modSelected.SelectionIndex].modManifest.Description, Game1.smallFont);
 				}
 			}
 

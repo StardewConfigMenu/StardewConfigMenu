@@ -23,31 +23,29 @@ namespace SCFTester
 			var options = ModOptions.LoadUserSettings(this);
 			Settings.AddModOptions(options);
 
-			var disableDrop = new ModOptionToggle("toggle", "Checkbox");
+
+			var disableDrop = options.GetOptionWithIdentifier<ModOptionToggle>("toggle") ?? new ModOptionToggle("toggle", "Checkbox");
 			options.AddModOption(disableDrop);
 
 			disableDrop.ValueChanged += DisableDrop_ValueChanged;
 
-			dropdown = new ModOptionSelection("drop", "Dropdown");
-
-			dropdown.Choices.Add("toggle", "Toggle");
-			dropdown.Choices.Add("on", "Always On");
-			dropdown.Choices.Add("off", "Always Off");
+			dropdown = options.GetOptionWithIdentifier<ModOptionSelection>("drop") ?? new ModOptionSelection("drop", "Dropdown");
+			//dropdown.Choices.Replace("toggle", "Toggle");
+			//dropdown.Choices.Replace("on", "Always On");
+			//dropdown.Choices.Replace("off", "Always Off");
 
 			options.AddModOption(dropdown);
 
 			dropdown.ValueChanged += Dropdown_ValueChanged;
 
-			var checkbox2 = new ModOptionToggle("toggle2", "Checkbox2");
-
+			var checkbox2 = options.GetOptionWithIdentifier<ModOptionToggle>("toggle2") ?? new ModOptionToggle("toggle2", "Checkbox2");
 			options.AddModOption(checkbox2);
 
 			options.AddModOption(new ModOptionToggle("toggle3", "Always On", false));
 
+			var slider = options.GetOptionWithIdentifier<ModOptionRange>("range") ?? new ModOptionRange("range", "Slider", 10, 25, 15);
 
-
-			var slider = new ModOptionRange("range", "Slider", 10, 25, 15);
-			var stepper = new ModOptionStepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, 26, DisplayType.PERCENT);
+			var stepper = options.GetOptionWithIdentifier<ModOptionStepper>("stepper") ?? new ModOptionStepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, 26, DisplayType.PERCENT);
 
 			options.AddModOption(slider);
 			options.AddModOption(stepper);
@@ -58,6 +56,13 @@ namespace SCFTester
 			options.AddModOption(new ModOptionToggle("toggle6", "Checkbox6"));
 			options.AddModOption(new ModOptionToggle("toggle7", "Checkbox7"));
 			options.AddModOption(new ModOptionToggle("toggle8", "Checkbox8"));
+
+			var saveButton = new ModOptionTrigger("okButton", "OK Button", OptionActionType.OK);
+			options.AddModOption(saveButton);
+
+			saveButton.ActionTriggered += (id) => {
+				options.SaveUserSettings();
+			};
 
 
 			GraphicsEvents.OnPostRenderEvent += (sender, e) => {
