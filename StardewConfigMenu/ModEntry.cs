@@ -16,8 +16,8 @@ namespace StardewConfigMenu
 		internal static IMonitor monitor;
 
 		/*********
-        ** Public methods
-        *********/
+    ** Public methods
+    *********/
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper)
@@ -31,8 +31,8 @@ namespace StardewConfigMenu
 		}
 
 		/*********
-        ** Private methods
-        *********/
+    ** Private methods
+    *********/
 		/// <summary>The method invoked when the game is opened.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event data.</param>

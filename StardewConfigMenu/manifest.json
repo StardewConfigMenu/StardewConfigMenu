@@ -4,7 +4,7 @@
   "Version": {
     "MajorVersion": 0,
     "MinorVersion": 9,
-    "PatchVersion": 0,
+    "PatchVersion": 1,
     "Build": ""
   },
   "Description": "Allows modders easy access to a unified configuration menu.",
