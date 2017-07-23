@@ -220,16 +220,16 @@ namespace StardewConfigMenu.Panel
 				if (e.NewState.LeftButton == ButtonState.Pressed)
 				{
 					// clicked
-					receiveLeftClick(e.NewState.X, e.NewState.Y);
+					receiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
 				}
 			} else if (e.PriorState.LeftButton == ButtonState.Pressed)
 			{
 				if (e.NewState.LeftButton == ButtonState.Pressed)
 				{
-					leftClickHeld(e.NewState.X, e.NewState.Y);
+					leftClickHeld(e.NewPosition.X, e.NewPosition.Y);
 				} else if (e.NewState.LeftButton == ButtonState.Released)
 				{
-					releaseLeftClick(e.NewState.X, e.NewState.Y);
+					releaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
 				}
 			}
 

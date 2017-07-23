@@ -30,9 +30,9 @@ namespace SCFTester
 			disableDrop.ValueChanged += DisableDrop_ValueChanged;
 
 			dropdown = options.GetOptionWithIdentifier<ModOptionSelection>("drop") ?? new ModOptionSelection("drop", "Dropdown");
-			//dropdown.Choices.Replace("toggle", "Toggle");
-			//dropdown.Choices.Replace("on", "Always On");
-			//dropdown.Choices.Replace("off", "Always Off");
+			dropdown.Choices.Replace("toggle", "Toggle");
+			dropdown.Choices.Replace("on", "Always On");
+			dropdown.Choices.Replace("off", "Always Off");
 
 			options.AddModOption(dropdown);
 

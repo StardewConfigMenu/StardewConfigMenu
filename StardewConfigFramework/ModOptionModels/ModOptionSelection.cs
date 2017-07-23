@@ -122,8 +122,11 @@ namespace StardewConfigFramework
 
 		public void Replace(string identifier, string label) {
 			var index = IndexOf(identifier);
-			base.Remove(identifier);
-			base.Insert(index, identifier, label);
+			if (index != -1) {
+				base.Remove(identifier);
+				base.Insert(index, identifier, label);
+			} else
+				base.Add(identifier, label);
 		}
 
 		/// <summary>
@@ -162,7 +165,7 @@ namespace StardewConfigFramework
 
 		public string IdentifierOf(int index)
 		{
-			if (Keys.Count == 0)
+			if (Keys.Count == 0 || index < 0 || index >= Keys.Count)
 				return string.Empty;
 			String[] myKeys = new String[Keys.Count];
 			Keys.CopyTo(myKeys, 0);
