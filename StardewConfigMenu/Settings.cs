@@ -100,6 +100,27 @@ namespace StardewConfigMenu
 		/// </summary>
 		private void MenuOpened(object sender, EventArgsClickableMenuChanged e)
 		{
+			// copied from MenuClosed
+			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
+			GraphicsEvents.OnPreRenderGuiEvent -= HandleJunimo;
+
+			if (this.tab != null) {
+				this.tab.RemoveListeners();
+				this.tab = null;
+			}
+
+			if (this.page != null) {
+
+				if (e.PriorMenu is GameMenu) {
+					List<IClickableMenu> oldpages = ModEntry.helper.Reflection.GetPrivateField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
+					oldpages.Remove(this.page);
+				}
+
+				this.page.RemoveListeners(true);
+				this.page = null;
+				ModSettings.pageIndex = null;
+			}
+
 			if (!(e.NewMenu is GameMenu))
 			{
 				this.tab = null;

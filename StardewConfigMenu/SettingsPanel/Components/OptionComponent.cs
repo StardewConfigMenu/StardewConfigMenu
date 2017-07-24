@@ -112,6 +112,7 @@ namespace StardewConfigMenu.Panel.Components
 		internal void RemoveListeners()
 		{
 			this.UnregisterAsActiveComponent();
+			this.visible = false;
 		}
 
 		public virtual void receiveLeftClick(int x, int y, bool playSound = true) { }

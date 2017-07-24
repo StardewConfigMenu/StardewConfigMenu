@@ -89,10 +89,6 @@ namespace StardewConfigMenu.Panel.Components
 			}
 		}
 
-		public override void releaseLeftClick(int x, int y) {
-
-		}
-
 		public override void receiveRightClick(int x, int y, bool playSound = true) {
 			
 		}
