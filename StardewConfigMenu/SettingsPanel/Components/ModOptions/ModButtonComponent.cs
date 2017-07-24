@@ -1,6 +1,7 @@
 ﻿using StardewConfigFramework;
 using StardewValley;
 using Microsoft.Xna.Framework;
+using StardewValley.Menus;
 
 namespace StardewConfigMenu.Panel.Components.ModOptions
 {
@@ -37,18 +38,19 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 			get {
 				if (Option == null)
 					return _ActionType;
-				if (this.Option.type != _ActionType)
-				{
-					_ActionType = this.Option.type;
-					this.bounds.Width = (int) buttonScale * this.buttonSource.Width;
-					this.bounds.Height = (int) buttonScale * this.buttonSource.Height;
-				}
+
 				return this.Option.type;
 			}
 		}
 
-		public override void receiveRightClick(int x, int y, bool playSound = true) {
-			//throw new NotImplementedException();
+		public override void receiveLeftClick(int x, int y, bool playSound = true) {
+			base.receiveLeftClick(x, y, playSound);
+
+			if (this.button.containsPoint(x,y) && enabled && this.IsAvailableForSelection()) {
+				if (playSound)
+					Game1.playSound("breathin");
+				this.Option.Trigger();
+			}
 		}
 
 		/*

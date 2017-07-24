@@ -65,8 +65,9 @@ namespace StardewConfigMenu.Panel
 				else if (t.Equals(typeof(ModOptionStepper)))
 					Options.Add(new ModPlusMinusComponent(modOptions.List[i] as ModOptionStepper));
 				else if (t.Equals(typeof(ModOptionRange)))
-					//Options.Add(new ModPlusMinusComponent(modOptions.List[i] as ModOptionStepper));
-					break;
+					//Options.Add(new SliderComponent("Hey", 0, 10, 1, 5, true));
+					Options.Add(new ModSliderComponent(modOptions.List[i] as ModOptionRange));
+					//break;
 					
 
 				// create proper component
@@ -117,12 +118,16 @@ namespace StardewConfigMenu.Panel
 
 			if (this.downArrow.containsPoint(x, y) && this.startingOption < Math.Max(0, this.Options.Count - 6))
 			{
+				if (playSound && this.Options.Count > 6 && this.startingOption != this.Options.Count - 6)
+					Game1.playSound("shwip");
 				this.downArrowPressed();
-				Game1.playSound("shwip");
 			} else if (this.upArrow.containsPoint(x, y) && this.startingOption > 0)
 			{
+				if (playSound && this.Options.Count > 6 && this.startingOption != 0)
+					Game1.playSound("shwip");
+
 				this.upArrowPressed();
-				Game1.playSound("shwip");
+
 			} else if (this.scrollBar.containsPoint(x, y) && Options.Count > 6)
 			{
 				this.scrolling = true;
@@ -187,12 +192,16 @@ namespace StardewConfigMenu.Panel
 
 			if (direction > 0)
 			{
+				if (this.Options.Count > 6 && this.startingOption != 0)
+					Game1.playSound("shiny4");
+
 				this.upArrowPressed();
-				Game1.playSound("shiny4");
+
 			} else if (direction < 0)
 			{
+				if (this.Options.Count > 6 && this.startingOption != this.Options.Count - 6)
+					Game1.playSound("shiny4");
 				this.downArrowPressed();
-				Game1.playSound("shiny4");
 			}
 		}
 

@@ -118,12 +118,12 @@ namespace StardewConfigMenu.Panel
 
 		}
 
-		private OptionComponent tester = new SliderComponent("Hey", 0, 10, 1, 5, true);
+		//private OptionComponent tester = new SliderComponent("Hey", 0, 10, 1, 5, true);
 
 		public override void draw(SpriteBatch b)
 		{
 			//base.draw(b);
-			tester.draw(b);
+			//tester.draw(b);
 			if (!(Game1.activeClickableMenu is GameMenu)) { return; } // must be main menu
 			if ((Game1.activeClickableMenu as GameMenu).currentTab != ModSettings.pageIndex) { return; } //must be mod tab
 

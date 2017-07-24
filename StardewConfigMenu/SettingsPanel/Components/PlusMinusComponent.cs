@@ -152,11 +152,15 @@ namespace StardewConfigMenu.Panel.Components
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 
 			if (this.minus.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
-				Game1.playSound("drumkit6");
+				var temp = this.Value;
 				this.StepDown();
+				if (playSound && temp != this.Value)
+					Game1.playSound("drumkit6");
 			} else if (this.plus.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
-				Game1.playSound("drumkit6");
+				var temp = this.Value;
 				this.StepUp();
+				if (playSound && temp != this.Value)
+					Game1.playSound("drumkit6");
 			}
 		}
 
@@ -172,8 +176,8 @@ namespace StardewConfigMenu.Panel.Components
 		{
 			base.draw(b);
 
-			minus.draw(b);
-			plus.draw(b);
+			minus.draw(b, Color.White * ((this.enabled && (Value - stepSize >= min)) ? 1f : 0.33f), 0.88f);
+			plus.draw(b, Color.White * ((this.enabled && (Value + stepSize <= max)) ? 1f : 0.33f), 0.88f);
 			//b.Draw(Game1.mouseCursors, new Vector2((float) (minus.bounds.X), (float) (minus.bounds.Y)), OptionsPlusMinus.minusButtonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.4f);
 
 			b.DrawString(Game1.dialogueFont, Value.ToString() + typeExtraString, new Vector2((float) (minus.bounds.Right + (this.plus.bounds.X - minus.bounds.Right - ValueLabelSize.X - typeExtraWidth) / 2), (float) (minus.bounds.Y + ((minus.bounds.Height - ValueMaxLabelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f));

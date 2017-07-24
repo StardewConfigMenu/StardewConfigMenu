@@ -108,7 +108,7 @@ namespace StardewConfigMenu.Panel.Components
 			else
 				checkbox.sourceRect = OptionsCheckbox.sourceRectUnchecked;
 
-			checkbox.draw(b);
+			checkbox.draw(b, Color.White * ((this.enabled) ? 1f : 0.33f), 0.88f);
 			//b.Draw(Game1.mouseCursors, new Vector2((float) (this.bounds.X), (float) (this.bounds.Y)), new Rectangle?((this.IsChecked) ? OptionsCheckbox.sourceRectChecked : OptionsCheckbox.sourceRectUnchecked), Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.4f);
 
 			var labelSize = Game1.dialogueFont.MeasureString(this.label);

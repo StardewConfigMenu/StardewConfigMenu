@@ -50,9 +50,6 @@ namespace StardewConfigMenu.Panel.Components
 		internal protected bool _enabled;
 		internal protected string _label;
 
-
-
-		protected Rectangle bounds = new Rectangle();
 		public virtual int Height { get; }
 		public virtual int Width { get; }
 		public virtual int X { get; }

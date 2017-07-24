@@ -74,8 +74,6 @@ namespace StardewConfigMenu.Panel.Components
 			}
 			set {
 				_ActionType = value;
-				this.bounds.Width = (int) buttonScale * this.buttonSource.Width;
-				this.bounds.Height = (int) buttonScale * this.buttonSource.Height;
 			}
 		}
 
@@ -89,29 +87,46 @@ namespace StardewConfigMenu.Panel.Components
 		// Fields
 		//
 
+		public override int Width => button.bounds.Width;
+		public override int Height => button.bounds.Height;
+		public override int X => button.bounds.X;
+		public override int Y => button.bounds.Y;
+
+		protected ClickableTextureComponent button;
+
 		internal ButtonComponent(string label, OptionActionType type, int x, int y, bool enabled = true) : base(label, enabled)
 		{
 			this._ActionType = type;
 
-			this.bounds = new Rectangle(x, y, (int) buttonScale * this.buttonSource.Width, (int) buttonScale * this.buttonSource.Height);
+			button = new ClickableTextureComponent(new Rectangle(x, y, (int) (buttonScale * buttonSource.Width), (int) (buttonScale * buttonSource.Height)), Game1.mouseCursors, buttonSource, buttonScale);
+			button.drawShadow = true;
 		}
 
-		internal ButtonComponent(string label, OptionActionType type, bool enabled = true) : base(label, enabled)
-		{
-			this._ActionType = type;
-
-			this.bounds = new Rectangle(0, 0, (int) buttonScale * this.buttonSource.Width, (int) buttonScale * this.buttonSource.Height);
-		}
-
-		public override void receiveRightClick(int x, int y, bool playSound = true) { }
+		internal ButtonComponent(string label, OptionActionType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
 
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			base.receiveLeftClick(x, y, playSound);
 
-			if (this.bounds.Contains(x, y) && enabled && this.IsAvailableForSelection()) {
+			if (this.button.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
 				this.ButtonPressed?.Invoke();
 			}
 
+		}
+
+		private OptionActionType oldType = OptionActionType.CLEAR;
+
+		public void updateButton() {
+			if (oldType != this.ActionType) {
+				button = new ClickableTextureComponent(new Rectangle(button.bounds.X, button.bounds.Y, (int) (buttonScale * buttonSource.Width), (int) (buttonScale * buttonSource.Height)), Game1.mouseCursors, buttonSource, buttonScale);
+				button.drawShadow = true;
+				oldType = this.ActionType;
+			}
+		}
+
+		public override void draw(SpriteBatch b, int x, int y) {
+			button.bounds.X = x;
+			button.bounds.Y = y;
+			this.draw(b);
 		}
 
 		public override void draw(SpriteBatch b)
@@ -120,9 +135,12 @@ namespace StardewConfigMenu.Panel.Components
 
 			// draw button
 			var labelSize = Game1.dialogueFont.MeasureString(this.label);
-			Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2((float) (this.bounds.X), (float) (this.bounds.Y)), this.buttonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, this.buttonScale, false, 0.15f, -1, -1, 0.35f);
 
-			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.bounds.Right + Game1.pixelZoom * 4), (float) (this.bounds.Y + ((this.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
+			updateButton();
+			button.draw(b, Color.White * ((this.enabled) ? 1f : 0.33f), 0.88f);
+			//Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2((float) (this.bounds.X), (float) (this.bounds.Y)), this.buttonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, this.buttonScale, false, 0.15f, -1, -1, 0.35f);
+
+			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.button.bounds.Right + Game1.pixelZoom * 4), (float) (this.button.bounds.Y + ((this.button.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 		}
 	}
 }

@@ -214,11 +214,6 @@ namespace StardewConfigMenu.Panel.Components
 			}
 		}
 
-		public override void receiveRightClick(int x, int y, bool playSound = true) {
-			//throw new NotImplementedException();
-		}
-
-
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			//base.receiveLeftClick(x, y, playSound);
 
@@ -253,82 +248,6 @@ namespace StardewConfigMenu.Panel.Components
 				}
 			}
 		}
-/*
-		public override void receiveKeyPress(Keys key) {
-			if (Game1.options.snappyMenus && Game1.options.gamepadControls) {
-				if (Game1.options.doesInputListContain(Game1.options.moveRightButton, key)) {
-					this.hoveredChoice++;
-					if (this.hoveredChoice >= this.dropDownOptions.Count) {
-						this.hoveredChoice = 0;
-					}
-				} else if (Game1.options.doesInputListContain(Game1.options.moveLeftButton, key)) {
-					this.hoveredChoice--;
-					if (this.hoveredChoice < 0) {
-						this.hoveredChoice = this.dropDownOptions.Count - 1;
-					}
-				}
-			}
-		} */
-
-		/*
-		protected override void leftClicked(int x, int y)
-		{
-			
-			if (this.enabled && this.bounds.Contains(x, y) && this.IsAvailableForSelection())
-			{
-				this.RegisterAsActiveComponent();
-				this.hoveredChoice = 0;
-				this.leftClickHeld(x, y);
-				Game1.playSound("shwip");
-			}
-		}
-
-		protected override void leftClickHeld(int x, int y)
-		{
-			if (this.enabled && this.IsActiveComponent() && this.dropDownBounds.Contains(x, y))
-			{
-				this.dropDownBounds.Y = Math.Min(this.dropDownBounds.Y, Game1.viewport.Height - this.dropDownBounds.Height);
-				this.hoveredChoice = (int) Math.Max(Math.Min((float) (y - this.dropDownBounds.Y) / (float) this.bounds.Height, (float) (this.dropDownOptions.Count - 1)), 0f);
-			}
-		}
-
-		protected override void leftClickReleased(int x, int y)
-		{
-
-			if (this.IsActiveComponent()) {
-				this.UnregisterAsActiveComponent();
-
-				if (this.dropDownBounds.Contains(x, y)) {
-					if (this.enabled && this.dropDownOptions.Count > 0) {
-						this.SelectDisplayedOption(this.hoveredChoice);
-					}
-
-				}
-			}
-		}*/
-		/*
-		protected override void receiveKeyPress(Keys key)
-		{
-			if (Game1.options.snappyMenus && Game1.options.gamepadControls)
-			{
-				if (Game1.options.doesInputListContain(Game1.options.moveRightButton, key))
-				{
-					this.hoveredChoice++;
-					if (this.hoveredChoice >= this.dropDownOptions.Count)
-					{
-						this.hoveredChoice = 0;
-					}
-				} else if (Game1.options.doesInputListContain(Game1.options.moveLeftButton, key))
-				{
-					this.hoveredChoice--;
-					if (this.hoveredChoice < 0)
-					{
-						this.hoveredChoice = this.dropDownOptions.Count - 1;
-					}
-				}
-			}
-		} */
 	}
-
 }
 

@@ -26,6 +26,8 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 
 		private ModOptionCategoryLabel option;
 
+		Rectangle bounds = new Rectangle();
+
 		public ModCategoryLabelComponent(ModOptionCategoryLabel option) : base(option.LabelText)
 		{
 			this.option = option;
@@ -48,7 +50,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 		// static drawing of component
 		public override void draw(SpriteBatch b)
 		{
-			SpriteText.drawString(b, this.label, this.bounds.X, this.bounds.Y);
+			SpriteText.drawString(b, (option != null) ? option.LabelText : this.label, this.bounds.X, this.bounds.Y);
 		}
 	}
 }

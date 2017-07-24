@@ -91,9 +91,10 @@ namespace StardewConfigFramework.Serialization {
 							decimal min = option.Value<decimal>(nameof(ModOptionRange.min));
 							decimal max = option.Value<decimal>(nameof(ModOptionRange.max));
 							decimal selection = option.Value<decimal>(nameof(ModOptionRange.Value));
-							
+							decimal stepSize = option.Value<decimal>(nameof(ModOptionRange.stepSize));
 
-							optionList.Add(new ModOptionRange(identifier, labelText, min, max, selection, (bool) checker, enabled));
+							
+							optionList.Add(new ModOptionRange(identifier, labelText, min, max, stepSize, selection, (bool) checker, enabled));
 
 						} else {
 							optionList.Add(new ModOptionCategoryLabel(identifier, labelText));
