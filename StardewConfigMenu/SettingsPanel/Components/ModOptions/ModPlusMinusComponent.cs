@@ -2,10 +2,8 @@
 using StardewValley;
 using Microsoft.Xna.Framework;
 
-namespace StardewConfigMenu.Panel.Components.ModOptions
-{
-	internal class ModPlusMinusComponent: PlusMinusComponent
-	{
+namespace StardewConfigMenu.Panel.Components.ModOptions {
+	internal class ModPlusMinusComponent: PlusMinusComponent {
 		readonly ModOptionStepper Option;
 
 		public override bool enabled => Option.enabled;
@@ -24,17 +22,12 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 			}
 		}
 
-		internal ModPlusMinusComponent(ModOptionStepper option, int x, int y) : base(option.LabelText, option.min, option.max, option.stepSize, option.Value, x, y, option.type, option.enabled)
-		{
+		internal ModPlusMinusComponent(ModOptionStepper option, int x, int y) : base(option.LabelText, option.min, option.max, option.stepSize, option.Value, x, y, option.type, option.enabled) {
 			this.Option = option;
 		}
 
-		internal ModPlusMinusComponent(ModOptionStepper option) : base(option.LabelText, option.min, option.max, option.stepSize, option.Value, option.type, option.enabled)
-		{
+		internal ModPlusMinusComponent(ModOptionStepper option) : base(option.LabelText, option.min, option.max, option.stepSize, option.Value, option.type, option.enabled) {
 			this.Option = option;
-		}
-		public override void receiveRightClick(int x, int y, bool playSound = true) {
-			//throw new NotImplementedException();
 		}
 	}
 }

@@ -60,6 +60,16 @@ namespace StardewConfigFramework.Serialization {
 
 							optionList.Add(new ModOptionToggle(identifier, labelText, (bool) checker, enabled));
 
+						} else if ((checker = option.Value<bool?>(nameof(ModOptionRange.showValue))) != null) {
+
+							decimal min = option.Value<decimal>(nameof(ModOptionRange.min));
+							decimal max = option.Value<decimal>(nameof(ModOptionRange.max));
+							decimal selection = option.Value<decimal>(nameof(ModOptionRange.Value));
+							decimal stepSize = option.Value<decimal>(nameof(ModOptionRange.stepSize));
+
+
+							optionList.Add(new ModOptionRange(identifier, labelText, min, max, stepSize, selection, (bool) checker, enabled));
+
 						} else if ((checker = option.Value<decimal?>(nameof(ModOptionStepper.stepSize))) != null) {
 
 							decimal min = option.Value<decimal>(nameof(ModOptionStepper.min));
@@ -84,17 +94,6 @@ namespace StardewConfigFramework.Serialization {
 						} else if ((checker = option.Value<int?>(nameof(ModOptionTrigger.type))) != null) {
 
 							optionList.Add(new ModOptionTrigger(identifier, labelText, (OptionActionType) checker, enabled));
-
-						} else if ((checker = option.Value<bool?>(nameof(ModOptionRange.showValue))) != null) {
-
-							// TODO Update this for Ranges
-							decimal min = option.Value<decimal>(nameof(ModOptionRange.min));
-							decimal max = option.Value<decimal>(nameof(ModOptionRange.max));
-							decimal selection = option.Value<decimal>(nameof(ModOptionRange.Value));
-							decimal stepSize = option.Value<decimal>(nameof(ModOptionRange.stepSize));
-
-							
-							optionList.Add(new ModOptionRange(identifier, labelText, min, max, stepSize, selection, (bool) checker, enabled));
 
 						} else {
 							optionList.Add(new ModOptionCategoryLabel(identifier, labelText));

@@ -2,8 +2,7 @@
 using StardewValley;
 using Microsoft.Xna.Framework;
 
-namespace StardewConfigMenu.Panel.Components.ModOptions
-{
+namespace StardewConfigMenu.Panel.Components.ModOptions {
 	internal class ModSliderComponent: SliderComponent {
 
 		readonly ModOptionRange Option;
@@ -15,6 +14,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 		protected override decimal min => Option.min;
 		protected override decimal max => Option.max;
 		protected override decimal stepSize => Option.stepSize;
+		protected override bool showValue => Option.showValue;
 		protected override decimal Value {
 			get {
 				return Option.Value;

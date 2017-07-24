@@ -46,23 +46,7 @@ namespace StardewConfigMenu.Panel.Components
 			ValueMaxLabelSize = (maxRect.X > minRect.X) ? maxRect : minRect;
 		}
 
-		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, DisplayType type = DisplayType.NONE, bool enabled = true) : base(labelText, enabled)
-		{
-			this._min = Math.Round(min, 3);
-			this._max = Math.Round(max, 3);
-			this._stepSize = Math.Round(stepsize, 3);
-			this._type = type;
-
-
-			var valid = CheckValidInput(Math.Round(defaultSelection, 3));
-			var newVal = (int) ((valid - _min) / _stepSize) * _stepSize + _min;
-			this._Value = newVal;
-
-			var maxRect = Game1.dialogueFont.MeasureString((this._max + this._stepSize % 1).ToString());
-			var minRect = Game1.dialogueFont.MeasureString((this._min - this._stepSize % 1).ToString());
-
-			ValueMaxLabelSize = (maxRect.X > minRect.X) ? maxRect : minRect;
-		}
+		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, DisplayType type = DisplayType.NONE, bool enabled = true) : this(labelText, min, max, stepsize, defaultSelection, 0, 0, type, enabled) { }
 
 		protected int typeExtraWidth
 		{
@@ -142,11 +126,6 @@ namespace StardewConfigMenu.Panel.Components
 				return _min;
 
 			return input;
-		}
-
-
-		public override void receiveRightClick(int x, int y, bool playSound = true) {
-			//throw new NotImplementedException();
 		}
 
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
