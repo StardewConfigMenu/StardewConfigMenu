@@ -28,6 +28,7 @@ namespace SCFTester2
 
 			var list = new ModSelectionOptionChoices();
 			list.Add("available", "Option Available");
+			list.Add("second", "Option 2");
 
 			var disabledDrop = options.GetOptionWithIdentifier<ModOptionSelection>("disabled") ?? new ModOptionSelection("disabled", "Disabled Dropdown", list, 0, false);
 			options.AddModOption(disabledDrop);

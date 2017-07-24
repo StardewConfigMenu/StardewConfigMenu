@@ -15,7 +15,7 @@ using StardewModdingAPI.Events;
 
 namespace StardewConfigMenu.Panel.Components
 {
-	abstract class OptionComponent : IClickableMenu
+	abstract class OptionComponent
 	{
 		static protected OptionComponent selectedComponent;
 
@@ -65,8 +65,6 @@ namespace StardewConfigMenu.Panel.Components
 		}
 
 		public OptionComponent(string label, int x, int y, bool enabled = true) {
-			this.xPositionOnScreen = x;
-			this.yPositionOnScreen = y;
 			this._label = label;
 			this._enabled = enabled;
 			this.AddListeners();
@@ -102,7 +100,9 @@ namespace StardewConfigMenu.Panel.Components
 		}
 
 		// For moving the component
-		public virtual void draw(SpriteBatch b, int x, int y){}
+		public virtual void draw(SpriteBatch b, int x, int y) { }
+
+		public virtual void draw(SpriteBatch b) { }
 
 		internal void AddListeners()
 		{
@@ -114,7 +114,12 @@ namespace StardewConfigMenu.Panel.Components
 			this.UnregisterAsActiveComponent();
 		}
 
-		public override void receiveLeftClick(int x, int y, bool playSound = true) { }
+		public virtual void receiveLeftClick(int x, int y, bool playSound = true) { }
+		public virtual void receiveRightClick(int x, int y, bool playSound = true) { }
+		public virtual void receiveKeyPress(Keys key) { }
+		public virtual void leftClickHeld(int x, int y) { }
+		public virtual void releaseLeftClick(int x, int y) { }
+		public virtual void receiveScrollWheelAction(int direction) { }
 
 	}
 }
