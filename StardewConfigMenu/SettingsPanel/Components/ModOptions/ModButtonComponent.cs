@@ -47,14 +47,20 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 			}
 		}
 
+		public override void receiveRightClick(int x, int y, bool playSound = true) {
+			//throw new NotImplementedException();
+		}
+
+		/*
 		protected override void leftClicked(int x, int y)
 		{
 			base.leftClicked(x, y);
 
-			if (this.bounds.Contains(x, y) && enabled)
+			if (this.bounds.Contains(x, y) && enabled && this.IsAvailableForSelection())
 			{
+				Game1.playSound("breathin");
 				this.Option.Trigger();
 			}
-		}
+		} */
 	}
 }

@@ -23,18 +23,24 @@ namespace StardewConfigMenu.Panel
 		private ClickableTextureComponent scrollBar;
 		private Rectangle scrollBarRunner;
 
-		internal bool invisible
+		internal bool visible
 		{
 			set {
-				Options.ForEach(x => { x.invisible = value; });
-				_invisible = value;
+				if (!value)
+					Options.ForEach(x => {
+						x.visible = value;
+				});
+				else
+					setVisibleOptions();
+
+				_visible = value;
 			}
 			get {
-				return _invisible;
+				return _visible;
 			}
 		}
 
-		private bool _invisible = false;
+		private bool _visible = false;
 
 		private int startingOption = 0;
 
@@ -46,8 +52,7 @@ namespace StardewConfigMenu.Panel
 				Type t = modOptions.List[i].GetType();
 				if (t.Equals(typeof(ModOptionCategoryLabel)))
 					Options.Add(new ModCategoryLabelComponent((ModOptionCategoryLabel) (modOptions.List[(int) i] as ModOptionCategoryLabel)));
-				else if (t.Equals(typeof(ModOptionSelection)))
-				{
+				else if (t.Equals(typeof(ModOptionSelection))) {
 					int minWidth = 350;
 					var option = (modOptions.List[i] as ModOptionSelection);
 					option.Choices.Labels.ForEach(choice => { minWidth = Math.Max((int) Game1.smallFont.MeasureString(choice + "     ").X, minWidth); });
@@ -59,6 +64,10 @@ namespace StardewConfigMenu.Panel
 					Options.Add(new ModButtonComponent(modOptions.List[i] as ModOptionTrigger));
 				else if (t.Equals(typeof(ModOptionStepper)))
 					Options.Add(new ModPlusMinusComponent(modOptions.List[i] as ModOptionStepper));
+				else if (t.Equals(typeof(ModOptionRange)))
+					//Options.Add(new ModPlusMinusComponent(modOptions.List[i] as ModOptionStepper));
+					break;
+					
 
 				// create proper component
 				// add to Options
@@ -73,7 +82,6 @@ namespace StardewConfigMenu.Panel
 		public void AddListeners()
 		{
 			RemoveListeners();
-			ControlEvents.MouseChanged += MouseChanged;
 			ControlEvents.KeyPressed += KeyPressed;
 		}
 
@@ -84,16 +92,28 @@ namespace StardewConfigMenu.Panel
 				Options.ForEach(x => { x.RemoveListeners(); });
 			}
 
-			ControlEvents.MouseChanged -= MouseChanged;
 			ControlEvents.KeyPressed -= KeyPressed;
 			this.scrolling = false;
 		}
 
-		public override void receiveRightClick(int x, int y, bool playSound = true) { }
+		public override void receiveRightClick(int x, int y, bool playSound = true) {
+
+			if (GameMenu.forcePreventClose) { return; }
+
+			Options.ForEach(z => {
+				if (z.visible)
+					z.receiveRightClick(x, y, playSound);
+			});
+		}
 
 		public override void receiveLeftClick(int x, int y, bool playSound = true)
 		{
-			if (GameMenu.forcePreventClose) { return; }
+			if (GameMenu.forcePreventClose || !this.visible) { return; }
+
+			Options.ForEach(z => {
+				if (z.visible)
+					z.receiveLeftClick(x, y, playSound);
+			});
 
 			if (this.downArrow.containsPoint(x, y) && this.startingOption < Math.Max(0, this.Options.Count - 6))
 			{
@@ -103,7 +123,7 @@ namespace StardewConfigMenu.Panel
 			{
 				this.upArrowPressed();
 				Game1.playSound("shwip");
-			} else if (this.scrollBar.containsPoint(x, y))
+			} else if (this.scrollBar.containsPoint(x, y) && Options.Count > 6)
 			{
 				this.scrolling = true;
 			}
@@ -116,9 +136,13 @@ namespace StardewConfigMenu.Panel
 		public override void leftClickHeld(int x, int y)
 		{
 			if (GameMenu.forcePreventClose) { return; }
-			base.leftClickHeld(x, y);
 
-			if (this.scrolling || this.scrollBarRunner.Contains(x, y))
+			Options.ForEach(z => {
+				if (z.visible)
+					z.leftClickHeld(x, y);
+			});
+
+			if (this.scrolling)
 			{
 				int oldPosition = this.startingOption;
 
@@ -146,14 +170,20 @@ namespace StardewConfigMenu.Panel
 
 		public override void releaseLeftClick(int x, int y)
 		{
-			base.releaseLeftClick(x, y);
+			Options.ForEach(z => {
+				if (z.visible)
+					z.releaseLeftClick(x, y);
+			});
 
 			this.scrolling = false;
 		}
 
 		public override void receiveScrollWheelAction(int direction)
 		{
-			base.receiveScrollWheelAction(direction);
+			Options.ForEach(z => {
+				if (z.visible)
+					z.receiveScrollWheelAction(direction);
+			});
 
 			if (direction > 0)
 			{
@@ -168,6 +198,11 @@ namespace StardewConfigMenu.Panel
 
 		private void KeyPressed(object sender, EventArgsKeyPressed e)
 		{
+			Options.ForEach(z => {
+				if (z.visible)
+					z.receiveKeyPress(e.KeyPressed);
+			});
+
 			if (e.KeyPressed == Keys.Up)
 				upArrowPressed();
 			if (e.KeyPressed == Keys.Down)
@@ -180,6 +215,7 @@ namespace StardewConfigMenu.Panel
 			if (startingOption > 0)
 				this.startingOption--;
 			this.setScrollBarToCurrentIndex();
+			//this.setVisibleOptions();
 		}
 
 		public void downArrowPressed()
@@ -188,10 +224,22 @@ namespace StardewConfigMenu.Panel
 			if (startingOption < Options.Count - 6)
 				this.startingOption++;
 			this.setScrollBarToCurrentIndex();
+			//this.setVisibleOptions();
+		}
+
+		public void setVisibleOptions() {
+			for (int i = 0; i < Options.Count; i++) {
+				if (i >= startingOption && i < startingOption + 6) {
+					Options[i].visible = true;
+				} else {
+					Options[i].visible = false;
+				}
+			}
 		}
 
 		public void setScrollBarToCurrentIndex()
 		{
+			setVisibleOptions();
 			if (this.Options.Count > 0)
 			{
 				this.scrollBar.bounds.Y = this.scrollBarRunner.Height / Math.Max(1, this.Options.Count - 6 + 1) * this.startingOption + this.upArrow.bounds.Bottom + (Game1.pixelZoom);
@@ -202,42 +250,10 @@ namespace StardewConfigMenu.Panel
 			}
 		}
 
-		protected virtual void MouseChanged(object sender, EventArgsMouseStateChanged e)
-		{
-			if (GameMenu.forcePreventClose) { return; }
-			if (!(Game1.activeClickableMenu is GameMenu)) { return; }
-
-			// only allow one component to be interacted with at a time, and must be on settings tab
-			if ((Game1.activeClickableMenu as GameMenu).currentTab != ModSettings.pageIndex || invisible) { return; }
-
-			if (e.NewState.ScrollWheelValue > e.PriorState.ScrollWheelValue)
-				receiveScrollWheelAction(1);
-			else if (e.NewState.ScrollWheelValue < e.PriorState.ScrollWheelValue)
-				receiveScrollWheelAction(-1);
-
-			if (e.PriorState.LeftButton == ButtonState.Released)
-			{
-				if (e.NewState.LeftButton == ButtonState.Pressed)
-				{
-					// clicked
-					receiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
-				}
-			} else if (e.PriorState.LeftButton == ButtonState.Pressed)
-			{
-				if (e.NewState.LeftButton == ButtonState.Pressed)
-				{
-					leftClickHeld(e.NewPosition.X, e.NewPosition.Y);
-				} else if (e.NewState.LeftButton == ButtonState.Released)
-				{
-					releaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
-				}
-			}
-
-		}
-
 		public override void draw(SpriteBatch b)
 		{
 			base.draw(b);
+
 			//drawTextureBox();
 			if (this.Options.Count > 6)
 			{
@@ -248,25 +264,17 @@ namespace StardewConfigMenu.Panel
 			}
 
 			//b.DrawString(Game1.dialogueFont, this.Options.modManifest.Name, new Vector2(this.xPositionOnScreen, this.yPositionOnScreen), Color.White);
-			List<ModDropDownComponent> dropDowns = new List<ModDropDownComponent>();
 
-			for (int i = 0; i < Options.Count; i++)
+			for (int i = startingOption; i < Options.Count; i++)
 			{
-				if (i >= startingOption && i < startingOption + 6)
-				{
-					Options[i].invisible = false;
-					if (!(Options[i] is ModDropDownComponent))
-						Options[i].draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
-				} else
-				{
-					Options[i].invisible = true;
-				}
+				if (!(Options[i] is ModDropDownComponent) && Options[i].visible)
+					Options[i].draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
 			}
 
 			// Draw Dropdowns last, they must be on top; must draw from bottom to top
 			for (int i = Math.Min(startingOption + 5, Options.Count - 1); i >= startingOption; i--)
 			{
-				if (Options[i] is ModDropDownComponent)
+				if (Options[i] is ModDropDownComponent && Options[i].visible)
 					Options[i].draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
 			}
 

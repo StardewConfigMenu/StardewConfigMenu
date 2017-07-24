@@ -85,13 +85,15 @@ namespace StardewConfigFramework.Serialization {
 
 							optionList.Add(new ModOptionTrigger(identifier, labelText, (OptionActionType) checker, enabled));
 
-						} else if ((checker = option.Value<float?>(nameof(ModOptionRange.max))) != null) {
+						} else if ((checker = option.Value<bool?>(nameof(ModOptionRange.showValue))) != null) {
 
 							// TODO Update this for Ranges
-							float min = option.Value<float>(nameof(ModOptionRange.min));
-							float selection = option.Value<float>(nameof(ModOptionRange.Value));
+							decimal min = option.Value<decimal>(nameof(ModOptionRange.min));
+							decimal max = option.Value<decimal>(nameof(ModOptionRange.max));
+							decimal selection = option.Value<decimal>(nameof(ModOptionRange.Value));
+							
 
-							optionList.Add(new ModOptionRange(identifier, labelText, min, (float) checker, selection, enabled));
+							optionList.Add(new ModOptionRange(identifier, labelText, min, max, selection, (bool) checker, enabled));
 
 						} else {
 							optionList.Add(new ModOptionCategoryLabel(identifier, labelText));

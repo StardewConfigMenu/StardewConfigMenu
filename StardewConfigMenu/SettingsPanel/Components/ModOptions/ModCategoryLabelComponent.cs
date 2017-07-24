@@ -41,6 +41,10 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 			this.bounds.Width = SpriteText.getWidthOfString(this.label);
 		}
 
+		public override void receiveRightClick(int x, int y, bool playSound = true) {
+			//throw new NotImplementedException();
+		}
+
 		// static drawing of component
 		public override void draw(SpriteBatch b)
 		{

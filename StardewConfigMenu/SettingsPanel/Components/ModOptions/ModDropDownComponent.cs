@@ -76,17 +76,12 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 					_dropDownDisplayOptions.AddRange(toAdd);
 				}
 
-				dropDownBounds.Height = this.bounds.Height * this.ModData.Choices.Count;
+				dropDownBackground.bounds.Height = this.dropDown.bounds.Height * this.ModData.Choices.Count;
 				return _dropDownDisplayOptions;
 			}
 		}
 
-		private List<string> _dropDownDisplayOptions = new List<string>();
-
-		public ModDropDownComponent(ModOptionSelection option, int width) : base(option.LabelText, width, option.enabled)
-		{
-			this.ModData = option;
-		}
+		public ModDropDownComponent(ModOptionSelection option, int width) : this(option, width, 0, 0) { }
 
 		public ModDropDownComponent(ModOptionSelection option, int width, int x, int y) : base(option.LabelText, width, x, y)
 		{

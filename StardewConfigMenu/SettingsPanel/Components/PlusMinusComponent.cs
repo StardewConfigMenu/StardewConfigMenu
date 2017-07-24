@@ -19,6 +19,13 @@ namespace StardewConfigMenu.Panel.Components
 
 		internal event PlusMinusValueChanged PlusMinusValueChanged;
 
+		ClickableTextureComponent minus = new ClickableTextureComponent(new Rectangle(0, 0, OptionsPlusMinus.minusButtonSource.Width * Game1.pixelZoom, OptionsPlusMinus.minusButtonSource.Height * Game1.pixelZoom), Game1.mouseCursors, OptionsPlusMinus.minusButtonSource, Game1.pixelZoom);
+		ClickableTextureComponent plus = new ClickableTextureComponent(new Rectangle(0, 0, OptionsPlusMinus.plusButtonSource.Width * Game1.pixelZoom, OptionsPlusMinus.plusButtonSource.Height * Game1.pixelZoom), Game1.mouseCursors, OptionsPlusMinus.plusButtonSource, Game1.pixelZoom);
+		public override int Width => plus.bounds.Right - minus.bounds.X;
+		public override int Height => minus.bounds.Height;
+		public override int X => minus.bounds.X;
+		public override int Y => minus.bounds.Y;
+
 		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, int x, int y, DisplayType type = DisplayType.NONE, bool enabled = true) : base(labelText, enabled)
 		{
 			this._min = Math.Round(min, 3);
@@ -30,7 +37,8 @@ namespace StardewConfigMenu.Panel.Components
 			var newVal = (int) ((valid - _min) / _stepSize) * _stepSize + _min;
 			this._Value = newVal;
 
-			this.bounds = new Rectangle(x, y, Game1.pixelZoom * OptionsPlusMinus.minusButtonSource.Width, Game1.pixelZoom * OptionsPlusMinus.minusButtonSource.Height);
+			this.minus.bounds.X = x;
+			this.minus.bounds.Y = y;
 
 			var maxRect = Game1.dialogueFont.MeasureString((this._max + this._stepSize % 1).ToString());
 			var minRect = Game1.dialogueFont.MeasureString((this._min - this._stepSize % 1).ToString());
@@ -50,8 +58,6 @@ namespace StardewConfigMenu.Panel.Components
 			var newVal = (int) ((valid - _min) / _stepSize) * _stepSize + _min;
 			this._Value = newVal;
 
-			this.bounds = new Rectangle(0, 0, Game1.pixelZoom * OptionsPlusMinus.minusButtonSource.Width, Game1.pixelZoom * OptionsPlusMinus.minusButtonSource.Height);
-
 			var maxRect = Game1.dialogueFont.MeasureString((this._max + this._stepSize % 1).ToString());
 			var minRect = Game1.dialogueFont.MeasureString((this._min - this._stepSize % 1).ToString());
 
@@ -61,9 +67,9 @@ namespace StardewConfigMenu.Panel.Components
 		protected Rectangle plusButtonbounds
 		{
 			get {
-				_plusButtonbounds.X = this.bounds.Right + (int) this.ValueMaxLabelSize.X + typeExtraWidth + 4 * Game1.pixelZoom;
-				_plusButtonbounds.Y = this.bounds.Y;
-				return _plusButtonbounds;
+				plus.bounds.X = minus.bounds.Right + (int) this.ValueMaxLabelSize.X + typeExtraWidth + 4 * Game1.pixelZoom;
+				plus.bounds.Y = minus.bounds.Y;
+				return plus.bounds;
 			}
 		}
 
@@ -87,7 +93,6 @@ namespace StardewConfigMenu.Panel.Components
 			}
 		}
 
-		private Rectangle _plusButtonbounds = new Rectangle(0, 0, Game1.pixelZoom * OptionsPlusMinus.plusButtonSource.Width, Game1.pixelZoom * OptionsPlusMinus.plusButtonSource.Height);
 		readonly private DisplayType _type;
 		public virtual DisplayType type => _type;
 
@@ -137,7 +142,7 @@ namespace StardewConfigMenu.Panel.Components
 			this.Value -= this.stepSize;
 		}
 
-		private decimal CheckValidInput(decimal input)
+		protected decimal CheckValidInput(decimal input)
 		{
 			if (input > _max)
 				return _max;
@@ -148,34 +153,46 @@ namespace StardewConfigMenu.Panel.Components
 			return input;
 		}
 
-		protected override void leftClicked(int x, int y)
-		{
-			base.leftClicked(x, y);
 
-			if (this.bounds.Contains(x, y) && enabled)
-			{
+		public override void receiveRightClick(int x, int y, bool playSound = true) {
+			//throw new NotImplementedException();
+		}
+
+		public override void receiveLeftClick(int x, int y, bool playSound = true) {
+			base.receiveLeftClick(x, y, playSound);
+
+			if (this.minus.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
+				Game1.playSound("drumkit6");
 				this.StepDown();
-			} else if (this.plusButtonbounds.Contains(x, y) && enabled)
-			{
+			} else if (this.plus.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
+				Game1.playSound("drumkit6");
 				this.StepUp();
 			}
+		}
+
+		public override void draw(SpriteBatch b, int x, int y) {
+			this.minus.bounds.X = x;
+			this.minus.bounds.Y = y;
+			this.draw(b);
 		}
 
 		public override void draw(SpriteBatch b)
 		{
 			base.draw(b);
 
-			b.Draw(Game1.mouseCursors, new Vector2((float) (this.bounds.X), (float) (this.bounds.Y)), OptionsPlusMinus.minusButtonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.4f);
+			minus.draw(b);
+			plus.draw(b);
+			//b.Draw(Game1.mouseCursors, new Vector2((float) (minus.bounds.X), (float) (minus.bounds.Y)), OptionsPlusMinus.minusButtonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.4f);
 
-			b.DrawString(Game1.dialogueFont, Value.ToString() + typeExtraString, new Vector2((float) (this.bounds.Right + (this.plusButtonbounds.X - this.bounds.Right - ValueLabelSize.X - typeExtraWidth) / 2), (float) (this.bounds.Y + ((this.bounds.Height - ValueMaxLabelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f));
+			b.DrawString(Game1.dialogueFont, Value.ToString() + typeExtraString, new Vector2((float) (minus.bounds.Right + (this.plusButtonbounds.X - minus.bounds.Right - ValueLabelSize.X - typeExtraWidth) / 2), (float) (minus.bounds.Y + ((minus.bounds.Height - ValueMaxLabelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f));
 			//Utility.drawBoldText(b, $"{Value.ToString()}", Game1.smallFont, new Vector2((float)(this.bounds.Right + Game1.pixelZoom * 2), (float)(this.bounds.Y + ((this.bounds.Height - valueLabelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f));
 
-			b.Draw(Game1.mouseCursors, new Vector2((float) (this.plusButtonbounds.X), (float) (this.plusButtonbounds.Y)), OptionsPlusMinus.plusButtonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.4f);
+			//b.Draw(Game1.mouseCursors, new Vector2((float) (this.plusButtonbounds.X), (float) (this.plusButtonbounds.Y)), OptionsPlusMinus.plusButtonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.4f);
 
 
 			var labelSize = Game1.dialogueFont.MeasureString(this.label);
 
-			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.plusButtonbounds.Right + Game1.pixelZoom * 4), (float) (this.bounds.Y + ((this.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.plusButtonbounds.Right + Game1.pixelZoom * 4), (float) (minus.bounds.Y + ((minus.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 
 		}
 	}

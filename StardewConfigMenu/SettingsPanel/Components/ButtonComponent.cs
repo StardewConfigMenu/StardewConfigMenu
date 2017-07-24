@@ -103,14 +103,15 @@ namespace StardewConfigMenu.Panel.Components
 			this.bounds = new Rectangle(0, 0, (int) buttonScale * this.buttonSource.Width, (int) buttonScale * this.buttonSource.Height);
 		}
 
-		protected override void leftClicked(int x, int y)
-		{
-			base.leftClicked(x, y);
+		public override void receiveRightClick(int x, int y, bool playSound = true) { }
 
-			if (this.bounds.Contains(x, y) && enabled)
-			{
+		public override void receiveLeftClick(int x, int y, bool playSound = true) {
+			base.receiveLeftClick(x, y, playSound);
+
+			if (this.bounds.Contains(x, y) && enabled && this.IsAvailableForSelection()) {
 				this.ButtonPressed?.Invoke();
 			}
+
 		}
 
 		public override void draw(SpriteBatch b)

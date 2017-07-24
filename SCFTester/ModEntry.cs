@@ -43,7 +43,7 @@ namespace SCFTester
 
 			options.AddModOption(new ModOptionToggle("toggle3", "Always On", false));
 
-			var slider = options.GetOptionWithIdentifier<ModOptionRange>("range") ?? new ModOptionRange("range", "Slider", 10, 25, 15);
+			var slider = options.GetOptionWithIdentifier<ModOptionRange>("range") ?? new ModOptionRange("range", "Slider", 10, 25, 15, true);
 
 			var stepper = options.GetOptionWithIdentifier<ModOptionStepper>("stepper") ?? new ModOptionStepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, 26, DisplayType.PERCENT);
 

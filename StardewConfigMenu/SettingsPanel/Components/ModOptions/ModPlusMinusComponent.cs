@@ -15,7 +15,14 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 		public override decimal min => Option.min;
 		public override decimal max => Option.max;
 		public override decimal stepSize => Option.stepSize;
-		public override decimal Value => Option.Value;
+		public override decimal Value {
+			get {
+				return Option.Value;
+			}
+			protected set {
+				Option.Value = value;
+			}
+		}
 
 		internal ModPlusMinusComponent(ModOptionStepper option, int x, int y) : base(option.LabelText, option.min, option.max, option.stepSize, option.Value, x, y, option.type, option.enabled)
 		{
@@ -26,16 +33,8 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 		{
 			this.Option = option;
 		}
-
-		protected override void leftClicked(int x, int y)
-		{
-			if (this.bounds.Contains(x, y) && enabled)
-			{
-				this.Option.StepDown();
-			} else if (this.plusButtonbounds.Contains(x, y) && enabled)
-			{
-				this.Option.StepUp();
-			}
+		public override void receiveRightClick(int x, int y, bool playSound = true) {
+			//throw new NotImplementedException();
 		}
 	}
 }

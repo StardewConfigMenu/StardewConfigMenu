@@ -2,36 +2,38 @@
 
 namespace StardewConfigFramework
 {
-	public delegate void ModOptionRangeHandler(string identifier, float currentValue);
+	public delegate void ModOptionRangeHandler(string identifier, decimal currentValue);
 
 	public class ModOptionRange: ModOption
 	{
 		public event ModOptionRangeHandler ValueChanged;
 
 		[JsonConstructor]
-		public ModOptionRange(string identifier, string label, float min, float max, float defaultSelection, bool enabled = true) : base(identifier, label, enabled)
+		public ModOptionRange(string identifier, string label, decimal min, decimal max, decimal defaultSelection, bool showValue, bool enabled = true) : base(identifier, label, enabled)
 		{
 			this.Value = defaultSelection;
+			this.showValue = showValue;
 		}
 
-		public float min { get; private set; }
-		public float max { get; private set; }
-		public float Value { get; private set; }
+		public decimal min { get; private set; }
+		public decimal max { get; private set; }
+		public decimal Value { get; private set; }
+		public bool showValue { get; private set; }
 
-		public void SetValue(float selection)
+		public void SetValue(decimal selection)
 		{
 			this.Value = CheckValidInput(selection);
 			this.ValueChanged(this.identifier, this.Value);
 		}
 
-		public void SetValueByPercentage(float percent)
+		public void SetValueByPercentage(decimal percent)
 		{
-			float newValue = ((max - min) * percent) + min;
+			decimal newValue = ((max - min) * percent) + min;
 			this.Value = CheckValidInput(newValue);
 			this.ValueChanged(this.identifier, this.Value);
 		}
 
-		private float CheckValidInput(float input)
+		private decimal CheckValidInput(decimal input)
 		{
 			if (input > max)
 				return max;

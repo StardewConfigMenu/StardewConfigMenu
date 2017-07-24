@@ -15,11 +15,17 @@ using StardewModdingAPI.Events;
 
 namespace StardewConfigMenu.Panel.Components
 {
-	abstract class OptionComponent
+	abstract class OptionComponent : IClickableMenu
 	{
 		static protected OptionComponent selectedComponent;
 
-		protected Rectangle bounds = new Rectangle();
+		virtual internal bool visible {
+			set { _visible = value; }
+			get {
+				return _visible;
+			}
+		}
+
 		public virtual bool enabled
 		{
 			get {
@@ -39,16 +45,28 @@ namespace StardewConfigMenu.Panel.Components
 				_label = value;
 			}
 		}
+
+		private bool _visible = false;
 		internal protected bool _enabled;
 		internal protected string _label;
 
-		public int Height => this.bounds.Height;
-		public int Width => this.bounds.Width;
-		public int X => this.bounds.X;
-		public int Y => this.bounds.Y;
 
-		public OptionComponent(string label, bool enabled = true)
-		{
+
+		protected Rectangle bounds = new Rectangle();
+		public virtual int Height { get; }
+		public virtual int Width { get; }
+		public virtual int X { get; }
+		public virtual int Y { get; }
+
+		public OptionComponent(string label, bool enabled = true) {
+			this._label = label;
+			this._enabled = enabled;
+			this.AddListeners();
+		}
+
+		public OptionComponent(string label, int x, int y, bool enabled = true) {
+			this.xPositionOnScreen = x;
+			this.yPositionOnScreen = y;
 			this._label = label;
 			this._enabled = enabled;
 			this.AddListeners();
@@ -56,7 +74,7 @@ namespace StardewConfigMenu.Panel.Components
 
 		protected bool IsAvailableForSelection()
 		{
-			if (IsActiveComponent() || OptionComponent.selectedComponent == null)
+			if ((IsActiveComponent() || OptionComponent.selectedComponent == null) && visible)
 			{
 				return true;
 			} else
@@ -84,66 +102,19 @@ namespace StardewConfigMenu.Panel.Components
 		}
 
 		// For moving the component
-		public virtual void draw(SpriteBatch b, int x, int y)
-		{
-			this.bounds.X = x;
-			this.bounds.Y = y;
-			this.draw(b);
-		}
-
-		// static drawing of component
-		public virtual void draw(SpriteBatch b) { }
+		public virtual void draw(SpriteBatch b, int x, int y){}
 
 		internal void AddListeners()
 		{
 			RemoveListeners();
-			ControlEvents.MouseChanged += MouseChanged;
 		}
 
 		internal void RemoveListeners()
 		{
-			ControlEvents.MouseChanged -= MouseChanged;
 			this.UnregisterAsActiveComponent();
 		}
 
-		internal bool invisible = false;
+		public override void receiveLeftClick(int x, int y, bool playSound = true) { }
 
-		protected virtual void MouseChanged(object sender, EventArgsMouseStateChanged e)
-		{
-			if (GameMenu.forcePreventClose) { return; }
-			if (!(Game1.activeClickableMenu is GameMenu)) { return; }
-
-			// only allow one component to be interacted with at a time, and must be on settings tab
-			if (!this.IsAvailableForSelection() || (Game1.activeClickableMenu as GameMenu).currentTab != ModSettings.pageIndex || invisible) { return; }
-
-			if (e.PriorState.LeftButton == ButtonState.Released)
-			{
-				if (e.NewState.LeftButton == ButtonState.Pressed)
-				{
-					// clicked
-					leftClicked(e.NewPosition.X, e.NewPosition.Y);
-				}
-			} else if (e.PriorState.LeftButton == ButtonState.Pressed)
-			{
-				if (e.NewState.LeftButton == ButtonState.Pressed)
-				{
-					leftClickHeld(e.NewPosition.X, e.NewPosition.Y);
-				} else if (e.NewState.LeftButton == ButtonState.Released)
-				{
-					leftClickReleased(e.NewPosition.X, e.NewPosition.Y);
-				}
-			} else
-			{
-				this.UnregisterAsActiveComponent();
-			}
-		}
-
-		protected virtual void leftClicked(int x, int y) { }
-
-		protected virtual void leftClickHeld(int x, int y) { }
-
-		protected virtual void leftClickReleased(int x, int y) { }
-
-		protected virtual void receiveKeyPress(Keys key) { }
 	}
 }
