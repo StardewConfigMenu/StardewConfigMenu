@@ -43,14 +43,17 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 			this.bounds.Width = SpriteText.getWidthOfString(this.label);
 		}
 
-		public override void receiveRightClick(int x, int y, bool playSound = true) {
-			//throw new NotImplementedException();
+		public override void draw(SpriteBatch b, int x, int y) {
+			base.draw(b, x, y);
+			this.bounds.X = x;
+			this.bounds.Y = y;
+			this.draw(b);
 		}
 
 		// static drawing of component
 		public override void draw(SpriteBatch b)
 		{
-			SpriteText.drawString(b, (option != null) ? option.LabelText : this.label, this.bounds.X, this.bounds.Y);
+			SpriteText.drawString(b, (option != null) ? option.LabelText : this.label, this.bounds.X, this.bounds.Y - 4 * Game1.pixelZoom);
 		}
 	}
 }
