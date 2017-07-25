@@ -28,14 +28,14 @@ Feel free to submit pull requests. This is my first C# project so it is quite sl
  - [x] Dropdown Component
  - [x] Checkbox Component
  - [x] Button Component
- - [ ] Slider Component
+ - [x] Slider Component
  - [x] Plus/Minus Component
  - [ ] Text Input Component
  - [ ] Keybind Setting Component
  - [ ] More robust testing mods
  - [ ] __CODE CLEANUP/ORGANIZATION__
  - [ ] Code documentation
- - [ ] Complete Wiki
+ - [x] Complete Wiki
  
 ## Modders
 
