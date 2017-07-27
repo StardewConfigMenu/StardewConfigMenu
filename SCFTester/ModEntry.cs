@@ -6,18 +6,15 @@ using StardewValley;
 using StardewConfigFramework;
 using System.Collections.Specialized;
 
-namespace SCFTester
-{
-	public class ModEntry: Mod
-	{
+namespace SCFTester {
+	public class ModEntry: Mod {
 		internal static IModSettingsFramework Settings;
 		/*********
 		** Public methods
 		*********/
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
-		public override void Entry(IModHelper helper)
-		{
+		public override void Entry(IModHelper helper) {
 			Settings = IModSettingsFramework.Instance;
 			//var options = new ModOptions(this);
 			var options = ModOptions.LoadUserSettings(this);
@@ -74,8 +71,7 @@ namespace SCFTester
 				if (toggledOn)
 					Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf("toggle"), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
 
-				if ((options.GetOptionWithIdentifier("stepperCheck") as ModOptionToggle).IsOn)
-				{
+				if ((options.GetOptionWithIdentifier("stepperCheck") as ModOptionToggle).IsOn) {
 					Game1.spriteBatch.DrawString(Game1.dialogueFont, stepper.Value.ToString(), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
 				}
 			};
@@ -83,15 +79,13 @@ namespace SCFTester
 
 		private ModOptionSelection dropdown;
 
-		private void DisableDrop_ValueChanged(string identifier, bool isOn)
-		{
+		private void DisableDrop_ValueChanged(string identifier, bool isOn) {
 			dropdown.enabled = isOn;
 		}
 
 		private bool toggledOn = false;
 
-		private void Dropdown_ValueChanged(string identifier, string selection)
-		{
+		private void Dropdown_ValueChanged(string identifier, string selection) {
 			if (selection == "toggle")
 				toggledOn = !toggledOn;
 		}
@@ -100,8 +94,7 @@ namespace SCFTester
 		** Private methods
 		*********/
 
-		private void StardewConfigFrameworkLoaded()
-		{
+		private void StardewConfigFrameworkLoaded() {
 
 		}
 	}

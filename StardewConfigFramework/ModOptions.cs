@@ -79,13 +79,13 @@ namespace StardewConfigFramework {
 
 		private static JsonSerializerSettings serializer = new JsonSerializerSettings {
 			Formatting = Formatting.Indented//,
-			//TypeNameHandling = TypeNameHandling.Auto
+																			//TypeNameHandling = TypeNameHandling.Auto
 		};
 
 		public static ModOptions LoadUserSettings(Mod mod) {
 			var path = Path.Combine(mod.Helper.DirectoryPath, "StardewConfig.json");
 
-			
+
 			try {
 				string json = File.ReadAllText(path);
 				var options = JsonConvert.DeserializeObject<ModOptions>(json, new ModOptionsConverter());

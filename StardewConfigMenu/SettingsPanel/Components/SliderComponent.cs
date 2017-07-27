@@ -36,7 +36,7 @@ namespace StardewConfigMenu.Panel.Components {
 		protected int valueLabelWidth {
 			get {
 				if (showValue)
-					return (int) Math.Max( Game1.dialogueFont.MeasureString($"{min}").X, Game1.dialogueFont.MeasureString($"{max}").X);
+					return (int) Math.Max(Game1.dialogueFont.MeasureString($"{min}").X, Game1.dialogueFont.MeasureString($"{max}").X);
 				else
 					return 0;
 			}
@@ -147,14 +147,14 @@ namespace StardewConfigMenu.Panel.Components {
 			bounds.X = x;
 			bounds.Y = y;
 
-			if (showValue) 
+			if (showValue)
 				bounds.X += valueLabelWidth + 4 * Game1.pixelZoom;
-			
+
 
 			this.draw(b);
 		}
 
-		
+
 
 		public override void draw(SpriteBatch b) {
 			base.draw(b);
@@ -166,7 +166,7 @@ namespace StardewConfigMenu.Panel.Components {
 
 			IClickableMenu.drawTextureBox(b, Game1.mouseCursors, OptionsSlider.sliderBGSource, this.bounds.X, this.bounds.Y, this.bounds.Width, this.bounds.Height, Color.White, (float) Game1.pixelZoom, false);
 
-			b.Draw(Game1.mouseCursors, new Vector2(this.bounds.X + (float) ( (this.bounds.Width - 10 * Game1.pixelZoom) * (((this.Value - min) / stepSize) /  ((max - min) / stepSize))), (float) (this.bounds.Y)), new Rectangle?(OptionsSlider.sliderButtonRect), Color.White, 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.9f);
+			b.Draw(Game1.mouseCursors, new Vector2(this.bounds.X + (float) ((this.bounds.Width - 10 * Game1.pixelZoom) * (((this.Value - min) / stepSize) / ((max - min) / stepSize))), (float) (this.bounds.Y)), new Rectangle?(OptionsSlider.sliderButtonRect), Color.White, 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.9f);
 
 			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.bounds.Right + Game1.pixelZoom * 4), (float) (this.bounds.Y + ((this.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 		}

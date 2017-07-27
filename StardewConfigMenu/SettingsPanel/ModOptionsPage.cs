@@ -10,23 +10,19 @@ using StardewValley.BellsAndWhistles;
 using StardewConfigMenu.Panel.Components;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel
-{
-	public class ModOptionsPage: IClickableMenu
-	{
+namespace StardewConfigMenu.Panel {
+	public class ModOptionsPage: IClickableMenu {
 
 		private ModSettings controller;
 		private List<ModSheet> Sheets = new List<ModSheet>();
 		private DropDownComponent modSelected;
 
-		internal ModOptionsPage(ModSettings controller, int x, int y, int width, int height) : base(x, y, width, height, false)
-		{
+		internal ModOptionsPage(ModSettings controller, int x, int y, int width, int height) : base(x, y, width, height, false) {
 			this.controller = controller;
 
 			var modChoices = new List<string>();
 
-			for (int i = 0; i < this.controller.ModOptionsList.Count; i++)
-			{
+			for (int i = 0; i < this.controller.ModOptionsList.Count; i++) {
 
 				// Create mod page and add it, hide it initially
 				this.Sheets.Add(new ModSheet(this.controller.ModOptionsList[i], (int) (this.xPositionOnScreen + Game1.pixelZoom * 15), (int) (this.yPositionOnScreen + Game1.pixelZoom * 55), this.width - (Game1.pixelZoom * 15), this.height - Game1.pixelZoom * 65));
@@ -45,8 +41,7 @@ namespace StardewConfigMenu.Panel
 
 		}
 
-		static public void SetActive()
-		{
+		static public void SetActive() {
 			var gameMenu = (GameMenu) Game1.activeClickableMenu;
 			if (ModSettings.pageIndex != null)
 				gameMenu.currentTab = (int) ModSettings.pageIndex;
@@ -54,18 +49,15 @@ namespace StardewConfigMenu.Panel
 
 		public override void receiveRightClick(int x, int y, bool playSound = true) { }
 
-		internal void AddListeners()
-		{
+		internal void AddListeners() {
 			RemoveListeners();
 
 			ControlEvents.MouseChanged += MouseChanged;
 			modSelected.DropDownOptionSelected += DisableBackgroundSheets;
 		}
 
-		internal void RemoveListeners(bool children = false)
-		{
-			if (children)
-			{
+		internal void RemoveListeners(bool children = false) {
+			if (children) {
 				modSelected.RemoveListeners();
 				Sheets.ForEach(x => { x.RemoveListeners(true); });
 			}
@@ -120,8 +112,7 @@ namespace StardewConfigMenu.Panel
 
 		//private OptionComponent tester = new SliderComponent("Hey", 0, 10, 1, 5, true);
 
-		public override void draw(SpriteBatch b)
-		{
+		public override void draw(SpriteBatch b) {
 			//base.draw(b);
 			//tester.draw(b);
 			if (!(Game1.activeClickableMenu is GameMenu)) { return; } // must be main menu

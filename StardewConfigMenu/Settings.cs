@@ -9,15 +9,12 @@ using StardewConfigFramework;
 using StardewConfigMenu.Panel;
 using System.IO;
 
-namespace StardewConfigMenu
-{
-	public class ModSettings: IModSettingsFramework
-	{
+namespace StardewConfigMenu {
+	public class ModSettings: IModSettingsFramework {
 		public static int? pageIndex = null;
 		static internal ModEntry Mod;
 
-		internal ModSettings(ModEntry mod)
-		{
+		internal ModSettings(ModEntry mod) {
 			ModSettings.Mod = mod;
 			ModSettings.Instance = this;
 			MenuEvents.MenuChanged += MenuOpened;
@@ -40,8 +37,7 @@ namespace StardewConfigMenu
 				else return data;
 		}*/
 
-		static internal void Log(string str, LogLevel level = LogLevel.Debug)
-		{
+		static internal void Log(string str, LogLevel level = LogLevel.Debug) {
 			Mod.Monitor.Log(str, level);
 		}
 
@@ -51,13 +47,10 @@ namespace StardewConfigMenu
 
 		internal List<ModOptions> ModOptionsList = new List<ModOptions>();
 
-		public override void AddModOptions(ModOptions modOptions)
-		{
+		public override void AddModOptions(ModOptions modOptions) {
 			// Only one per mod, remove old one
-			foreach (ModOptions mod in this.ModOptionsList)
-			{
-				if (mod.modManifest.Name == modOptions.modManifest.Name)
-				{
+			foreach (ModOptions mod in this.ModOptionsList) {
+				if (mod.modManifest.Name == modOptions.modManifest.Name) {
 					ModOptionsList.Remove(mod);
 				}
 			}
@@ -70,21 +63,17 @@ namespace StardewConfigMenu
 		/// <summary>
 		/// Removes the delegates that handle the button click and draw method of the tab
 		/// </summary>
-		private void MenuClosed(object sender, EventArgsClickableMenuClosed e)
-		{
+		private void MenuClosed(object sender, EventArgsClickableMenuClosed e) {
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPreRenderGuiEvent -= HandleJunimo;
 
-			if (this.tab != null)
-			{
+			if (this.tab != null) {
 				this.tab.RemoveListeners();
 				this.tab = null;
 			}
 
-			if (this.page != null)
-			{
-				if (e.PriorMenu is GameMenu)
-				{
+			if (this.page != null) {
+				if (e.PriorMenu is GameMenu) {
 					List<IClickableMenu> pages = ModEntry.helper.Reflection.GetPrivateField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
 					pages.Remove(this.page);
 				}
@@ -98,8 +87,7 @@ namespace StardewConfigMenu
 		/// <summary>
 		/// Attaches the delegates that handle the button click and draw method of the tab
 		/// </summary>
-		private void MenuOpened(object sender, EventArgsClickableMenuChanged e)
-		{
+		private void MenuOpened(object sender, EventArgsClickableMenuChanged e) {
 			// copied from MenuClosed
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPreRenderGuiEvent -= HandleJunimo;
@@ -121,8 +109,7 @@ namespace StardewConfigMenu
 				ModSettings.pageIndex = null;
 			}
 
-			if (!(e.NewMenu is GameMenu))
-			{
+			if (!(e.NewMenu is GameMenu)) {
 				this.tab = null;
 				this.page = null;
 				ModSettings.pageIndex = null;
@@ -152,31 +139,26 @@ namespace StardewConfigMenu
 
 		private ClickableTextureComponent junimoNoteIconStorage;
 
-		private void HandleJunimo(object sender, EventArgs e)
-		{
+		private void HandleJunimo(object sender, EventArgs e) {
 			if (!(Game1.activeClickableMenu is GameMenu))
 				return;
 
 			var gameMenu = Game1.activeClickableMenu as GameMenu;
 
 			// Remove Community Center Icon from Options, Exit Game, and Mod Options pages
-			if (gameMenu.currentTab == ModSettings.pageIndex || gameMenu.currentTab == 6 || gameMenu.currentTab == 7)
-			{
-				if (gameMenu.junimoNoteIcon != null)
-				{
+			if (gameMenu.currentTab == ModSettings.pageIndex || gameMenu.currentTab == 6 || gameMenu.currentTab == 7) {
+				if (gameMenu.junimoNoteIcon != null) {
 					this.junimoNoteIconStorage = gameMenu.junimoNoteIcon;
 					gameMenu.junimoNoteIcon = null;
 				}
-			} else if (this.junimoNoteIconStorage != null)
-			{
+			} else if (this.junimoNoteIconStorage != null) {
 				gameMenu.junimoNoteIcon = this.junimoNoteIconStorage;
 				this.junimoNoteIconStorage = null;
 			}
 		}
 
 
-		private void RenderTab(object sender, EventArgs e)
-		{
+		private void RenderTab(object sender, EventArgs e) {
 
 			if (!(Game1.activeClickableMenu is GameMenu))
 				return;

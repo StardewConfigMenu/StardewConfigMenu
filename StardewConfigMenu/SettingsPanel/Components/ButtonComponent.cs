@@ -10,12 +10,10 @@ using StardewConfigFramework;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel.Components
-{
+namespace StardewConfigMenu.Panel.Components {
 	internal delegate void ButtonPressed();
 
-	internal class ButtonComponent: OptionComponent
-	{
+	internal class ButtonComponent: OptionComponent {
 
 		internal event ButtonPressed ButtonPressed;
 
@@ -25,11 +23,9 @@ namespace StardewConfigMenu.Panel.Components
 		private Rectangle doneButtonSource = new Rectangle(441, 411, 24, 13);
 		private Rectangle giftButtonSource = new Rectangle(229, 410, 14, 14);
 
-		protected Rectangle buttonSource
-		{
+		protected Rectangle buttonSource {
 			get {
-				switch (this.ActionType)
-				{
+				switch (this.ActionType) {
 				case OptionActionType.DONE:
 					return this.doneButtonSource;
 				case OptionActionType.CLEAR:
@@ -46,11 +42,9 @@ namespace StardewConfigMenu.Panel.Components
 			}
 		}
 
-		protected float buttonScale
-		{
+		protected float buttonScale {
 			get {
-				switch (this.ActionType)
-				{
+				switch (this.ActionType) {
 				case OptionActionType.DONE:
 					return (float) Game1.pixelZoom;
 				case OptionActionType.CLEAR:
@@ -67,8 +61,7 @@ namespace StardewConfigMenu.Panel.Components
 			}
 		}
 
-		public virtual OptionActionType ActionType
-		{
+		public virtual OptionActionType ActionType {
 			get {
 				return _ActionType;
 			}
@@ -94,8 +87,7 @@ namespace StardewConfigMenu.Panel.Components
 
 		protected ClickableTextureComponent button;
 
-		internal ButtonComponent(string label, OptionActionType type, int x, int y, bool enabled = true) : base(label, enabled)
-		{
+		internal ButtonComponent(string label, OptionActionType type, int x, int y, bool enabled = true) : base(label, enabled) {
 			this._ActionType = type;
 
 			button = new ClickableTextureComponent(new Rectangle(x, y, (int) (buttonScale * buttonSource.Width), (int) (buttonScale * buttonSource.Height)), Game1.mouseCursors, buttonSource, buttonScale);
@@ -129,8 +121,7 @@ namespace StardewConfigMenu.Panel.Components
 			this.draw(b);
 		}
 
-		public override void draw(SpriteBatch b)
-		{
+		public override void draw(SpriteBatch b) {
 			base.draw(b);
 
 			// draw button

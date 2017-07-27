@@ -5,18 +5,15 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewConfigFramework;
 
-namespace SCFTester2
-{
-	public class ModEntry: Mod
-	{
+namespace SCFTester2 {
+	public class ModEntry: Mod {
 		internal static IModSettingsFramework Settings;
 		/*********
 		** Public methods
 		*********/
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
-		public override void Entry(IModHelper helper)
-		{
+		public override void Entry(IModHelper helper) {
 			Settings = IModSettingsFramework.Instance;
 			//var options = new ModOptions(this);
 			var options = ModOptions.LoadUserSettings(this);
@@ -48,8 +45,7 @@ namespace SCFTester2
 			var clearButton = options.GetOptionWithIdentifier<ModOptionTrigger>("clearButton") ?? new ModOptionTrigger("clearButton", "Clear Button", OptionActionType.CLEAR);
 			clearButton.type = OptionActionType.CLEAR;
 			clearButton.ActionTriggered += (identifier) => {
-				switch (clearButton.type)
-				{
+				switch (clearButton.type) {
 				case OptionActionType.CLEAR:
 					clearButton.LabelText = "Are you sure?";
 					clearButton.type = OptionActionType.OK;
@@ -88,7 +84,7 @@ namespace SCFTester2
 		}
 
 		private void SaveEvents_AfterLoad(object sender, EventArgs e) {
-			
+
 		}
 
 
@@ -99,8 +95,7 @@ namespace SCFTester2
 		/// <summary>The method invoked when the game is opened.</summary>
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event data.</param>
-		private void StardewConfigFrameworkLoaded()
-		{
+		private void StardewConfigFrameworkLoaded() {
 
 		}
 	}

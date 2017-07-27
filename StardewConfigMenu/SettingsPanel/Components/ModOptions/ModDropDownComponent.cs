@@ -7,14 +7,11 @@ using StardewConfigFramework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace StardewConfigMenu.Panel.Components.ModOptions
-{
-	internal class ModDropDownComponent: DropDownComponent
-	{
+namespace StardewConfigMenu.Panel.Components.ModOptions {
+	internal class ModDropDownComponent: DropDownComponent {
 		readonly private ModOptionSelection ModData;
 
-		public override bool enabled
-		{
+		public override bool enabled {
 			get {
 				if (!ModData.enabled)
 					return ModData.enabled;
@@ -23,15 +20,13 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 			}
 		}
 
-		public override string label
-		{
+		public override string label {
 			get {
 				return ModData.LabelText;
 			}
 		}
 
-		public override int SelectionIndex
-		{
+		public override int SelectionIndex {
 			get {
 				if (dropDownOptions.Count > 0 && _dropDownDisplayOptions[0] != dropDownOptions[this.ModData.SelectionIndex]) {
 					_dropDownDisplayOptions.Insert(0, dropDownOptions[this.ModData.SelectionIndex]);
@@ -50,24 +45,20 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 			}
 		}
 
-		protected override List<string> dropDownOptions
-		{
+		protected override List<string> dropDownOptions {
 			get {
 				if (this.ModData == null) // for base intialization
 					return new List<string>();
 				else
-				 return new List<string>(this.ModData.Choices.Labels);
+					return new List<string>(this.ModData.Choices.Labels);
 			}
 		}
 
-		protected override List<string> dropDownDisplayOptions
-		{
+		protected override List<string> dropDownDisplayOptions {
 			get {
-				if (ModData.Choices.Count == 0)
-				{
+				if (ModData.Choices.Count == 0) {
 					_dropDownDisplayOptions.Clear();
-				} else
-				{
+				} else {
 					var options = dropDownOptions;
 					var toRemove = _dropDownDisplayOptions.Except(options).ToList();
 					var toAdd = options.Except(_dropDownDisplayOptions).ToList();
@@ -83,13 +74,11 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 
 		public ModDropDownComponent(ModOptionSelection option, int width) : this(option, width, 0, 0) { }
 
-		public ModDropDownComponent(ModOptionSelection option, int width, int x, int y) : base(option.LabelText, width, x, y)
-		{
+		public ModDropDownComponent(ModOptionSelection option, int width, int x, int y) : base(option.LabelText, width, x, y) {
 			this.ModData = option;
 		}
 
-		protected override void SelectDisplayedOption(int DisplayedSelection)
-		{
+		protected override void SelectDisplayedOption(int DisplayedSelection) {
 			if (this.ModData.Choices.Count == 0)
 				return;
 

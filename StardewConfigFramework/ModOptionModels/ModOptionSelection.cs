@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using Newtonsoft.Json;
 
-namespace StardewConfigFramework
-{
+namespace StardewConfigFramework {
 	public delegate void ModOptionSelectionHandler(string ComponentIdentifier, string selectionIdentifier);
 
-	public class ModOptionSelection: ModOption
-	{
+	public class ModOptionSelection: ModOption {
 		public event ModOptionSelectionHandler ValueChanged;
 
 		/// <summary>
@@ -40,8 +38,7 @@ namespace StardewConfigFramework
 
 		private int _SelectionIndex = 0;
 		[JsonIgnore]
-		public int SelectionIndex
-		{
+		public int SelectionIndex {
 			get {
 				return _SelectionIndex;
 			}
@@ -49,8 +46,7 @@ namespace StardewConfigFramework
 				if (value > ((this.Choices.Count == 0) ? this.Choices.Count : this.Choices.Count - 1) || value < 0)
 					throw new IndexOutOfRangeException("Selection is out of range of Choices");
 
-				if (_SelectionIndex != value)
-				{
+				if (_SelectionIndex != value) {
 					_SelectionIndex = value;
 					this.ValueChanged?.Invoke(this.identifier, this.Selection);
 				}
@@ -58,8 +54,7 @@ namespace StardewConfigFramework
 		}
 
 		//public string Selection => Choices.IdentifierOfIndex(this._SelectionIndex);
-		public string Selection
-		{
+		public string Selection {
 			get {
 				return Choices.IdentifierOf(this._SelectionIndex);
 			}
@@ -67,8 +62,7 @@ namespace StardewConfigFramework
 				if (!Choices.Contains(value))
 					throw new IndexOutOfRangeException("Identifier does not exist in Choices");
 
-				if (_SelectionIndex != Choices.IndexOf(value))
-				{
+				if (_SelectionIndex != Choices.IndexOf(value)) {
 					_SelectionIndex = Choices.IndexOf(value);
 					this.ValueChanged?.Invoke(this.identifier, this.Selection);
 				}
@@ -79,14 +73,12 @@ namespace StardewConfigFramework
 	/// <summary>
 	/// Contains the choices of a ModOptionSelection
 	/// </summary>
-	public class ModSelectionOptionChoices: OrderedDictionary
-	{
+	public class ModSelectionOptionChoices: OrderedDictionary {
 		/// <summary>
 		/// Gets or sets the Label with the specified key.
 		/// </summary>
 		/// <param name="key">Key.</param>
-		public new string this[int key]
-		{
+		public new string this[int key] {
 			get {
 				return base[key] as string;
 			}
@@ -99,8 +91,7 @@ namespace StardewConfigFramework
 		/// Gets or sets the Labeel with the specified identifier.
 		/// </summary>
 		/// <param name="identifier">Identifier.</param>
-		public string this[string identifier]
-		{
+		public string this[string identifier] {
 			get {
 				return base[identifier] as string;
 			}
@@ -109,8 +100,7 @@ namespace StardewConfigFramework
 			}
 		}
 
-		public void Insert(int index, string identifier, string label)
-		{
+		public void Insert(int index, string identifier, string label) {
 			base.Remove(identifier);
 			base.Insert(index, identifier, label);
 		}
@@ -133,23 +123,19 @@ namespace StardewConfigFramework
 		/// Remove the specified identifier.
 		/// </summary>
 		/// <param name="identifier">Identifier.</param>
-		public void Remove(string identifier)
-		{
+		public void Remove(string identifier) {
 			base.Remove(identifier);
 		}
 
-		public bool Contains(string identifier)
-		{
+		public bool Contains(string identifier) {
 			return base.Contains(identifier);
 		}
 
-		public int IndexOfLabel(string label)
-		{
+		public int IndexOfLabel(string label) {
 			return this.Labels.IndexOf(label);
 		}
 
-		public string IdentifierOfLabel(string label)
-		{
+		public string IdentifierOfLabel(string label) {
 			return this.IdentifierOf(this.Labels.IndexOf(label));
 		}
 
@@ -158,13 +144,11 @@ namespace StardewConfigFramework
 		/// </summary>
 		/// <returns>the index, or -1 if not found.</returns>
 		/// <param name="identifier">Identifier.</param>
-		public int IndexOf(string identifier)
-		{
+		public int IndexOf(string identifier) {
 			return this.Identifiers.IndexOf(identifier);
 		}
 
-		public string IdentifierOf(int index)
-		{
+		public string IdentifierOf(int index) {
 			if (Keys.Count == 0 || index < 0 || index >= Keys.Count)
 				return string.Empty;
 			String[] myKeys = new String[Keys.Count];
@@ -172,18 +156,15 @@ namespace StardewConfigFramework
 			return myKeys[index];
 		}
 
-		public string LabelOf(int index)
-		{
+		public string LabelOf(int index) {
 			return this[index];
 		}
 
-		public string LabelOf(string identifier)
-		{
+		public string LabelOf(string identifier) {
 			return this[identifier];
 		}
 
-		public List<string> Identifiers
-		{
+		public List<string> Identifiers {
 			get {
 				if (this.Keys.Count == 0)
 					return new List<string>();
@@ -194,8 +175,7 @@ namespace StardewConfigFramework
 			}
 		}
 
-		public List<string> Labels
-		{
+		public List<string> Labels {
 			get {
 				if (this.Values.Count == 0)
 					return new List<string>();
@@ -208,24 +188,20 @@ namespace StardewConfigFramework
 
 		// Blocking other options
 
-		public new string this[object stop]
-		{
+		public new string this[object stop] {
 			get { throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices"); }
 			set { throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices"); }
 		}
 
-		public new void Add(object dont, object use)
-		{
+		public new void Add(object dont, object use) {
 			throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices");
 		}
 
-		public new void Remove(object stop)
-		{
+		public new void Remove(object stop) {
 			throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices");
 		}
 
-		public new void Insert(int index, object dont, object use)
-		{
+		public new void Insert(int index, object dont, object use) {
 			throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices");
 		}
 

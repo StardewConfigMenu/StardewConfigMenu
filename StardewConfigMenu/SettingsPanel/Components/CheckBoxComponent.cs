@@ -10,12 +10,10 @@ using StardewConfigFramework;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel.Components
-{
+namespace StardewConfigMenu.Panel.Components {
 	internal delegate void CheckBoxToggled(bool isOn);
 
-	internal class CheckBoxComponent: OptionComponent
-	{
+	internal class CheckBoxComponent: OptionComponent {
 
 		internal event CheckBoxToggled CheckBoxToggled;
 
@@ -30,8 +28,7 @@ namespace StardewConfigMenu.Panel.Components
 		// Static Fields
 		//
 
-		public virtual bool IsChecked
-		{
+		public virtual bool IsChecked {
 			get {
 				return _IsChecked;
 			}
@@ -55,8 +52,7 @@ namespace StardewConfigMenu.Panel.Components
 		// Fields
 		//
 
-		internal CheckBoxComponent(string label, bool isChecked, int x, int y, bool enabled = true) : base(label, enabled)
-		{
+		internal CheckBoxComponent(string label, bool isChecked, int x, int y, bool enabled = true) : base(label, enabled) {
 			this.checkbox.bounds.X = x;
 			this.checkbox.bounds.Y = y;
 			//base.height = checkbox.bounds.Height;
@@ -68,8 +64,7 @@ namespace StardewConfigMenu.Panel.Components
 			this._IsChecked = isChecked;
 		}
 
-		internal CheckBoxComponent(string label, bool isChecked, bool enabled = true) : base(label, enabled)
-		{
+		internal CheckBoxComponent(string label, bool isChecked, bool enabled = true) : base(label, enabled) {
 			//base.height = checkbox.bounds.Height;
 			//base.width = checkbox.bounds.Width;
 
@@ -90,7 +85,7 @@ namespace StardewConfigMenu.Panel.Components
 		}
 
 		public override void receiveRightClick(int x, int y, bool playSound = true) {
-			
+
 		}
 
 		public override void draw(SpriteBatch b, int x, int y) {
@@ -99,8 +94,7 @@ namespace StardewConfigMenu.Panel.Components
 			this.draw(b);
 		}
 
-		public override void draw(SpriteBatch b)
-		{
+		public override void draw(SpriteBatch b) {
 			base.draw(b);
 
 			if (IsChecked)
@@ -117,6 +111,6 @@ namespace StardewConfigMenu.Panel.Components
 
 		}
 
-		
+
 	}
 }

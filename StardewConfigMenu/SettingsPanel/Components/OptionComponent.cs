@@ -13,10 +13,8 @@ using StardewModdingAPI.Events;
 
 
 
-namespace StardewConfigMenu.Panel.Components
-{
-	abstract class OptionComponent
-	{
+namespace StardewConfigMenu.Panel.Components {
+	abstract class OptionComponent {
 		static protected OptionComponent selectedComponent;
 
 		virtual internal bool visible {
@@ -26,8 +24,7 @@ namespace StardewConfigMenu.Panel.Components
 			}
 		}
 
-		public virtual bool enabled
-		{
+		public virtual bool enabled {
 			get {
 				return _enabled;
 			}
@@ -36,8 +33,7 @@ namespace StardewConfigMenu.Panel.Components
 			}
 		}
 
-		public virtual string label
-		{
+		public virtual string label {
 			get {
 				return _label;
 			}
@@ -67,32 +63,25 @@ namespace StardewConfigMenu.Panel.Components
 			this.AddListeners();
 		}
 
-		protected bool IsAvailableForSelection()
-		{
-			if ((IsActiveComponent() || OptionComponent.selectedComponent == null) && visible)
-			{
+		protected bool IsAvailableForSelection() {
+			if ((IsActiveComponent() || OptionComponent.selectedComponent == null) && visible) {
 				return true;
-			} else
-			{
+			} else {
 				return false;
 			}
 		}
 
-		protected void RegisterAsActiveComponent()
-		{
+		protected void RegisterAsActiveComponent() {
 			OptionComponent.selectedComponent = this;
 		}
 
-		protected void UnregisterAsActiveComponent()
-		{
-			if (this.IsActiveComponent())
-			{
+		protected void UnregisterAsActiveComponent() {
+			if (this.IsActiveComponent()) {
 				OptionComponent.selectedComponent = null;
 			}
 		}
 
-		internal bool IsActiveComponent()
-		{
+		internal bool IsActiveComponent() {
 			return OptionComponent.selectedComponent == this;
 		}
 
@@ -101,13 +90,11 @@ namespace StardewConfigMenu.Panel.Components
 
 		public virtual void draw(SpriteBatch b) { }
 
-		internal void AddListeners()
-		{
+		internal void AddListeners() {
 			RemoveListeners();
 		}
 
-		internal void RemoveListeners()
-		{
+		internal void RemoveListeners() {
 			this.UnregisterAsActiveComponent();
 			this.visible = false;
 		}

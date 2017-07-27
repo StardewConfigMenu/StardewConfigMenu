@@ -9,11 +9,9 @@ using StardewConfigFramework;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel.Components.ModOptions
-{
+namespace StardewConfigMenu.Panel.Components.ModOptions {
 
-	internal class ModCheckBoxComponent: CheckBoxComponent
-	{
+	internal class ModCheckBoxComponent: CheckBoxComponent {
 		//
 		// Static Fields
 		//
@@ -24,8 +22,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 		//
 		readonly private ModOptionToggle Option;
 
-		public override bool IsChecked
-		{
+		public override bool IsChecked {
 			get { return Option.IsOn; }
 			protected set {
 				if (Option == null)
@@ -34,27 +31,23 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 			}
 		}
 
-		public override bool enabled
-		{
+		public override bool enabled {
 			get {
 				return Option.enabled;
 			}
 		}
 
-		public override string label
-		{
+		public override string label {
 			get {
 				return Option.LabelText;
 			}
 		}
 
-		internal ModCheckBoxComponent(ModOptionToggle option, int x, int y) : base(option.LabelText, option.IsOn, x, y, option.enabled)
-		{
+		internal ModCheckBoxComponent(ModOptionToggle option, int x, int y) : base(option.LabelText, option.IsOn, x, y, option.enabled) {
 			this.Option = option;
 		}
 
-		internal ModCheckBoxComponent(ModOptionToggle option) : base(option.LabelText, option.IsOn, option.enabled)
-		{
+		internal ModCheckBoxComponent(ModOptionToggle option) : base(option.LabelText, option.IsOn, option.enabled) {
 			this.Option = option;
 		}
 

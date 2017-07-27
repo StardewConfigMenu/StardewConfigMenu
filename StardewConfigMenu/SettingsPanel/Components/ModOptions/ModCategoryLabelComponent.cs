@@ -13,13 +13,10 @@ using StardewModdingAPI.Events;
 using StardewConfigFramework;
 
 
-namespace StardewConfigMenu.Panel.Components.ModOptions
-{
-	class ModCategoryLabelComponent: OptionComponent
-	{
+namespace StardewConfigMenu.Panel.Components.ModOptions {
+	class ModCategoryLabelComponent: OptionComponent {
 
-		public override bool enabled
-		{
+		public override bool enabled {
 			get { return true; }
 			protected set { }
 		}
@@ -28,15 +25,13 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 
 		Rectangle bounds = new Rectangle();
 
-		public ModCategoryLabelComponent(ModOptionCategoryLabel option) : base(option.LabelText)
-		{
+		public ModCategoryLabelComponent(ModOptionCategoryLabel option) : base(option.LabelText) {
 			this.option = option;
 			this.bounds.Height = SpriteText.getHeightOfString(this.label);
 			this.bounds.Width = SpriteText.getWidthOfString(this.label);
 		}
 
-		public ModCategoryLabelComponent(string labelText, int x, int y) : base(labelText)
-		{
+		public ModCategoryLabelComponent(string labelText, int x, int y) : base(labelText) {
 			this.bounds.X = x;
 			this.bounds.Y = y;
 			this.bounds.Height = SpriteText.getHeightOfString(this.label);
@@ -51,8 +46,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions
 		}
 
 		// static drawing of component
-		public override void draw(SpriteBatch b)
-		{
+		public override void draw(SpriteBatch b) {
 			SpriteText.drawString(b, (option != null) ? option.LabelText : this.label, this.bounds.X, this.bounds.Y - 4 * Game1.pixelZoom);
 		}
 	}

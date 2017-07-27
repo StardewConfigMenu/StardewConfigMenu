@@ -9,12 +9,10 @@ using StardewConfigFramework;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel.Components
-{
+namespace StardewConfigMenu.Panel.Components {
 	internal delegate void DropDownOptionSelected(int selected);
 
-	internal class DropDownComponent: OptionComponent
-	{
+	internal class DropDownComponent: OptionComponent {
 
 		internal event DropDownOptionSelected DropDownOptionSelected;
 		//
@@ -55,8 +53,7 @@ namespace StardewConfigMenu.Panel.Components
 			}
 		}
 
-		public virtual int SelectionIndex
-		{
+		public virtual int SelectionIndex {
 			get { return (dropDownOptions.Count != 0) ? dropDownOptions.IndexOf(this.dropDownDisplayOptions[0]) : -1; }
 			set {
 				if (SelectionIndex == value)
@@ -72,8 +69,7 @@ namespace StardewConfigMenu.Panel.Components
 
 		private int hoveredChoice = 0;
 
-		public override bool enabled
-		{
+		public override bool enabled {
 			get {
 				if (!_enabled)
 					return _enabled;
@@ -88,22 +84,18 @@ namespace StardewConfigMenu.Panel.Components
 		// Original List
 		private List<string> _dropDownOptions = new List<string>();
 
-		protected virtual List<string> dropDownOptions
-		{
+		protected virtual List<string> dropDownOptions {
 			get { return _dropDownOptions; }
 		}
 
 		// List where order can be changed
 		protected List<string> _dropDownDisplayOptions = new List<string>();
 
-		protected virtual List<string> dropDownDisplayOptions
-		{
+		protected virtual List<string> dropDownDisplayOptions {
 			get {
-				if (_dropDownOptions.Count == 0)
-				{
+				if (_dropDownOptions.Count == 0) {
 					_dropDownDisplayOptions.Clear();
-				} else
-				{
+				} else {
 					var options = dropDownOptions;
 					var toRemove = _dropDownDisplayOptions.Except(options).ToList();
 					var toAdd = options.Except(_dropDownDisplayOptions).ToList();
@@ -117,8 +109,7 @@ namespace StardewConfigMenu.Panel.Components
 			}
 		}
 
-		protected virtual void SelectDisplayedOption(int DisplayedSelection)
-		{
+		protected virtual void SelectDisplayedOption(int DisplayedSelection) {
 			if (DisplayedSelection == 0)
 				return;
 			var selected = dropDownDisplayOptions[DisplayedSelection];
@@ -138,9 +129,8 @@ namespace StardewConfigMenu.Panel.Components
 			//this.dropDownBounds = new Rectangle(this.bounds.X, this.bounds.Y, width, this.bounds.Height * this.dropDownOptions.Count);
 		}
 
-		public DropDownComponent(List<string> choices, string label, int width, int x, int y, bool enabled = true) : this(label, width, x, y, enabled)
-		{
-			this._dropDownOptions.AddRange(choices);			
+		public DropDownComponent(List<string> choices, string label, int width, int x, int y, bool enabled = true) : this(label, width, x, y, enabled) {
+			this._dropDownOptions.AddRange(choices);
 		}
 
 
@@ -153,7 +143,7 @@ namespace StardewConfigMenu.Panel.Components
 		// Methods
 		//
 
-	  protected void updateLocation(int x, int y, int width) {
+		protected void updateLocation(int x, int y, int width) {
 			this.dropDown.bounds.X = x;
 			this.dropDown.bounds.Y = y;
 			this.dropDown.bounds.Width = width;
@@ -166,14 +156,12 @@ namespace StardewConfigMenu.Panel.Components
 			this.dropDownBackground.bounds.Width = width;
 		}
 
-		public override void draw(SpriteBatch b, int x, int y)
-		{
+		public override void draw(SpriteBatch b, int x, int y) {
 			updateLocation(x, y, this.dropDown.bounds.Width);
 			this.draw(b);
 		}
 
-		public override void draw(SpriteBatch b)
-		{
+		public override void draw(SpriteBatch b) {
 			base.draw(b);
 
 			dropDownBackground.bounds.Height = this.dropDown.bounds.Height * dropDownDisplayOptions.Count;
@@ -186,24 +174,20 @@ namespace StardewConfigMenu.Panel.Components
 			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.dropDownButton.bounds.Right + Game1.pixelZoom * 2), (float) (this.dropDown.bounds.Y + ((this.dropDown.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 
 			// If menu is being clicked, and no other components are in use (to prevent click overlap of the dropdown)
-			if (this.IsActiveComponent())
-			{
+			if (this.IsActiveComponent()) {
 				// Draw Background of dropdown
 				IClickableMenu.drawTextureBox(b, Game1.mouseCursors, OptionsDropDown.dropDownBGSource, this.dropDownBackground.bounds.X, this.dropDownBackground.bounds.Y, this.dropDownBackground.bounds.Width, this.dropDownBackground.bounds.Height, Color.White * buttonAlpha, (float) Game1.pixelZoom, false);
 				//dropDownBackground.draw(b);
 
-				for (int i = 0; i < this.dropDownDisplayOptions.Count; i++)
-				{
-					if (i == this.hoveredChoice && dropDownBackground.containsPoint(Game1.getMouseX(), Game1.getMouseY()))
-					{
+				for (int i = 0; i < this.dropDownDisplayOptions.Count; i++) {
+					if (i == this.hoveredChoice && dropDownBackground.containsPoint(Game1.getMouseX(), Game1.getMouseY())) {
 						b.Draw(Game1.staminaRect, new Rectangle(this.dropDown.bounds.X, this.dropDown.bounds.Y + i * this.dropDown.bounds.Height, this.dropDown.bounds.Width, this.dropDown.bounds.Height), new Rectangle?(new Rectangle(0, 0, 1, 1)), Color.Wheat, 0f, Vector2.Zero, SpriteEffects.None, 0.975f);
 					}
 					b.DrawString(Game1.smallFont, this.dropDownDisplayOptions[i], new Vector2((float) (this.dropDownBackground.bounds.X + Game1.pixelZoom), (float) (this.dropDownBackground.bounds.Y + Game1.pixelZoom * 2 + this.dropDown.bounds.Height * i)), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.98f);
 				}
 				dropDownButton.draw(b);
 				//b.Draw(Game1.mouseCursors, new Vector2((float) (this.bounds.X + this.bounds.Width - Game1.pixelZoom * 12), (float) (this.bounds.Y)), new Rectangle?(OptionsDropDown.dropDownButtonSource), Color.Wheat * scale, 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.981f);
-			} else
-			{
+			} else {
 				IClickableMenu.drawTextureBox(b, Game1.mouseCursors, OptionsDropDown.dropDownBGSource, this.dropDown.bounds.X, this.dropDown.bounds.Y, this.dropDown.bounds.Width, this.dropDown.bounds.Height, Color.White * buttonAlpha, (float) Game1.pixelZoom, false);
 				//dropDown.draw(b);
 

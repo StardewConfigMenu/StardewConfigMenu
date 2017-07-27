@@ -10,12 +10,10 @@ using StardewConfigFramework;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel.Components
-{
+namespace StardewConfigMenu.Panel.Components {
 	internal delegate void PlusMinusValueChanged(decimal Value);
 
-	internal class PlusMinusComponent: OptionComponent
-	{
+	internal class PlusMinusComponent: OptionComponent {
 
 		internal event PlusMinusValueChanged PlusMinusValueChanged;
 
@@ -26,8 +24,7 @@ namespace StardewConfigMenu.Panel.Components
 		public override int X => minus.bounds.X;
 		public override int Y => minus.bounds.Y;
 
-		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, int x, int y, DisplayType type = DisplayType.NONE, bool enabled = true) : base(labelText, enabled)
-		{
+		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, int x, int y, DisplayType type = DisplayType.NONE, bool enabled = true) : base(labelText, enabled) {
 			this._min = Math.Round(min, 3);
 			this._max = Math.Round(max, 3);
 			this._stepSize = Math.Round(stepsize, 3);
@@ -48,18 +45,15 @@ namespace StardewConfigMenu.Panel.Components
 
 		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, DisplayType type = DisplayType.NONE, bool enabled = true) : this(labelText, min, max, stepsize, defaultSelection, 0, 0, type, enabled) { }
 
-		protected int typeExtraWidth
-		{
+		protected int typeExtraWidth {
 			get {
 				return (int) Game1.dialogueFont.MeasureString(typeExtraString).X;
 			}
 		}
 
-		protected string typeExtraString
-		{
+		protected string typeExtraString {
 			get {
-				switch (type)
-				{
+				switch (type) {
 				case DisplayType.PERCENT:
 					return "%";
 				default:
@@ -74,8 +68,7 @@ namespace StardewConfigMenu.Panel.Components
 
 		readonly protected Vector2 ValueMaxLabelSize;
 
-		protected Vector2 ValueLabelSize
-		{
+		protected Vector2 ValueLabelSize {
 			get {
 				return Game1.dialogueFont.MeasureString(Value.ToString());
 			}
@@ -91,34 +84,29 @@ namespace StardewConfigMenu.Panel.Components
 		public virtual decimal stepSize => _stepSize;
 
 		private decimal _Value;
-		public virtual decimal Value
-		{
+		public virtual decimal Value {
 			get {
 				return _Value;
 			}
 			protected set {
 				var valid = CheckValidInput(Math.Round(value, 3));
 				var newVal = (int) ((valid - min) / stepSize) * stepSize + min;
-				if (newVal != this._Value)
-				{
+				if (newVal != this._Value) {
 					this._Value = newVal;
 					this.PlusMinusValueChanged?.Invoke(this._Value);
 				}
 			}
 		}
 
-		protected virtual void StepUp()
-		{
+		protected virtual void StepUp() {
 			this.Value += this.stepSize;
 		}
 
-		protected virtual void StepDown()
-		{
+		protected virtual void StepDown() {
 			this.Value -= this.stepSize;
 		}
 
-		protected decimal CheckValidInput(decimal input)
-		{
+		protected decimal CheckValidInput(decimal input) {
 			if (input > _max)
 				return _max;
 
@@ -151,8 +139,7 @@ namespace StardewConfigMenu.Panel.Components
 			this.draw(b);
 		}
 
-		public override void draw(SpriteBatch b)
-		{
+		public override void draw(SpriteBatch b) {
 			base.draw(b);
 
 			minus.draw(b, Color.White * ((this.enabled && (Value - stepSize >= min)) ? 1f : 0.33f), 0.88f);
