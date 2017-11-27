@@ -36,6 +36,8 @@ namespace StardewConfigFramework {
 
 		public ModSelectionOptionChoices Choices { get; private set; } = new ModSelectionOptionChoices();
 
+		public Dictionary<String, String> hoverTextDictionary = null;
+
 		private int _SelectionIndex = 0;
 		[JsonIgnore]
 		public int SelectionIndex {

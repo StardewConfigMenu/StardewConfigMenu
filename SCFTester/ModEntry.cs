@@ -5,6 +5,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewConfigFramework;
 using System.Collections.Specialized;
+using System.Collections.Generic;
 
 namespace SCFTester {
 	public class ModEntry: Mod {
@@ -30,6 +31,12 @@ namespace SCFTester {
 			dropdown.Choices.Replace("toggle", "Toggle");
 			dropdown.Choices.Replace("on", "Always On");
 			dropdown.Choices.Replace("off", "Always Off");
+
+			dropdown.hoverTextDictionary = new Dictionary<string, string>
+				{
+					{ "on", "Hover text for Always On" }, 
+					{ "off", "Hover text for Always Off" }
+				};
 
 			options.AddModOption(dropdown);
 
