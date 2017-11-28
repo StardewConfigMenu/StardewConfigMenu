@@ -4,8 +4,8 @@
   "Version": {
     "MajorVersion": 1,
     "MinorVersion": 0,
-    "PatchVersion": 1,
-    "Build": ""
+    "PatchVersion": 2,
+    "Build": "1"
   },
   "Description": "Allows modders easy access to a unified configuration menu.",
   "UniqueID": "Juice805.StardewConfigMenu",
