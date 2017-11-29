@@ -55,7 +55,7 @@ namespace StardewConfigMenu {
 				}
 			}
 
-			Mod.Monitor.Log($"{modOptions.modManifest.Name} has been added their mod options");
+			Mod.Monitor.Log($"{modOptions.modManifest.Name} has added its mod options");
 
 			ModOptionsList.Add(modOptions);
 		}
