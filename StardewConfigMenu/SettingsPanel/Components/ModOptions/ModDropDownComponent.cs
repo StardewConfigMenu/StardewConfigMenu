@@ -88,21 +88,16 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 			base.SelectDisplayedOption(DisplayedSelection);
 		}
 
-		public override void draw(SpriteBatch b)
-		{
+		public override void draw(SpriteBatch b) {
 			base.draw(b);
 
-			if (!this.IsActiveComponent() && (Game1.getMouseX() > this.X) && (Game1.getMouseX() < this.Width + this.X) && (Game1.getMouseY() > this.Y) && (Game1.getMouseY() < this.Height + this.Y))
-			{
-				if (this.ModData.hoverTextDictionary != null)
-				{
-					if (this.ModData.hoverTextDictionary.ContainsKey(this.ModData.Selection))
-					{
-						IClickableMenu.drawHoverText(b, this.ModData.hoverTextDictionary[this.ModData.Selection], Game1.smallFont);
+			if (!this.IsActiveComponent() && (Game1.getMouseX() > this.X) && (Game1.getMouseX() < this.Width + this.X) && (Game1.getMouseY() > this.Y) && (Game1.getMouseY() < this.Height + this.Y)) {
+				if (this.ModData.hoverTextDictionary != null) {
+					if (this.ModData.hoverTextDictionary.ContainsKey(this.ModData.Selection)) {
+						IClickableMenu.drawHoverText(b, Utilities.GetWordWrappedString(this.ModData.hoverTextDictionary[this.ModData.Selection]), Game1.smallFont);
 					}
 				}
 			}
-
 		}
 	}
 }

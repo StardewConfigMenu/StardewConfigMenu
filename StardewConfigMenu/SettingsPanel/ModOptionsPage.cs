@@ -132,7 +132,7 @@ namespace StardewConfigMenu.Panel {
 			SpriteText.drawString(b, "Mod Options", modSelected.X + modSelected.Width + Game1.pixelZoom * 5, modSelected.Y);
 
 			if (Sheets.Count > 0 && (Game1.getMouseX() > this.modSelected.X && Game1.getMouseX() < this.modSelected.X + this.modSelected.Width) && (Game1.getMouseY() > this.modSelected.Y && Game1.getMouseY() < this.modSelected.Y + this.modSelected.Height) && !modSelected.IsActiveComponent()) {
-				IClickableMenu.drawHoverText(Game1.spriteBatch, this.controller.ModOptionsList[modSelected.SelectionIndex].modManifest.Description, Game1.smallFont);
+				IClickableMenu.drawHoverText(Game1.spriteBatch, Utilities.GetWordWrappedString(this.controller.ModOptionsList[modSelected.SelectionIndex].modManifest.Description), Game1.smallFont);
 			}
 		}
 	}

@@ -8,6 +8,32 @@ using System;
 
 namespace StardewConfigMenu {
 	public class Utilities {
+
+		public static string GetWordWrappedString(string input, int charCount = 60) {
+
+			string output = string.Empty;
+
+			if (input.Length <= charCount) {
+				return string.Copy(input);
+			}
+
+			bool shouldWrap = false;
+
+			for (int i = 0; i < input.Length; i++) {
+				output += input[i];
+
+				if (i % (charCount) == 0) {
+					shouldWrap = true;
+				}
+
+				if (input[i] == ' ') {
+					output += '\n';
+					shouldWrap = false;
+				}
+			}
+			return output;
+		}
+
 		public static void drawHoverTextWithoutShadow(SpriteBatch b, string text, SpriteFont font, int xOffset = 0, int yOffset = 0, int moneyAmountToDisplayAtBottom = -1, string boldTitleText = null, int healAmountToDisplay = -1, string[] buffIconsToDisplay = null, Item hoveredItem = null, int currencySymbol = 0, int extraItemToShowIndex = -1, int extraItemToShowAmount = -1, int overrideX = -1, int overrideY = -1, float alpha = 1f, CraftingRecipe craftingIngredients = null) {
 			if (text == null || text.Length == 0) {
 				return;

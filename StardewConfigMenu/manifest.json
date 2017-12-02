@@ -1,12 +1,7 @@
 {
   "Name": "Stardew Config Menu",
   "Author": "Juice805",
-  "Version": {
-    "MajorVersion": 1,
-    "MinorVersion": 0,
-    "PatchVersion": 2,
-    "Build": "2"
-  },
+  "Version": "1.0.3",
   "Description": "Allows modders easy access to a unified configuration menu.",
   "UniqueID": "Juice805.StardewConfigMenu",
   "EntryDll": "StardewConfigMenu.dll"
