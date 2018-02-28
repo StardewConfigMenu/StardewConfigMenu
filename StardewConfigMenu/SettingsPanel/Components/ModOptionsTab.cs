@@ -68,7 +68,7 @@ namespace StardewConfigMenu.Panel {
 				IClickableMenu.drawHoverText(Game1.spriteBatch, base.label, Game1.smallFont);
 			}
 
-			string hoverText = ModEntry.helper.Reflection.GetPrivateField<string>(Game1.activeClickableMenu, "hoverText").GetValue();
+			string hoverText = ModEntry.helper.Reflection.GetField<string>(Game1.activeClickableMenu, "hoverText").GetValue();
 
 			// Redraw hover text so that it overlaps icon
 			if (hoverText == "Exit Game") {

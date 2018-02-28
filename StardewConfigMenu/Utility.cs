@@ -5,32 +5,36 @@ using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
 using System;
+using System.Linq;
 
 namespace StardewConfigMenu {
 	public class Utilities {
 
-		public static string GetWordWrappedString(string input, int charCount = 60) {
+		// Adds newlines into string
+		// Useful for splitting long descriptions in hoverTextDictionary
+		public static string GetWordWrappedString(string input, int charCount = 40) {
 
-			string output = string.Empty;
-
+			// early out if les than 1 line length
 			if (input.Length <= charCount) {
 				return string.Copy(input);
 			}
 
-			bool shouldWrap = false;
+			string output = string.Empty;
+			var count = 0;
 
-			for (int i = 0; i < input.Length; i++) {
-				output += input[i];
-
-				if (i % (charCount) == 0) {
-					shouldWrap = true;
-				}
-
-				if (input[i] == ' ') {
+			foreach (char ch in input) {
+				if ((count > charCount && (ch == ' ' || ch == '\t')) || ch == '\n') {
 					output += '\n';
-					shouldWrap = false;
+					count = 0;
+				} else if (ch == '\t') {
+					output += ' '; // remove tabs, might mess stuff up
+					count++;
+				} else {
+					output += ch;
+					count++;
 				}
 			}
+
 			return output;
 		}
 

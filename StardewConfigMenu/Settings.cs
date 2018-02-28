@@ -74,7 +74,7 @@ namespace StardewConfigMenu {
 
 			if (this.page != null) {
 				if (e.PriorMenu is GameMenu) {
-					List<IClickableMenu> pages = ModEntry.helper.Reflection.GetPrivateField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
+					List<IClickableMenu> pages = ModEntry.helper.Reflection.GetField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
 					pages.Remove(this.page);
 				}
 
@@ -100,7 +100,7 @@ namespace StardewConfigMenu {
 			if (this.page != null) {
 
 				if (e.PriorMenu is GameMenu) {
-					List<IClickableMenu> oldpages = ModEntry.helper.Reflection.GetPrivateField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
+					List<IClickableMenu> oldpages = ModEntry.helper.Reflection.GetField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
 					oldpages.Remove(this.page);
 				}
 
@@ -117,7 +117,7 @@ namespace StardewConfigMenu {
 			}
 
 			GameMenu menu = (GameMenu) e.NewMenu;
-			List<IClickableMenu> pages = ModEntry.helper.Reflection.GetPrivateField<List<IClickableMenu>>(menu, "pages").GetValue();
+			List<IClickableMenu> pages = ModEntry.helper.Reflection.GetField<List<IClickableMenu>>(menu, "pages").GetValue();
 
 			var options = pages.Find(x => { return x is OptionsPage; });
 			int width = options.width;
