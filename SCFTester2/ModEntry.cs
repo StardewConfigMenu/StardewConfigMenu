@@ -15,8 +15,7 @@ namespace SCFTester2 {
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper) {
 			Settings = IModSettingsFramework.Instance;
-			//var options = new ModOptions(this);
-			var options = ModOptions.LoadUserSettings(this);
+			var options = new ModOptions(this);
 			Settings.AddModOptions(options);
 
 			var testbox = options.GetOptionWithIdentifier<ModOptionToggle>("test") ?? new ModOptionToggle("test", "Test");
@@ -46,22 +45,22 @@ namespace SCFTester2 {
 			clearButton.type = OptionActionType.CLEAR;
 			clearButton.ActionTriggered += (identifier) => {
 				switch (clearButton.type) {
-				case OptionActionType.CLEAR:
-					clearButton.LabelText = "Are you sure?";
-					clearButton.type = OptionActionType.OK;
-					break;
-				case OptionActionType.OK:
-					clearButton.LabelText = "Cleared";
-					clearButton.type = OptionActionType.DONE;
-					break;
-				case OptionActionType.DONE:
-					clearButton.LabelText = "Clear Button";
-					clearButton.type = OptionActionType.CLEAR;
-					break;
-				default:
-					clearButton.LabelText = "Clear Button";
-					clearButton.type = OptionActionType.CLEAR;
-					break;
+					case OptionActionType.CLEAR:
+						clearButton.LabelText = "Are you sure?";
+						clearButton.type = OptionActionType.OK;
+						break;
+					case OptionActionType.OK:
+						clearButton.LabelText = "Cleared";
+						clearButton.type = OptionActionType.DONE;
+						break;
+					case OptionActionType.DONE:
+						clearButton.LabelText = "Clear Button";
+						clearButton.type = OptionActionType.CLEAR;
+						break;
+					default:
+						clearButton.LabelText = "Clear Button";
+						clearButton.type = OptionActionType.CLEAR;
+						break;
 				}
 			};
 
@@ -77,7 +76,7 @@ namespace SCFTester2 {
 
 
 			saveButton.ActionTriggered += (id) => {
-				options.SaveUserSettings();
+				// gather all options from ModOptions and update ModConfig
 			};
 
 			SaveEvents.AfterLoad += SaveEvents_AfterLoad;
