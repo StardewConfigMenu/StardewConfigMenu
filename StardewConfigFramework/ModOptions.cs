@@ -1,13 +1,11 @@
 ﻿using StardewModdingAPI;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.IO;
 using System;
 
 namespace StardewConfigFramework {
 	public class ModOptions {
 
-		[JsonIgnore]
 		public IManifest modManifest { get; private set; }
 
 		public SemanticVersion OptionsVersion;
@@ -29,7 +27,6 @@ namespace StardewConfigFramework {
 			this.Helper = mod.Helper;
 		}
 
-		[JsonConstructor]
 		internal ModOptions(SemanticVersion version, List<ModOption> List) {
 			this.OptionList = List;
 			this.OptionsVersion = version;
@@ -73,11 +70,6 @@ namespace StardewConfigFramework {
 			this.RemoveModOptionWithIdentifier(option.identifier);
 			this.OptionList.Insert(index, option);
 		}
-
-		private static JsonSerializerSettings serializer = new JsonSerializerSettings {
-			Formatting = Formatting.Indented//,
-																			//TypeNameHandling = TypeNameHandling.Auto
-		};
 
 		[Obsolete("Saving/Loading settings within the framework is deprecated. Please use SMAPI methods for saving mod settings and use initial values when populating settings menu", true)]
 		public static ModOptions LoadUserSettings(Mod mod) {

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 
 namespace StardewConfigFramework {
 	public delegate void ModOptionRangeHandler(string identifier, decimal currentValue);
@@ -7,7 +6,6 @@ namespace StardewConfigFramework {
 	public class ModOptionRange: ModOption {
 		public event ModOptionRangeHandler ValueChanged;
 
-		[JsonConstructor]
 		public ModOptionRange(string identifier, string label, decimal min, decimal max, decimal stepSize, decimal defaultSelection, bool showValue, bool enabled = true) : base(identifier, label, enabled) {
 			this.showValue = showValue;
 			this.stepSize = stepSize;

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-
+﻿
 namespace StardewConfigFramework {
 	public delegate void ModOptionTriggerHandler(string identifier);
 
@@ -7,7 +6,6 @@ namespace StardewConfigFramework {
 
 		public event ModOptionTriggerHandler ActionTriggered;
 
-		[JsonConstructor]
 		public ModOptionTrigger(string identifier, string labelText, OptionActionType type, bool enabled = true) : base(identifier, labelText, enabled) {
 			this.type = type;
 		}

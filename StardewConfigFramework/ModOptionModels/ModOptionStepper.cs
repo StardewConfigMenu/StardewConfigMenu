@@ -1,5 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
 
 namespace StardewConfigFramework {
 	public delegate void ModOptionStepperHandler(string identifier, decimal currentValue);
@@ -7,7 +6,6 @@ namespace StardewConfigFramework {
 	public class ModOptionStepper: ModOption {
 		public event ModOptionStepperHandler ValueChanged;
 
-		[JsonConstructor]
 		public ModOptionStepper(string identifier, string labelText, decimal min, decimal max, decimal stepsize, decimal defaultValue, DisplayType type = DisplayType.NONE, bool enabled = true) : base(identifier, labelText, enabled) {
 			this.min = Math.Round(min, 3);
 			this.max = Math.Round(max, 3);

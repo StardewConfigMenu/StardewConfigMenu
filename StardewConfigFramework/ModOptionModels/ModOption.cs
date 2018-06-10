@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-
+﻿
 namespace StardewConfigFramework {
 	public abstract class ModOption {
 		public string LabelText { get; set; }

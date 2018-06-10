@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-
+﻿
 namespace StardewConfigFramework {
 	public delegate void ModOptionToggleHandler(string identifier, bool isOn);
 
@@ -7,7 +6,6 @@ namespace StardewConfigFramework {
 
 		public event ModOptionToggleHandler ValueChanged;
 
-		[JsonConstructor]
 		public ModOptionToggle(string identifier, string labelText, bool isOn = true, bool enabled = true) : base(identifier, labelText, enabled) {
 			this.IsOn = isOn;
 		}

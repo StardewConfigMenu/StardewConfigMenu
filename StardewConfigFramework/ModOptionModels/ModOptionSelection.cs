@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using Newtonsoft.Json;
 
 namespace StardewConfigFramework {
 	public delegate void ModOptionSelectionHandler(string ComponentIdentifier, string selectionIdentifier);
@@ -17,7 +16,6 @@ namespace StardewConfigFramework {
 		/// <param name="choices">Choices. Must contain at least one choice.</param>
 		/// <param name="defaultSelection">Default selection.</param>
 		/// <param name="enabled">If set to <c>true</c> enabled.</param>
-		[JsonConstructor]
 		public ModOptionSelection(string identifier, string labelText, ModSelectionOptionChoices choices = null, int defaultSelection = 0, bool enabled = true) : base(identifier, labelText, enabled) {
 			if (choices != null) {
 				this.Choices = choices;
@@ -39,7 +37,6 @@ namespace StardewConfigFramework {
 		public Dictionary<String, String> hoverTextDictionary = null;
 
 		private int _SelectionIndex = 0;
-		[JsonIgnore]
 		public int SelectionIndex {
 			get {
 				return _SelectionIndex;
