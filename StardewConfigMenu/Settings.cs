@@ -128,7 +128,9 @@ namespace StardewConfigMenu {
 			ModSettings.pageIndex = pages.Count;
 			pages.Add(page);
 
-			this.tab = new ModOptionsTab(this, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * 11, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));
+			bool infoSuiteInstalled = Mod.Helper.ModRegistry.IsLoaded("Cdaragorn.UiInfoSuite");
+			int tabLocation = infoSuiteInstalled ? 9 : 11;
+			this.tab = new ModOptionsTab(this, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * tabLocation, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));
 
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPostRenderGuiEvent += RenderTab;
