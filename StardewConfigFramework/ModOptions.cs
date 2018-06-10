@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
-using StardewConfigFramework.SMAPI.Serialisation;
 using StardewConfigFramework.Serialization;
 using System;
 
@@ -12,8 +11,7 @@ namespace StardewConfigFramework {
 		[JsonIgnore]
 		public IManifest modManifest { get; private set; }
 
-		[JsonConverter(typeof(ManifestFieldConverter))]
-		public ISemanticVersion OptionsVersion;
+		public SemanticVersion OptionsVersion;
 
 		internal protected IModHelper Helper;
 
@@ -28,7 +26,7 @@ namespace StardewConfigFramework {
 		public ModOptions(Mod mod) {
 			//this.modName = modName;
 			this.modManifest = mod.ModManifest;
-			this.OptionsVersion = mod.ModManifest.Version;
+			this.OptionsVersion = mod.ModManifest.Version as SemanticVersion;
 			this.Helper = mod.Helper;
 		}
 
@@ -82,6 +80,7 @@ namespace StardewConfigFramework {
 																			//TypeNameHandling = TypeNameHandling.Auto
 		};
 
+		[Obsolete("Saving/Loading settings within the framework is deprecated. Please use SMAPI methods for saving mod settings and use initial values when populating settings menu", false)]
 		public static ModOptions LoadUserSettings(Mod mod) {
 			var path = Path.Combine(mod.Helper.DirectoryPath, "StardewConfig.json");
 
@@ -98,6 +97,7 @@ namespace StardewConfigFramework {
 			}
 		}
 
+		[Obsolete("Saving/Loading settings within the framework is deprecated. Please use SMAPI methods for saving mod settings and use initial values when populating settings menu", false)]
 		public void SaveUserSettings() {
 
 			var path = Path.Combine(Helper.DirectoryPath, "StardewConfig.json");
@@ -107,6 +107,7 @@ namespace StardewConfigFramework {
 			//File.WriteAllText(path, json);
 		}
 
+		[Obsolete("Saving/Loading settings within the framework is deprecated. Please use SMAPI methods for saving mod settings and use initial values when populating settings menu", true)]
 		public static ModOptions LoadCharacterSettings(Mod mod, string farmerName) {
 			var path = Path.Combine(mod.Helper.DirectoryPath, $"StardewConfig-{farmerName}.json");
 
@@ -123,6 +124,7 @@ namespace StardewConfigFramework {
 			}
 		}
 
+		[Obsolete("Saving/Loading settings within the framework is deprecated. Please use SMAPI methods for saving mod settings and use initial values when populating settings menu", true)]
 		public void SaveCharacterSettings(string farmerName) {
 
 			this.Helper.WriteJsonFile($"StardewConfig-{farmerName}.json", this);
