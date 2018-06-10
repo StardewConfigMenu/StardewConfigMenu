@@ -57,7 +57,6 @@
     <Compile Include="ModOptionModels\ModOptionToggle.cs" />
     <Compile Include="ModOptionModels\ModOption.cs" />
     <Compile Include="ModOptionModels\ModOptionTrigger.cs" />
-    <Compile Include="Serialization\ModOptionsConverter.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
