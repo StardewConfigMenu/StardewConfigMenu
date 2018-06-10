@@ -75,17 +75,21 @@ namespace StardewConfigFramework {
 	/// <summary>
 	/// Contains the choices of a ModOptionSelection
 	/// </summary>
-	public class ModSelectionOptionChoices: OrderedDictionary {
+	public class ModSelectionOptionChoices {
+
+		private OrderedDictionary dictionary = new OrderedDictionary();
+		public int Count => dictionary.Count;
+
 		/// <summary>
 		/// Gets or sets the Label with the specified key.
 		/// </summary>
 		/// <param name="key">Key.</param>
-		public new string this[int key] {
+		public string this[int key] {
 			get {
-				return base[key] as string;
+				return dictionary[key] as string;
 			}
 			set {
-				base[key] = value;
+				dictionary[key] = value;
 			}
 		}
 
@@ -95,30 +99,30 @@ namespace StardewConfigFramework {
 		/// <param name="identifier">Identifier.</param>
 		public string this[string identifier] {
 			get {
-				return base[identifier] as string;
+				return dictionary[identifier] as string;
 			}
 			set {
-				base[identifier] = value;
+				dictionary[identifier] = value;
 			}
 		}
 
 		public void Insert(int index, string identifier, string label) {
-			base.Remove(identifier);
-			base.Insert(index, identifier, label);
+			dictionary.Remove(identifier);
+			dictionary.Insert(index, identifier, label);
 		}
 
 		public void Add(string identifier, string label) {
-			base.Remove(identifier);
-			base.Add(identifier, label);
+			dictionary.Remove(identifier);
+			dictionary.Add(identifier, label);
 		}
 
 		public void Replace(string identifier, string label) {
 			var index = IndexOf(identifier);
 			if (index != -1) {
-				base.Remove(identifier);
-				base.Insert(index, identifier, label);
+				dictionary.Remove(identifier);
+				dictionary.Insert(index, identifier, label);
 			} else
-				base.Add(identifier, label);
+				dictionary.Add(identifier, label);
 		}
 
 		/// <summary>
@@ -126,11 +130,11 @@ namespace StardewConfigFramework {
 		/// </summary>
 		/// <param name="identifier">Identifier.</param>
 		public void Remove(string identifier) {
-			base.Remove(identifier);
+			dictionary.Remove(identifier);
 		}
 
 		public bool Contains(string identifier) {
-			return base.Contains(identifier);
+			return dictionary.Contains(identifier);
 		}
 
 		public int IndexOfLabel(string label) {
@@ -151,10 +155,10 @@ namespace StardewConfigFramework {
 		}
 
 		public string IdentifierOf(int index) {
-			if (Keys.Count == 0 || index < 0 || index >= Keys.Count)
+			if (dictionary.Keys.Count == 0 || index < 0 || index >= dictionary.Keys.Count)
 				return string.Empty;
-			String[] myKeys = new String[Keys.Count];
-			Keys.CopyTo(myKeys, 0);
+			String[] myKeys = new String[dictionary.Keys.Count];
+			dictionary.Keys.CopyTo(myKeys, 0);
 			return myKeys[index];
 		}
 
@@ -168,45 +172,25 @@ namespace StardewConfigFramework {
 
 		public List<string> Identifiers {
 			get {
-				if (this.Keys.Count == 0)
+				if (dictionary.Keys.Count == 0)
 					return new List<string>();
 
-				String[] myKeys = new String[Keys.Count];
-				Keys.CopyTo(myKeys, 0);
+				String[] myKeys = new String[dictionary.Keys.Count];
+				dictionary.Keys.CopyTo(myKeys, 0);
 				return new List<string>(myKeys);
 			}
 		}
 
 		public List<string> Labels {
 			get {
-				if (this.Values.Count == 0)
+				if (dictionary.Values.Count == 0)
 					return new List<string>();
 
-				String[] myValues = new String[Values.Count];
-				Values.CopyTo(myValues, 0);
+				String[] myValues = new String[dictionary.Values.Count];
+				dictionary.Values.CopyTo(myValues, 0);
 				return new List<string>(myValues);
 			}
 		}
-
-		// Blocking other options
-
-		public new string this[object stop] {
-			get { throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices"); }
-			set { throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices"); }
-		}
-
-		public new void Add(object dont, object use) {
-			throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices");
-		}
-
-		public new void Remove(object stop) {
-			throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices");
-		}
-
-		public new void Insert(int index, object dont, object use) {
-			throw new NotImplementedException("Improper Method use in ModSelectionOptionChoices");
-		}
-
 	}
 
 }
