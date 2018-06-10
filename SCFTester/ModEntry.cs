@@ -18,38 +18,41 @@ namespace SCFTester {
 		public override void Entry(IModHelper helper) {
 			Settings = IModSettingsFramework.Instance;
 			//var options = new ModOptions(this);
-			var options = ModOptions.LoadUserSettings(this);
+			var config = this.Helper.ReadConfig<ModConfig>();
+			var options = new ModOptions(this);
 			Settings.AddModOptions(options);
 
 
-			var disableDrop = options.GetOptionWithIdentifier<ModOptionToggle>("toggle") ?? new ModOptionToggle("toggle", "Checkbox");
-			options.AddModOption(disableDrop);
+			var enableDrop = new ModOptionToggle("toggle", "Checkbox", config.enableDropdown);
+			options.AddModOption(enableDrop);
 
-			disableDrop.ValueChanged += DisableDrop_ValueChanged;
+			enableDrop.ValueChanged += DisableDrop_ValueChanged;
 
-			dropdown = options.GetOptionWithIdentifier<ModOptionSelection>("drop") ?? new ModOptionSelection("drop", "Dropdown");
-			dropdown.Choices.Replace("toggle", "Toggle");
-			dropdown.Choices.Replace("on", "Always On");
-			dropdown.Choices.Replace("off", "Always Off");
+			var choices = new ModSelectionOptionChoices();
+			choices.Add("toggle", "Toggle");
+			choices.Add("on", "Always On");
+			choices.Add("off", "Always Off");
 
-			dropdown.hoverTextDictionary = new Dictionary<string, string>
+			dropdown = new ModOptionSelection("drop", "Dropdown", choices, config.dropdownChoice, config.enableDropdown) {
+				hoverTextDictionary = new Dictionary<string, string>
 				{
-					{ "on", "Hover text for Always On" }, 
+					{ "on", "Hover text for Always On" },
 					{ "off", "Hover text for Always Off" }
-				};
+				}
+			};
 
 			options.AddModOption(dropdown);
 
 			dropdown.ValueChanged += Dropdown_ValueChanged;
 
-			var checkbox2 = options.GetOptionWithIdentifier<ModOptionToggle>("toggle2") ?? new ModOptionToggle("toggle2", "Checkbox2");
+			var checkbox2 = new ModOptionToggle("toggle2", "Checkbox2", config.checkbox2);
 			options.AddModOption(checkbox2);
 
 			options.AddModOption(new ModOptionToggle("toggle3", "Always On", false));
 
-			var slider = options.GetOptionWithIdentifier<ModOptionRange>("range") ?? new ModOptionRange("range", "Slider", 10, 25, 1, 15, true);
+			var slider = new ModOptionRange("range", "Slider", 10, 25, 1, config.rangeValue, true);
 
-			var stepper = options.GetOptionWithIdentifier<ModOptionStepper>("stepper") ?? new ModOptionStepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, 26, DisplayType.PERCENT);
+			var stepper = new ModOptionStepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, DisplayType.PERCENT);
 
 			options.AddModOption(slider);
 			options.AddModOption(stepper);
@@ -65,7 +68,9 @@ namespace SCFTester {
 			options.AddModOption(saveButton);
 
 			saveButton.ActionTriggered += (id) => {
-				options.SaveUserSettings();
+				config.dropdownChoice = dropdown.Selection;
+				config.enableDropdown = enableDrop.IsOn;
+				this.Helper.WriteConfig<ModConfig>(config);
 			};
 
 
