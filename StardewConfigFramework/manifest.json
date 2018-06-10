@@ -1,8 +1,0 @@
-{
-  "Name": "Stardew Config Framework",
-  "Author": "Juice805",
-  "Version": "1.0.1",
-  "Description": "Allows modders easy access to a unified configuration menu.",
-  "UniqueID": "Juice805.StardewConfigFramework",
-  "EntryDll": "StardewConfigFramework.dll"
-}
