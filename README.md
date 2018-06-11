@@ -52,7 +52,7 @@ For a walkthrough of how to use the framework in your mods [check out the Wiki f
  
 ### Mods
 
- - Check Nexus for up to date mods
+ - Check Nexus for up to date list
  
 ### Credit
 
