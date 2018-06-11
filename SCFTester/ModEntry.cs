@@ -22,7 +22,10 @@ namespace SCFTester {
 			var options = new ModOptions(this);
 			Settings.AddModOptions(options);
 
+			GenerateOptions(options, config);
+		}
 
+		private void GenerateOptions(ModOptions options, ModConfig config) {
 			var enableDrop = new ModOptionToggle("toggle", "Checkbox", config.enableDropdown);
 			options.AddModOption(enableDrop);
 
@@ -72,7 +75,6 @@ namespace SCFTester {
 				config.enableDropdown = enableDrop.IsOn;
 				this.Helper.WriteConfig<ModConfig>(config);
 			};
-
 
 			GraphicsEvents.OnPostRenderEvent += (sender, e) => {
 
