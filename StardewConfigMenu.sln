@@ -31,7 +31,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		version = 0.9.1
+		version = 
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.FileWidth = 80
