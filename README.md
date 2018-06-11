@@ -20,7 +20,7 @@ Ever want to add a settings menu to your Stardew Valley mod, but didn’t want t
 
 ### Pull Requests
 
-Feel free to submit pull requests. This is my first C# project so it is quite sloppy I'm sure.
+Feel free to submit pull requests.
 
 ### Todo
 
@@ -39,7 +39,7 @@ Feel free to submit pull requests. This is my first C# project so it is quite sl
  
 ## Modders
 
-For a walkthrough of how to use the framework in your mods [check out the Wiki](https://github.com/Juice805/StardewConfigFramework/wiki)
+For a walkthrough of how to use the framework in your mods [check out the Wiki for the framework](https://github.com/Juice805/StardewConfigFramework/wiki)
 
 
 ## Users
