@@ -15,8 +15,8 @@ namespace StardewConfigMenu {
 		static internal ModEntry Mod;
 
 		internal ModSettings(ModEntry mod) {
-			ModSettings.Mod = mod;
-			ModSettings.Instance = this;
+			Mod = mod;
+			Instance = this;
 			MenuEvents.MenuChanged += MenuOpened;
 			MenuEvents.MenuClosed += MenuClosed;
 		}
