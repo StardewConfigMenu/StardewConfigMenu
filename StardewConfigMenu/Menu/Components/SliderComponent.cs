@@ -109,8 +109,8 @@ namespace StardewConfigMenu.Components {
 
 		private bool scrolling = false;
 
-		public override void receiveLeftClick(int x, int y, bool playSound = true) {
-			base.receiveLeftClick(x, y, playSound);
+		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
+			base.ReceiveLeftClick(x, y, playSound);
 
 			if (this.bounds.Contains(x, y) && Enabled && this.IsAvailableForSelection) {
 				scrolling = true;
@@ -118,8 +118,8 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public override void leftClickHeld(int x, int y) {
-			base.leftClickHeld(x, y);
+		public override void LeftClickHeld(int x, int y) {
+			base.LeftClickHeld(x, y);
 
 			if (scrolling) {
 				if (x < this.bounds.X) {
@@ -136,13 +136,13 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public override void releaseLeftClick(int x, int y) {
-			base.releaseLeftClick(x, y);
+		public override void ReleaseLeftClick(int x, int y) {
+			base.ReleaseLeftClick(x, y);
 			scrolling = false;
 		}
 
-		public override void draw(SpriteBatch b, int x, int y) {
-			base.draw(b, x, y);
+		public override void Draw(SpriteBatch b, int x, int y) {
+			base.Draw(b, x, y);
 
 			bounds.X = x;
 			bounds.Y = y;
@@ -151,13 +151,13 @@ namespace StardewConfigMenu.Components {
 				bounds.X += valueLabelWidth + 4 * Game1.pixelZoom;
 
 
-			this.draw(b);
+			this.Draw(b);
 		}
 
 
 
-		public override void draw(SpriteBatch b) {
-			base.draw(b);
+		public override void Draw(SpriteBatch b) {
+			base.Draw(b);
 
 			var labelSize = Game1.dialogueFont.MeasureString(this.Label);
 

@@ -165,13 +165,13 @@ namespace StardewConfigMenu.Components {
 			this.dropDownBackground.bounds.Width = width;
 		}
 
-		public override void draw(SpriteBatch b, int x, int y) {
+		public override void Draw(SpriteBatch b, int x, int y) {
 			updateLocation(x, y, this.dropDown.bounds.Width);
-			this.draw(b);
+			this.Draw(b);
 		}
 
-		public override void draw(SpriteBatch b) {
-			base.draw(b);
+		public override void Draw(SpriteBatch b) {
+			base.Draw(b);
 
 			dropDownBackground.bounds.Height = this.dropDown.bounds.Height * dropDownDisplayOptions.Count;
 
@@ -207,19 +207,19 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public override void receiveLeftClick(int x, int y, bool playSound = true) {
+		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
 			//base.receiveLeftClick(x, y, playSound);
 
 			if (this.Enabled && (this.dropDown.containsPoint(x, y) || this.dropDownButton.containsPoint(x, y)) && this.IsAvailableForSelection) {
 				this.RegisterAsActiveComponent();
 				this.hoveredChoice = 0;
-				this.leftClickHeld(x, y);
+				this.LeftClickHeld(x, y);
 				Game1.playSound("shwip");
 			}
 		}
 
-		public override void leftClickHeld(int x, int y) {
-			base.leftClickHeld(x, y);
+		public override void LeftClickHeld(int x, int y) {
+			base.LeftClickHeld(x, y);
 
 			if (this.Enabled && this.IsActiveComponent && this.dropDownBackground.containsPoint(x, y)) {
 				this.dropDownBackground.bounds.Y = Math.Min(this.dropDownBackground.bounds.Y, Game1.viewport.Height - this.dropDownBackground.bounds.Height);
@@ -227,8 +227,8 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public override void releaseLeftClick(int x, int y) {
-			base.releaseLeftClick(x, y);
+		public override void ReleaseLeftClick(int x, int y) {
+			base.ReleaseLeftClick(x, y);
 
 			if (this.IsActiveComponent) {
 				this.UnregisterAsActiveComponent();

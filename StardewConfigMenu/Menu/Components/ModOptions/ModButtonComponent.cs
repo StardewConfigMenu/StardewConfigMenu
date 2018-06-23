@@ -29,8 +29,8 @@ namespace StardewConfigMenu.Components.ModOptions {
 			}
 		}
 
-		public override void receiveLeftClick(int x, int y, bool playSound = true) {
-			base.receiveLeftClick(x, y, playSound);
+		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
+			base.ReceiveLeftClick(x, y, playSound);
 
 			if (Button.containsPoint(x, y) && Enabled && IsAvailableForSelection) {
 				if (playSound)

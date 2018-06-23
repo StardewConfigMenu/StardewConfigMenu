@@ -38,15 +38,15 @@ namespace StardewConfigMenu.Components.ModOptions {
 			this.bounds.Width = SpriteText.getWidthOfString(this.Label);
 		}
 
-		public override void draw(SpriteBatch b, int x, int y) {
-			base.draw(b, x, y);
+		public override void Draw(SpriteBatch b, int x, int y) {
+			base.Draw(b, x, y);
 			this.bounds.X = x;
 			this.bounds.Y = y;
-			this.draw(b);
+			this.Draw(b);
 		}
 
 		// static drawing of component
-		public override void draw(SpriteBatch b) {
+		public override void Draw(SpriteBatch b) {
 			SpriteText.drawString(b, (option != null) ? option.Label : this.Label, this.bounds.X, this.bounds.Y - 4 * Game1.pixelZoom);
 		}
 	}

@@ -30,7 +30,10 @@ namespace StardewConfigMenu.Components {
 		internal protected string _label;
 
 		virtual internal bool Visible {
-			set => _visible = value;
+			set {
+				_visible = value;
+				UnregisterAsActiveComponent();
+			}
 			get => _visible;
 		}
 
@@ -47,13 +50,11 @@ namespace StardewConfigMenu.Components {
 		public SCMControl(string label, bool enabled = true) {
 			_label = label;
 			_enabled = enabled;
-			AddListeners();
 		}
 
 		public SCMControl(string label, int x, int y, bool enabled = true) {
 			_label = label;
 			_enabled = enabled;
-			AddListeners();
 		}
 
 		protected void RegisterAsActiveComponent() {
@@ -67,25 +68,15 @@ namespace StardewConfigMenu.Components {
 		}
 
 		// For moving the component
-		public virtual void draw(SpriteBatch b, int x, int y) { }
+		public virtual void Draw(SpriteBatch b, int x, int y) { }
+		public virtual void Draw(SpriteBatch b) { }
 
-		public virtual void draw(SpriteBatch b) { }
-
-		internal void AddListeners() {
-			RemoveListeners();
-		}
-
-		internal void RemoveListeners() {
-			UnregisterAsActiveComponent();
-			Visible = false;
-		}
-
-		public virtual void receiveLeftClick(int x, int y, bool playSound = true) { }
-		public virtual void receiveRightClick(int x, int y, bool playSound = true) { }
-		public virtual void receiveKeyPress(Keys key) { }
-		public virtual void leftClickHeld(int x, int y) { }
-		public virtual void releaseLeftClick(int x, int y) { }
-		public virtual void receiveScrollWheelAction(int direction) { }
+		public virtual void ReceiveLeftClick(int x, int y, bool playSound = true) { }
+		public virtual void ReceiveRightClick(int x, int y, bool playSound = true) { }
+		public virtual void ReceiveKeyPress(Keys key) { }
+		public virtual void LeftClickHeld(int x, int y) { }
+		public virtual void ReleaseLeftClick(int x, int y) { }
+		public virtual void ReceiveScrollWheelAction(int direction) { }
 
 	}
 }

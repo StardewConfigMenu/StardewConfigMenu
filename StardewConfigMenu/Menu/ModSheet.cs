@@ -88,7 +88,7 @@ namespace StardewConfigMenu {
 
 		public void RemoveListeners(bool children = false) {
 			if (children) {
-				Options.ForEach(x => { x.RemoveListeners(); });
+				Options.ForEach(x => { x.Visible = false; });
 			}
 
 			ControlEvents.KeyPressed -= KeyPressed;
@@ -101,7 +101,7 @@ namespace StardewConfigMenu {
 
 			Options.ForEach(z => {
 				if (z.Visible)
-					z.receiveRightClick(x, y, playSound);
+					z.ReceiveRightClick(x, y, playSound);
 			});
 		}
 
@@ -110,7 +110,7 @@ namespace StardewConfigMenu {
 
 			Options.ForEach(z => {
 				if (z.Visible)
-					z.receiveLeftClick(x, y, playSound);
+					z.ReceiveLeftClick(x, y, playSound);
 			});
 
 			if (this.downArrow.containsPoint(x, y) && this.startingOption < Math.Max(0, this.Options.Count - 6)) {
@@ -137,7 +137,7 @@ namespace StardewConfigMenu {
 
 			Options.ForEach(z => {
 				if (z.Visible)
-					z.leftClickHeld(x, y);
+					z.LeftClickHeld(x, y);
 			});
 
 			if (this.scrolling) {
@@ -164,7 +164,7 @@ namespace StardewConfigMenu {
 		public override void releaseLeftClick(int x, int y) {
 			Options.ForEach(z => {
 				if (z.Visible)
-					z.releaseLeftClick(x, y);
+					z.ReleaseLeftClick(x, y);
 			});
 
 			this.scrolling = false;
@@ -173,7 +173,7 @@ namespace StardewConfigMenu {
 		public override void receiveScrollWheelAction(int direction) {
 			Options.ForEach(z => {
 				if (z.Visible)
-					z.receiveScrollWheelAction(direction);
+					z.ReceiveScrollWheelAction(direction);
 			});
 
 			if (direction > 0) {
@@ -192,7 +192,7 @@ namespace StardewConfigMenu {
 		private void KeyPressed(object sender, EventArgsKeyPressed e) {
 			Options.ForEach(z => {
 				if (z.Visible)
-					z.receiveKeyPress(e.KeyPressed);
+					z.ReceiveKeyPress(e.KeyPressed);
 			});
 
 			if (e.KeyPressed == Keys.Up)
@@ -252,13 +252,13 @@ namespace StardewConfigMenu {
 
 			for (int i = startingOption; i < Options.Count; i++) {
 				if (!(Options[i] is ModDropDownComponent) && Options[i].Visible)
-					Options[i].draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
+					Options[i].Draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
 			}
 
 			// Draw Dropdowns last, they must be on top; must draw from bottom to top
 			for (int i = Math.Min(startingOption + 5, Options.Count - 1); i >= startingOption; i--) {
 				if (Options[i] is ModDropDownComponent && Options[i].Visible)
-					Options[i].draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
+					Options[i].Draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
 			}
 
 		}

@@ -88,8 +88,8 @@ namespace StardewConfigMenu.Components.ModOptions {
 			base.SelectDisplayedOption(DisplayedSelection);
 		}
 
-		public override void draw(SpriteBatch b) {
-			base.draw(b);
+		public override void Draw(SpriteBatch b) {
+			base.Draw(b);
 
 			if (this.ModData.Choices.Count == 0)
 				return;

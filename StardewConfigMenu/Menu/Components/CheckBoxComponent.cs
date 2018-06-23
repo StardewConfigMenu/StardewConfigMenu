@@ -72,8 +72,8 @@ namespace StardewConfigMenu.Components {
 			this._IsChecked = isChecked;
 		}
 
-		public override void receiveLeftClick(int x, int y, bool playSound = true) {
-			base.receiveLeftClick(x, y, playSound);
+		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
+			base.ReceiveLeftClick(x, y, playSound);
 
 			if (this.checkbox.containsPoint(x, y) && Enabled && this.IsAvailableForSelection) {
 				IsChecked = !IsChecked;
@@ -82,18 +82,18 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public override void receiveRightClick(int x, int y, bool playSound = true) {
+		public override void ReceiveRightClick(int x, int y, bool playSound = true) {
 
 		}
 
-		public override void draw(SpriteBatch b, int x, int y) {
+		public override void Draw(SpriteBatch b, int x, int y) {
 			this.checkbox.bounds.X = x;
 			this.checkbox.bounds.Y = y;
-			this.draw(b);
+			this.Draw(b);
 		}
 
-		public override void draw(SpriteBatch b) {
-			base.draw(b);
+		public override void Draw(SpriteBatch b) {
+			base.Draw(b);
 
 			if (IsChecked)
 				checkbox.sourceRect = OptionsCheckbox.sourceRectChecked;

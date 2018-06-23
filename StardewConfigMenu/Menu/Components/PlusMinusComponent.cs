@@ -117,7 +117,7 @@ namespace StardewConfigMenu.Components {
 			return input;
 		}
 
-		public override void receiveLeftClick(int x, int y, bool playSound = true) {
+		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
 
 			if (this.minus.containsPoint(x, y) && Enabled && this.IsAvailableForSelection) {
 				var temp = this.Value;
@@ -132,16 +132,16 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public override void draw(SpriteBatch b, int x, int y) {
+		public override void Draw(SpriteBatch b, int x, int y) {
 			this.minus.bounds.X = x;
 			this.minus.bounds.Y = y;
 			this.plus.bounds.X = minus.bounds.Right + (int) this.ValueMaxLabelSize.X + typeExtraWidth + 4 * Game1.pixelZoom;
 			this.plus.bounds.Y = minus.bounds.Y;
-			this.draw(b);
+			this.Draw(b);
 		}
 
-		public override void draw(SpriteBatch b) {
-			base.draw(b);
+		public override void Draw(SpriteBatch b) {
+			base.Draw(b);
 
 			minus.draw(b, Color.White * ((this.Enabled && (Value - stepSize >= min)) ? 1f : 0.33f), 0.88f);
 			plus.draw(b, Color.White * ((this.Enabled && (Value + stepSize <= max)) ? 1f : 0.33f), 0.88f);

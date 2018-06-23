@@ -58,7 +58,7 @@ namespace StardewConfigMenu {
 
 		internal void RemoveListeners(bool children = false) {
 			if (children) {
-				modSelected.RemoveListeners();
+				modSelected.Visible = false;
 				Sheets.ForEach(x => { x.RemoveListeners(true); });
 			}
 
@@ -94,17 +94,17 @@ namespace StardewConfigMenu {
 					// clicked
 					if (currentSheet != null)
 						currentSheet.receiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
-					modSelected.receiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
+					modSelected.ReceiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
 				}
 			} else if (e.PriorState.LeftButton == ButtonState.Pressed) {
 				if (e.NewState.LeftButton == ButtonState.Pressed) {
 					if (currentSheet != null)
 						currentSheet.leftClickHeld(e.NewPosition.X, e.NewPosition.Y);
-					modSelected.leftClickHeld(e.NewPosition.X, e.NewPosition.Y);
+					modSelected.LeftClickHeld(e.NewPosition.X, e.NewPosition.Y);
 				} else if (e.NewState.LeftButton == ButtonState.Released) {
 					if (currentSheet != null)
 						currentSheet.releaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
-					modSelected.releaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
+					modSelected.ReleaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
 				}
 			}
 
@@ -128,7 +128,7 @@ namespace StardewConfigMenu {
 				Sheets[modSelected.SelectionIndex].draw(b);
 
 			// draw mod select dropdown last, should cover mod settings
-			modSelected.draw(b);
+			modSelected.Draw(b);
 			SpriteText.drawString(b, "Mod Options", modSelected.X + modSelected.Width + Game1.pixelZoom * 5, modSelected.Y);
 
 			if (Sheets.Count > 0 && (Game1.getMouseX() > this.modSelected.X && Game1.getMouseX() < this.modSelected.X + this.modSelected.Width) && (Game1.getMouseY() > this.modSelected.Y && Game1.getMouseY() < this.modSelected.Y + this.modSelected.Height) && !modSelected.IsActiveComponent) {

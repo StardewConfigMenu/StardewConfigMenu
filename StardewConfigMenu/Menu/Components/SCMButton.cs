@@ -52,8 +52,8 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public override void receiveLeftClick(int x, int y, bool playSound = true) {
-			base.receiveLeftClick(x, y, playSound);
+		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
+			base.ReceiveLeftClick(x, y, playSound);
 
 			if (Button.containsPoint(x, y) && Enabled && IsAvailableForSelection) {
 				ButtonPressed?.Invoke();
@@ -69,14 +69,14 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public override void draw(SpriteBatch b, int x, int y) {
+		public override void Draw(SpriteBatch b, int x, int y) {
 			Button.bounds.X = x;
 			Button.bounds.Y = y;
-			draw(b);
+			Draw(b);
 		}
 
-		public override void draw(SpriteBatch b) {
-			base.draw(b);
+		public override void Draw(SpriteBatch b) {
+			base.Draw(b);
 
 			// draw button
 			var labelSize = Game1.dialogueFont.MeasureString(Label);
