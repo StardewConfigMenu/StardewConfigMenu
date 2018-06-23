@@ -17,47 +17,20 @@ namespace StardewConfigMenu.Components {
 
 		internal event ButtonPressed ButtonPressed;
 
-		private Rectangle setButtonSource => OptionsInputListener.setButtonSource;
-		private Rectangle okButtonSource => Game1.getSourceRectForStandardTileSheet(Game1.mouseCursors, 46, -1, -1);
-		private Rectangle clearButtonSource => Game1.getSourceRectForStandardTileSheet(Game1.mouseCursors, 47, -1, -1);
-		private Rectangle doneButtonSource = new Rectangle(441, 411, 24, 13);
-		private Rectangle giftButtonSource = new Rectangle(229, 410, 14, 14);
-
-		protected Rectangle buttonSource {
-			get {
-				switch (this.ActionType) {
-					case ActionType.DONE:
-						return this.doneButtonSource;
-					case ActionType.CLEAR:
-						return this.clearButtonSource;
-					case ActionType.OK:
-						return this.okButtonSource;
-					case ActionType.SET:
-						return this.setButtonSource;
-					case ActionType.GIFT:
-						return this.giftButtonSource;
-					default:
-						return new Rectangle();
-				}
-			}
-		}
-
-		protected float buttonScale {
-			get {
-				switch (this.ActionType) {
-					case ActionType.DONE:
-						return (float) Game1.pixelZoom;
-					case ActionType.CLEAR:
-						return 1f;
-					case ActionType.OK:
-						return 1f;
-					case ActionType.SET:
-						return (float) Game1.pixelZoom;
-					case ActionType.GIFT:
-						return (float) Game1.pixelZoom;
-					default:
-						return (float) Game1.pixelZoom;
-				}
+		protected StardewTile GetButtonTile() {
+			switch (this.ActionType) {
+				case ActionType.DONE:
+					return StardewTile.DoneButton;
+				case ActionType.CLEAR:
+					return StardewTile.ClearButton;
+				case ActionType.OK:
+					return StardewTile.OKButton;
+				case ActionType.SET:
+					return StardewTile.SetButton;
+				case ActionType.GIFT:
+					return StardewTile.GiftButton;
+				default:
+					return StardewTile.OKButton;
 			}
 		}
 
@@ -88,7 +61,7 @@ namespace StardewConfigMenu.Components {
 		internal ButtonComponent(string label, ActionType type, int x, int y, bool enabled = true) : base(label, enabled) {
 			this._ActionType = type;
 
-			button = new ClickableTextureComponent(new Rectangle(x, y, (int) (buttonScale * buttonSource.Width), (int) (buttonScale * buttonSource.Height)), Game1.mouseCursors, buttonSource, buttonScale);
+			button = GetButtonTile().ClickableTextureComponent(x, y);
 			button.drawShadow = true;
 		}
 
@@ -103,13 +76,13 @@ namespace StardewConfigMenu.Components {
 
 		}
 
-		private ActionType oldType = ActionType.CLEAR;
+		private ActionType PreviousActionType = ActionType.OK;
 
 		public void updateButton() {
-			if (oldType != this.ActionType) {
-				button = new ClickableTextureComponent(new Rectangle(button.bounds.X, button.bounds.Y, (int) (buttonScale * buttonSource.Width), (int) (buttonScale * buttonSource.Height)), Game1.mouseCursors, buttonSource, buttonScale);
+			if (PreviousActionType != ActionType) {
+				button = GetButtonTile().ClickableTextureComponent(button.bounds.X, button.bounds.Y);
 				button.drawShadow = true;
-				oldType = this.ActionType;
+				PreviousActionType = ActionType;
 			}
 		}
 
