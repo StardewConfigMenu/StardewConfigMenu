@@ -27,7 +27,7 @@ namespace StardewConfigMenu {
 			set {
 				if (!value)
 					Options.ForEach(x => {
-						x.visible = value;
+						x.Visible = value;
 					});
 				else
 					setVisibleOptions();
@@ -100,7 +100,7 @@ namespace StardewConfigMenu {
 			if (GameMenu.forcePreventClose) { return; }
 
 			Options.ForEach(z => {
-				if (z.visible)
+				if (z.Visible)
 					z.receiveRightClick(x, y, playSound);
 			});
 		}
@@ -109,7 +109,7 @@ namespace StardewConfigMenu {
 			if (GameMenu.forcePreventClose || !this.visible) { return; }
 
 			Options.ForEach(z => {
-				if (z.visible)
+				if (z.Visible)
 					z.receiveLeftClick(x, y, playSound);
 			});
 
@@ -136,7 +136,7 @@ namespace StardewConfigMenu {
 			if (GameMenu.forcePreventClose) { return; }
 
 			Options.ForEach(z => {
-				if (z.visible)
+				if (z.Visible)
 					z.leftClickHeld(x, y);
 			});
 
@@ -163,7 +163,7 @@ namespace StardewConfigMenu {
 
 		public override void releaseLeftClick(int x, int y) {
 			Options.ForEach(z => {
-				if (z.visible)
+				if (z.Visible)
 					z.releaseLeftClick(x, y);
 			});
 
@@ -172,7 +172,7 @@ namespace StardewConfigMenu {
 
 		public override void receiveScrollWheelAction(int direction) {
 			Options.ForEach(z => {
-				if (z.visible)
+				if (z.Visible)
 					z.receiveScrollWheelAction(direction);
 			});
 
@@ -191,7 +191,7 @@ namespace StardewConfigMenu {
 
 		private void KeyPressed(object sender, EventArgsKeyPressed e) {
 			Options.ForEach(z => {
-				if (z.visible)
+				if (z.Visible)
 					z.receiveKeyPress(e.KeyPressed);
 			});
 
@@ -220,9 +220,9 @@ namespace StardewConfigMenu {
 		public void setVisibleOptions() {
 			for (int i = 0; i < Options.Count; i++) {
 				if (i >= startingOption && i < startingOption + 6) {
-					Options[i].visible = true;
+					Options[i].Visible = true;
 				} else {
-					Options[i].visible = false;
+					Options[i].Visible = false;
 				}
 			}
 		}
@@ -251,13 +251,13 @@ namespace StardewConfigMenu {
 			//b.DrawString(Game1.dialogueFont, this.Options.modManifest.Name, new Vector2(this.xPositionOnScreen, this.yPositionOnScreen), Color.White);
 
 			for (int i = startingOption; i < Options.Count; i++) {
-				if (!(Options[i] is ModDropDownComponent) && Options[i].visible)
+				if (!(Options[i] is ModDropDownComponent) && Options[i].Visible)
 					Options[i].draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
 			}
 
 			// Draw Dropdowns last, they must be on top; must draw from bottom to top
 			for (int i = Math.Min(startingOption + 5, Options.Count - 1); i >= startingOption; i--) {
-				if (Options[i] is ModDropDownComponent && Options[i].visible)
+				if (Options[i] is ModDropDownComponent && Options[i].Visible)
 					Options[i].draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
 			}
 

@@ -15,9 +15,21 @@ using StardewModdingAPI.Events;
 
 namespace StardewConfigMenu.Components {
 	abstract class SCMControl {
-		static protected SCMControl selectedComponent;
+		static protected SCMControl SelectedComponent;
 
-		virtual internal bool visible {
+		internal bool IsActiveComponent => SelectedComponent == this;
+		protected bool IsAvailableForSelection => (IsActiveComponent || SelectedComponent == null) && Visible;
+
+		public virtual int Height { get; }
+		public virtual int Width { get; }
+		public virtual int X { get; }
+		public virtual int Y { get; }
+
+		private bool _visible = false;
+		internal protected bool _enabled;
+		internal protected string _label;
+
+		virtual internal bool Visible {
 			set => _visible = value;
 			get => _visible;
 		}
@@ -32,36 +44,25 @@ namespace StardewConfigMenu.Components {
 			protected set => _label = value;
 		}
 
-		private bool _visible = false;
-		internal protected bool _enabled;
-		internal protected string _label;
-
-		public virtual int Height { get; }
-		public virtual int Width { get; }
-		public virtual int X { get; }
-		public virtual int Y { get; }
-
 		public SCMControl(string label, bool enabled = true) {
-			this._label = label;
-			this._enabled = enabled;
-			this.AddListeners();
+			_label = label;
+			_enabled = enabled;
+			AddListeners();
 		}
 
 		public SCMControl(string label, int x, int y, bool enabled = true) {
-			this._label = label;
-			this._enabled = enabled;
-			this.AddListeners();
+			_label = label;
+			_enabled = enabled;
+			AddListeners();
 		}
-		internal bool IsActiveComponent => SCMControl.selectedComponent == this;
-		protected bool IsAvailableForSelection => (IsActiveComponent || SCMControl.selectedComponent == null) && visible;
 
 		protected void RegisterAsActiveComponent() {
-			SCMControl.selectedComponent = this;
+			SelectedComponent = this;
 		}
 
 		protected void UnregisterAsActiveComponent() {
-			if (this.IsActiveComponent) {
-				SCMControl.selectedComponent = null;
+			if (IsActiveComponent) {
+				SelectedComponent = null;
 			}
 		}
 
@@ -75,8 +76,8 @@ namespace StardewConfigMenu.Components {
 		}
 
 		internal void RemoveListeners() {
-			this.UnregisterAsActiveComponent();
-			this.visible = false;
+			UnregisterAsActiveComponent();
+			Visible = false;
 		}
 
 		public virtual void receiveLeftClick(int x, int y, bool playSound = true) { }
