@@ -23,7 +23,7 @@ namespace StardewConfigMenu.Components.ModOptions {
 		public override ActionType ActionType {
 			get {
 				if (Option == null)
-					return _ActionType;
+					return ActionType.OK;
 
 				return this.Option.Type;
 			}
@@ -38,17 +38,5 @@ namespace StardewConfigMenu.Components.ModOptions {
 				this.Option.Trigger();
 			}
 		}
-
-		/*
-		protected override void leftClicked(int x, int y)
-		{
-			base.leftClicked(x, y);
-
-			if (this.bounds.Contains(x, y) && enabled && this.IsAvailableForSelection())
-			{
-				Game1.playSound("breathin");
-				this.Option.Trigger();
-			}
-		} */
 	}
 }
