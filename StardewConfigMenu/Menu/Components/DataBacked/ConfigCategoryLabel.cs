@@ -21,33 +21,31 @@ namespace StardewConfigMenu.Components.DataBacked {
 			protected set { }
 		}
 
-		private CategoryLabel option;
+		private CategoryLabel Option;
 
-		Rectangle bounds = new Rectangle();
+		Rectangle Bounds = new Rectangle();
+		public override int X { get => Bounds.X; set => Bounds.X = value; }
+		public override int Y { get => Bounds.Y; set => Bounds.Y = value; }
+		public override int Height { get => Bounds.Height; set => Bounds.Height = value; }
+		public override int Width { get => Bounds.Width; set => Bounds.Width = value; }
+
 
 		public ConfigCategoryLabel(CategoryLabel option) : base(option.Label) {
-			this.option = option;
-			this.bounds.Height = SpriteText.getHeightOfString(this.Label);
-			this.bounds.Width = SpriteText.getWidthOfString(this.Label);
+			Option = option;
+			Bounds.Height = SpriteText.getHeightOfString(Label);
+			Bounds.Width = SpriteText.getWidthOfString(Label);
 		}
 
 		public ConfigCategoryLabel(string labelText, int x, int y) : base(labelText) {
-			this.bounds.X = x;
-			this.bounds.Y = y;
-			this.bounds.Height = SpriteText.getHeightOfString(this.Label);
-			this.bounds.Width = SpriteText.getWidthOfString(this.Label);
-		}
-
-		public override void Draw(SpriteBatch b, int x, int y) {
-			base.Draw(b, x, y);
-			this.bounds.X = x;
-			this.bounds.Y = y;
-			this.Draw(b);
+			Bounds.X = x;
+			Bounds.Y = y;
+			Bounds.Height = SpriteText.getHeightOfString(Label);
+			Bounds.Width = SpriteText.getWidthOfString(Label);
 		}
 
 		// static drawing of component
 		public override void Draw(SpriteBatch b) {
-			SpriteText.drawString(b, (option != null) ? option.Label : this.Label, this.bounds.X, this.bounds.Y - 4 * Game1.pixelZoom);
+			SpriteText.drawString(b, (Option != null) ? Option.Label : Label, X, Y - 4 * Game1.pixelZoom);
 		}
 	}
 }
