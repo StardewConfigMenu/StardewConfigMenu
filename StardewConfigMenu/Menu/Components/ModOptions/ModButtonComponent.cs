@@ -8,17 +8,9 @@ namespace StardewConfigMenu.Components.ModOptions {
 	internal class ModButtonComponent: ButtonComponent {
 		readonly Action Option;
 
-		public override bool enabled {
-			get {
-				return Option.Enabled;
-			}
-		}
+		public override bool Enabled => Option.Enabled;
 
-		public override string label {
-			get {
-				return Option.Label;
-			}
-		}
+		public override string Label => Option.Label;
 
 		internal ModButtonComponent(Action option, int x, int y) : base(option.Label, option.Type, x, y, option.Enabled) {
 			this.Option = option;
@@ -40,7 +32,7 @@ namespace StardewConfigMenu.Components.ModOptions {
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			base.receiveLeftClick(x, y, playSound);
 
-			if (this.button.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
+			if (this.Button.containsPoint(x, y) && Enabled && this.IsAvailableForSelection()) {
 				if (playSound)
 					Game1.playSound("breathin");
 				this.Option.Trigger();

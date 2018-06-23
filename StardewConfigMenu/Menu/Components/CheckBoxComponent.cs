@@ -77,7 +77,7 @@ namespace StardewConfigMenu.Components {
 
 			bool test = this.IsAvailableForSelection();
 
-			if (this.checkbox.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
+			if (this.checkbox.containsPoint(x, y) && Enabled && this.IsAvailableForSelection()) {
 				IsChecked = !IsChecked;
 				if (playSound)
 					Game1.playSound("drumkit6");
@@ -102,12 +102,12 @@ namespace StardewConfigMenu.Components {
 			else
 				checkbox.sourceRect = OptionsCheckbox.sourceRectUnchecked;
 
-			checkbox.draw(b, Color.White * ((this.enabled) ? 1f : 0.33f), 0.88f);
+			checkbox.draw(b, Color.White * ((this.Enabled) ? 1f : 0.33f), 0.88f);
 			//b.Draw(Game1.mouseCursors, new Vector2((float) (this.bounds.X), (float) (this.bounds.Y)), new Rectangle?((this.IsChecked) ? OptionsCheckbox.sourceRectChecked : OptionsCheckbox.sourceRectUnchecked), Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.4f);
 
-			var labelSize = Game1.dialogueFont.MeasureString(this.label);
+			var labelSize = Game1.dialogueFont.MeasureString(this.Label);
 
-			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.checkbox.bounds.Right + Game1.pixelZoom * 4), (float) (this.checkbox.bounds.Y + ((this.checkbox.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, this.Label, Game1.dialogueFont, new Vector2((float) (this.checkbox.bounds.Right + Game1.pixelZoom * 4), (float) (this.checkbox.bounds.Y + ((this.checkbox.bounds.Height - labelSize.Y) / 2))), this.Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 
 		}
 

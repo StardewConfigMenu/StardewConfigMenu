@@ -6,9 +6,9 @@ namespace StardewConfigMenu.Components.ModOptions {
 	internal class ModPlusMinusComponent: PlusMinusComponent {
 		readonly Stepper Option;
 
-		public override bool enabled => Option.Enabled;
+		public override bool Enabled => Option.Enabled;
 
-		public override string label => Option.Label;
+		public override string Label => Option.Label;
 
 		public override decimal min => Option.Min;
 		public override decimal max => Option.Max;

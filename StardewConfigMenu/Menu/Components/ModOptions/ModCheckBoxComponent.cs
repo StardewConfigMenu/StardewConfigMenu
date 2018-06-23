@@ -31,13 +31,13 @@ namespace StardewConfigMenu.Components.ModOptions {
 			}
 		}
 
-		public override bool enabled {
+		public override bool Enabled {
 			get {
 				return Option.Enabled;
 			}
 		}
 
-		public override string label {
+		public override string Label {
 			get {
 				return Option.Label;
 			}

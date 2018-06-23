@@ -119,12 +119,12 @@ namespace StardewConfigMenu.Components {
 
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 
-			if (this.minus.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
+			if (this.minus.containsPoint(x, y) && Enabled && this.IsAvailableForSelection()) {
 				var temp = this.Value;
 				this.StepDown();
 				if (playSound && temp != this.Value)
 					Game1.playSound("drumkit6");
-			} else if (this.plus.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
+			} else if (this.plus.containsPoint(x, y) && Enabled && this.IsAvailableForSelection()) {
 				var temp = this.Value;
 				this.StepUp();
 				if (playSound && temp != this.Value)
@@ -143,19 +143,19 @@ namespace StardewConfigMenu.Components {
 		public override void draw(SpriteBatch b) {
 			base.draw(b);
 
-			minus.draw(b, Color.White * ((this.enabled && (Value - stepSize >= min)) ? 1f : 0.33f), 0.88f);
-			plus.draw(b, Color.White * ((this.enabled && (Value + stepSize <= max)) ? 1f : 0.33f), 0.88f);
+			minus.draw(b, Color.White * ((this.Enabled && (Value - stepSize >= min)) ? 1f : 0.33f), 0.88f);
+			plus.draw(b, Color.White * ((this.Enabled && (Value + stepSize <= max)) ? 1f : 0.33f), 0.88f);
 			//b.Draw(Game1.mouseCursors, new Vector2((float) (minus.bounds.X), (float) (minus.bounds.Y)), OptionsPlusMinus.minusButtonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.4f);
 
-			b.DrawString(Game1.dialogueFont, Value.ToString() + typeExtraString, new Vector2((float) (minus.bounds.Right + (this.plus.bounds.X - minus.bounds.Right - ValueLabelSize.X - typeExtraWidth) / 2), (float) (minus.bounds.Y + ((minus.bounds.Height - ValueMaxLabelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f));
+			b.DrawString(Game1.dialogueFont, Value.ToString() + typeExtraString, new Vector2((float) (minus.bounds.Right + (this.plus.bounds.X - minus.bounds.Right - ValueLabelSize.X - typeExtraWidth) / 2), (float) (minus.bounds.Y + ((minus.bounds.Height - ValueMaxLabelSize.Y) / 2))), this.Enabled ? Game1.textColor : (Game1.textColor * 0.33f));
 			//Utility.drawBoldText(b, $"{Value.ToString()}", Game1.smallFont, new Vector2((float)(this.bounds.Right + Game1.pixelZoom * 2), (float)(this.bounds.Y + ((this.bounds.Height - valueLabelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f));
 
 			//b.Draw(Game1.mouseCursors, new Vector2((float) (this.plusButtonbounds.X), (float) (this.plusButtonbounds.Y)), OptionsPlusMinus.plusButtonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.4f);
 
 
-			var labelSize = Game1.dialogueFont.MeasureString(this.label);
+			var labelSize = Game1.dialogueFont.MeasureString(this.Label);
 
-			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.plus.bounds.Right + Game1.pixelZoom * 4), (float) (minus.bounds.Y + ((minus.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, this.Label, Game1.dialogueFont, new Vector2((float) (this.plus.bounds.Right + Game1.pixelZoom * 4), (float) (minus.bounds.Y + ((minus.bounds.Height - labelSize.Y) / 2))), this.Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 
 		}
 	}

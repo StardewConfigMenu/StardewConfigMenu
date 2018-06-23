@@ -16,7 +16,7 @@ using StardewConfigFramework.Options;
 namespace StardewConfigMenu.Components.ModOptions {
 	class ModCategoryLabelComponent: OptionComponent {
 
-		public override bool enabled {
+		public override bool Enabled {
 			get { return true; }
 			protected set { }
 		}
@@ -27,15 +27,15 @@ namespace StardewConfigMenu.Components.ModOptions {
 
 		public ModCategoryLabelComponent(CategoryLabel option) : base(option.Label) {
 			this.option = option;
-			this.bounds.Height = SpriteText.getHeightOfString(this.label);
-			this.bounds.Width = SpriteText.getWidthOfString(this.label);
+			this.bounds.Height = SpriteText.getHeightOfString(this.Label);
+			this.bounds.Width = SpriteText.getWidthOfString(this.Label);
 		}
 
 		public ModCategoryLabelComponent(string labelText, int x, int y) : base(labelText) {
 			this.bounds.X = x;
 			this.bounds.Y = y;
-			this.bounds.Height = SpriteText.getHeightOfString(this.label);
-			this.bounds.Width = SpriteText.getWidthOfString(this.label);
+			this.bounds.Height = SpriteText.getHeightOfString(this.Label);
+			this.bounds.Width = SpriteText.getWidthOfString(this.Label);
 		}
 
 		public override void draw(SpriteBatch b, int x, int y) {
@@ -47,7 +47,7 @@ namespace StardewConfigMenu.Components.ModOptions {
 
 		// static drawing of component
 		public override void draw(SpriteBatch b) {
-			SpriteText.drawString(b, (option != null) ? option.Label : this.label, this.bounds.X, this.bounds.Y - 4 * Game1.pixelZoom);
+			SpriteText.drawString(b, (option != null) ? option.Label : this.Label, this.bounds.X, this.bounds.Y - 4 * Game1.pixelZoom);
 		}
 	}
 }

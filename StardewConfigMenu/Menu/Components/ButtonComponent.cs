@@ -11,11 +11,34 @@ using Microsoft.Xna.Framework.Input;
 
 namespace StardewConfigMenu.Components {
 	using ActionType = Action.ActionType;
-	internal delegate void ButtonPressed();
 
 	internal class ButtonComponent: OptionComponent {
+		internal delegate void ButtonPressedEvent();
+		internal event ButtonPressedEvent ButtonPressed;
 
-		internal event ButtonPressed ButtonPressed;
+		private ActionType _ActionType;
+		private ActionType PreviousActionType = ActionType.OK;
+		public virtual ActionType ActionType {
+			get => _ActionType;
+			set {
+				_ActionType = value;
+			}
+		}
+
+		protected ClickableTextureComponent Button;
+		public override int Width => Button.bounds.Width;
+		public override int Height => Button.bounds.Height;
+		public override int X => Button.bounds.X;
+		public override int Y => Button.bounds.Y;
+
+		internal ButtonComponent(string label, ActionType type, int x, int y, bool enabled = true) : base(label, enabled) {
+			this._ActionType = type;
+
+			Button = GetButtonTile().ClickableTextureComponent(x, y);
+			Button.drawShadow = true;
+		}
+
+		internal ButtonComponent(string label, ActionType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
 
 		protected StardewTile GetButtonTile() {
 			switch (this.ActionType) {
@@ -34,61 +57,26 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public virtual ActionType ActionType {
-			get => _ActionType;
-			set {
-				_ActionType = value;
-			}
-		}
-
-		protected ActionType _ActionType;
-
-		//
-		// Static Fields
-		//
-
-		//
-		// Fields
-		//
-
-		public override int Width => button.bounds.Width;
-		public override int Height => button.bounds.Height;
-		public override int X => button.bounds.X;
-		public override int Y => button.bounds.Y;
-
-		protected ClickableTextureComponent button;
-
-		internal ButtonComponent(string label, ActionType type, int x, int y, bool enabled = true) : base(label, enabled) {
-			this._ActionType = type;
-
-			button = GetButtonTile().ClickableTextureComponent(x, y);
-			button.drawShadow = true;
-		}
-
-		internal ButtonComponent(string label, ActionType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
-
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			base.receiveLeftClick(x, y, playSound);
 
-			if (this.button.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
+			if (this.Button.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
 				this.ButtonPressed?.Invoke();
 			}
 
 		}
 
-		private ActionType PreviousActionType = ActionType.OK;
-
 		public void updateButton() {
 			if (PreviousActionType != ActionType) {
-				button = GetButtonTile().ClickableTextureComponent(button.bounds.X, button.bounds.Y);
-				button.drawShadow = true;
+				Button = GetButtonTile().ClickableTextureComponent(Button.bounds.X, Button.bounds.Y);
+				Button.drawShadow = true;
 				PreviousActionType = ActionType;
 			}
 		}
 
 		public override void draw(SpriteBatch b, int x, int y) {
-			button.bounds.X = x;
-			button.bounds.Y = y;
+			Button.bounds.X = x;
+			Button.bounds.Y = y;
 			this.draw(b);
 		}
 
@@ -99,10 +87,10 @@ namespace StardewConfigMenu.Components {
 			var labelSize = Game1.dialogueFont.MeasureString(this.label);
 
 			updateButton();
-			button.draw(b, Color.White * ((this.enabled) ? 1f : 0.33f), 0.88f);
+			Button.draw(b, Color.White * ((this.enabled) ? 1f : 0.33f), 0.88f);
 			//Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2((float) (this.bounds.X), (float) (this.bounds.Y)), this.buttonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, this.buttonScale, false, 0.15f, -1, -1, 0.35f);
 
-			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.button.bounds.Right + Game1.pixelZoom * 4), (float) (this.button.bounds.Y + ((this.button.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.Button.bounds.Right + Game1.pixelZoom * 4), (float) (this.Button.bounds.Y + ((this.Button.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 		}
 	}
 }

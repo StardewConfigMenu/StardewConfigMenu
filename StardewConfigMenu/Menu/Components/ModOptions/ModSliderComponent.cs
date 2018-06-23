@@ -7,9 +7,9 @@ namespace StardewConfigMenu.Components.ModOptions {
 
 		readonly Range Option;
 
-		public override bool enabled => Option.Enabled;
+		public override bool Enabled => Option.Enabled;
 
-		public override string label => Option.Label;
+		public override string Label => Option.Label;
 
 		protected override decimal min => Option.Min;
 		protected override decimal max => Option.Max;

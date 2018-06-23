@@ -24,7 +24,7 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public virtual bool enabled {
+		public virtual bool Enabled {
 			get {
 				return _enabled;
 			}
@@ -33,7 +33,7 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		public virtual string label {
+		public virtual string Label {
 			get {
 				return _label;
 			}

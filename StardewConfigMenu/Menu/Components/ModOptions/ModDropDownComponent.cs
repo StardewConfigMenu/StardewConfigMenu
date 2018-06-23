@@ -12,7 +12,7 @@ namespace StardewConfigMenu.Components.ModOptions {
 	internal class ModDropDownComponent: DropDownComponent {
 		readonly private Selection ModData;
 
-		public override bool enabled {
+		public override bool Enabled {
 			get {
 				if (!ModData.Enabled)
 					return ModData.Enabled;
@@ -21,7 +21,7 @@ namespace StardewConfigMenu.Components.ModOptions {
 			}
 		}
 
-		public override string label {
+		public override string Label {
 			get {
 				return ModData.Label;
 			}
