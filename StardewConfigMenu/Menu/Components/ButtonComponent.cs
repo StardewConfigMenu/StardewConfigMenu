@@ -32,7 +32,7 @@ namespace StardewConfigMenu.Components {
 		public override int Y => Button.bounds.Y;
 
 		internal ButtonComponent(string label, ActionType type, int x, int y, bool enabled = true) : base(label, enabled) {
-			this._ActionType = type;
+			_ActionType = type;
 
 			Button = GetButtonTile().ClickableTextureComponent(x, y);
 			Button.drawShadow = true;
@@ -41,7 +41,7 @@ namespace StardewConfigMenu.Components {
 		internal ButtonComponent(string label, ActionType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
 
 		protected StardewTile GetButtonTile() {
-			switch (this.ActionType) {
+			switch (ActionType) {
 				case ActionType.DONE:
 					return StardewTile.DoneButton;
 				case ActionType.CLEAR:
@@ -60,8 +60,8 @@ namespace StardewConfigMenu.Components {
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			base.receiveLeftClick(x, y, playSound);
 
-			if (this.Button.containsPoint(x, y) && Enabled && this.IsAvailableForSelection()) {
-				this.ButtonPressed?.Invoke();
+			if (Button.containsPoint(x, y) && Enabled && IsAvailableForSelection()) {
+				ButtonPressed?.Invoke();
 			}
 
 		}
@@ -77,20 +77,20 @@ namespace StardewConfigMenu.Components {
 		public override void draw(SpriteBatch b, int x, int y) {
 			Button.bounds.X = x;
 			Button.bounds.Y = y;
-			this.draw(b);
+			draw(b);
 		}
 
 		public override void draw(SpriteBatch b) {
 			base.draw(b);
 
 			// draw button
-			var labelSize = Game1.dialogueFont.MeasureString(this.Label);
+			var labelSize = Game1.dialogueFont.MeasureString(Label);
 
 			CheckForButtonUpdate();
-			Button.draw(b, Color.White * ((this.Enabled) ? 1f : 0.33f), 0.88f);
-			//Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2((float) (this.bounds.X), (float) (this.bounds.Y)), this.buttonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, this.buttonScale, false, 0.15f, -1, -1, 0.35f);
+			Button.draw(b, Color.White * ((Enabled) ? 1f : 0.33f), 0.88f);
+			//Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2((float) (bounds.X), (float) (bounds.Y)), buttonSource, Color.White * ((enabled) ? 1f : 0.33f), 0f, Vector2.Zero, buttonScale, false, 0.15f, -1, -1, 0.35f);
 
-			Utility.drawTextWithShadow(b, this.Label, Game1.dialogueFont, new Vector2((float) (this.Button.bounds.Right + Game1.pixelZoom * 4), (float) (this.Button.bounds.Y + ((this.Button.bounds.Height - labelSize.Y) / 2))), this.Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2((float) (Button.bounds.Right + Game1.pixelZoom * 4), (float) (Button.bounds.Y + ((Button.bounds.Height - labelSize.Y) / 2))), Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 		}
 	}
 }
