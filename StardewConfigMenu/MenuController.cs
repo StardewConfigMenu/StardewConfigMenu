@@ -10,11 +10,11 @@ using StardewConfigMenu.Panel;
 using System.IO;
 
 namespace StardewConfigMenu {
-	public class ModSettings: IConfigMenu {
+	public class MenuController: IConfigMenu {
 		public static int? pageIndex = null;
 		static internal ModEntry Mod;
 
-		internal ModSettings(ModEntry mod) {
+		internal MenuController(ModEntry mod) {
 			Mod = mod;
 			Instance = this;
 			MenuEvents.MenuChanged += MenuOpened;
@@ -42,8 +42,8 @@ namespace StardewConfigMenu {
 		}
 
 		//internal SettingsPage page;
-		internal ModOptionsTab tab;
-		internal ModOptionsPage page;
+		internal MenuTab tab;
+		internal MenuPage page;
 
 		internal List<IOptionsPackage> ModOptionsList = new List<IOptionsPackage>();
 
@@ -80,7 +80,7 @@ namespace StardewConfigMenu {
 
 				this.page.RemoveListeners(true);
 				this.page = null;
-				ModSettings.pageIndex = null;
+				MenuController.pageIndex = null;
 			}
 		}
 
@@ -106,13 +106,13 @@ namespace StardewConfigMenu {
 
 				this.page.RemoveListeners(true);
 				this.page = null;
-				ModSettings.pageIndex = null;
+				MenuController.pageIndex = null;
 			}
 
 			if (!(e.NewMenu is GameMenu)) {
 				this.tab = null;
 				this.page = null;
-				ModSettings.pageIndex = null;
+				MenuController.pageIndex = null;
 				return;
 			}
 
@@ -124,13 +124,13 @@ namespace StardewConfigMenu {
 
 			//List<ClickableComponent> tabs = ModEntry.helper.Reflection.GetPrivateField<List<ClickableComponent>>(menu, "tabs").GetValue();
 
-			this.page = new ModOptionsPage(this, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
-			ModSettings.pageIndex = pages.Count;
+			this.page = new MenuPage(this, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
+			MenuController.pageIndex = pages.Count;
 			pages.Add(page);
 
 			bool infoSuiteInstalled = Mod.Helper.ModRegistry.IsLoaded("Cdaragorn.UiInfoSuite");
 			int tabLocation = infoSuiteInstalled ? 9 : 11;
-			this.tab = new ModOptionsTab(this, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * tabLocation, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));
+			this.tab = new MenuTab(this, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * tabLocation, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));
 
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPostRenderGuiEvent += RenderTab;
@@ -148,7 +148,7 @@ namespace StardewConfigMenu {
 			var gameMenu = Game1.activeClickableMenu as GameMenu;
 
 			// Remove Community Center Icon from Options, Exit Game, and Mod Options pages
-			if (gameMenu.currentTab == ModSettings.pageIndex || gameMenu.currentTab == 6 || gameMenu.currentTab == 7) {
+			if (gameMenu.currentTab == MenuController.pageIndex || gameMenu.currentTab == 6 || gameMenu.currentTab == 7) {
 				if (gameMenu.junimoNoteIcon != null) {
 					this.junimoNoteIconStorage = gameMenu.junimoNoteIcon;
 					gameMenu.junimoNoteIcon = null;

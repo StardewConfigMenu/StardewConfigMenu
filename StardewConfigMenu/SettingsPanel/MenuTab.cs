@@ -12,14 +12,14 @@ namespace StardewConfigMenu.Panel {
 		internal const int TabNumber = 11;
 	}
 
-	internal class ModOptionsTab: ClickableComponent {
+	internal class MenuTab: ClickableComponent {
 
-		private ModSettings controller;
+		private MenuController controller;
 
 		//
 		// Constructors
 		//
-		internal ModOptionsTab(ModSettings controller, Rectangle bounds) : base(bounds, "mods", "Mod Options") {
+		internal MenuTab(MenuController controller, Rectangle bounds) : base(bounds, "mods", "Mod Options") {
 			this.controller = controller;
 			AddListeners();
 		}
@@ -51,7 +51,7 @@ namespace StardewConfigMenu.Panel {
 				return;
 
 			if (this.containsPoint(e.NewPosition.X, e.NewPosition.Y)) {
-				ModOptionsPage.SetActive();
+				MenuPage.SetActive();
 				Game1.playSound("smallSelect");
 			}
 		}

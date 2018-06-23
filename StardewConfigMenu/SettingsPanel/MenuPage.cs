@@ -11,13 +11,13 @@ using StardewConfigMenu.Panel.Components;
 using Microsoft.Xna.Framework.Input;
 
 namespace StardewConfigMenu.Panel {
-	public class ModOptionsPage: IClickableMenu {
+	public class MenuPage: IClickableMenu {
 
-		private ModSettings controller;
+		private MenuController controller;
 		private List<ModSheet> Sheets = new List<ModSheet>();
 		private DropDownComponent modSelected;
 
-		internal ModOptionsPage(ModSettings controller, int x, int y, int width, int height) : base(x, y, width, height, false) {
+		internal MenuPage(MenuController controller, int x, int y, int width, int height) : base(x, y, width, height, false) {
 			this.controller = controller;
 
 			var modChoices = new List<string>();
@@ -43,8 +43,8 @@ namespace StardewConfigMenu.Panel {
 
 		static public void SetActive() {
 			var gameMenu = (GameMenu) Game1.activeClickableMenu;
-			if (ModSettings.pageIndex != null)
-				gameMenu.currentTab = (int) ModSettings.pageIndex;
+			if (MenuController.pageIndex != null)
+				gameMenu.currentTab = (int) MenuController.pageIndex;
 		}
 
 		public override void receiveRightClick(int x, int y, bool playSound = true) { }
@@ -76,7 +76,7 @@ namespace StardewConfigMenu.Panel {
 		protected virtual void MouseChanged(object sender, EventArgsMouseStateChanged e) {
 			if (GameMenu.forcePreventClose) { return; }
 			if (!(Game1.activeClickableMenu is GameMenu)) { return; } // must be main menu
-			if ((Game1.activeClickableMenu as GameMenu).currentTab != ModSettings.pageIndex) { return; } //must be mod tab
+			if ((Game1.activeClickableMenu as GameMenu).currentTab != MenuController.pageIndex) { return; } //must be mod tab
 
 			var currentSheet = Sheets.Find(x => x.visible);
 
@@ -116,7 +116,7 @@ namespace StardewConfigMenu.Panel {
 			//base.draw(b);
 			//tester.draw(b);
 			if (!(Game1.activeClickableMenu is GameMenu)) { return; } // must be main menu
-			if ((Game1.activeClickableMenu as GameMenu).currentTab != ModSettings.pageIndex) { return; } //must be mod tab
+			if ((Game1.activeClickableMenu as GameMenu).currentTab != MenuController.pageIndex) { return; } //must be mod tab
 
 
 
