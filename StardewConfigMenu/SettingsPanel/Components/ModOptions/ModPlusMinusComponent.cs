@@ -1,18 +1,18 @@
-﻿using StardewConfigFramework;
+﻿using StardewConfigFramework.Options;
 using StardewValley;
 using Microsoft.Xna.Framework;
 
 namespace StardewConfigMenu.Panel.Components.ModOptions {
 	internal class ModPlusMinusComponent: PlusMinusComponent {
-		readonly ModOptionStepper Option;
+		readonly Stepper Option;
 
-		public override bool enabled => Option.enabled;
+		public override bool enabled => Option.Enabled;
 
-		public override string label => Option.LabelText;
+		public override string label => Option.Label;
 
-		public override decimal min => Option.min;
-		public override decimal max => Option.max;
-		public override decimal stepSize => Option.stepSize;
+		public override decimal min => Option.Min;
+		public override decimal max => Option.Max;
+		public override decimal stepSize => Option.StepSize;
 		public override decimal Value {
 			get {
 				return Option.Value;
@@ -22,11 +22,11 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 			}
 		}
 
-		internal ModPlusMinusComponent(ModOptionStepper option, int x, int y) : base(option.LabelText, option.min, option.max, option.stepSize, option.Value, x, y, option.type, option.enabled) {
+		internal ModPlusMinusComponent(Stepper option, int x, int y) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, x, y, option.Type, option.Enabled) {
 			this.Option = option;
 		}
 
-		internal ModPlusMinusComponent(ModOptionStepper option) : base(option.LabelText, option.min, option.max, option.stepSize, option.Value, option.type, option.enabled) {
+		internal ModPlusMinusComponent(Stepper option) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, option.Type, option.Enabled) {
 			this.Option = option;
 		}
 	}

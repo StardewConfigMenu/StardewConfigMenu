@@ -54,7 +54,16 @@ namespace StardewConfigMenu.Panel.Components {
 		}
 
 		public virtual int SelectionIndex {
-			get { return (dropDownOptions.Count != 0) ? dropDownOptions.IndexOf(this.dropDownDisplayOptions[0]) : -1; }
+			get {
+				if (dropDownOptions.Count == 0)
+					return -1;
+
+				for (int i = 0; i < dropDownOptions.Count; i++) {
+					if (dropDownDisplayOptions[0] == dropDownOptions[i])
+						return i;
+				}
+				return -1;
+			}
 			set {
 				if (SelectionIndex == value)
 					return;
@@ -84,7 +93,7 @@ namespace StardewConfigMenu.Panel.Components {
 		// Original List
 		private List<string> _dropDownOptions = new List<string>();
 
-		protected virtual List<string> dropDownOptions {
+		protected virtual IReadOnlyList<string> dropDownOptions {
 			get { return _dropDownOptions; }
 		}
 

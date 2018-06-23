@@ -1,38 +1,39 @@
-﻿using StardewConfigFramework;
+﻿using StardewConfigFramework.Options;
 using StardewValley;
 using Microsoft.Xna.Framework;
 using StardewValley.Menus;
 
 namespace StardewConfigMenu.Panel.Components.ModOptions {
+	using ActionType = Action.ActionType;
 	internal class ModButtonComponent: ButtonComponent {
-		readonly ModOptionTrigger Option;
+		readonly Action Option;
 
 		public override bool enabled {
 			get {
-				return Option.enabled;
+				return Option.Enabled;
 			}
 		}
 
 		public override string label {
 			get {
-				return Option.LabelText;
+				return Option.Label;
 			}
 		}
 
-		internal ModButtonComponent(ModOptionTrigger option, int x, int y) : base(option.LabelText, option.type, x, y, option.enabled) {
+		internal ModButtonComponent(Action option, int x, int y) : base(option.Label, option.Type, x, y, option.Enabled) {
 			this.Option = option;
 		}
 
-		internal ModButtonComponent(ModOptionTrigger option) : base(option.LabelText, option.type, option.enabled) {
+		internal ModButtonComponent(Action option) : base(option.Label, option.Type, option.Enabled) {
 			this.Option = option;
 		}
 
-		public override OptionActionType ActionType {
+		public override ActionType ActionType {
 			get {
 				if (Option == null)
 					return _ActionType;
 
-				return this.Option.type;
+				return this.Option.Type;
 			}
 		}
 

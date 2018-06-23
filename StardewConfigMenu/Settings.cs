@@ -10,7 +10,7 @@ using StardewConfigMenu.Panel;
 using System.IO;
 
 namespace StardewConfigMenu {
-	public class ModSettings: IModSettingsFramework {
+	public class ModSettings: IConfigMenu {
 		public static int? pageIndex = null;
 		static internal ModEntry Mod;
 
@@ -45,17 +45,17 @@ namespace StardewConfigMenu {
 		internal ModOptionsTab tab;
 		internal ModOptionsPage page;
 
-		internal List<ModOptions> ModOptionsList = new List<ModOptions>();
+		internal List<IOptionsPackage> ModOptionsList = new List<IOptionsPackage>();
 
-		public override void AddModOptions(ModOptions modOptions) {
+		public override void AddModOptions(IOptionsPackage modOptions) {
 			// Only one per mod, remove old one
-			foreach (ModOptions mod in this.ModOptionsList) {
-				if (mod.modManifest.Name == modOptions.modManifest.Name) {
+			foreach (IOptionsPackage mod in this.ModOptionsList) {
+				if (mod.ModManifest.UniqueID == modOptions.ModManifest.UniqueID) {
 					ModOptionsList.Remove(mod);
 				}
 			}
 
-			Mod.Monitor.Log($"{modOptions.modManifest.Name} has added its mod options");
+			Mod.Monitor.Log($"{modOptions.ModManifest.UniqueID} has added its mod options");
 
 			ModOptionsList.Add(modOptions);
 		}

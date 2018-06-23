@@ -1,20 +1,20 @@
-﻿using StardewConfigFramework;
+﻿using StardewConfigFramework.Options;
 using StardewValley;
 using Microsoft.Xna.Framework;
 
 namespace StardewConfigMenu.Panel.Components.ModOptions {
 	internal class ModSliderComponent: SliderComponent {
 
-		readonly ModOptionRange Option;
+		readonly Range Option;
 
-		public override bool enabled => Option.enabled;
+		public override bool enabled => Option.Enabled;
 
-		public override string label => Option.LabelText;
+		public override string label => Option.Label;
 
-		protected override decimal min => Option.min;
-		protected override decimal max => Option.max;
-		protected override decimal stepSize => Option.stepSize;
-		protected override bool showValue => Option.showValue;
+		protected override decimal min => Option.Min;
+		protected override decimal max => Option.Max;
+		protected override decimal stepSize => Option.StepSize;
+		protected override bool showValue => Option.ShowValue;
 		protected override decimal Value {
 			get {
 				return Option.Value;
@@ -24,11 +24,11 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 			}
 		}
 
-		internal ModSliderComponent(ModOptionRange option, int x, int y) : base(option.LabelText, option.min, option.max, option.stepSize, option.Value, option.showValue, x, y, option.enabled) {
+		internal ModSliderComponent(Range option, int x, int y) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, option.ShowValue, x, y, option.Enabled) {
 			this.Option = option;
 		}
 
-		internal ModSliderComponent(ModOptionRange option) : this(option, 0, 0) { }
+		internal ModSliderComponent(Range option) : this(option, 0, 0) { }
 
 	}
 }

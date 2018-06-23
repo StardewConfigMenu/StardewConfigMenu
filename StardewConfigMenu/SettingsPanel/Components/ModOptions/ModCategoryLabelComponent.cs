@@ -10,7 +10,7 @@ using StardewValley;
 using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
 using StardewModdingAPI.Events;
-using StardewConfigFramework;
+using StardewConfigFramework.Options;
 
 
 namespace StardewConfigMenu.Panel.Components.ModOptions {
@@ -21,11 +21,11 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 			protected set { }
 		}
 
-		private ModOptionCategoryLabel option;
+		private CategoryLabel option;
 
 		Rectangle bounds = new Rectangle();
 
-		public ModCategoryLabelComponent(ModOptionCategoryLabel option) : base(option.LabelText) {
+		public ModCategoryLabelComponent(CategoryLabel option) : base(option.Label) {
 			this.option = option;
 			this.bounds.Height = SpriteText.getHeightOfString(this.label);
 			this.bounds.Width = SpriteText.getWidthOfString(this.label);
@@ -47,7 +47,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 
 		// static drawing of component
 		public override void draw(SpriteBatch b) {
-			SpriteText.drawString(b, (option != null) ? option.LabelText : this.label, this.bounds.X, this.bounds.Y - 4 * Game1.pixelZoom);
+			SpriteText.drawString(b, (option != null) ? option.Label : this.label, this.bounds.X, this.bounds.Y - 4 * Game1.pixelZoom);
 		}
 	}
 }

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using StardewConfigFramework;
+using StardewConfigFramework.Options;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
 
 namespace StardewConfigMenu.Panel.Components.ModOptions {
 	internal class ModDropDownComponent: DropDownComponent {
-		readonly private ModOptionSelection ModData;
+		readonly private Selection ModData;
 
 		public override bool enabled {
 			get {
-				if (!ModData.enabled)
-					return ModData.enabled;
+				if (!ModData.Enabled)
+					return ModData.Enabled;
 				else
 					return dropDownOptions.Count != 0;
 			}
@@ -23,7 +23,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 
 		public override string label {
 			get {
-				return ModData.LabelText;
+				return ModData.Label;
 			}
 		}
 
@@ -46,12 +46,12 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 			}
 		}
 
-		protected override List<string> dropDownOptions {
+		protected override IReadOnlyList<string> dropDownOptions {
 			get {
 				if (this.ModData == null) // for base intialization
 					return new List<string>();
 				else
-					return new List<string>(this.ModData.Choices.Labels);
+					return ModData.GetLabels();
 			}
 		}
 
@@ -73,9 +73,9 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 			}
 		}
 
-		public ModDropDownComponent(ModOptionSelection option, int width) : this(option, width, 0, 0) { }
+		public ModDropDownComponent(Selection option, int width) : this(option, width, 0, 0) { }
 
-		public ModDropDownComponent(ModOptionSelection option, int width, int x, int y) : base(option.LabelText, width, x, y) {
+		public ModDropDownComponent(Selection option, int width, int x, int y) : base(option.Label, width, x, y) {
 			this.ModData = option;
 		}
 
@@ -84,19 +84,20 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 				return;
 
 			var selected = dropDownDisplayOptions[DisplayedSelection];
-			ModData.SelectionIndex = this.ModData.Choices.IndexOfLabel(selected);
+			ModData.SelectionIndex = this.ModData.IndexOfLabel(selected);
 			base.SelectDisplayedOption(DisplayedSelection);
 		}
 
 		public override void draw(SpriteBatch b) {
 			base.draw(b);
 
+			if (this.ModData.Choices.Count == 0)
+				return;
+
 			if (!this.IsActiveComponent() && (Game1.getMouseX() > this.X) && (Game1.getMouseX() < this.Width + this.X) && (Game1.getMouseY() > this.Y) && (Game1.getMouseY() < this.Height + this.Y)) {
-				if (this.ModData.hoverTextDictionary != null) {
-					if (this.ModData.hoverTextDictionary.ContainsKey(this.ModData.Selection)) {
-						string optionDescription = Utilities.GetWordWrappedString(this.ModData.hoverTextDictionary[this.ModData.Selection]);
-						IClickableMenu.drawHoverText(b, optionDescription, Game1.smallFont);
-					}
+				if (this.ModData.SelectedChoice.HoverText != null) {
+					string optionDescription = Utilities.GetWordWrappedString(ModData.SelectedChoice.HoverText);
+					IClickableMenu.drawHoverText(b, optionDescription, Game1.smallFont);
 				}
 			}
 		}

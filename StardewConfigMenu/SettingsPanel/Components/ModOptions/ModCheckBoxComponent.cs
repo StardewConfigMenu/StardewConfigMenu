@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
-using StardewConfigFramework;
+using StardewConfigFramework.Options;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
@@ -20,7 +20,7 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 		//
 		// Fields
 		//
-		readonly private ModOptionToggle Option;
+		readonly private Toggle Option;
 
 		public override bool IsChecked {
 			get { return Option.IsOn; }
@@ -33,21 +33,21 @@ namespace StardewConfigMenu.Panel.Components.ModOptions {
 
 		public override bool enabled {
 			get {
-				return Option.enabled;
+				return Option.Enabled;
 			}
 		}
 
 		public override string label {
 			get {
-				return Option.LabelText;
+				return Option.Label;
 			}
 		}
 
-		internal ModCheckBoxComponent(ModOptionToggle option, int x, int y) : base(option.LabelText, option.IsOn, x, y, option.enabled) {
+		internal ModCheckBoxComponent(Toggle option, int x, int y) : base(option.Label, option.IsOn, x, y, option.Enabled) {
 			this.Option = option;
 		}
 
-		internal ModCheckBoxComponent(ModOptionToggle option) : base(option.LabelText, option.IsOn, option.enabled) {
+		internal ModCheckBoxComponent(Toggle option) : base(option.Label, option.IsOn, option.Enabled) {
 			this.Option = option;
 		}
 

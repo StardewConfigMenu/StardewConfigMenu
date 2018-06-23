@@ -6,11 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
-using StardewConfigFramework;
+using StardewConfigFramework.Options;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
 namespace StardewConfigMenu.Panel.Components {
+	using DisplayType = Stepper.DisplayType;
 	internal delegate void PlusMinusValueChanged(decimal Value);
 
 	internal class PlusMinusComponent: OptionComponent {
@@ -54,10 +55,10 @@ namespace StardewConfigMenu.Panel.Components {
 		protected string typeExtraString {
 			get {
 				switch (type) {
-				case DisplayType.PERCENT:
-					return "%";
-				default:
-					return "";
+					case DisplayType.PERCENT:
+						return "%";
+					default:
+						return "";
 				}
 			}
 		}

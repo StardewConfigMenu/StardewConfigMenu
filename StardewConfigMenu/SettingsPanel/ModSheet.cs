@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Type = System.Type;
+using Math = System.Math;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -7,6 +8,7 @@ using StardewValley.Menus;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using StardewConfigFramework;
+using StardewConfigFramework.Options;
 using StardewConfigMenu.Panel.Components.ModOptions;
 using StardewConfigMenu.Panel.Components;
 using Microsoft.Xna.Framework.Input;
@@ -41,27 +43,31 @@ namespace StardewConfigMenu.Panel {
 
 		private int startingOption = 0;
 
-		internal ModSheet(ModOptions modOptions, int x, int y, int width, int height) : base(x, y, width, height) {
-			for (int i = 0; i < modOptions.List.Count; i++) {
+		internal ModSheet(IOptionsPackage modOptions, int x, int y, int width, int height) : base(x, y, width, height) {
+			for (int i = 0; i < modOptions.Tabs[0].OptionList.Count; i++) {
 				// check type of option
-				Type t = modOptions.List[i].GetType();
-				if (t.Equals(typeof(ModOptionCategoryLabel)))
-					Options.Add(new ModCategoryLabelComponent(modOptions.List[i] as ModOptionCategoryLabel));
-				else if (t.Equals(typeof(ModOptionSelection))) {
-					int minWidth = 350;
-					var option = (modOptions.List[i] as ModOptionSelection);
-					option.Choices.Labels.ForEach(choice => { minWidth = Math.Max((int) Game1.smallFont.MeasureString(choice + "     ").X, minWidth); });
 
-					Options.Add(new ModDropDownComponent(option, minWidth));
-				} else if (t.Equals(typeof(ModOptionToggle)))
-					Options.Add(new ModCheckBoxComponent(modOptions.List[i] as ModOptionToggle));
-				else if (t.Equals(typeof(ModOptionTrigger)))
-					Options.Add(new ModButtonComponent(modOptions.List[i] as ModOptionTrigger));
-				else if (t.Equals(typeof(ModOptionStepper)))
-					Options.Add(new ModPlusMinusComponent(modOptions.List[i] as ModOptionStepper));
-				else if (t.Equals(typeof(ModOptionRange)))
+				var option = modOptions.Tabs[0].OptionList[i];
+				Type t = option.GetType();
+				if (t.Equals(typeof(CategoryLabel)))
+					Options.Add(new ModCategoryLabelComponent(option as CategoryLabel));
+				else if (t.Equals(typeof(Selection))) {
+					int minWidth = 350;
+					var selection = (option as Selection);
+					var labels = selection.GetLabels();
+					foreach (string label in labels) {
+						minWidth = Math.Max((int) Game1.smallFont.MeasureString(label + "     ").X, minWidth);
+					}
+					Options.Add(new ModDropDownComponent(selection, minWidth));
+				} else if (t.Equals(typeof(Toggle)))
+					Options.Add(new ModCheckBoxComponent(option as Toggle));
+				else if (t.Equals(typeof(Action)))
+					Options.Add(new ModButtonComponent(option as Action));
+				else if (t.Equals(typeof(Stepper)))
+					Options.Add(new ModPlusMinusComponent(option as Stepper));
+				else if (t.Equals(typeof(Range)))
 					//Options.Add(new SliderComponent("Hey", 0, 10, 1, 5, true));
-					Options.Add(new ModSliderComponent(modOptions.List[i] as ModOptionRange));
+					Options.Add(new ModSliderComponent(option as Range));
 				//break;
 
 
