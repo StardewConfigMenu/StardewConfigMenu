@@ -7,26 +7,25 @@ namespace StardewConfigMenu.Components.ModOptions {
 	using ActionType = Action.ActionType;
 
 	internal class ModButtonComponent: ButtonComponent {
-		readonly Action Option;
+		readonly Action ModData;
 
-		public override bool Enabled => Option.Enabled;
-
-		public override string Label => Option.Label;
+		public override bool Enabled => ModData.Enabled;
+		public override string Label => ModData.Label;
 
 		internal ModButtonComponent(Action option, int x, int y) : base(option.Label, option.Type, x, y, option.Enabled) {
-			this.Option = option;
+			this.ModData = option;
 		}
 
 		internal ModButtonComponent(Action option) : base(option.Label, option.Type, option.Enabled) {
-			this.Option = option;
+			this.ModData = option;
 		}
 
 		public override ActionType ActionType {
 			get {
-				if (Option == null)
+				if (ModData == null)
 					return ActionType.OK;
 
-				return this.Option.Type;
+				return this.ModData.Type;
 			}
 		}
 
@@ -36,7 +35,7 @@ namespace StardewConfigMenu.Components.ModOptions {
 			if (this.Button.containsPoint(x, y) && Enabled && this.IsAvailableForSelection()) {
 				if (playSound)
 					Game1.playSound("breathin");
-				this.Option.Trigger();
+				this.ModData.Trigger();
 			}
 		}
 	}
