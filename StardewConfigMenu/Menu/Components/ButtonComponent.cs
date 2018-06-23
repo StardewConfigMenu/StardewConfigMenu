@@ -63,7 +63,9 @@ namespace StardewConfigMenu.Components {
 
 		public virtual ActionType ActionType {
 			get => _ActionType;
-			set => _ActionType;
+			set {
+				_ActionType = value;
+			}
 		}
 
 		protected ActionType _ActionType;
