@@ -2,7 +2,7 @@
 using StardewValley;
 using Microsoft.Xna.Framework;
 
-namespace StardewConfigMenu.Components.ModOptions {
+namespace StardewConfigMenu.Components.DataBacked {
 	internal class ModPlusMinusComponent: PlusMinusComponent {
 		readonly Stepper Option;
 

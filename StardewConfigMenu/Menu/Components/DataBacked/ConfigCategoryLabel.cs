@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 using StardewConfigFramework.Options;
 
 
-namespace StardewConfigMenu.Components.ModOptions {
+namespace StardewConfigMenu.Components.DataBacked {
 	class ModCategoryLabelComponent: SCMControl {
 
 		public override bool Enabled {

@@ -2,7 +2,7 @@
 using StardewValley;
 using Microsoft.Xna.Framework;
 
-namespace StardewConfigMenu.Components.ModOptions {
+namespace StardewConfigMenu.Components.ModData {
 	internal class ModSliderComponent: SliderComponent {
 
 		readonly Range Option;
