@@ -5,6 +5,7 @@ using StardewValley.Menus;
 
 namespace StardewConfigMenu.Components.ModOptions {
 	using ActionType = Action.ActionType;
+
 	internal class ModButtonComponent: ButtonComponent {
 		readonly Action Option;
 
