@@ -12,14 +12,6 @@ using Microsoft.Xna.Framework.Input;
 namespace StardewConfigMenu.Components.DataBacked {
 
 	internal class ConfigCheckbox: SCMCheckbox {
-		//
-		// Static Fields
-		//
-		//public const int pixelsHigh = 11;
-
-		//
-		// Fields
-		//
 		readonly private Toggle Option;
 
 		public override bool IsChecked {
@@ -50,8 +42,6 @@ namespace StardewConfigMenu.Components.DataBacked {
 		internal ConfigCheckbox(Toggle option) : base(option.Label, option.IsOn, option.Enabled) {
 			this.Option = option;
 		}
-
 	}
-
 }
 

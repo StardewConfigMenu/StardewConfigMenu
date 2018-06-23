@@ -11,23 +11,20 @@ using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
 namespace StardewConfigMenu.Components {
-	internal delegate void CheckBoxToggled(bool isOn);
 
 	internal class SCMCheckbox: SCMControl {
+		internal delegate void CheckBoxToggledEvent(bool isOn);
 
-		internal event CheckBoxToggled CheckBoxToggled;
+		internal event CheckBoxToggledEvent CheckBoxToggled;
 
-		ClickableTextureComponent checkbox = new ClickableTextureComponent(new Rectangle(0, 0, Game1.pixelZoom * OptionsCheckbox.sourceRectChecked.Width, Game1.pixelZoom * OptionsCheckbox.sourceRectChecked.Height), Game1.mouseCursors, OptionsCheckbox.sourceRectChecked, Game1.pixelZoom);
+		private ClickableTextureComponent Checkbox = StardewTile.CheckboxChecked.ClickableTextureComponent(0, 0);
 
-		public override int Width => checkbox.bounds.Width;
-		public override int Height => checkbox.bounds.Height;
-		public override int X => checkbox.bounds.X;
-		public override int Y => checkbox.bounds.Y;
+		public override int Width => Checkbox.bounds.Width;
+		public override int Height => Checkbox.bounds.Height;
+		public override int X => Checkbox.bounds.X;
+		public override int Y => Checkbox.bounds.Y;
 
-		//
-		// Static Fields
-		//
-
+		private bool _IsChecked;
 		public virtual bool IsChecked {
 			get {
 				return _IsChecked;
@@ -41,71 +38,42 @@ namespace StardewConfigMenu.Components {
 		internal override bool Visible {
 			set {
 				base.Visible = value;
-				checkbox.visible = value;
+				Checkbox.visible = value;
 			}
 		}
 
-		private bool _IsChecked;
-
-
-		//
-		// Fields
-		//
-
 		internal SCMCheckbox(string label, bool isChecked, int x, int y, bool enabled = true) : base(label, enabled) {
-			this.checkbox.bounds.X = x;
-			this.checkbox.bounds.Y = y;
-			//base.height = checkbox.bounds.Height;
-			//base.width = checkbox.bounds.Width;
-			//base.xPositionOnScreen = checkbox.bounds.X;
-			//base.yPositionOnScreen = checkbox.bounds.Y;
-
-			//this.bounds = new Rectangle(x, y, Game1.pixelZoom * OptionsCheckbox.sourceRectChecked.Width, Game1.pixelZoom * OptionsCheckbox.sourceRectChecked.Height);
+			this.Checkbox.bounds.X = x;
+			this.Checkbox.bounds.Y = y;
 			this._IsChecked = isChecked;
 		}
 
 		internal SCMCheckbox(string label, bool isChecked, bool enabled = true) : base(label, enabled) {
-			//base.height = checkbox.bounds.Height;
-			//base.width = checkbox.bounds.Width;
-
-			//this.bounds = new Rectangle(0, 0, Game1.pixelZoom * OptionsCheckbox.sourceRectChecked.Width, Game1.pixelZoom * OptionsCheckbox.sourceRectChecked.Height);
 			this._IsChecked = isChecked;
 		}
 
 		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
 			base.ReceiveLeftClick(x, y, playSound);
 
-			if (this.checkbox.containsPoint(x, y) && Enabled && this.IsAvailableForSelection) {
+			if (this.Checkbox.containsPoint(x, y) && Enabled && IsAvailableForSelection) {
 				IsChecked = !IsChecked;
 				if (playSound)
 					Game1.playSound("drumkit6");
 			}
 		}
 
-		public override void ReceiveRightClick(int x, int y, bool playSound = true) {
-
-		}
-
-		public override void Draw(SpriteBatch b, int x, int y) {
-			this.checkbox.bounds.X = x;
-			this.checkbox.bounds.Y = y;
-			this.Draw(b);
-		}
-
 		public override void Draw(SpriteBatch b) {
 			base.Draw(b);
 
-			if (IsChecked)
-				checkbox.sourceRect = OptionsCheckbox.sourceRectChecked;
-			else
-				checkbox.sourceRect = OptionsCheckbox.sourceRectUnchecked;
+			if (IsChecked && Checkbox.sourceRect != OptionsCheckbox.sourceRectChecked)
+				Checkbox.sourceRect = OptionsCheckbox.sourceRectChecked;
+			else if (!IsChecked && Checkbox.sourceRect != OptionsCheckbox.sourceRectUnchecked)
+				Checkbox.sourceRect = OptionsCheckbox.sourceRectUnchecked;
 
-			checkbox.draw(b, Color.White * ((this.Enabled) ? 1f : 0.33f), 0.88f);
-			//b.Draw(Game1.mouseCursors, new Vector2((float) (this.bounds.X), (float) (this.bounds.Y)), new Rectangle?((this.IsChecked) ? OptionsCheckbox.sourceRectChecked : OptionsCheckbox.sourceRectUnchecked), Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.4f);
+			Checkbox.draw(b, Color.White * ((this.Enabled) ? 1f : 0.33f), 0.88f);
 
 			var labelSize = Game1.dialogueFont.MeasureString(this.Label);
-
-			Utility.drawTextWithShadow(b, this.Label, Game1.dialogueFont, new Vector2((float) (this.checkbox.bounds.Right + Game1.pixelZoom * 4), (float) (this.checkbox.bounds.Y + ((this.checkbox.bounds.Height - labelSize.Y) / 2))), this.Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, this.Label, Game1.dialogueFont, new Vector2((float) (this.Checkbox.bounds.Right + Game1.pixelZoom * 4), (float) (this.Checkbox.bounds.Y + ((this.Checkbox.bounds.Height - labelSize.Y) / 2))), this.Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 
 		}
 

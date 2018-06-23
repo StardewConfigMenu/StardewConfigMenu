@@ -11,6 +11,8 @@ namespace StardewConfigMenu {
 		public static StardewTile SetButton = new StardewTile(Game1.mouseCursors, OptionsInputListener.setButtonSource, Game1.pixelZoom);
 		public static StardewTile DoneButton = new StardewTile(Game1.mouseCursors, new Rectangle(441, 411, 24, 13), Game1.pixelZoom);
 		public static StardewTile GiftButton = new StardewTile(Game1.mouseCursors, new Rectangle(229, 410, 14, 14), Game1.pixelZoom);
+		public static StardewTile CheckboxChecked = new StardewTile(Game1.mouseCursors, OptionsCheckbox.sourceRectChecked, Game1.pixelZoom);
+		public static StardewTile CheckboxUnchecked = new StardewTile(Game1.mouseCursors, OptionsCheckbox.sourceRectUnchecked, Game1.pixelZoom);
 
 		public StardewTile(Texture2D tileSheet, Rectangle source, float scale = 1f) {
 			Source = source;

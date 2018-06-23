@@ -68,7 +68,11 @@ namespace StardewConfigMenu.Components {
 		}
 
 		// For moving the component
-		public virtual void Draw(SpriteBatch b, int x, int y) { }
+		public virtual void Draw(SpriteBatch b, int x, int y) {
+			X = x;
+			Y = y;
+			Draw(b);
+		}
 		public virtual void Draw(SpriteBatch b) { }
 
 		public virtual void ReceiveLeftClick(int x, int y, bool playSound = true) { }
