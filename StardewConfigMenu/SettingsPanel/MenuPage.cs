@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -7,10 +7,10 @@ using StardewValley.Menus;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.BellsAndWhistles;
-using StardewConfigMenu.Panel.Components;
+using StardewConfigMenu.Components;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel {
+namespace StardewConfigMenu {
 	public class MenuPage: IClickableMenu {
 
 		private MenuController controller;

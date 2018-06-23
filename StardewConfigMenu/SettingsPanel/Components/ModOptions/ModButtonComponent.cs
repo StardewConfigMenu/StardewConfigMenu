@@ -3,7 +3,7 @@ using StardewValley;
 using Microsoft.Xna.Framework;
 using StardewValley.Menus;
 
-namespace StardewConfigMenu.Panel.Components.ModOptions {
+namespace StardewConfigMenu.Components.ModOptions {
 	using ActionType = Action.ActionType;
 	internal class ModButtonComponent: ButtonComponent {
 		readonly Action Option;

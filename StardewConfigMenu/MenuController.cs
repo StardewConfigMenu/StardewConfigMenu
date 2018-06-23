@@ -6,7 +6,6 @@ using StardewValley;
 using StardewValley.Menus;
 using System.Collections.Generic;
 using StardewConfigFramework;
-using StardewConfigMenu.Panel;
 using System.IO;
 
 namespace StardewConfigMenu {

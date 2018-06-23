@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 
 
-namespace StardewConfigMenu.Panel.Components {
+namespace StardewConfigMenu.Components {
 
 	internal delegate void SliderValueChanged(decimal Value);
 

@@ -9,12 +9,12 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using StardewConfigFramework;
 using StardewConfigFramework.Options;
-using StardewConfigMenu.Panel.Components.ModOptions;
-using StardewConfigMenu.Panel.Components;
+using StardewConfigMenu.Components.ModOptions;
+using StardewConfigMenu.Components;
 using Microsoft.Xna.Framework.Input;
 
 
-namespace StardewConfigMenu.Panel {
+namespace StardewConfigMenu {
 	internal class ModSheet: IClickableMenu {
 		private List<OptionComponent> Options = new List<OptionComponent>();
 

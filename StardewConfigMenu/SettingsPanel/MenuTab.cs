@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 
-namespace StardewConfigMenu.Panel {
+namespace StardewConfigMenu {
 	static internal class Constants {
 		internal const int TabNumber = 11;
 	}

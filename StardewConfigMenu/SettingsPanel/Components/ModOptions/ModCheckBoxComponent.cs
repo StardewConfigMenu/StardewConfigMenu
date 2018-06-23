@@ -9,7 +9,7 @@ using StardewConfigFramework.Options;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel.Components.ModOptions {
+namespace StardewConfigMenu.Components.ModOptions {
 
 	internal class ModCheckBoxComponent: CheckBoxComponent {
 		//

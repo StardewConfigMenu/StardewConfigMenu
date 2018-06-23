@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
 
-namespace StardewConfigMenu.Panel.Components.ModOptions {
+namespace StardewConfigMenu.Components.ModOptions {
 	internal class ModDropDownComponent: DropDownComponent {
 		readonly private Selection ModData;
 

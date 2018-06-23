@@ -10,7 +10,7 @@ using StardewConfigFramework;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel.Components {
+namespace StardewConfigMenu.Components {
 	internal delegate void CheckBoxToggled(bool isOn);
 
 	internal class CheckBoxComponent: OptionComponent {

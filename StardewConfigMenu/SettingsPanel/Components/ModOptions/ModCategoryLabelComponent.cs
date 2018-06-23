@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 using StardewConfigFramework.Options;
 
 
-namespace StardewConfigMenu.Panel.Components.ModOptions {
+namespace StardewConfigMenu.Components.ModOptions {
 	class ModCategoryLabelComponent: OptionComponent {
 
 		public override bool enabled {

@@ -9,7 +9,7 @@ using StardewConfigFramework.Options;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel.Components {
+namespace StardewConfigMenu.Components {
 	using ActionType = Action.ActionType;
 	internal delegate void ButtonPressed();
 

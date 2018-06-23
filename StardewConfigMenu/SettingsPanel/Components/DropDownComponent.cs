@@ -9,7 +9,7 @@ using StardewConfigFramework;
 using StardewModdingAPI.Events;
 using Microsoft.Xna.Framework.Input;
 
-namespace StardewConfigMenu.Panel.Components {
+namespace StardewConfigMenu.Components {
 	internal delegate void DropDownOptionSelected(int selected);
 
 	internal class DropDownComponent: OptionComponent {

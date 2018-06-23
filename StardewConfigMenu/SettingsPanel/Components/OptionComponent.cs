@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 
 
 
-namespace StardewConfigMenu.Panel.Components {
+namespace StardewConfigMenu.Components {
 	abstract class OptionComponent {
 		static protected OptionComponent selectedComponent;
 
