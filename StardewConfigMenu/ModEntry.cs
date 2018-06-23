@@ -10,7 +10,7 @@ namespace StardewConfigMenu {
 	public class ModEntry: Mod {
 
 		internal static IModHelper helper;
-		private ModSettings panel;
+		private ConfigMenuController panel;
 		internal static IMonitor monitor;
 
 		/*********
@@ -22,7 +22,7 @@ namespace StardewConfigMenu {
 			ModEntry.helper = helper;
 			ModEntry.monitor = this.Monitor;
 
-			this.panel = new ModSettings(this);
+			this.panel = new ConfigMenuController(this);
 			this.StardewConfigFrameworkLoaded();
 
 		}
