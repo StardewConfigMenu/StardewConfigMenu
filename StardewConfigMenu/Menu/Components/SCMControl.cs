@@ -14,32 +14,22 @@ using StardewModdingAPI.Events;
 
 
 namespace StardewConfigMenu.Components {
-	abstract class OptionComponent {
-		static protected OptionComponent selectedComponent;
+	abstract class SCMControl {
+		static protected SCMControl selectedComponent;
 
 		virtual internal bool visible {
-			set { _visible = value; }
-			get {
-				return _visible;
-			}
+			set => _visible = value;
+			get => _visible;
 		}
 
 		public virtual bool Enabled {
-			get {
-				return _enabled;
-			}
-			protected set {
-				_enabled = value;
-			}
+			get => _enabled;
+			protected set => _enabled = value;
 		}
 
 		public virtual string Label {
-			get {
-				return _label;
-			}
-			protected set {
-				_label = value;
-			}
+			get => _label;
+			protected set => _label = value;
 		}
 
 		private bool _visible = false;
@@ -51,38 +41,28 @@ namespace StardewConfigMenu.Components {
 		public virtual int X { get; }
 		public virtual int Y { get; }
 
-		public OptionComponent(string label, bool enabled = true) {
+		public SCMControl(string label, bool enabled = true) {
 			this._label = label;
 			this._enabled = enabled;
 			this.AddListeners();
 		}
 
-		public OptionComponent(string label, int x, int y, bool enabled = true) {
+		public SCMControl(string label, int x, int y, bool enabled = true) {
 			this._label = label;
 			this._enabled = enabled;
 			this.AddListeners();
 		}
-
-		protected bool IsAvailableForSelection() {
-			if ((IsActiveComponent() || OptionComponent.selectedComponent == null) && visible) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+		internal bool IsActiveComponent => SCMControl.selectedComponent == this;
+		protected bool IsAvailableForSelection => (IsActiveComponent || SCMControl.selectedComponent == null) && visible;
 
 		protected void RegisterAsActiveComponent() {
-			OptionComponent.selectedComponent = this;
+			SCMControl.selectedComponent = this;
 		}
 
 		protected void UnregisterAsActiveComponent() {
-			if (this.IsActiveComponent()) {
-				OptionComponent.selectedComponent = null;
+			if (this.IsActiveComponent) {
+				SCMControl.selectedComponent = null;
 			}
-		}
-
-		internal bool IsActiveComponent() {
-			return OptionComponent.selectedComponent == this;
 		}
 
 		// For moving the component

@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input;
 namespace StardewConfigMenu.Components {
 	internal delegate void CheckBoxToggled(bool isOn);
 
-	internal class CheckBoxComponent: OptionComponent {
+	internal class CheckBoxComponent: SCMControl {
 
 		internal event CheckBoxToggled CheckBoxToggled;
 
@@ -75,9 +75,7 @@ namespace StardewConfigMenu.Components {
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			base.receiveLeftClick(x, y, playSound);
 
-			bool test = this.IsAvailableForSelection();
-
-			if (this.checkbox.containsPoint(x, y) && Enabled && this.IsAvailableForSelection()) {
+			if (this.checkbox.containsPoint(x, y) && Enabled && this.IsAvailableForSelection) {
 				IsChecked = !IsChecked;
 				if (playSound)
 					Game1.playSound("drumkit6");

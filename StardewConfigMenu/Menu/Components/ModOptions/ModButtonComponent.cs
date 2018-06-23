@@ -6,7 +6,7 @@ using StardewValley.Menus;
 namespace StardewConfigMenu.Components.ModOptions {
 	using ActionType = Action.ActionType;
 
-	internal class ModButtonComponent: ButtonComponent {
+	internal class ModButtonComponent: SCMButton {
 		readonly Action ModData;
 
 		public override bool Enabled => ModData.Enabled;
@@ -32,7 +32,7 @@ namespace StardewConfigMenu.Components.ModOptions {
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			base.receiveLeftClick(x, y, playSound);
 
-			if (Button.containsPoint(x, y) && Enabled && IsAvailableForSelection()) {
+			if (Button.containsPoint(x, y) && Enabled && IsAvailableForSelection) {
 				if (playSound)
 					Game1.playSound("breathin");
 				ModData.Trigger();

@@ -1,18 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
 using StardewConfigFramework.Options;
-using StardewModdingAPI.Events;
-using Microsoft.Xna.Framework.Input;
 
 namespace StardewConfigMenu.Components {
 	using ActionType = Action.ActionType;
 
-	internal class ButtonComponent: OptionComponent {
+	internal class SCMButton: SCMControl {
 		internal delegate void ButtonPressedEvent();
 		internal event ButtonPressedEvent ButtonPressed;
 
@@ -31,14 +26,14 @@ namespace StardewConfigMenu.Components {
 		public override int X => Button.bounds.X;
 		public override int Y => Button.bounds.Y;
 
-		internal ButtonComponent(string label, ActionType type, int x, int y, bool enabled = true) : base(label, enabled) {
+		internal SCMButton(string label, ActionType type, int x, int y, bool enabled = true) : base(label, enabled) {
 			_ActionType = type;
 
 			Button = GetButtonTile().ClickableTextureComponent(x, y);
 			Button.drawShadow = true;
 		}
 
-		internal ButtonComponent(string label, ActionType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
+		internal SCMButton(string label, ActionType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
 
 		protected StardewTile GetButtonTile() {
 			switch (ActionType) {
@@ -60,7 +55,7 @@ namespace StardewConfigMenu.Components {
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			base.receiveLeftClick(x, y, playSound);
 
-			if (Button.containsPoint(x, y) && Enabled && IsAvailableForSelection()) {
+			if (Button.containsPoint(x, y) && Enabled && IsAvailableForSelection) {
 				ButtonPressed?.Invoke();
 			}
 

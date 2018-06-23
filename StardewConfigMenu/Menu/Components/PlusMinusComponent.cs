@@ -14,7 +14,7 @@ namespace StardewConfigMenu.Components {
 	using DisplayType = Stepper.DisplayType;
 	internal delegate void PlusMinusValueChanged(decimal Value);
 
-	internal class PlusMinusComponent: OptionComponent {
+	internal class PlusMinusComponent: SCMControl {
 
 		internal event PlusMinusValueChanged PlusMinusValueChanged;
 
@@ -119,12 +119,12 @@ namespace StardewConfigMenu.Components {
 
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 
-			if (this.minus.containsPoint(x, y) && Enabled && this.IsAvailableForSelection()) {
+			if (this.minus.containsPoint(x, y) && Enabled && this.IsAvailableForSelection) {
 				var temp = this.Value;
 				this.StepDown();
 				if (playSound && temp != this.Value)
 					Game1.playSound("drumkit6");
-			} else if (this.plus.containsPoint(x, y) && Enabled && this.IsAvailableForSelection()) {
+			} else if (this.plus.containsPoint(x, y) && Enabled && this.IsAvailableForSelection) {
 				var temp = this.Value;
 				this.StepUp();
 				if (playSound && temp != this.Value)

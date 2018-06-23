@@ -94,7 +94,7 @@ namespace StardewConfigMenu.Components.ModOptions {
 			if (this.ModData.Choices.Count == 0)
 				return;
 
-			if (!this.IsActiveComponent() && (Game1.getMouseX() > this.X) && (Game1.getMouseX() < this.Width + this.X) && (Game1.getMouseY() > this.Y) && (Game1.getMouseY() < this.Height + this.Y)) {
+			if (!this.IsActiveComponent && (Game1.getMouseX() > this.X) && (Game1.getMouseX() < this.Width + this.X) && (Game1.getMouseY() > this.Y) && (Game1.getMouseY() < this.Height + this.Y)) {
 				if (this.ModData.SelectedChoice.HoverText != null) {
 					string optionDescription = Utilities.GetWordWrappedString(ModData.SelectedChoice.HoverText);
 					IClickableMenu.drawHoverText(b, optionDescription, Game1.smallFont);

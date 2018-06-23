@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace StardewConfigMenu {
 	internal class ModSheet: IClickableMenu {
-		private List<OptionComponent> Options = new List<OptionComponent>();
+		private List<SCMControl> Options = new List<SCMControl>();
 
 		private ClickableTextureComponent upArrow;
 		private ClickableTextureComponent downArrow;

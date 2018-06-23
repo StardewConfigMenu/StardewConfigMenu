@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Input;
 namespace StardewConfigMenu.Components {
 	internal delegate void DropDownOptionSelected(int selected);
 
-	internal class DropDownComponent: OptionComponent {
+	internal class DropDownComponent: SCMControl {
 
 		internal event DropDownOptionSelected DropDownOptionSelected;
 		//
@@ -183,7 +183,7 @@ namespace StardewConfigMenu.Components {
 			Utility.drawTextWithShadow(b, this.Label, Game1.dialogueFont, new Vector2((float) (this.dropDownButton.bounds.Right + Game1.pixelZoom * 2), (float) (this.dropDown.bounds.Y + ((this.dropDown.bounds.Height - labelSize.Y) / 2))), this.Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 
 			// If menu is being clicked, and no other components are in use (to prevent click overlap of the dropdown)
-			if (this.IsActiveComponent()) {
+			if (this.IsActiveComponent) {
 				// Draw Background of dropdown
 				IClickableMenu.drawTextureBox(b, Game1.mouseCursors, OptionsDropDown.dropDownBGSource, this.dropDownBackground.bounds.X, this.dropDownBackground.bounds.Y, this.dropDownBackground.bounds.Width, this.dropDownBackground.bounds.Height, Color.White * buttonAlpha, (float) Game1.pixelZoom, false);
 				//dropDownBackground.draw(b);
@@ -210,7 +210,7 @@ namespace StardewConfigMenu.Components {
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			//base.receiveLeftClick(x, y, playSound);
 
-			if (this.Enabled && (this.dropDown.containsPoint(x, y) || this.dropDownButton.containsPoint(x, y)) && this.IsAvailableForSelection()) {
+			if (this.Enabled && (this.dropDown.containsPoint(x, y) || this.dropDownButton.containsPoint(x, y)) && this.IsAvailableForSelection) {
 				this.RegisterAsActiveComponent();
 				this.hoveredChoice = 0;
 				this.leftClickHeld(x, y);
@@ -221,7 +221,7 @@ namespace StardewConfigMenu.Components {
 		public override void leftClickHeld(int x, int y) {
 			base.leftClickHeld(x, y);
 
-			if (this.Enabled && this.IsActiveComponent() && this.dropDownBackground.containsPoint(x, y)) {
+			if (this.Enabled && this.IsActiveComponent && this.dropDownBackground.containsPoint(x, y)) {
 				this.dropDownBackground.bounds.Y = Math.Min(this.dropDownBackground.bounds.Y, Game1.viewport.Height - this.dropDownBackground.bounds.Height);
 				this.hoveredChoice = (int) Math.Max(Math.Min((float) (y - this.dropDownBackground.bounds.Y) / (float) this.dropDown.bounds.Height, (float) (this.dropDownOptions.Count - 1)), 0f);
 			}
@@ -230,7 +230,7 @@ namespace StardewConfigMenu.Components {
 		public override void releaseLeftClick(int x, int y) {
 			base.releaseLeftClick(x, y);
 
-			if (this.IsActiveComponent()) {
+			if (this.IsActiveComponent) {
 				this.UnregisterAsActiveComponent();
 
 				if (this.dropDownBackground.containsPoint(x, y)) {

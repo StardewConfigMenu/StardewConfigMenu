@@ -12,7 +12,7 @@ namespace StardewConfigMenu.Components {
 
 	internal delegate void SliderValueChanged(decimal Value);
 
-	internal class SliderComponent: OptionComponent {
+	internal class SliderComponent: SCMControl {
 
 		internal event SliderValueChanged SliderValueChanged;
 
@@ -112,7 +112,7 @@ namespace StardewConfigMenu.Components {
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			base.receiveLeftClick(x, y, playSound);
 
-			if (this.bounds.Contains(x, y) && Enabled && this.IsAvailableForSelection()) {
+			if (this.bounds.Contains(x, y) && Enabled && this.IsAvailableForSelection) {
 				scrolling = true;
 				// TODO 
 			}

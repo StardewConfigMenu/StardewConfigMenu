@@ -14,7 +14,7 @@ using StardewConfigFramework.Options;
 
 
 namespace StardewConfigMenu.Components.ModOptions {
-	class ModCategoryLabelComponent: OptionComponent {
+	class ModCategoryLabelComponent: SCMControl {
 
 		public override bool Enabled {
 			get { return true; }
