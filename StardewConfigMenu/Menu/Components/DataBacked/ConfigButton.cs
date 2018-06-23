@@ -1,22 +1,22 @@
-﻿using StardewConfigFramework.Options;
+using StardewConfigFramework.Options;
 using StardewValley;
 using Microsoft.Xna.Framework;
 using StardewValley.Menus;
 
-namespace StardewConfigMenu.Components.ModOptions {
+namespace StardewConfigMenu.Components.DataBacked {
 	using ActionType = Action.ActionType;
 
-	internal class ModButtonComponent: SCMButton {
+	internal class ConfigButton: SCMButton {
 		readonly Action ModData;
 
 		public override bool Enabled => ModData.Enabled;
 		public override string Label => ModData.Label;
 
-		internal ModButtonComponent(Action option, int x, int y) : base(option.Label, option.Type, x, y, option.Enabled) {
+		internal ConfigButton(Action option, int x, int y) : base(option.Label, option.Type, x, y, option.Enabled) {
 			ModData = option;
 		}
 
-		internal ModButtonComponent(Action option) : base(option.Label, option.Type, option.Enabled) {
+		internal ConfigButton(Action option) : base(option.Label, option.Type, option.Enabled) {
 			ModData = option;
 		}
 

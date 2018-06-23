@@ -2,8 +2,8 @@
 using StardewValley;
 using Microsoft.Xna.Framework;
 
-namespace StardewConfigMenu.Components.ModData {
-	internal class ModSliderComponent: SliderComponent {
+namespace StardewConfigMenu.Components.DataBacked {
+	internal class ConfigSlider: SliderComponent {
 
 		readonly Range Option;
 
@@ -24,11 +24,11 @@ namespace StardewConfigMenu.Components.ModData {
 			}
 		}
 
-		internal ModSliderComponent(Range option, int x, int y) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, option.ShowValue, x, y, option.Enabled) {
+		internal ConfigSlider(Range option, int x, int y) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, option.ShowValue, x, y, option.Enabled) {
 			this.Option = option;
 		}
 
-		internal ModSliderComponent(Range option) : this(option, 0, 0) { }
+		internal ConfigSlider(Range option) : this(option, 0, 0) { }
 
 	}
 }

@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input;
 namespace StardewConfigMenu.Components {
 	internal delegate void CheckBoxToggled(bool isOn);
 
-	internal class CheckBoxComponent: SCMControl {
+	internal class SCMCheckbox: SCMControl {
 
 		internal event CheckBoxToggled CheckBoxToggled;
 
@@ -52,7 +52,7 @@ namespace StardewConfigMenu.Components {
 		// Fields
 		//
 
-		internal CheckBoxComponent(string label, bool isChecked, int x, int y, bool enabled = true) : base(label, enabled) {
+		internal SCMCheckbox(string label, bool isChecked, int x, int y, bool enabled = true) : base(label, enabled) {
 			this.checkbox.bounds.X = x;
 			this.checkbox.bounds.Y = y;
 			//base.height = checkbox.bounds.Height;
@@ -64,7 +64,7 @@ namespace StardewConfigMenu.Components {
 			this._IsChecked = isChecked;
 		}
 
-		internal CheckBoxComponent(string label, bool isChecked, bool enabled = true) : base(label, enabled) {
+		internal SCMCheckbox(string label, bool isChecked, bool enabled = true) : base(label, enabled) {
 			//base.height = checkbox.bounds.Height;
 			//base.width = checkbox.bounds.Width;
 

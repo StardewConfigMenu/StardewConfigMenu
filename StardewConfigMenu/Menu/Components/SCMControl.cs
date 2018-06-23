@@ -20,10 +20,10 @@ namespace StardewConfigMenu.Components {
 		internal bool IsActiveComponent => SelectedComponent == this;
 		protected bool IsAvailableForSelection => (IsActiveComponent || SelectedComponent == null) && Visible;
 
-		public virtual int Height { get; }
-		public virtual int Width { get; }
-		public virtual int X { get; }
-		public virtual int Y { get; }
+		public virtual int Height { get; set; }
+		public virtual int Width { get; set; }
+		public virtual int X { get; set; }
+		public virtual int Y { get; set; }
 
 		private bool _visible = false;
 		internal protected bool _enabled;

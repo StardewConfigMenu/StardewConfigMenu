@@ -3,7 +3,7 @@ using StardewValley;
 using Microsoft.Xna.Framework;
 
 namespace StardewConfigMenu.Components.DataBacked {
-	internal class ModPlusMinusComponent: PlusMinusComponent {
+	internal class ConfigPlusMinus: PlusMinusComponent {
 		readonly Stepper Option;
 
 		public override bool Enabled => Option.Enabled;
@@ -22,11 +22,11 @@ namespace StardewConfigMenu.Components.DataBacked {
 			}
 		}
 
-		internal ModPlusMinusComponent(Stepper option, int x, int y) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, x, y, option.Type, option.Enabled) {
+		internal ConfigPlusMinus(Stepper option, int x, int y) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, x, y, option.Type, option.Enabled) {
 			this.Option = option;
 		}
 
-		internal ModPlusMinusComponent(Stepper option) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, option.Type, option.Enabled) {
+		internal ConfigPlusMinus(Stepper option) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, option.Type, option.Enabled) {
 			this.Option = option;
 		}
 	}

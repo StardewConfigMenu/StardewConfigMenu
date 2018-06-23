@@ -58,7 +58,6 @@ namespace StardewConfigMenu.Components {
 			if (Button.containsPoint(x, y) && Enabled && IsAvailableForSelection) {
 				ButtonPressed?.Invoke();
 			}
-
 		}
 
 		private void CheckForButtonUpdate() {
@@ -83,7 +82,6 @@ namespace StardewConfigMenu.Components {
 
 			CheckForButtonUpdate();
 			Button.draw(b, Color.White * ((Enabled) ? 1f : 0.33f), 0.88f);
-			//Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2((float) (bounds.X), (float) (bounds.Y)), buttonSource, Color.White * ((enabled) ? 1f : 0.33f), 0f, Vector2.Zero, buttonScale, false, 0.15f, -1, -1, 0.35f);
 
 			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2((float) (Button.bounds.Right + Game1.pixelZoom * 4), (float) (Button.bounds.Y + ((Button.bounds.Height - labelSize.Y) / 2))), Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 		}

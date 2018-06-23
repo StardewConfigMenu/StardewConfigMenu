@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace StardewConfigMenu.Components.DataBacked {
 
-	internal class ModCheckBoxComponent: CheckBoxComponent {
+	internal class ConfigCheckbox: SCMCheckbox {
 		//
 		// Static Fields
 		//
@@ -43,11 +43,11 @@ namespace StardewConfigMenu.Components.DataBacked {
 			}
 		}
 
-		internal ModCheckBoxComponent(Toggle option, int x, int y) : base(option.Label, option.IsOn, x, y, option.Enabled) {
+		internal ConfigCheckbox(Toggle option, int x, int y) : base(option.Label, option.IsOn, x, y, option.Enabled) {
 			this.Option = option;
 		}
 
-		internal ModCheckBoxComponent(Toggle option) : base(option.Label, option.IsOn, option.Enabled) {
+		internal ConfigCheckbox(Toggle option) : base(option.Label, option.IsOn, option.Enabled) {
 			this.Option = option;
 		}
 

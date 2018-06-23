@@ -9,7 +9,7 @@ using StardewValley;
 using StardewValley.Menus;
 
 namespace StardewConfigMenu.Components.DataBacked {
-	internal class ModDropDownComponent: DropDownComponent {
+	internal class ConfigDropdown: DropDownComponent {
 		readonly private Selection ModData;
 
 		public override bool Enabled {
@@ -73,9 +73,9 @@ namespace StardewConfigMenu.Components.DataBacked {
 			}
 		}
 
-		public ModDropDownComponent(Selection option, int width) : this(option, width, 0, 0) { }
+		public ConfigDropdown(Selection option, int width) : this(option, width, 0, 0) { }
 
-		public ModDropDownComponent(Selection option, int width, int x, int y) : base(option.Label, width, x, y) {
+		public ConfigDropdown(Selection option, int width, int x, int y) : base(option.Label, width, x, y) {
 			this.ModData = option;
 		}
 

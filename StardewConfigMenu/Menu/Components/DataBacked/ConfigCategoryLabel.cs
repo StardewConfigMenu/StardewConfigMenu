@@ -14,7 +14,7 @@ using StardewConfigFramework.Options;
 
 
 namespace StardewConfigMenu.Components.DataBacked {
-	class ModCategoryLabelComponent: SCMControl {
+	internal class ConfigCategoryLabel: SCMControl {
 
 		public override bool Enabled {
 			get { return true; }
@@ -25,13 +25,13 @@ namespace StardewConfigMenu.Components.DataBacked {
 
 		Rectangle bounds = new Rectangle();
 
-		public ModCategoryLabelComponent(CategoryLabel option) : base(option.Label) {
+		public ConfigCategoryLabel(CategoryLabel option) : base(option.Label) {
 			this.option = option;
 			this.bounds.Height = SpriteText.getHeightOfString(this.Label);
 			this.bounds.Width = SpriteText.getWidthOfString(this.Label);
 		}
 
-		public ModCategoryLabelComponent(string labelText, int x, int y) : base(labelText) {
+		public ConfigCategoryLabel(string labelText, int x, int y) : base(labelText) {
 			this.bounds.X = x;
 			this.bounds.Y = y;
 			this.bounds.Height = SpriteText.getHeightOfString(this.Label);

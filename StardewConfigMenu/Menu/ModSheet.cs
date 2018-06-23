@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using StardewConfigFramework;
 using StardewConfigFramework.Options;
-using StardewConfigMenu.Components.ModOptions;
+using StardewConfigMenu.Components.DataBacked;
 using StardewConfigMenu.Components;
 using Microsoft.Xna.Framework.Input;
 
@@ -50,7 +50,7 @@ namespace StardewConfigMenu {
 				var option = modOptions.Tabs[0].OptionList[i];
 				Type t = option.GetType();
 				if (t.Equals(typeof(CategoryLabel)))
-					Options.Add(new ModCategoryLabelComponent(option as CategoryLabel));
+					Options.Add(new ConfigCategoryLabel(option as CategoryLabel));
 				else if (t.Equals(typeof(Selection))) {
 					int minWidth = 350;
 					var selection = (option as Selection);
@@ -58,16 +58,16 @@ namespace StardewConfigMenu {
 					foreach (string label in labels) {
 						minWidth = Math.Max((int) Game1.smallFont.MeasureString(label + "     ").X, minWidth);
 					}
-					Options.Add(new ModDropDownComponent(selection, minWidth));
+					Options.Add(new ConfigDropdown(selection, minWidth));
 				} else if (t.Equals(typeof(Toggle)))
-					Options.Add(new ModCheckBoxComponent(option as Toggle));
+					Options.Add(new ConfigCheckbox(option as Toggle));
 				else if (t.Equals(typeof(Action)))
-					Options.Add(new ModButtonComponent(option as Action));
+					Options.Add(new ConfigButton(option as Action));
 				else if (t.Equals(typeof(Stepper)))
-					Options.Add(new ModPlusMinusComponent(option as Stepper));
+					Options.Add(new ConfigPlusMinus(option as Stepper));
 				else if (t.Equals(typeof(Range)))
 					//Options.Add(new SliderComponent("Hey", 0, 10, 1, 5, true));
-					Options.Add(new ModSliderComponent(option as Range));
+					Options.Add(new ConfigSlider(option as Range));
 				//break;
 
 
@@ -251,13 +251,13 @@ namespace StardewConfigMenu {
 			//b.DrawString(Game1.dialogueFont, this.Options.modManifest.Name, new Vector2(this.xPositionOnScreen, this.yPositionOnScreen), Color.White);
 
 			for (int i = startingOption; i < Options.Count; i++) {
-				if (!(Options[i] is ModDropDownComponent) && Options[i].Visible)
+				if (!(Options[i] is ConfigDropdown) && Options[i].Visible)
 					Options[i].Draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
 			}
 
 			// Draw Dropdowns last, they must be on top; must draw from bottom to top
 			for (int i = Math.Min(startingOption + 5, Options.Count - 1); i >= startingOption; i--) {
-				if (Options[i] is ModDropDownComponent && Options[i].Visible)
+				if (Options[i] is ConfigDropdown && Options[i].Visible)
 					Options[i].Draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
 			}
 
