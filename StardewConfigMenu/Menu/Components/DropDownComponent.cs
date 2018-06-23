@@ -44,9 +44,9 @@ namespace StardewConfigMenu.Components {
 		// Fields
 		//
 
-		internal override bool visible {
+		internal override bool Visible {
 			set {
-				base.visible = value;
+				base.Visible = value;
 				dropDown.visible = value;
 				dropDownBackground.visible = value;
 				dropDownButton.visible = value;

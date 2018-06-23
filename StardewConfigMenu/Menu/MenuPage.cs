@@ -33,7 +33,7 @@ namespace StardewConfigMenu {
 			}
 
 			modSelected = new DropDownComponent(modChoices, "", (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (this.xPositionOnScreen + Game1.pixelZoom * 15), (int) (this.yPositionOnScreen + Game1.pixelZoom * 30));
-			modSelected.visible = true;
+			modSelected.Visible = true;
 			if (Sheets.Count > 0)
 				Sheets[modSelected.SelectionIndex].visible = true;
 

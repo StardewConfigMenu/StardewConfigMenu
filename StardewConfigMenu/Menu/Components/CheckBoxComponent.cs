@@ -38,9 +38,9 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		internal override bool visible {
+		internal override bool Visible {
 			set {
-				base.visible = value;
+				base.Visible = value;
 				checkbox.visible = value;
 			}
 		}
