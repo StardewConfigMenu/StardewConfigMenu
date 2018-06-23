@@ -60,13 +60,13 @@ namespace StardewConfigMenu.Components {
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			base.receiveLeftClick(x, y, playSound);
 
-			if (this.Button.containsPoint(x, y) && enabled && this.IsAvailableForSelection()) {
+			if (this.Button.containsPoint(x, y) && Enabled && this.IsAvailableForSelection()) {
 				this.ButtonPressed?.Invoke();
 			}
 
 		}
 
-		public void updateButton() {
+		private void CheckForButtonUpdate() {
 			if (PreviousActionType != ActionType) {
 				Button = GetButtonTile().ClickableTextureComponent(Button.bounds.X, Button.bounds.Y);
 				Button.drawShadow = true;
@@ -84,13 +84,13 @@ namespace StardewConfigMenu.Components {
 			base.draw(b);
 
 			// draw button
-			var labelSize = Game1.dialogueFont.MeasureString(this.label);
+			var labelSize = Game1.dialogueFont.MeasureString(this.Label);
 
-			updateButton();
-			Button.draw(b, Color.White * ((this.enabled) ? 1f : 0.33f), 0.88f);
+			CheckForButtonUpdate();
+			Button.draw(b, Color.White * ((this.Enabled) ? 1f : 0.33f), 0.88f);
 			//Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2((float) (this.bounds.X), (float) (this.bounds.Y)), this.buttonSource, Color.White * ((this.enabled) ? 1f : 0.33f), 0f, Vector2.Zero, this.buttonScale, false, 0.15f, -1, -1, 0.35f);
 
-			Utility.drawTextWithShadow(b, this.label, Game1.dialogueFont, new Vector2((float) (this.Button.bounds.Right + Game1.pixelZoom * 4), (float) (this.Button.bounds.Y + ((this.Button.bounds.Height - labelSize.Y) / 2))), this.enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, this.Label, Game1.dialogueFont, new Vector2((float) (this.Button.bounds.Right + Game1.pixelZoom * 4), (float) (this.Button.bounds.Y + ((this.Button.bounds.Height - labelSize.Y) / 2))), this.Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 		}
 	}
 }
