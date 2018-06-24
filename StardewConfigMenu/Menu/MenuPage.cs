@@ -35,7 +35,7 @@ namespace StardewConfigMenu {
 			modSelected = new DropdownComponent(modChoices, "", (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (this.xPositionOnScreen + Game1.pixelZoom * 15), (int) (this.yPositionOnScreen + Game1.pixelZoom * 30));
 			modSelected.Visible = true;
 			if (Sheets.Count > 0)
-				Sheets[modSelected.SelectionIndex].Visible = true;
+				Sheets[modSelected.SelectedIndex].Visible = true;
 
 			AddListeners();
 
@@ -125,14 +125,14 @@ namespace StardewConfigMenu {
 			base.drawHorizontalPartition(b, (int) (this.yPositionOnScreen + Game1.pixelZoom * 40));
 
 			if (Sheets.Count > 0)
-				Sheets[modSelected.SelectionIndex].draw(b);
+				Sheets[modSelected.SelectedIndex].draw(b);
 
 			// draw mod select dropdown last, should cover mod settings
 			modSelected.Draw(b);
 			SpriteText.drawString(b, "Mod Options", modSelected.X + modSelected.Width + Game1.pixelZoom * 5, modSelected.Y);
 
 			if (Sheets.Count > 0 && (Game1.getMouseX() > this.modSelected.X && Game1.getMouseX() < this.modSelected.X + this.modSelected.Width) && (Game1.getMouseY() > this.modSelected.Y && Game1.getMouseY() < this.modSelected.Y + this.modSelected.Height) && !modSelected.IsActiveComponent) {
-				IClickableMenu.drawHoverText(Game1.spriteBatch, Utilities.GetWordWrappedString(this.controller.ModOptionsList[modSelected.SelectionIndex].ModManifest.Description), Game1.smallFont);
+				IClickableMenu.drawHoverText(Game1.spriteBatch, Utilities.GetWordWrappedString(this.controller.ModOptionsList[modSelected.SelectedIndex].ModManifest.Description), Game1.smallFont);
 			}
 		}
 	}
