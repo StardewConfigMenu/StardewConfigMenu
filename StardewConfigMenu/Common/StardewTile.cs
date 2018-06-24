@@ -14,6 +14,9 @@ namespace StardewConfigMenu {
 		public static StardewTile CheckboxChecked = new StardewTile(Game1.mouseCursors, OptionsCheckbox.sourceRectChecked, Game1.pixelZoom);
 		public static StardewTile CheckboxUnchecked = new StardewTile(Game1.mouseCursors, OptionsCheckbox.sourceRectUnchecked, Game1.pixelZoom);
 
+		public static StardewTile DropDownBackground = new StardewTile(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Game1.pixelZoom);
+		public static StardewTile DropDownButton = new StardewTile(Game1.mouseCursors, OptionsDropDown.dropDownButtonSource, Game1.pixelZoom);
+
 		public StardewTile(Texture2D tileSheet, Rectangle source, float scale = 1f) {
 			Source = source;
 			Scale = scale;
@@ -31,7 +34,11 @@ namespace StardewConfigMenu {
 		Texture2D TileSheet;
 
 		public ClickableTextureComponent ClickableTextureComponent(int x, int y) {
-			return new ClickableTextureComponent(new Rectangle(x, y, (int) (Scale * Source.Width), (int) (Scale * Source.Height)), TileSheet, Source, Scale);
+			return ClickableTextureComponent(x, y, Source.Width, Source.Height);
+		}
+
+		public ClickableTextureComponent ClickableTextureComponent(int x, int y, int width, int height) {
+			return new ClickableTextureComponent(new Rectangle(x, y, (int) (Scale * width), (int) (Scale * height)), TileSheet, Source, Scale);
 		}
 	}
 }
