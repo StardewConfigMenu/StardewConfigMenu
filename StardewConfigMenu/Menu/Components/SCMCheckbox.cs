@@ -70,7 +70,5 @@ namespace StardewConfigMenu.Components {
 			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2((float) (Checkbox.bounds.Right + Game1.pixelZoom * 4), (float) (Checkbox.bounds.Y + ((Checkbox.bounds.Height - labelSize.Y) / 2))), Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
 
 		}
-
-
 	}
 }
