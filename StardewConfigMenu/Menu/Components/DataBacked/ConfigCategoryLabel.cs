@@ -5,7 +5,7 @@ namespace StardewConfigMenu.Components.DataBacked {
 	internal class ConfigCategoryLabel: SCMCategoryLabel {
 		private CategoryLabel ModData;
 
-		public override string Label { get => ModData.Label; protected set => ModData.Label = value; }
+		public sealed override string Label => ModData.Label;
 
 		public ConfigCategoryLabel(CategoryLabel option) : this(option, 0, 0) { }
 

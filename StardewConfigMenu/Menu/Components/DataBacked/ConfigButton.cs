@@ -6,10 +6,9 @@ namespace StardewConfigMenu.Components.DataBacked {
 	internal class ConfigButton: SCMButton {
 		readonly Action ModData;
 
-		public override string Label { get => ModData.Label; protected set => ModData.Label = value; }
-		public override bool Enabled { get => ModData.Enabled; protected set => ModData.Enabled = value; }
-
-		public override ActionType ActionType { get => ModData.Type; }
+		public sealed override string Label => ModData.Label;
+		public sealed override bool Enabled => ModData.Enabled;
+		public sealed override ActionType ActionType => ModData.Type;
 
 		internal ConfigButton(Action option) : this(option, 0, 0) { }
 
