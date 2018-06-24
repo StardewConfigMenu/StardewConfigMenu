@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
-using StardewConfigFramework;
-using StardewModdingAPI.Events;
-using Microsoft.Xna.Framework.Input;
 
 namespace StardewConfigMenu.Components {
 

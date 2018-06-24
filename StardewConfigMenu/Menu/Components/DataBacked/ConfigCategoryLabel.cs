@@ -1,8 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using StardewValley;
-using StardewValley.BellsAndWhistles;
-using StardewConfigFramework.Options;
+﻿using StardewConfigFramework.Options;
 
 namespace StardewConfigMenu.Components.DataBacked {
 

@@ -1,12 +1,8 @@
-﻿using StardewConfigFramework;
-using StardewValley;
+﻿using StardewValley;
 using Microsoft.Xna.Framework;
 using StardewValley.Menus;
 using System;
 using Microsoft.Xna.Framework.Graphics;
-
-
-
 
 namespace StardewConfigMenu.Components {
 

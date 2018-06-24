@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StardewValley;
-using StardewValley.Menus;
-using StardewConfigFramework.Options;
-using StardewModdingAPI.Events;
-using Microsoft.Xna.Framework.Input;
+﻿using StardewConfigFramework.Options;
 
 namespace StardewConfigMenu.Components.DataBacked {
 

@@ -1,6 +1,4 @@
 ﻿using StardewConfigFramework.Options;
-using StardewValley;
-using Microsoft.Xna.Framework;
 
 namespace StardewConfigMenu.Components.DataBacked {
 
