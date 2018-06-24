@@ -9,16 +9,8 @@ namespace StardewConfigMenu.Components.DataBacked {
 	internal class ConfigButton: SCMButton {
 		readonly Action ModData;
 
-		public override bool Enabled => ModData.Enabled;
-		public override string Label => ModData.Label;
-
-		internal ConfigButton(Action option, int x, int y) : base(option.Label, option.Type, x, y, option.Enabled) {
-			ModData = option;
-		}
-
-		internal ConfigButton(Action option) : base(option.Label, option.Type, option.Enabled) {
-			ModData = option;
-		}
+		public override string Label { get => ModData.Label; protected set => ModData.Label = value; }
+		public override bool Enabled { get => ModData.Enabled; protected set => ModData.Enabled = value; }
 
 		public override ActionType ActionType {
 			get {
@@ -29,14 +21,10 @@ namespace StardewConfigMenu.Components.DataBacked {
 			}
 		}
 
-		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
-			base.ReceiveLeftClick(x, y, playSound);
+		internal ConfigButton(Action option) : this(option, 0, 0) { }
 
-			if (Button.containsPoint(x, y) && Enabled && IsAvailableForSelection) {
-				if (playSound)
-					Game1.playSound("breathin");
-				ModData.Trigger();
-			}
+		internal ConfigButton(Action option, int x, int y) : base(option.Label, option.Type, x, y, option.Enabled) {
+			ModData = option;
 		}
 	}
 }

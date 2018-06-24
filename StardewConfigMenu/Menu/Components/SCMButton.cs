@@ -23,8 +23,10 @@ namespace StardewConfigMenu.Components {
 		protected ClickableTextureComponent Button;
 		public override int Width => Button.bounds.Width;
 		public override int Height => Button.bounds.Height;
-		public override int X => Button.bounds.X;
-		public override int Y => Button.bounds.Y;
+		public override int X { get => Button.bounds.X; set => Button.bounds.X = value; }
+		public override int Y { get => Button.bounds.Y; set => Button.bounds.Y = value; }
+
+		internal SCMButton(string label, ActionType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
 
 		internal SCMButton(string label, ActionType type, int x, int y, bool enabled = true) : base(label, enabled) {
 			_ActionType = type;
@@ -32,8 +34,6 @@ namespace StardewConfigMenu.Components {
 			Button = GetButtonTile().ClickableTextureComponent(x, y);
 			Button.drawShadow = true;
 		}
-
-		internal SCMButton(string label, ActionType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
 
 		protected StardewTile GetButtonTile() {
 			switch (ActionType) {
@@ -56,6 +56,8 @@ namespace StardewConfigMenu.Components {
 			base.ReceiveLeftClick(x, y, playSound);
 
 			if (Button.containsPoint(x, y) && Enabled && IsAvailableForSelection) {
+				if (playSound)
+					Game1.playSound("breathin");
 				ButtonPressed?.Invoke();
 			}
 		}
@@ -66,12 +68,6 @@ namespace StardewConfigMenu.Components {
 				Button.drawShadow = true;
 				PreviousActionType = ActionType;
 			}
-		}
-
-		public override void Draw(SpriteBatch b, int x, int y) {
-			Button.bounds.X = x;
-			Button.bounds.Y = y;
-			Draw(b);
 		}
 
 		public override void Draw(SpriteBatch b) {

@@ -12,35 +12,16 @@ using Microsoft.Xna.Framework.Input;
 namespace StardewConfigMenu.Components.DataBacked {
 
 	internal class ConfigCheckbox: SCMCheckbox {
-		readonly private Toggle Option;
+		readonly private Toggle ModData;
 
-		public override bool IsChecked {
-			get { return Option.IsOn; }
-			protected set {
-				if (Option == null)
-					return; // used to ignore base class assignment
-				this.Option.IsOn = value;
-			}
-		}
+		public override string Label { get => ModData.Label; protected set => ModData.Label = value; }
+		public override bool Enabled { get => ModData.Enabled; protected set => ModData.Enabled = value; }
+		public override bool IsChecked { get => ModData.IsOn; protected set => ModData.IsOn = value; }
 
-		public override bool Enabled {
-			get {
-				return Option.Enabled;
-			}
-		}
-
-		public override string Label {
-			get {
-				return Option.Label;
-			}
-		}
+		internal ConfigCheckbox(Toggle option) : this(option, 0, 0) { }
 
 		internal ConfigCheckbox(Toggle option, int x, int y) : base(option.Label, option.IsOn, x, y, option.Enabled) {
-			this.Option = option;
-		}
-
-		internal ConfigCheckbox(Toggle option) : base(option.Label, option.IsOn, option.Enabled) {
-			this.Option = option;
+			ModData = option;
 		}
 	}
 }
