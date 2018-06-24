@@ -17,6 +17,9 @@ namespace StardewConfigMenu {
 		public static StardewTile DropDownBackground = new StardewTile(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Game1.pixelZoom);
 		public static StardewTile DropDownButton = new StardewTile(Game1.mouseCursors, OptionsDropDown.dropDownButtonSource, Game1.pixelZoom);
 
+		public static StardewTile MinusButton = new StardewTile(Game1.mouseCursors, OptionsPlusMinus.minusButtonSource, Game1.pixelZoom);
+		public static StardewTile PlusButton = new StardewTile(Game1.mouseCursors, OptionsPlusMinus.plusButtonSource, Game1.pixelZoom);
+
 		public StardewTile(Texture2D tileSheet, Rectangle source, float scale = 1f) {
 			Source = source;
 			Scale = scale;
