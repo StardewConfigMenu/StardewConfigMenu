@@ -9,16 +9,11 @@ using StardewValley;
 using StardewValley.Menus;
 
 namespace StardewConfigMenu.Components.DataBacked {
-	internal class ConfigDropdown: DropDownComponent {
+	internal class ConfigDropdown: DropdownComponent {
 		readonly private Selection ModData;
 
 		public override bool Enabled {
-			get {
-				if (!ModData.Enabled)
-					return ModData.Enabled;
-				else
-					return dropDownOptions.Count != 0;
-			}
+			get => (DropdownOptions.Count > 0) && ModData.Enabled;
 			protected set => ModData.Enabled = value;
 		}
 
@@ -26,9 +21,9 @@ namespace StardewConfigMenu.Components.DataBacked {
 
 		public override int SelectionIndex {
 			get {
-				if (dropDownOptions.Count > 0 && _dropDownDisplayOptions[0] != dropDownOptions[this.ModData.SelectionIndex]) {
-					_dropDownDisplayOptions.Insert(0, dropDownOptions[this.ModData.SelectionIndex]);
-					_dropDownDisplayOptions.RemoveAt(this.ModData.SelectionIndex + 1);
+				if (DropdownOptions.Count > 0 && _DropdownDisplayOptions[0] != DropdownOptions[this.ModData.SelectionIndex]) {
+					_DropdownDisplayOptions.Insert(0, DropdownOptions[this.ModData.SelectionIndex]);
+					_DropdownDisplayOptions.RemoveAt(this.ModData.SelectionIndex + 1);
 				}
 
 				return this.ModData.SelectionIndex;
@@ -37,13 +32,13 @@ namespace StardewConfigMenu.Components.DataBacked {
 				if (SelectionIndex == value)
 					return;
 
-				_dropDownDisplayOptions.Insert(0, dropDownOptions[value]);
-				_dropDownDisplayOptions.RemoveAt(value + 1);
+				_DropdownDisplayOptions.Insert(0, DropdownOptions[value]);
+				_DropdownDisplayOptions.RemoveAt(value + 1);
 				this.ModData.SelectionIndex = value;
 			}
 		}
 
-		protected override IReadOnlyList<string> dropDownOptions {
+		protected override IReadOnlyList<string> DropdownOptions {
 			get {
 				if (this.ModData == null) // for base intialization
 					return new List<string>();
@@ -52,21 +47,21 @@ namespace StardewConfigMenu.Components.DataBacked {
 			}
 		}
 
-		protected override List<string> dropDownDisplayOptions {
+		protected override List<string> DropdownDisplayOptions {
 			get {
 				if (ModData.Choices.Count == 0) {
-					_dropDownDisplayOptions.Clear();
+					_DropdownDisplayOptions.Clear();
 				} else {
-					var options = dropDownOptions;
-					var toRemove = _dropDownDisplayOptions.Except(options).ToList();
-					var toAdd = options.Except(_dropDownDisplayOptions).ToList();
+					var options = DropdownOptions;
+					var toRemove = _DropdownDisplayOptions.Except(options).ToList();
+					var toAdd = options.Except(_DropdownDisplayOptions).ToList();
 
-					_dropDownDisplayOptions.RemoveAll(x => toRemove.Contains(x));
-					_dropDownDisplayOptions.AddRange(toAdd);
+					_DropdownDisplayOptions.RemoveAll(x => toRemove.Contains(x));
+					_DropdownDisplayOptions.AddRange(toAdd);
 				}
 
-				dropDownBackground.bounds.Height = this.dropDown.bounds.Height * this.ModData.Choices.Count;
-				return _dropDownDisplayOptions;
+				DropdownBackground.bounds.Height = this.Dropdown.bounds.Height * this.ModData.Choices.Count;
+				return _DropdownDisplayOptions;
 			}
 		}
 
@@ -80,7 +75,7 @@ namespace StardewConfigMenu.Components.DataBacked {
 			if (this.ModData.Choices.Count == 0)
 				return;
 
-			var selected = dropDownDisplayOptions[DisplayedSelection];
+			var selected = DropdownDisplayOptions[DisplayedSelection];
 			ModData.SelectionIndex = this.ModData.IndexOfLabel(selected);
 			base.SelectDisplayedOption(DisplayedSelection);
 		}

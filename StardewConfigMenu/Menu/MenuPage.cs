@@ -15,7 +15,7 @@ namespace StardewConfigMenu {
 
 		private MenuController controller;
 		private List<ModSheet> Sheets = new List<ModSheet>();
-		private DropDownComponent modSelected;
+		private DropdownComponent modSelected;
 
 		internal MenuPage(MenuController controller, int x, int y, int width, int height) : base(x, y, width, height, false) {
 			this.controller = controller;
@@ -32,7 +32,7 @@ namespace StardewConfigMenu {
 				modChoices.Add(this.controller.ModOptionsList[i].ModManifest.Name);
 			}
 
-			modSelected = new DropDownComponent(modChoices, "", (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (this.xPositionOnScreen + Game1.pixelZoom * 15), (int) (this.yPositionOnScreen + Game1.pixelZoom * 30));
+			modSelected = new DropdownComponent(modChoices, "", (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (this.xPositionOnScreen + Game1.pixelZoom * 15), (int) (this.yPositionOnScreen + Game1.pixelZoom * 30));
 			modSelected.Visible = true;
 			if (Sheets.Count > 0)
 				Sheets[modSelected.SelectionIndex].Visible = true;
@@ -53,7 +53,7 @@ namespace StardewConfigMenu {
 			RemoveListeners();
 
 			ControlEvents.MouseChanged += MouseChanged;
-			modSelected.DropDownOptionSelected += DisableBackgroundSheets;
+			modSelected.OptionSelected += DisableBackgroundSheets;
 		}
 
 		internal void RemoveListeners(bool children = false) {
@@ -62,7 +62,7 @@ namespace StardewConfigMenu {
 				Sheets.ForEach(x => { x.RemoveListeners(true); });
 			}
 
-			modSelected.DropDownOptionSelected -= DisableBackgroundSheets;
+			modSelected.OptionSelected -= DisableBackgroundSheets;
 			ControlEvents.MouseChanged -= MouseChanged;
 
 		}
