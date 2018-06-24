@@ -5,9 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
-using StardewConfigFramework;
-using StardewModdingAPI.Events;
-using Microsoft.Xna.Framework.Input;
 
 namespace StardewConfigMenu.Components {
 
