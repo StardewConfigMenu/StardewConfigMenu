@@ -4,10 +4,9 @@ using StardewValley;
 using StardewValley.BellsAndWhistles;
 using StardewConfigFramework.Options;
 
-
 namespace StardewConfigMenu.Components.DataBacked {
-	internal class ConfigCategoryLabel: SCMCategoryLabel {
 
+	internal class ConfigCategoryLabel: SCMCategoryLabel {
 		private CategoryLabel ModData;
 
 		public override string Label { get => ModData.Label; protected set => ModData.Label = value; }

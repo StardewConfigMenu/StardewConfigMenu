@@ -9,6 +9,7 @@ using StardewValley;
 using StardewValley.Menus;
 
 namespace StardewConfigMenu.Components.DataBacked {
+
 	internal class ConfigDropdown: DropdownComponent {
 		readonly private Selection ModData;
 

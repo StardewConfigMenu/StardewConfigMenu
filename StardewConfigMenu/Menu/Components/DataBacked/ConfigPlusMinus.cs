@@ -3,31 +3,32 @@ using StardewValley;
 using Microsoft.Xna.Framework;
 
 namespace StardewConfigMenu.Components.DataBacked {
+
 	internal class ConfigPlusMinus: PlusMinusComponent {
-		readonly Stepper Option;
+		readonly Stepper ModData;
 
-		public override bool Enabled => Option.Enabled;
+		public override bool Enabled => ModData.Enabled;
 
-		public override string Label => Option.Label;
+		public override string Label => ModData.Label;
 
-		public override decimal min => Option.Min;
-		public override decimal max => Option.Max;
-		public override decimal stepSize => Option.StepSize;
+		public override decimal min => ModData.Min;
+		public override decimal max => ModData.Max;
+		public override decimal stepSize => ModData.StepSize;
 		public override decimal Value {
 			get {
-				return Option.Value;
+				return ModData.Value;
 			}
 			protected set {
-				Option.Value = value;
+				ModData.Value = value;
 			}
 		}
 
 		internal ConfigPlusMinus(Stepper option, int x, int y) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, x, y, option.Type, option.Enabled) {
-			this.Option = option;
+			this.ModData = option;
 		}
 
 		internal ConfigPlusMinus(Stepper option) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, option.Type, option.Enabled) {
-			this.Option = option;
+			this.ModData = option;
 		}
 	}
 }

@@ -14,6 +14,7 @@ using StardewModdingAPI.Events;
 
 
 namespace StardewConfigMenu.Components {
+
 	abstract class SCMControl {
 		static protected SCMControl SelectedComponent;
 

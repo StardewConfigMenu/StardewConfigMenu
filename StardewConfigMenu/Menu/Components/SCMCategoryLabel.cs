@@ -5,6 +5,7 @@ using StardewValley;
 using StardewValley.BellsAndWhistles;
 
 namespace StardewConfigMenu.Components {
+
 	internal class SCMCategoryLabel: SCMControl {
 
 		public override bool Enabled {

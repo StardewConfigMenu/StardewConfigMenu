@@ -13,7 +13,6 @@ namespace StardewConfigMenu.Components {
 
 	internal class DropdownComponent: SCMControl {
 		internal delegate void OptionSelectedEvent(int selected);
-
 		internal event OptionSelectedEvent OptionSelected;
 
 		protected ClickableTextureComponent DropdownBackground = StardewTile.DropDownBackground.ClickableTextureComponent(0, 0, OptionsDropDown.dropDownBGSource.Width, 0);
