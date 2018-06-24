@@ -53,11 +53,6 @@ namespace StardewConfigMenu.Components {
 			_enabled = enabled;
 		}
 
-		public SCMControl(string label, int x, int y, bool enabled = true) {
-			_label = label;
-			_enabled = enabled;
-		}
-
 		protected void RegisterAsActiveComponent() {
 			SelectedComponent = this;
 		}
