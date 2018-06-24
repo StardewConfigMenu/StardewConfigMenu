@@ -20,6 +20,9 @@ namespace StardewConfigMenu {
 		public static StardewTile MinusButton = new StardewTile(Game1.mouseCursors, OptionsPlusMinus.minusButtonSource, Game1.pixelZoom);
 		public static StardewTile PlusButton = new StardewTile(Game1.mouseCursors, OptionsPlusMinus.plusButtonSource, Game1.pixelZoom);
 
+		public static StardewTile SliderBackground = new StardewTile(Game1.mouseCursors, OptionsSlider.sliderBGSource, Game1.pixelZoom);
+		public static StardewTile SliderButton = new StardewTile(Game1.mouseCursors, OptionsSlider.sliderButtonRect, Game1.pixelZoom);
+
 		public StardewTile(Texture2D tileSheet, Rectangle source, float scale = 1f) {
 			Source = source;
 			Scale = scale;

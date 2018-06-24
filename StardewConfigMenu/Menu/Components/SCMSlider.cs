@@ -6,165 +6,152 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace StardewConfigMenu.Components {
 
-	internal delegate void SliderValueChanged(decimal Value);
-
 	internal class SliderComponent: SCMControl {
+		internal delegate void ValueChangedEvent(decimal Value);
 
-		internal event SliderValueChanged SliderValueChanged;
+		internal event ValueChangedEvent ValueChanged;
 
-		Rectangle bounds = new Rectangle();
+		private readonly ClickableTextureComponent SliderBackground = StardewTile.SliderBackground.ClickableTextureComponent(0, 0, 48, 6);
+		private readonly ClickableTextureComponent SliderButton = StardewTile.SliderButton.ClickableTextureComponent(0, 0);
 
-		internal SliderComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, bool showValue, int x, int y, bool enabled = true) : base(labelText, enabled) {
-			this._min = Math.Round(min, 3);
-			this._max = Math.Round(max, 3);
-			this._stepSize = Math.Round(stepsize, 3);
-			this._showValue = showValue;
+		private Vector2 MaxLabelSize = Vector2.Zero;
+		private Point Origin = new Point();
+		public sealed override int X {
+			get => Origin.X;
+			set {
+				if (Origin.X == value)
+					return;
 
-			var valid = CheckValidInput(Math.Round(defaultSelection, 3));
-			var newVal = (int) ((valid - _min) / _stepSize) * _stepSize + _min;
-			this._Value = newVal;
+				Origin.X = value;
+				SliderBackground.bounds.X = value;
+				if (ShowValue)
+					SliderBackground.bounds.X += (int) MaxLabelSize.X + (4 * Game1.pixelZoom);
 
-			this.bounds = new Rectangle(x, y, 48 * Game1.pixelZoom, 6 * Game1.pixelZoom);
+				UpdateSliderLocation();
+			}
 		}
+		public sealed override int Y {
+			get => Origin.Y;
+			set {
+				if (Origin.Y == value)
+					return;
+
+				Origin.Y = value;
+				SliderBackground.bounds.Y = value;
+				SliderButton.bounds.Y = value;
+			}
+		}
+		public sealed override int Height => Math.Max(SliderBackground.bounds.Height, (int) MaxLabelSize.Y);
+		public sealed override int Width => SliderBackground.bounds.Right - Origin.X;
 
 		internal SliderComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, bool showValue, bool enabled = true) : this(labelText, min, max, stepsize, defaultSelection, showValue, 0, 0, enabled) { }
 
-		protected int valueLabelWidth {
-			get {
-				if (showValue)
-					return (int) Math.Max(Game1.dialogueFont.MeasureString($"{min}").X, Game1.dialogueFont.MeasureString($"{max}").X);
-				else
-					return 0;
-			}
+		internal SliderComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, bool showValue, int x, int y, bool enabled = true) : base(labelText, enabled) {
+			_min = Math.Round(min, 3);
+			_max = Math.Round(max, 3);
+			_stepSize = Math.Round(stepsize, 3);
+			_showValue = showValue;
+
+			var valid = CheckValidInput(Math.Round(defaultSelection, 3));
+			_Value = valid;
+
+			RecalculateMaxLabelSize();
+
+			X = x;
+			Y = y;
+		}
+
+		protected void RecalculateMaxLabelSize() {
+			var maxRect = Game1.dialogueFont.MeasureString((Max + StepSize % 1).ToString());
+			var minRect = Game1.dialogueFont.MeasureString((Min - StepSize % 1).ToString());
+
+			MaxLabelSize = (maxRect.X > minRect.X) ? maxRect : minRect;
+		}
+
+		protected void UpdateSliderLocation() {
+			var sectionNum = ((Value - Min) / StepSize);
+			var totalSections = ((Max - Min) / StepSize);
+			var sectionWidth = SliderBackground.bounds.Width - SliderButton.bounds.Width / totalSections;
+			SliderButton.bounds.X = SliderBackground.bounds.X + (SliderButton.bounds.Width / 2) + (int) (sectionWidth * sectionNum);
 		}
 
 		private decimal _min;
-		protected virtual decimal min {
-			get {
-				return _min;
-			}
-			private set {
-				_min = value;
-			}
-		}
+		public virtual decimal Min { get => _min; }
 
 		private decimal _max;
-		protected virtual decimal max {
-			get {
-				return _max;
-			}
-			private set {
-				_max = value;
-			}
-		}
+		public virtual decimal Max { get => _max; }
 
 		private decimal _stepSize;
-		protected virtual decimal stepSize {
-			get {
-				return _stepSize;
-			}
-			private set {
-				_stepSize = value;
-			}
-		}
+		public virtual decimal StepSize { get => _stepSize; }
+
+		private bool _showValue;
+		public virtual bool ShowValue { get => _showValue; }
 
 		private decimal _Value;
-		protected virtual decimal Value {
-			get {
-				return _Value;
-			}
+		public virtual decimal Value {
+			get => _Value;
 			set {
 				var valid = CheckValidInput(Math.Round(value, 3));
-				var newVal = (int) ((valid - min) / stepSize) * stepSize + min;
-				if (newVal != this._Value) {
-					this._Value = newVal;
-					this.SliderValueChanged?.Invoke(this._Value);
+				if (valid != _Value) {
+					_Value = valid;
+					ValueChanged?.Invoke(_Value);
 				}
 			}
 		}
 
-		private bool _showValue;
-		protected virtual bool showValue {
-			get {
-				return _showValue;
-			}
-			private set {
-				_showValue = value;
-			}
+		private decimal CheckValidInput(decimal input) {
+			if (input > Max)
+				return Max;
+
+			if (input < Min)
+				return Min;
+
+			return ((input - Min) / StepSize) * StepSize + Min;
 		}
-
-		protected decimal CheckValidInput(decimal input) {
-			if (input > _max)
-				return _max;
-
-			if (input < _min)
-				return _min;
-
-			return input;
-		}
-
-		private bool scrolling = false;
 
 		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
-			base.ReceiveLeftClick(x, y, playSound);
+			if (!Enabled || !IsAvailableForSelection)
+				return;
 
-			if (this.bounds.Contains(x, y) && Enabled && this.IsAvailableForSelection) {
-				scrolling = true;
-				// TODO 
+			if (SliderBackground.bounds.Contains(x, y)) {
+				LeftClickHeld(x, y);
+				RegisterAsActiveComponent();
 			}
 		}
 
 		public override void LeftClickHeld(int x, int y) {
-			base.LeftClickHeld(x, y);
-
-			if (scrolling) {
-				if (x < this.bounds.X) {
-					this.Value = min;
-				} else if (x > this.bounds.Right) {
-					this.Value = max;
+			if (IsActiveComponent) {
+				var halfButtonWidth = SliderButton.bounds.Width / 2;
+				if (x < SliderBackground.bounds.X + halfButtonWidth) {
+					Value = Min;
+				} else if (x > SliderBackground.bounds.Right - halfButtonWidth) {
+					Value = Max;
 				} else {
-					// TODO
-					//this.bounds.X + (float) (this.bounds.Width - 10 * Game1.pixelZoom) * ((float) this.Value / (float) ((max - min) / stepSize)
-					var sectionSize = (this.bounds.Width - 10 * Game1.pixelZoom) / ((max - min) / stepSize);
-					var sectionNum = (x - this.bounds.X) / sectionSize;
-					this.Value = min + sectionNum * stepSize;
+					var sectionCount = ((Max - Min) / StepSize);
+					var sectionWidth = (SliderBackground.bounds.Width - SliderBackground.bounds.Width) / sectionCount;
+					var sectionNum = (x - SliderBackground.bounds.X) / sectionWidth;
+					Value = Min + sectionNum * StepSize;
 				}
 			}
 		}
 
 		public override void ReleaseLeftClick(int x, int y) {
-			base.ReleaseLeftClick(x, y);
-			scrolling = false;
+			UnregisterAsActiveComponent();
 		}
-
-		public override void Draw(SpriteBatch b, int x, int y) {
-			base.Draw(b, x, y);
-
-			bounds.X = x;
-			bounds.Y = y;
-
-			if (showValue)
-				bounds.X += valueLabelWidth + 4 * Game1.pixelZoom;
-
-
-			this.Draw(b);
-		}
-
-
 
 		public override void Draw(SpriteBatch b) {
-			base.Draw(b);
+			var labelSize = Game1.dialogueFont.MeasureString(Label);
+			var valueLabelSize = Game1.dialogueFont.MeasureString($"{Value}");
+			float buttonAlpha = Enabled ? 1f : 0.33f;
 
-			var labelSize = Game1.dialogueFont.MeasureString(this.Label);
+			if (ShowValue)
+				b.DrawString(Game1.dialogueFont, $"{Value}", new Vector2(SliderBackground.bounds.X - ((MaxLabelSize.X - valueLabelSize.X) / 2 + valueLabelSize.X + 4 * Game1.pixelZoom), (float) (SliderBackground.bounds.Y + ((SliderBackground.bounds.Height - labelSize.Y) / 2))), Game1.textColor * buttonAlpha);
 
-			if (showValue)
-				b.DrawString(Game1.dialogueFont, $"{Value}", new Vector2(bounds.X - ((valueLabelWidth - Game1.dialogueFont.MeasureString($"{Value}").X) / 2 + Game1.dialogueFont.MeasureString($"{Value}").X + 4 * Game1.pixelZoom), (float) (this.bounds.Y + ((this.bounds.Height - labelSize.Y) / 2))), this.Enabled ? Game1.textColor : (Game1.textColor * 0.33f));
+			SliderBackground.draw(b, Color.White * buttonAlpha, 0.88f);
 
-			IClickableMenu.drawTextureBox(b, Game1.mouseCursors, OptionsSlider.sliderBGSource, this.bounds.X, this.bounds.Y, this.bounds.Width, this.bounds.Height, Color.White, (float) Game1.pixelZoom, false);
+			SliderButton.draw(b, Color.White * buttonAlpha, 0.88f);
 
-			b.Draw(Game1.mouseCursors, new Vector2(this.bounds.X + (float) ((this.bounds.Width - 10 * Game1.pixelZoom) * (((this.Value - min) / stepSize) / ((max - min) / stepSize))), (float) (this.bounds.Y)), new Rectangle?(OptionsSlider.sliderButtonRect), Color.White, 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.9f);
-
-			Utility.drawTextWithShadow(b, this.Label, Game1.dialogueFont, new Vector2((float) (this.bounds.Right + Game1.pixelZoom * 4), (float) (this.bounds.Y + ((this.bounds.Height - labelSize.Y) / 2))), this.Enabled ? Game1.textColor : (Game1.textColor * 0.33f), 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2((float) (SliderBackground.bounds.Right + Game1.pixelZoom * 4), (float) (SliderBackground.bounds.Y + ((SliderBackground.bounds.Height - labelSize.Y) / 2))), Game1.textColor * buttonAlpha, 1f, 0.1f, -1, -1, 1f, 3);
 		}
 	}
 }
