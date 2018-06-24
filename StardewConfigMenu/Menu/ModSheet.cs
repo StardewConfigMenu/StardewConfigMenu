@@ -23,7 +23,7 @@ namespace StardewConfigMenu {
 		private ClickableTextureComponent scrollBar;
 		private Rectangle scrollBarRunner;
 
-		internal bool visible {
+		internal bool Visible {
 			set {
 				if (!value)
 					Options.ForEach(x => {
@@ -34,9 +34,7 @@ namespace StardewConfigMenu {
 
 				_visible = value;
 			}
-			get {
-				return _visible;
-			}
+			get => _visible;
 		}
 
 		private bool _visible = false;
@@ -106,7 +104,7 @@ namespace StardewConfigMenu {
 		}
 
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
-			if (GameMenu.forcePreventClose || !this.visible) { return; }
+			if (GameMenu.forcePreventClose || !this.Visible) { return; }
 
 			Options.ForEach(z => {
 				if (z.Visible)

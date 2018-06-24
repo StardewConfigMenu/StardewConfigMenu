@@ -26,7 +26,7 @@ namespace StardewConfigMenu {
 
 				// Create mod page and add it, hide it initially
 				this.Sheets.Add(new ModSheet(this.controller.ModOptionsList[i], (int) (this.xPositionOnScreen + Game1.pixelZoom * 15), (int) (this.yPositionOnScreen + Game1.pixelZoom * 55), this.width - (Game1.pixelZoom * 15), this.height - Game1.pixelZoom * 65));
-				this.Sheets[i].visible = false;
+				this.Sheets[i].Visible = false;
 
 				// Add names to mod selector dropdown
 				modChoices.Add(this.controller.ModOptionsList[i].ModManifest.Name);
@@ -35,7 +35,7 @@ namespace StardewConfigMenu {
 			modSelected = new DropDownComponent(modChoices, "", (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (this.xPositionOnScreen + Game1.pixelZoom * 15), (int) (this.yPositionOnScreen + Game1.pixelZoom * 30));
 			modSelected.Visible = true;
 			if (Sheets.Count > 0)
-				Sheets[modSelected.SelectionIndex].visible = true;
+				Sheets[modSelected.SelectionIndex].Visible = true;
 
 			AddListeners();
 
@@ -69,7 +69,7 @@ namespace StardewConfigMenu {
 
 		private void DisableBackgroundSheets(int selected) {
 			for (int i = 0; i < Sheets.Count; i++) {
-				Sheets[i].visible = (i == selected);
+				Sheets[i].Visible = (i == selected);
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace StardewConfigMenu {
 			if (!(Game1.activeClickableMenu is GameMenu)) { return; } // must be main menu
 			if ((Game1.activeClickableMenu as GameMenu).currentTab != MenuController.pageIndex) { return; } //must be mod tab
 
-			var currentSheet = Sheets.Find(x => x.visible);
+			var currentSheet = Sheets.Find(x => x.Visible);
 
 			if (e.NewState.ScrollWheelValue > e.PriorState.ScrollWheelValue) {
 				if (currentSheet != null)
