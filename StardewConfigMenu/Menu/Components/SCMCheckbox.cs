@@ -19,12 +19,12 @@ namespace StardewConfigMenu.Components {
 
 		private ClickableTextureComponent Checkbox = StardewTile.CheckboxChecked.ClickableTextureComponent(0, 0);
 
-		internal override bool Visible { get => Checkbox.visible; set => Checkbox.visible = value; }
+		internal sealed override bool Visible { get => Checkbox.visible; set => Checkbox.visible = value; }
 
-		public override int Width => Checkbox.bounds.Width;
-		public override int Height => Checkbox.bounds.Height;
-		public override int X { get => Checkbox.bounds.X; set => Checkbox.bounds.X = value; }
-		public override int Y { get => Checkbox.bounds.Y; set => Checkbox.bounds.Y = value; }
+		public sealed override int Width => Checkbox.bounds.Width;
+		public sealed override int Height => Checkbox.bounds.Height;
+		public sealed override int X { get => Checkbox.bounds.X; set => Checkbox.bounds.X = value; }
+		public sealed override int Y { get => Checkbox.bounds.Y; set => Checkbox.bounds.Y = value; }
 
 		private bool _IsChecked;
 		public virtual bool IsChecked {
@@ -41,8 +41,8 @@ namespace StardewConfigMenu.Components {
 		internal SCMCheckbox(string label, bool isChecked, bool enabled = true) : this(label, isChecked, 0, 0, enabled) { }
 
 		internal SCMCheckbox(string label, bool isChecked, int x, int y, bool enabled = true) : base(label, enabled) {
-			Checkbox.bounds.X = x;
-			Checkbox.bounds.Y = y;
+			X = x;
+			Y = y;
 			_IsChecked = isChecked;
 		}
 
