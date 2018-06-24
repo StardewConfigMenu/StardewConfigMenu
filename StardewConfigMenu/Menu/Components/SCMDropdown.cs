@@ -11,9 +11,9 @@ namespace StardewConfigMenu.Components {
 		internal delegate void OptionSelectedEvent(int selected);
 		internal event OptionSelectedEvent OptionSelected;
 
-		protected ClickableTextureComponent DropdownBackground = StardewTile.DropDownBackground.ClickableTextureComponent(0, 0, OptionsDropDown.dropDownBGSource.Width, 0);
-		protected ClickableTextureComponent DropdownButton = StardewTile.DropDownButton.ClickableTextureComponent(0, 0);
-		protected ClickableTextureComponent Dropdown = StardewTile.DropDownBackground.ClickableTextureComponent(0, 0, OptionsDropDown.dropDownBGSource.Width, 11);
+		protected readonly ClickableTextureComponent DropdownBackground = StardewTile.DropDownBackground.ClickableTextureComponent(0, 0, OptionsDropDown.dropDownBGSource.Width, 0);
+		protected readonly ClickableTextureComponent DropdownButton = StardewTile.DropDownButton.ClickableTextureComponent(0, 0);
+		protected readonly ClickableTextureComponent Dropdown = StardewTile.DropDownBackground.ClickableTextureComponent(0, 0, OptionsDropDown.dropDownBGSource.Width, 11);
 
 		private List<string> _DropdownOptions = new List<string>();
 		protected virtual IReadOnlyList<string> DropdownOptions => _DropdownOptions;

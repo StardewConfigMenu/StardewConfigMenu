@@ -13,14 +13,14 @@ namespace StardewConfigMenu.Components {
 
 		private ActionType _ActionType;
 		private ActionType PreviousActionType = ActionType.OK;
-		public virtual ActionType ActionType { get => _ActionType; set => _ActionType = value; }
-		internal override bool Visible { get => Button.visible; set => Button.visible = value; }
+		public virtual ActionType ActionType => _ActionType;
+		internal override bool Visible => Button.visible;
 
 		protected ClickableTextureComponent Button;
 		public override int Width => Button.bounds.Width;
 		public override int Height => Button.bounds.Height;
-		public override int X { get => Button.bounds.X; set => Button.bounds.X = value; }
-		public override int Y { get => Button.bounds.Y; set => Button.bounds.Y = value; }
+		public override int X => Button.bounds.X;
+		public override int Y => Button.bounds.Y;
 
 		internal SCMButton(string label, ActionType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
 

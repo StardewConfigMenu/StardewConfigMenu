@@ -10,14 +10,13 @@ namespace StardewConfigMenu.Components {
 
 		internal event CheckBoxToggledEvent CheckBoxToggled;
 
-		private ClickableTextureComponent Checkbox = StardewTile.CheckboxChecked.ClickableTextureComponent(0, 0);
+		private readonly ClickableTextureComponent Checkbox = StardewTile.CheckboxChecked.ClickableTextureComponent(0, 0);
 
-		internal sealed override bool Visible { get => Checkbox.visible; set => Checkbox.visible = value; }
-
+		internal sealed override bool Visible => Checkbox.visible;
 		public sealed override int Width => Checkbox.bounds.Width;
 		public sealed override int Height => Checkbox.bounds.Height;
-		public sealed override int X { get => Checkbox.bounds.X; set => Checkbox.bounds.X = value; }
-		public sealed override int Y { get => Checkbox.bounds.Y; set => Checkbox.bounds.Y = value; }
+		public sealed override int X => Checkbox.bounds.X;
+		public sealed override int Y => Checkbox.bounds.Y;
 
 		private bool _IsChecked;
 		public virtual bool IsChecked {
