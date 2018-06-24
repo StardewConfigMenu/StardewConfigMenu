@@ -19,13 +19,10 @@ namespace StardewConfigMenu.Components.DataBacked {
 				else
 					return dropDownOptions.Count != 0;
 			}
+			protected set => ModData.Enabled = value;
 		}
 
-		public override string Label {
-			get {
-				return ModData.Label;
-			}
-		}
+		public override string Label { get => ModData.Label; protected set => ModData.Label = value; }
 
 		public override int SelectionIndex {
 			get {

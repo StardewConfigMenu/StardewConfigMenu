@@ -13,12 +13,8 @@ namespace StardewConfigMenu.Components {
 
 		private ActionType _ActionType;
 		private ActionType PreviousActionType = ActionType.OK;
-		public virtual ActionType ActionType {
-			get => _ActionType;
-			set {
-				_ActionType = value;
-			}
-		}
+		public virtual ActionType ActionType { get => _ActionType; set => _ActionType = value; }
+		internal override bool Visible { get => Button.visible; set => Button.visible = value; }
 
 		protected ClickableTextureComponent Button;
 		public override int Width => Button.bounds.Width;

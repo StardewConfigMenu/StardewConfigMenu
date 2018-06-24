@@ -12,14 +12,7 @@ namespace StardewConfigMenu.Components.DataBacked {
 		public override string Label { get => ModData.Label; protected set => ModData.Label = value; }
 		public override bool Enabled { get => ModData.Enabled; protected set => ModData.Enabled = value; }
 
-		public override ActionType ActionType {
-			get {
-				if (ModData == null)
-					return ActionType.OK;
-
-				return ModData.Type;
-			}
-		}
+		public override ActionType ActionType { get => ModData.Type; }
 
 		internal ConfigButton(Action option) : this(option, 0, 0) { }
 
