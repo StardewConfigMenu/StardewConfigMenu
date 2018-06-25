@@ -16,7 +16,7 @@ namespace StardewConfigMenu {
 
 		private List<IOptionsPackage> Packages;
 		private List<ModSheet> Sheets = new List<ModSheet>();
-		private DropdownComponent modSelected;
+		private DropdownComponent ModSelectionDropdown;
 
 		internal MenuPage(List<IOptionsPackage> packages, int x, int y, int width, int height) : base(x, y, width, height, false) {
 			Packages = packages; // TODO: Should only pass the OptionPackageList
@@ -37,10 +37,10 @@ namespace StardewConfigMenu {
 				modChoices.Add(Packages[i].ModManifest.Name);
 			}
 
-			modSelected = new DropdownComponent(modChoices, "", (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 30));
-			modSelected.Visible = true;
+			ModSelectionDropdown = new DropdownComponent(modChoices, "", (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 30));
+			ModSelectionDropdown.Visible = true;
 			if (Sheets.Count > 0)
-				Sheets[modSelected.SelectedIndex].Visible = true;
+				Sheets[ModSelectionDropdown.SelectedIndex].Visible = true;
 
 			AddListeners();
 
@@ -58,16 +58,16 @@ namespace StardewConfigMenu {
 			RemoveListeners();
 
 			ControlEvents.MouseChanged += MouseChanged;
-			modSelected.OptionSelected += DisableBackgroundSheets;
+			ModSelectionDropdown.OptionSelected += DisableBackgroundSheets;
 		}
 
 		internal void RemoveListeners(bool children = false) {
 			if (children) {
-				modSelected.Visible = false;
+				ModSelectionDropdown.Visible = false;
 				Sheets.ForEach(x => { x.RemoveListeners(true); });
 			}
 
-			modSelected.OptionSelected -= DisableBackgroundSheets;
+			ModSelectionDropdown.OptionSelected -= DisableBackgroundSheets;
 			ControlEvents.MouseChanged -= MouseChanged;
 
 		}
@@ -99,17 +99,17 @@ namespace StardewConfigMenu {
 					// clicked
 					if (currentSheet != null)
 						currentSheet.receiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
-					modSelected.ReceiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
+					ModSelectionDropdown.ReceiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
 				}
 			} else if (e.PriorState.LeftButton == ButtonState.Pressed) {
 				if (e.NewState.LeftButton == ButtonState.Pressed) {
 					if (currentSheet != null)
 						currentSheet.leftClickHeld(e.NewPosition.X, e.NewPosition.Y);
-					modSelected.LeftClickHeld(e.NewPosition.X, e.NewPosition.Y);
+					ModSelectionDropdown.LeftClickHeld(e.NewPosition.X, e.NewPosition.Y);
 				} else if (e.NewState.LeftButton == ButtonState.Released) {
 					if (currentSheet != null)
 						currentSheet.releaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
-					modSelected.ReleaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
+					ModSelectionDropdown.ReleaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
 				}
 			}
 
@@ -130,14 +130,14 @@ namespace StardewConfigMenu {
 			base.drawHorizontalPartition(b, (int) (yPositionOnScreen + Game1.pixelZoom * 40));
 
 			if (Sheets.Count > 0)
-				Sheets[modSelected.SelectedIndex].draw(b);
+				Sheets[ModSelectionDropdown.SelectedIndex].draw(b);
 
 			// draw mod select dropdown last, should cover mod settings
-			modSelected.Draw(b);
-			SpriteText.drawString(b, "Mod Options", modSelected.X + modSelected.Width + Game1.pixelZoom * 5, modSelected.Y);
+			ModSelectionDropdown.Draw(b);
+			SpriteText.drawString(b, "Mod Options", ModSelectionDropdown.X + ModSelectionDropdown.Width + Game1.pixelZoom * 5, ModSelectionDropdown.Y);
 
-			if (Sheets.Count > 0 && (Game1.getMouseX() > modSelected.X && Game1.getMouseX() < modSelected.X + modSelected.Width) && (Game1.getMouseY() > modSelected.Y && Game1.getMouseY() < modSelected.Y + modSelected.Height) && !modSelected.IsActiveComponent) {
-				IClickableMenu.drawHoverText(Game1.spriteBatch, Utilities.GetWordWrappedString(Packages[modSelected.SelectedIndex].ModManifest.Description), Game1.smallFont);
+			if (Sheets.Count > 0 && (Game1.getMouseX() > ModSelectionDropdown.X && Game1.getMouseX() < ModSelectionDropdown.X + ModSelectionDropdown.Width) && (Game1.getMouseY() > ModSelectionDropdown.Y && Game1.getMouseY() < ModSelectionDropdown.Y + ModSelectionDropdown.Height) && !ModSelectionDropdown.IsActiveComponent) {
+				IClickableMenu.drawHoverText(Game1.spriteBatch, Utilities.GetWordWrappedString(Packages[ModSelectionDropdown.SelectedIndex].ModManifest.Description), Game1.smallFont);
 			}
 		}
 	}
