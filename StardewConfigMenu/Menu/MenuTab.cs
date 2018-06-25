@@ -5,6 +5,7 @@ using StardewValley.Menus;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
 namespace StardewConfigMenu {
@@ -14,13 +15,13 @@ namespace StardewConfigMenu {
 
 	internal class MenuTab: ClickableComponent {
 
-		private MenuController controller;
+		private IModHelper Helper;
 
 		//
 		// Constructors
 		//
-		internal MenuTab(MenuController controller, Rectangle bounds) : base(bounds, "mods", "Mod Options") {
-			controller = controller;
+		internal MenuTab(IModHelper helper, Rectangle bounds) : base(bounds, "mods", "Mod Options") {
+			Helper = helper;
 			AddListeners();
 		}
 
@@ -68,7 +69,7 @@ namespace StardewConfigMenu {
 				IClickableMenu.drawHoverText(Game1.spriteBatch, base.label, Game1.smallFont);
 			}
 
-			string hoverText = ModEntry.helper.Reflection.GetField<string>(Game1.activeClickableMenu, "hoverText").GetValue();
+			string hoverText = Helper.Reflection.GetField<string>(Game1.activeClickableMenu, "hoverText").GetValue();
 
 			// Redraw hover text so that it overlaps icon
 			if (hoverText == "Exit Game") {

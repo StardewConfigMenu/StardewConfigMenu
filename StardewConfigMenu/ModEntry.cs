@@ -9,9 +9,7 @@ using StardewValley;
 namespace StardewConfigMenu {
 	public class ModEntry: Mod {
 
-		internal static IModHelper helper;
-		private MenuController panel;
-		internal static IMonitor monitor;
+		private MenuController MenuController;
 
 		/*********
     ** Public methods
@@ -19,12 +17,8 @@ namespace StardewConfigMenu {
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper) {
-			ModEntry.helper = helper;
-			ModEntry.monitor = this.Monitor;
-
-			panel = new MenuController(this);
+			MenuController = new MenuController(helper, Monitor);
 			StardewConfigFrameworkLoaded();
-
 		}
 
 		/*********

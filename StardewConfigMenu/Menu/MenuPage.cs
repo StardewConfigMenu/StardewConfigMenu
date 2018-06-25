@@ -48,8 +48,8 @@ namespace StardewConfigMenu {
 
 		static public void SetActive() {
 			var gameMenu = (GameMenu) Game1.activeClickableMenu;
-			if (MenuController.pageIndex != null)
-				gameMenu.currentTab = (int) MenuController.pageIndex;
+			if (MenuController.PageIndex != null)
+				gameMenu.currentTab = (int) MenuController.PageIndex;
 		}
 
 		public override void receiveRightClick(int x, int y, bool playSound = true) { }
@@ -81,7 +81,7 @@ namespace StardewConfigMenu {
 		protected virtual void MouseChanged(object sender, EventArgsMouseStateChanged e) {
 			if (GameMenu.forcePreventClose) { return; }
 			if (!(Game1.activeClickableMenu is GameMenu)) { return; } // must be main menu
-			if ((Game1.activeClickableMenu as GameMenu).currentTab != MenuController.pageIndex) { return; } //must be mod tab
+			if ((Game1.activeClickableMenu as GameMenu).currentTab != MenuController.PageIndex) { return; } //must be mod tab
 
 			var currentSheet = Sheets.Find(x => x.Visible);
 
@@ -121,7 +121,7 @@ namespace StardewConfigMenu {
 			//base.draw(b);
 			//tester.draw(b);
 			if (!(Game1.activeClickableMenu is GameMenu)) { return; } // must be main menu
-			if ((Game1.activeClickableMenu as GameMenu).currentTab != MenuController.pageIndex) { return; } //must be mod tab
+			if ((Game1.activeClickableMenu as GameMenu).currentTab != MenuController.PageIndex) { return; } //must be mod tab
 
 
 

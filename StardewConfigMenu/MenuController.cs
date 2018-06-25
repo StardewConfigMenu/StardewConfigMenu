@@ -10,37 +10,33 @@ using System.IO;
 
 namespace StardewConfigMenu {
 	public class MenuController: IConfigMenu {
-		public static int? pageIndex = null;
-		static internal ModEntry Mod;
+		public static int? PageIndex = null;
+		private IModHelper Helper;
+		private IMonitor Monitor;
 
-		internal MenuController(ModEntry mod) {
-			Mod = mod;
+		internal MenuController(IModHelper helper, IMonitor monitor) {
+			Helper = helper;
+			Monitor = monitor;
 			Instance = this;
 			MenuEvents.MenuChanged += MenuOpened;
 			MenuEvents.MenuClosed += MenuClosed;
 		}
 
-		static internal void Log(string str, LogLevel level = LogLevel.Debug) {
-			Mod.Monitor.Log(str, level);
-		}
-
 		//internal SettingsPage page;
-		internal MenuTab tab;
-		internal MenuPage page;
+		internal MenuTab Tab;
+		internal MenuPage Page;
 
 		internal List<IOptionsPackage> OptionPackageList = new List<IOptionsPackage>();
 
-		public override void AddOptionsPackage(IOptionsPackage modOptions) {
+		public override void AddOptionsPackage(IOptionsPackage package) {
 			// Only one per mod, remove old one
-			foreach (IOptionsPackage mod in OptionPackageList) {
-				if (mod.ModManifest.UniqueID == modOptions.ModManifest.UniqueID) {
-					OptionPackageList.Remove(mod);
-				}
-			}
+			var existingPackage = OptionPackageList.Find(x => x.ModManifest.UniqueID == package.ModManifest.UniqueID);
 
-			Mod.Monitor.Log($"{modOptions.ModManifest.Name} has added its mod options");
+			if (existingPackage != null)
+				OptionPackageList.Remove(existingPackage);
 
-			OptionPackageList.Add(modOptions);
+			OptionPackageList.Add(package);
+			Monitor.Log($"{package.ModManifest.Name} has added its mod options");
 		}
 
 		/// <summary>
@@ -50,20 +46,20 @@ namespace StardewConfigMenu {
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPreRenderGuiEvent -= HandleJunimo;
 
-			if (this.tab != null) {
-				this.tab.RemoveListeners();
-				this.tab = null;
+			if (Tab != null) {
+				Tab.RemoveListeners();
+				Tab = null;
 			}
 
-			if (this.page != null) {
+			if (Page != null) {
 				if (e.PriorMenu is GameMenu) {
-					List<IClickableMenu> pages = ModEntry.helper.Reflection.GetField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
-					pages.Remove(this.page);
+					List<IClickableMenu> pages = Helper.Reflection.GetField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
+					pages.Remove(Page);
 				}
 
-				this.page.RemoveListeners(true);
-				this.page = null;
-				MenuController.pageIndex = null;
+				Page.RemoveListeners(true);
+				Page = null;
+				PageIndex = null;
 			}
 		}
 
@@ -75,45 +71,43 @@ namespace StardewConfigMenu {
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPreRenderGuiEvent -= HandleJunimo;
 
-			if (this.tab != null) {
-				this.tab.RemoveListeners();
-				this.tab = null;
+			if (Tab != null) {
+				Tab.RemoveListeners();
+				Tab = null;
 			}
 
-			if (this.page != null) {
+			if (Page != null) {
 
 				if (e.PriorMenu is GameMenu) {
-					List<IClickableMenu> oldpages = ModEntry.helper.Reflection.GetField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
-					oldpages.Remove(this.page);
+					List<IClickableMenu> oldpages = Helper.Reflection.GetField<List<IClickableMenu>>((e.PriorMenu as GameMenu), "pages").GetValue();
+					oldpages.Remove(Page);
 				}
 
-				this.page.RemoveListeners(true);
-				this.page = null;
-				MenuController.pageIndex = null;
+				Page.RemoveListeners(true);
+				Page = null;
+				PageIndex = null;
 			}
 
 			if (!(e.NewMenu is GameMenu)) {
-				this.tab = null;
-				this.page = null;
-				MenuController.pageIndex = null;
+				Tab = null;
+				Page = null;
+				PageIndex = null;
 				return;
 			}
 
 			GameMenu menu = (GameMenu) e.NewMenu;
-			List<IClickableMenu> pages = ModEntry.helper.Reflection.GetField<List<IClickableMenu>>(menu, "pages").GetValue();
+			List<IClickableMenu> pages = Helper.Reflection.GetField<List<IClickableMenu>>(menu, "pages").GetValue();
 
 			var options = pages.Find(x => { return x is OptionsPage; });
 			int width = options.width;
 
-			//List<ClickableComponent> tabs = ModEntry.helper.Reflection.GetPrivateField<List<ClickableComponent>>(menu, "tabs").GetValue();
+			Page = new MenuPage(OptionPackageList, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
+			PageIndex = pages.Count;
+			pages.Add(Page);
 
-			this.page = new MenuPage(OptionPackageList, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
-			MenuController.pageIndex = pages.Count;
-			pages.Add(page);
-
-			bool infoSuiteInstalled = Mod.Helper.ModRegistry.IsLoaded("Cdaragorn.UiInfoSuite");
+			bool infoSuiteInstalled = Helper.ModRegistry.IsLoaded("Cdaragorn.UiInfoSuite");
 			int tabLocation = infoSuiteInstalled ? 9 : 11;
-			this.tab = new MenuTab(this, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * tabLocation, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));
+			Tab = new MenuTab(Helper, new Rectangle(menu.xPositionOnScreen + Game1.tileSize * tabLocation, menu.yPositionOnScreen + IClickableMenu.tabYPositionRelativeToMenuY + Game1.tileSize, Game1.tileSize, Game1.tileSize));
 
 			GraphicsEvents.OnPostRenderGuiEvent -= RenderTab;
 			GraphicsEvents.OnPostRenderGuiEvent += RenderTab;
@@ -131,14 +125,14 @@ namespace StardewConfigMenu {
 			var gameMenu = Game1.activeClickableMenu as GameMenu;
 
 			// Remove Community Center Icon from Options, Exit Game, and Mod Options pages
-			if (gameMenu.currentTab == MenuController.pageIndex || gameMenu.currentTab == 6 || gameMenu.currentTab == 7) {
+			if (gameMenu.currentTab == PageIndex || gameMenu.currentTab == 6 || gameMenu.currentTab == 7) {
 				if (gameMenu.junimoNoteIcon != null) {
-					this.junimoNoteIconStorage = gameMenu.junimoNoteIcon;
+					junimoNoteIconStorage = gameMenu.junimoNoteIcon;
 					gameMenu.junimoNoteIcon = null;
 				}
-			} else if (this.junimoNoteIconStorage != null) {
-				gameMenu.junimoNoteIcon = this.junimoNoteIconStorage;
-				this.junimoNoteIconStorage = null;
+			} else if (junimoNoteIconStorage != null) {
+				gameMenu.junimoNoteIcon = junimoNoteIconStorage;
+				junimoNoteIconStorage = null;
 			}
 		}
 
@@ -152,11 +146,8 @@ namespace StardewConfigMenu {
 
 			if (gameMenu.currentTab == GameMenu.mapTab) { return; }
 
-			if (tab != null)
-				tab.draw(Game1.spriteBatch);
-
-			//var b = Game1.spriteBatch;
-			//this.tab.draw(b);
+			if (Tab != null)
+				Tab.draw(Game1.spriteBatch);
 		}
 	}
 }
