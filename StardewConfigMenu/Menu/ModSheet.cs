@@ -51,8 +51,7 @@ namespace StardewConfigMenu {
 				else if (t.Equals(typeof(Selection))) {
 					int minWidth = 350;
 					var selection = (option as Selection);
-					var choices = selection.Choices;
-					foreach (SelectionChoice choice in choices) {
+					foreach (SelectionChoice choice in selection) {
 						minWidth = Math.Max((int) Game1.smallFont.MeasureString(choice.Label + "     ").X, minWidth);
 					}
 					Options.Add(new ConfigDropdown(selection, minWidth));

@@ -12,8 +12,8 @@ namespace StardewConfigMenu.Components.DataBacked {
 
 		public sealed override bool Enabled => (DropdownOptions.Count > 0) && ModData.Enabled;
 		public sealed override string Label => ModData.Label;
-		public sealed override int SelectedIndex => ModData.SelectionIndex;
-		protected sealed override IList<SelectionTuple> DropdownOptions => ModData.Choices as IList<SelectionTuple>;
+		public sealed override int SelectedIndex => ModData.SelectedIndex;
+		protected sealed override IList<SelectionTuple> DropdownOptions => ModData as IList<SelectionTuple>;
 
 		public ConfigDropdown(Selection option, int width) : this(option, width, 0, 0) { }
 
