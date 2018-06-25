@@ -27,7 +27,7 @@ namespace SCFTester2 {
 			Settings = IConfigMenu.Instance;
 			Options = new SimpleOptionsPackage(this);
 			var config = this.Helper.ReadConfig<TestConfig>();
-			Settings.AddModOptions(Options);
+			Settings.AddOptionsPackage(Options);
 
 			var testbox = new Toggle("checkbox", "Checkbox", config.checkbox);
 			Options.AddOption(testbox);

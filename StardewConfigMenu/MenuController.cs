@@ -46,7 +46,7 @@ namespace StardewConfigMenu {
 
 		internal List<IOptionsPackage> ModOptionsList = new List<IOptionsPackage>();
 
-		public override void AddModOptions(IOptionsPackage modOptions) {
+		public override void AddOptionsPackage(IOptionsPackage modOptions) {
 			// Only one per mod, remove old one
 			foreach (IOptionsPackage mod in this.ModOptionsList) {
 				if (mod.ModManifest.UniqueID == modOptions.ModManifest.UniqueID) {
