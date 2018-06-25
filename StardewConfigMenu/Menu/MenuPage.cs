@@ -23,18 +23,18 @@ namespace StardewConfigMenu {
 
 			var modChoices = new List<string>();
 
-			for (int i = 0; i < Packages.Count; i++) {
-
-				// Skip mods which didnt add tabs
-				if (Packages[i].Count == 0)
+			foreach (IOptionsPackage package in packages) {
+				// Skip mods with no tabs
+				if (package.Count == 0)
 					continue;
 
 				// Create mod page and add it, hide it initially
-				Sheets.Add(new ModSheet(Packages[i], (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 55), width - (Game1.pixelZoom * 15), height - Game1.pixelZoom * 65));
-				Sheets[i].Visible = false;
+				var sheet = new ModSheet(package, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 55), width - (Game1.pixelZoom * 15), height - Game1.pixelZoom * 65);
+				sheet.Visible = false;
+				Sheets.Add(sheet);
 
 				// Add names to mod selector dropdown
-				modChoices.Add(Packages[i].ModManifest.Name);
+				modChoices.Add(package.ModManifest.Name);
 			}
 
 			ModSelectionDropdown = new DropdownComponent(modChoices, "", (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 30));
