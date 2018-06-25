@@ -52,9 +52,9 @@ namespace StardewConfigMenu {
 				else if (t.Equals(typeof(Selection))) {
 					int minWidth = 350;
 					var selection = (option as Selection);
-					var labels = selection.GetLabels();
-					foreach (string label in labels) {
-						minWidth = Math.Max((int) Game1.smallFont.MeasureString(label + "     ").X, minWidth);
+					var choices = selection.Choices;
+					foreach (SelectionChoice choice in choices) {
+						minWidth = Math.Max((int) Game1.smallFont.MeasureString(choice.Label + "     ").X, minWidth);
 					}
 					Options.Add(new ConfigDropdown(selection, minWidth));
 				} else if (t.Equals(typeof(Toggle)))
