@@ -22,8 +22,8 @@ namespace StardewConfigMenu {
 			ModEntry.helper = helper;
 			ModEntry.monitor = this.Monitor;
 
-			this.panel = new MenuController(this);
-			this.StardewConfigFrameworkLoaded();
+			panel = new MenuController(this);
+			StardewConfigFrameworkLoaded();
 
 		}
 
@@ -34,7 +34,7 @@ namespace StardewConfigMenu {
 		/// <param name="sender">The event sender.</param>
 		/// <param name="e">The event data.</param>
 		private void StardewConfigFrameworkLoaded() {
-			this.Monitor.Log($"StardewConfigFramework Loaded");
+			Monitor.Log($"StardewConfigFramework Loaded");
 		}
 	}
 }

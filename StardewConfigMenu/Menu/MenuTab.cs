@@ -20,7 +20,7 @@ namespace StardewConfigMenu {
 		// Constructors
 		//
 		internal MenuTab(MenuController controller, Rectangle bounds) : base(bounds, "mods", "Mod Options") {
-			this.controller = controller;
+			controller = controller;
 			AddListeners();
 		}
 
@@ -50,7 +50,7 @@ namespace StardewConfigMenu {
 			if (menu.currentTab == GameMenu.mapTab)
 				return;
 
-			if (this.containsPoint(e.NewPosition.X, e.NewPosition.Y)) {
+			if (containsPoint(e.NewPosition.X, e.NewPosition.Y)) {
 				MenuPage.SetActive();
 				Game1.playSound("smallSelect");
 			}
@@ -60,11 +60,11 @@ namespace StardewConfigMenu {
 
 			var gameMenu = (GameMenu) Game1.activeClickableMenu;
 
-			b.Draw(Game1.mouseCursors, new Vector2((float) this.bounds.X, (float) (this.bounds.Y + (gameMenu.currentTab == 8 ? 8 : 0))), new Rectangle(16, 368, 16, 16), Color.White, 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.0001f);
+			b.Draw(Game1.mouseCursors, new Vector2((float) bounds.X, (float) (bounds.Y + (gameMenu.currentTab == 8 ? 8 : 0))), new Rectangle(16, 368, 16, 16), Color.White, 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.0001f);
 
 			// Draw icon
-			b.Draw(Game1.mouseCursors, new Vector2((float) this.bounds.X + 8, (float) (this.bounds.Y + (gameMenu.currentTab == 8 ? 8 : 0)) + 14), new Rectangle(32, 672, 16, 16), Color.White, 0, Vector2.Zero, 3f, SpriteEffects.None, 1);
-			if (this.containsPoint(Game1.getMouseX(), Game1.getMouseY())) {
+			b.Draw(Game1.mouseCursors, new Vector2((float) bounds.X + 8, (float) (bounds.Y + (gameMenu.currentTab == 8 ? 8 : 0)) + 14), new Rectangle(32, 672, 16, 16), Color.White, 0, Vector2.Zero, 3f, SpriteEffects.None, 1);
+			if (containsPoint(Game1.getMouseX(), Game1.getMouseY())) {
 				IClickableMenu.drawHoverText(Game1.spriteBatch, base.label, Game1.smallFont);
 			}
 
