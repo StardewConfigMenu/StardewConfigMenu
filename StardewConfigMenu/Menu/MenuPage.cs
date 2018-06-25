@@ -29,8 +29,9 @@ namespace StardewConfigMenu {
 					continue;
 
 				// Create mod page and add it, hide it initially
-				var sheet = new ModSheet(package, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 55), width - (Game1.pixelZoom * 15), height - Game1.pixelZoom * 65);
-				sheet.Visible = false;
+				var sheet = new ModSheet(package, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 55), width - (Game1.pixelZoom * 15), height - Game1.pixelZoom * 65) {
+					Visible = false
+				};
 				Sheets.Add(sheet);
 
 				// Add names to mod selector dropdown
