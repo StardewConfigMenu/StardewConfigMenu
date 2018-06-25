@@ -80,6 +80,7 @@ namespace SCFTester {
 			saveButton.ActionWasTriggered += SaveButton_ActionWasTriggered;
 
 			GraphicsEvents.OnPostRenderEvent += (sender, e) => {
+				return;
 
 				if (firstTab.GetOption<Toggle>("toggle3").IsOn)
 					Game1.spriteBatch.DrawString(Game1.dialogueFont, "Cool!", new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
