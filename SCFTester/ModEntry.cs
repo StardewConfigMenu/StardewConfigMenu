@@ -1,108 +1,117 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewConfigFramework;
 using System.Collections.Specialized;
 using System.Collections.Generic;
+using StardewConfigFramework.Options;
 
 namespace SCFTester {
 	public class ModEntry: Mod {
-		internal static IModSettingsFramework Settings;
+		internal static IConfigMenu Settings;
+		internal static TabbedOptionsPackage Options;
 		/*********
 		** Public methods
 		*********/
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper) {
-			Settings = IModSettingsFramework.Instance;
+			Settings = IConfigMenu.Instance;
 			//var options = new ModOptions(this);
 			var config = this.Helper.ReadConfig<ModConfig>();
-			var options = new ModOptions(this);
-			Settings.AddModOptions(options);
+			Options = new TabbedOptionsPackage(this);
+			Settings.AddOptionsPackage(Options);
 
-			GenerateOptions(options, config);
+			GenerateOptions(Options, config);
 		}
 
-		private void GenerateOptions(ModOptions options, ModConfig config) {
-			var enableDrop = new ModOptionToggle("toggle", "Checkbox", config.enableDropdown);
-			options.AddModOption(enableDrop);
+		private void GenerateOptions(TabbedOptionsPackage options, ModConfig config) {
+			var firstTab = new OptionsTab("Main");
 
-			enableDrop.ValueChanged += DisableDrop_ValueChanged;
+			var enableDrop = new Toggle("enableDrop", "Enable Dropdown", config.enableDropdown);
+			firstTab.AddOption(enableDrop);
 
-			var choices = new ModSelectionOptionChoices();
-			choices.Add("toggle", "Toggle");
-			choices.Add("on", "Always On");
-			choices.Add("off", "Always Off");
+			var choices = new List<SelectionChoice> {
+				new SelectionChoice("none", "None"),
+				new SelectionChoice("5", "Checkbox 5", "Hover text for Checkbox 5"),
+				new SelectionChoice("6", "Checkbox 6", "Hover text for Checkbox 6"),
+				new SelectionChoice("7", "Checkbox 7", "Hover text for Checkbox 7")
+			};
 
-			dropdown = new ModOptionSelection("drop", "Dropdown", choices, config.dropdownChoice, config.enableDropdown) {
-				hoverTextDictionary = new Dictionary<string, string>
-				{
-					{ "on", "Hover text for Always On" },
-					{ "off", "Hover text for Always Off" }
+			var dropdown = new Selection("drop", "Disable Another Option", choices, config.dropdownChoice, config.enableDropdown);
+			dropdown.SelectionDidChange += Dropdown_SelectionDidChange; ;
+			firstTab.AddOption(dropdown);
+
+			enableDrop.StateDidChange += (toggle) => {
+				dropdown.Enabled = toggle.IsOn;
+			};
+
+			var checkbox2 = new Toggle("toggle2", "Checkbox 2", config.checkbox2);
+			firstTab.AddOption(checkbox2);
+			checkbox2.StateDidChange += (toggle) => {
+				if (toggle.IsOn) {
+					var targetIndex = firstTab.IndexOf("toggle8") + 1;
+					firstTab.InsertOption(new Toggle("toggle9", "Added dynamically!"), targetIndex);
+				} else {
+					firstTab.RemoveOption("toggle9");
 				}
 			};
 
-			options.AddModOption(dropdown);
+			firstTab.AddOption(new Toggle("toggle3", "Checkbox 3", false));
 
-			dropdown.ValueChanged += Dropdown_ValueChanged;
+			var slider = new Range("range", "Slider", 10, 25, 1, config.rangeValue, true);
 
-			var checkbox2 = new ModOptionToggle("toggle2", "Checkbox2", config.checkbox2);
-			options.AddModOption(checkbox2);
+			var stepper = new Stepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, Stepper.DisplayType.PERCENT);
 
-			options.AddModOption(new ModOptionToggle("toggle3", "Always On", false));
+			firstTab.AddOption(slider);
+			firstTab.AddOption(stepper);
 
-			var slider = new ModOptionRange("range", "Slider", 10, 25, 1, config.rangeValue, true);
+			firstTab.AddOption(new Toggle("stepperCheck", "Show Stepper Value", false));
 
-			var stepper = new ModOptionStepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, DisplayType.PERCENT);
+			firstTab.AddOption(new Toggle("toggle5", "Checkbox 5"));
+			firstTab.AddOption(new Toggle("toggle6", "Checkbox 6"));
+			firstTab.AddOption(new Toggle("toggle7", "Checkbox 7"));
+			firstTab.AddOption(new Toggle("toggle8", "Checkbox 8"));
 
-			options.AddModOption(slider);
-			options.AddModOption(stepper);
+			var saveButton = new Action("okButton", "OK Button", Action.ActionType.OK);
+			firstTab.AddOption(saveButton);
 
-			options.AddModOption(new ModOptionToggle("stepperCheck", "Show Stepper Value", false));
-
-			options.AddModOption(new ModOptionToggle("toggle5", "Checkbox5"));
-			options.AddModOption(new ModOptionToggle("toggle6", "Checkbox6"));
-			options.AddModOption(new ModOptionToggle("toggle7", "Checkbox7"));
-			options.AddModOption(new ModOptionToggle("toggle8", "Checkbox8"));
-
-			var saveButton = new ModOptionTrigger("okButton", "OK Button", OptionActionType.OK);
-			options.AddModOption(saveButton);
-
-			saveButton.ActionTriggered += (id) => {
-				config.dropdownChoice = dropdown.Selection;
-				config.enableDropdown = enableDrop.IsOn;
-				this.Helper.WriteConfig<ModConfig>(config);
-			};
+			saveButton.ActionWasTriggered += SaveButton_ActionWasTriggered;
 
 			GraphicsEvents.OnPostRenderEvent += (sender, e) => {
 
-				if (dropdown.Selection == "off")
+				if (dropdown.SelectedIdentifier == "off")
 					checkbox2.IsOn = false;
-				if (dropdown.Selection == "on" || (options.GetOptionWithIdentifier("toggle3") as ModOptionToggle).IsOn)
-					Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf("on"), new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
+				if (dropdown.SelectedIdentifier == "on" || options.Tabs[0].GetOption<Toggle>("toggle3").IsOn)
+					Game1.spriteBatch.DrawString(Game1.dialogueFont, "On", new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
 				if (toggledOn)
-					Game1.spriteBatch.DrawString(Game1.dialogueFont, dropdown.Choices.LabelOf("toggle"), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
+					Game1.spriteBatch.DrawString(Game1.dialogueFont, "Toggle", new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
 
-				if ((options.GetOptionWithIdentifier("stepperCheck") as ModOptionToggle).IsOn) {
+				if (options.Tabs[0].GetOption<Toggle>("stepperCheck").IsOn) {
 					Game1.spriteBatch.DrawString(Game1.dialogueFont, stepper.Value.ToString(), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
 				}
 			};
 		}
 
-		private ModOptionSelection dropdown;
-
-		private void DisableDrop_ValueChanged(string identifier, bool isOn) {
-			dropdown.enabled = isOn;
-		}
-
 		private bool toggledOn = false;
 
-		private void Dropdown_ValueChanged(string identifier, string selection) {
-			if (selection == "toggle")
-				toggledOn = !toggledOn;
+		void Dropdown_SelectionDidChange(Selection selection) {
+			var selected = selection.SelectedIdentifier;
+			Options.Tabs[0].GetOption<Toggle>("toggle5").Enabled = "5" == selected;
+			Options.Tabs[0].GetOption<Toggle>("toggle6").Enabled = "6" == selected;
+			Options.Tabs[0].GetOption<Toggle>("toggle7").Enabled = "7" == selected;
 		}
+
+		void SaveButton_ActionWasTriggered(Action action) {
+			var config = new ModConfig() {
+				dropdownChoice = Options.Tabs[0].GetOption<Selection>("drop").SelectedIdentifier,
+				enableDropdown = Options.Tabs[0].GetOption<Toggle>("enableDrop").IsOn,
+				checkbox2 = Options.Tabs[0].GetOption<Toggle>("toggle2").IsOn
+			};
+			this.Helper.WriteConfig<ModConfig>(config);
+		}
+
 
 		/*********
 		** Private methods
