@@ -43,7 +43,6 @@ namespace StardewConfigMenu {
 
 		internal ModSheet(IOptionsPackage package, int x, int y, int width, int height) : base(x, y, width, height) {
 			for (int i = 0; i < package.Tabs[0].OptionList.Count; i++) {
-				// check type of option
 
 				var option = package.Tabs[0].OptionList[i];
 				Type t = option.GetType();
@@ -64,13 +63,7 @@ namespace StardewConfigMenu {
 				else if (t.Equals(typeof(Stepper)))
 					Options.Add(new ConfigPlusMinus(option as Stepper));
 				else if (t.Equals(typeof(Range)))
-					//Options.Add(new SliderComponent("Hey", 0, 10, 1, 5, true));
 					Options.Add(new ConfigSlider(option as Range));
-				//break;
-
-
-				// create proper component
-				// add to Options
 			}
 			upArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), (float) Game1.pixelZoom, false);
 			downArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen + height - 12 * Game1.pixelZoom, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 472, 11, 12), (float) Game1.pixelZoom, false);
