@@ -42,9 +42,9 @@ namespace StardewConfigMenu {
 		private int startingOption = 0;
 
 		internal ModSheet(IOptionsPackage package, int x, int y, int width, int height) : base(x, y, width, height) {
-			for (int i = 0; i < package.Tabs[0].OptionList.Count; i++) {
+			for (int i = 0; i < package[0].Count; i++) {
 
-				var option = package.Tabs[0].OptionList[i];
+				var option = package[0][i];
 				Type t = option.GetType();
 				if (t.Equals(typeof(CategoryLabel)))
 					Options.Add(new ConfigCategoryLabel(option as CategoryLabel));

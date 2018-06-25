@@ -26,7 +26,7 @@ namespace StardewConfigMenu {
 			for (int i = 0; i < Packages.Count; i++) {
 
 				// Skip mods which didnt add tabs
-				if (Packages[i].Tabs.Count == 0)
+				if (Packages[i].Count == 0)
 					continue;
 
 				// Create mod page and add it, hide it initially
