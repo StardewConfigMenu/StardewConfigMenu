@@ -9,27 +9,32 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley.BellsAndWhistles;
 using StardewConfigMenu.Components;
 using Microsoft.Xna.Framework.Input;
+using StardewConfigFramework;
 
 namespace StardewConfigMenu {
 	public class MenuPage: IClickableMenu {
 
-		private MenuController controller;
+		private List<IOptionsPackage> Packages;
 		private List<ModSheet> Sheets = new List<ModSheet>();
 		private DropdownComponent modSelected;
 
-		internal MenuPage(MenuController controller, int x, int y, int width, int height) : base(x, y, width, height, false) {
-			this.controller = controller;
+		internal MenuPage(List<IOptionsPackage> packages, int x, int y, int width, int height) : base(x, y, width, height, false) {
+			Packages = packages; // TODO: Should only pass the OptionPackageList
 
 			var modChoices = new List<string>();
 
-			for (int i = 0; i < this.controller.ModOptionsList.Count; i++) {
+			for (int i = 0; i < this.Packages.Count; i++) {
+
+				// Skip mods which didnt add tabs
+				if (Packages[i].Tabs.Count == 0)
+					continue;
 
 				// Create mod page and add it, hide it initially
-				this.Sheets.Add(new ModSheet(this.controller.ModOptionsList[i], (int) (this.xPositionOnScreen + Game1.pixelZoom * 15), (int) (this.yPositionOnScreen + Game1.pixelZoom * 55), this.width - (Game1.pixelZoom * 15), this.height - Game1.pixelZoom * 65));
+				this.Sheets.Add(new ModSheet(this.Packages[i], (int) (this.xPositionOnScreen + Game1.pixelZoom * 15), (int) (this.yPositionOnScreen + Game1.pixelZoom * 55), this.width - (Game1.pixelZoom * 15), this.height - Game1.pixelZoom * 65));
 				this.Sheets[i].Visible = false;
 
 				// Add names to mod selector dropdown
-				modChoices.Add(this.controller.ModOptionsList[i].ModManifest.Name);
+				modChoices.Add(this.Packages[i].ModManifest.Name);
 			}
 
 			modSelected = new DropdownComponent(modChoices, "", (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (this.xPositionOnScreen + Game1.pixelZoom * 15), (int) (this.yPositionOnScreen + Game1.pixelZoom * 30));
@@ -132,7 +137,7 @@ namespace StardewConfigMenu {
 			SpriteText.drawString(b, "Mod Options", modSelected.X + modSelected.Width + Game1.pixelZoom * 5, modSelected.Y);
 
 			if (Sheets.Count > 0 && (Game1.getMouseX() > this.modSelected.X && Game1.getMouseX() < this.modSelected.X + this.modSelected.Width) && (Game1.getMouseY() > this.modSelected.Y && Game1.getMouseY() < this.modSelected.Y + this.modSelected.Height) && !modSelected.IsActiveComponent) {
-				IClickableMenu.drawHoverText(Game1.spriteBatch, Utilities.GetWordWrappedString(this.controller.ModOptionsList[modSelected.SelectedIndex].ModManifest.Description), Game1.smallFont);
+				IClickableMenu.drawHoverText(Game1.spriteBatch, Utilities.GetWordWrappedString(this.Packages[modSelected.SelectedIndex].ModManifest.Description), Game1.smallFont);
 			}
 		}
 	}

@@ -44,19 +44,19 @@ namespace StardewConfigMenu {
 		internal MenuTab tab;
 		internal MenuPage page;
 
-		internal List<IOptionsPackage> ModOptionsList = new List<IOptionsPackage>();
+		internal List<IOptionsPackage> OptionPackageList = new List<IOptionsPackage>();
 
 		public override void AddOptionsPackage(IOptionsPackage modOptions) {
 			// Only one per mod, remove old one
-			foreach (IOptionsPackage mod in this.ModOptionsList) {
+			foreach (IOptionsPackage mod in OptionPackageList) {
 				if (mod.ModManifest.UniqueID == modOptions.ModManifest.UniqueID) {
-					ModOptionsList.Remove(mod);
+					OptionPackageList.Remove(mod);
 				}
 			}
 
-			Mod.Monitor.Log($"{modOptions.ModManifest.UniqueID} has added its mod options");
+			Mod.Monitor.Log($"{modOptions.ModManifest.Name} has added its mod options");
 
-			ModOptionsList.Add(modOptions);
+			OptionPackageList.Add(modOptions);
 		}
 
 		/// <summary>
@@ -123,7 +123,7 @@ namespace StardewConfigMenu {
 
 			//List<ClickableComponent> tabs = ModEntry.helper.Reflection.GetPrivateField<List<ClickableComponent>>(menu, "tabs").GetValue();
 
-			this.page = new MenuPage(this, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
+			this.page = new MenuPage(OptionPackageList, menu.xPositionOnScreen, menu.yPositionOnScreen, width, menu.height);
 			MenuController.pageIndex = pages.Count;
 			pages.Add(page);
 
