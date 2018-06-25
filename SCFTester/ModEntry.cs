@@ -21,9 +21,9 @@ namespace SCFTester {
 			//var options = new ModOptions(this);
 			var config = this.Helper.ReadConfig<ModConfig>();
 			Options = new TabbedOptionsPackage(this);
-			Settings.AddOptionsPackage(Options);
 
 			GenerateOptions(Options, config);
+			Settings.AddOptionsPackage(Options);
 		}
 
 		private void GenerateOptions(TabbedOptionsPackage options, ModConfig config) {
@@ -81,10 +81,10 @@ namespace SCFTester {
 
 			GraphicsEvents.OnPostRenderEvent += (sender, e) => {
 
-				if (options.Tabs[0].GetOption<Toggle>("toggle3").IsOn)
+				if (firstTab.GetOption<Toggle>("toggle3").IsOn)
 					Game1.spriteBatch.DrawString(Game1.dialogueFont, "Cool!", new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
 
-				if (options.Tabs[0].GetOption<Toggle>("stepperCheck").IsOn) {
+				if (firstTab.GetOption<Toggle>("stepperCheck").IsOn) {
 					Game1.spriteBatch.DrawString(Game1.dialogueFont, stepper.Value.ToString(), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
 				}
 			};
