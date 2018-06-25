@@ -72,10 +72,10 @@ namespace StardewConfigMenu {
 				// create proper component
 				// add to Options
 			}
-			this.upArrow = new ClickableTextureComponent(new Rectangle(this.xPositionOnScreen + width + Game1.tileSize / 4, this.yPositionOnScreen, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), (float) Game1.pixelZoom, false);
-			this.downArrow = new ClickableTextureComponent(new Rectangle(this.xPositionOnScreen + width + Game1.tileSize / 4, this.yPositionOnScreen + height - 12 * Game1.pixelZoom, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 472, 11, 12), (float) Game1.pixelZoom, false);
-			this.scrollBar = new ClickableTextureComponent(new Rectangle(this.upArrow.bounds.X + Game1.pixelZoom * 3, this.upArrow.bounds.Y + this.upArrow.bounds.Height + Game1.pixelZoom, 6 * Game1.pixelZoom, 10 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(435, 463, 6, 10), (float) Game1.pixelZoom, false);
-			this.scrollBarRunner = new Rectangle(this.scrollBar.bounds.X, this.upArrow.bounds.Y + this.upArrow.bounds.Height + Game1.pixelZoom, this.scrollBar.bounds.Width, this.downArrow.bounds.Y - this.upArrow.bounds.Y - this.upArrow.bounds.Height - Game1.pixelZoom * 3);
+			upArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), (float) Game1.pixelZoom, false);
+			downArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen + height - 12 * Game1.pixelZoom, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 472, 11, 12), (float) Game1.pixelZoom, false);
+			scrollBar = new ClickableTextureComponent(new Rectangle(upArrow.bounds.X + Game1.pixelZoom * 3, upArrow.bounds.Y + upArrow.bounds.Height + Game1.pixelZoom, 6 * Game1.pixelZoom, 10 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(435, 463, 6, 10), (float) Game1.pixelZoom, false);
+			scrollBarRunner = new Rectangle(scrollBar.bounds.X, upArrow.bounds.Y + upArrow.bounds.Height + Game1.pixelZoom, scrollBar.bounds.Width, downArrow.bounds.Y - upArrow.bounds.Y - upArrow.bounds.Height - Game1.pixelZoom * 3);
 			AddListeners();
 		}
 
@@ -90,7 +90,7 @@ namespace StardewConfigMenu {
 			}
 
 			ControlEvents.KeyPressed -= KeyPressed;
-			this.scrolling = false;
+			scrolling = false;
 		}
 
 		public override void receiveRightClick(int x, int y, bool playSound = true) {
@@ -104,28 +104,28 @@ namespace StardewConfigMenu {
 		}
 
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
-			if (GameMenu.forcePreventClose || !this.Visible) { return; }
+			if (GameMenu.forcePreventClose || !Visible) { return; }
 
 			Options.ForEach(z => {
 				if (z.Visible)
 					z.ReceiveLeftClick(x, y, playSound);
 			});
 
-			if (this.downArrow.containsPoint(x, y) && this.startingOption < Math.Max(0, this.Options.Count - 6)) {
-				if (playSound && this.Options.Count > 6 && this.startingOption != this.Options.Count - 6)
+			if (downArrow.containsPoint(x, y) && startingOption < Math.Max(0, Options.Count - 6)) {
+				if (playSound && Options.Count > 6 && startingOption != Options.Count - 6)
 					Game1.playSound("shwip");
-				this.downArrowPressed();
-			} else if (this.upArrow.containsPoint(x, y) && this.startingOption > 0) {
-				if (playSound && this.Options.Count > 6 && this.startingOption != 0)
+				downArrowPressed();
+			} else if (upArrow.containsPoint(x, y) && startingOption > 0) {
+				if (playSound && Options.Count > 6 && startingOption != 0)
 					Game1.playSound("shwip");
 
-				this.upArrowPressed();
+				upArrowPressed();
 
-			} else if (this.scrollBar.containsPoint(x, y) && Options.Count > 6) {
-				this.scrolling = true;
+			} else if (scrollBar.containsPoint(x, y) && Options.Count > 6) {
+				scrolling = true;
 			}
 			// failsafe
-			this.startingOption = Math.Max(0, Math.Min(this.Options.Count - 6, this.startingOption));
+			startingOption = Math.Max(0, Math.Min(Options.Count - 6, startingOption));
 		}
 
 		private bool scrolling = false;
@@ -138,22 +138,22 @@ namespace StardewConfigMenu {
 					z.LeftClickHeld(x, y);
 			});
 
-			if (this.scrolling) {
-				int oldPosition = this.startingOption;
+			if (scrolling) {
+				int oldPosition = startingOption;
 
-				if (y < this.scrollBarRunner.Y) {
-					this.startingOption = 0;
-					this.setScrollBarToCurrentIndex();
-				} else if (y > this.scrollBarRunner.Bottom) {
-					this.startingOption = this.Options.Count - 6;
-					this.setScrollBarToCurrentIndex();
+				if (y < scrollBarRunner.Y) {
+					startingOption = 0;
+					setScrollBarToCurrentIndex();
+				} else if (y > scrollBarRunner.Bottom) {
+					startingOption = Options.Count - 6;
+					setScrollBarToCurrentIndex();
 				} else {
-					float num = (float) (y - this.scrollBarRunner.Y) / (float) this.scrollBarRunner.Height;
-					this.startingOption = (int) Math.Round(Math.Max(0, num * (Options.Count - 6)));
+					float num = (float) (y - scrollBarRunner.Y) / (float) scrollBarRunner.Height;
+					startingOption = (int) Math.Round(Math.Max(0, num * (Options.Count - 6)));
 				}
 
-				this.setScrollBarToCurrentIndex();
-				if (oldPosition != this.startingOption) {
+				setScrollBarToCurrentIndex();
+				if (oldPosition != startingOption) {
 					Game1.playSound("shiny4");
 				}
 			}
@@ -165,7 +165,7 @@ namespace StardewConfigMenu {
 					z.ReleaseLeftClick(x, y);
 			});
 
-			this.scrolling = false;
+			scrolling = false;
 		}
 
 		public override void receiveScrollWheelAction(int direction) {
@@ -175,15 +175,15 @@ namespace StardewConfigMenu {
 			});
 
 			if (direction > 0) {
-				if (this.Options.Count > 6 && this.startingOption != 0)
+				if (Options.Count > 6 && startingOption != 0)
 					Game1.playSound("shiny4");
 
-				this.upArrowPressed();
+				upArrowPressed();
 
 			} else if (direction < 0) {
-				if (this.Options.Count > 6 && this.startingOption != this.Options.Count - 6)
+				if (Options.Count > 6 && startingOption != Options.Count - 6)
 					Game1.playSound("shiny4");
-				this.downArrowPressed();
+				downArrowPressed();
 			}
 		}
 
@@ -200,19 +200,19 @@ namespace StardewConfigMenu {
 		}
 
 		public void upArrowPressed() {
-			this.upArrow.scale = this.upArrow.baseScale;
+			upArrow.scale = upArrow.baseScale;
 			if (startingOption > 0)
-				this.startingOption--;
-			this.setScrollBarToCurrentIndex();
-			//this.setVisibleOptions();
+				startingOption--;
+			setScrollBarToCurrentIndex();
+			//setVisibleOptions();
 		}
 
 		public void downArrowPressed() {
-			this.downArrow.scale = this.downArrow.baseScale;
+			downArrow.scale = downArrow.baseScale;
 			if (startingOption < Options.Count - 6)
-				this.startingOption++;
-			this.setScrollBarToCurrentIndex();
-			//this.setVisibleOptions();
+				startingOption++;
+			setScrollBarToCurrentIndex();
+			//setVisibleOptions();
 		}
 
 		public void setVisibleOptions() {
@@ -227,10 +227,10 @@ namespace StardewConfigMenu {
 
 		public void setScrollBarToCurrentIndex() {
 			setVisibleOptions();
-			if (this.Options.Count > 0) {
-				this.scrollBar.bounds.Y = this.scrollBarRunner.Height / Math.Max(1, this.Options.Count - 6 + 1) * this.startingOption + this.upArrow.bounds.Bottom + (Game1.pixelZoom);
-				if (this.startingOption == this.Options.Count - 6) {
-					this.scrollBar.bounds.Y = this.downArrow.bounds.Y - this.scrollBar.bounds.Height - Game1.pixelZoom * 2;
+			if (Options.Count > 0) {
+				scrollBar.bounds.Y = scrollBarRunner.Height / Math.Max(1, Options.Count - 6 + 1) * startingOption + upArrow.bounds.Bottom + (Game1.pixelZoom);
+				if (startingOption == Options.Count - 6) {
+					scrollBar.bounds.Y = downArrow.bounds.Y - scrollBar.bounds.Height - Game1.pixelZoom * 2;
 				}
 			}
 		}
@@ -239,24 +239,24 @@ namespace StardewConfigMenu {
 			base.draw(b);
 
 			//drawTextureBox();
-			if (this.Options.Count > 6) {
-				this.upArrow.draw(b);
-				this.downArrow.draw(b);
-				IClickableMenu.drawTextureBox(b, Game1.mouseCursors, new Rectangle(403, 383, 6, 6), this.scrollBarRunner.X, this.scrollBarRunner.Y, this.scrollBarRunner.Width, this.scrollBarRunner.Height, Color.White, (float) Game1.pixelZoom, false);
-				this.scrollBar.draw(b);
+			if (Options.Count > 6) {
+				upArrow.draw(b);
+				downArrow.draw(b);
+				IClickableMenu.drawTextureBox(b, Game1.mouseCursors, new Rectangle(403, 383, 6, 6), scrollBarRunner.X, scrollBarRunner.Y, scrollBarRunner.Width, scrollBarRunner.Height, Color.White, (float) Game1.pixelZoom, false);
+				scrollBar.draw(b);
 			}
 
-			//b.DrawString(Game1.dialogueFont, this.Options.modManifest.Name, new Vector2(this.xPositionOnScreen, this.yPositionOnScreen), Color.White);
+			//b.DrawString(Game1.dialogueFont, Options.modManifest.Name, new Vector2(xPositionOnScreen, yPositionOnScreen), Color.White);
 
 			for (int i = startingOption; i < Options.Count; i++) {
 				if (!(Options[i] is ConfigDropdown) && Options[i].Visible)
-					Options[i].Draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
+					Options[i].Draw(b, xPositionOnScreen, ((height / 6) * (i - startingOption)) + yPositionOnScreen + ((height / 6) - Options[i].Height) / 2);
 			}
 
 			// Draw Dropdowns last, they must be on top; must draw from bottom to top
 			for (int i = Math.Min(startingOption + 5, Options.Count - 1); i >= startingOption; i--) {
 				if (Options[i] is ConfigDropdown && Options[i].Visible)
-					Options[i].Draw(b, this.xPositionOnScreen, ((this.height / 6) * (i - startingOption)) + this.yPositionOnScreen + ((this.height / 6) - Options[i].Height) / 2);
+					Options[i].Draw(b, xPositionOnScreen, ((height / 6) * (i - startingOption)) + yPositionOnScreen + ((height / 6) - Options[i].Height) / 2);
 			}
 
 		}
