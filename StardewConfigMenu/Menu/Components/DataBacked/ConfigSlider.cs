@@ -16,7 +16,7 @@ namespace StardewConfigMenu.Components.DataBacked {
 		internal ConfigSlider(Range option) : this(option, 0, 0) { }
 
 		internal ConfigSlider(Range option, int x, int y) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, option.ShowValue, x, y, option.Enabled) {
-			this.ModData = option;
+			ModData = option;
 		}
 	}
 }

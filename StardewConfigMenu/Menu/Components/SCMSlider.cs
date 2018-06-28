@@ -24,7 +24,8 @@ namespace StardewConfigMenu.Components {
 
 				Origin.X = value;
 				SliderBackground.bounds.X = value;
-				if (ShowValue)
+				var _showValue = (ShowValue != default(bool)) ? ShowValue : _ShowValue;
+				if (_showValue)
 					SliderBackground.bounds.X += (int) MaxLabelSize.X + (4 * Game1.pixelZoom);
 
 				UpdateSliderLocation();
@@ -47,45 +48,50 @@ namespace StardewConfigMenu.Components {
 		internal SliderComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, bool showValue, bool enabled = true) : this(labelText, min, max, stepsize, defaultSelection, showValue, 0, 0, enabled) { }
 
 		internal SliderComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, bool showValue, int x, int y, bool enabled = true) : base(labelText, enabled) {
-			_min = Math.Round(min, 3);
-			_max = Math.Round(max, 3);
-			_stepSize = Math.Round(stepsize, 3);
-			_showValue = showValue;
+			_Min = Math.Round(min, 3);
+			_Max = Math.Round(max, 3);
+			_StepSize = Math.Round(stepsize, 3);
+			_ShowValue = showValue;
 
 			var valid = CheckValidInput(Math.Round(defaultSelection, 3));
 			_Value = valid;
 
-			RecalculateMaxLabelSize();
+			CalculateMaxLabelSize();
 
-			X = x;
-			Y = y;
+			Origin.X = x;
+			Origin.Y = y;
 		}
 
-		protected void RecalculateMaxLabelSize() {
-			var maxRect = Game1.dialogueFont.MeasureString((Max + StepSize % 1).ToString());
-			var minRect = Game1.dialogueFont.MeasureString((Min - StepSize % 1).ToString());
+		protected void CalculateMaxLabelSize() {
+			var maxRect = Game1.dialogueFont.MeasureString((_Max + _StepSize % 1).ToString());
+			var minRect = Game1.dialogueFont.MeasureString((_Min - _StepSize % 1).ToString());
 
 			MaxLabelSize = (maxRect.X > minRect.X) ? maxRect : minRect;
 		}
 
 		protected void UpdateSliderLocation() {
-			var sectionNum = ((Value - Min) / StepSize);
-			var totalSections = ((Max - Min) / StepSize);
+			var _value = (Value != default(decimal)) ? Value : _Value;
+			var _max = (Max != default(decimal)) ? Max : _Max;
+			var _min = (Min != default(decimal)) ? Min : _Min;
+			var _stepSize = (StepSize != default(decimal)) ? StepSize : _StepSize;
+
+			var sectionNum = ((_value - _max) / _stepSize);
+			var totalSections = ((_max - _min) / _stepSize);
 			var sectionWidth = SliderBackground.bounds.Width - SliderButton.bounds.Width / totalSections;
 			SliderButton.bounds.X = SliderBackground.bounds.X + (SliderButton.bounds.Width / 2) + (int) (sectionWidth * sectionNum);
 		}
 
-		private decimal _min;
-		public virtual decimal Min { get => _min; }
+		private decimal _Min;
+		public virtual decimal Min { get => _Min; }
 
-		private decimal _max;
-		public virtual decimal Max { get => _max; }
+		private decimal _Max;
+		public virtual decimal Max { get => _Max; }
 
-		private decimal _stepSize;
-		public virtual decimal StepSize { get => _stepSize; }
+		private decimal _StepSize;
+		public virtual decimal StepSize { get => _StepSize; }
 
-		private bool _showValue;
-		public virtual bool ShowValue { get => _showValue; }
+		private bool _ShowValue;
+		public virtual bool ShowValue { get => _ShowValue; }
 
 		private decimal _Value;
 		public virtual decimal Value {
@@ -100,13 +106,13 @@ namespace StardewConfigMenu.Components {
 		}
 
 		private decimal CheckValidInput(decimal input) {
-			if (input > Max)
-				return Max;
+			if (input > _Max)
+				return _Max;
 
-			if (input < Min)
-				return Min;
+			if (input < _Min)
+				return _Min;
 
-			return ((input - Min) / StepSize) * StepSize + Min;
+			return ((input - _Min) / _StepSize) * _StepSize + _Min;
 		}
 
 		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
