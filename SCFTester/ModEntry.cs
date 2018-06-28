@@ -63,7 +63,7 @@ namespace SCFTester {
 
 			var slider = new Range("range", "Slider", 10, 25, 1, config.rangeValue, true);
 
-			var stepper = new Stepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, Stepper.DisplayType.PERCENT);
+			var stepper = new Stepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, RangeDisplayType.PERCENT);
 
 			firstTab.Options.Add(slider);
 			firstTab.Options.Add(stepper);
@@ -75,7 +75,7 @@ namespace SCFTester {
 			firstTab.Options.Add(new Toggle("toggle7", "Checkbox 7"));
 			firstTab.Options.Add(new Toggle("toggle8", "Checkbox 8"));
 
-			var saveButton = new Action("okButton", "OK Button", Action.ActionType.OK);
+			var saveButton = new Action("okButton", "OK Button", ButtonType.OK);
 			firstTab.Options.Add(saveButton);
 
 			saveButton.ActionWasTriggered += SaveButton_ActionWasTriggered;

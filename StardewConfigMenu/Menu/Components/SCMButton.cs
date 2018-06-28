@@ -5,15 +5,14 @@ using StardewValley.Menus;
 using StardewConfigFramework.Options;
 
 namespace StardewConfigMenu.Components {
-	using ActionType = Action.ActionType;
 
 	internal class SCMButton: SCMControl {
 		internal delegate void ButtonPressedEvent();
 		internal event ButtonPressedEvent ButtonPressed;
 
-		private ActionType _ActionType;
-		private ActionType PreviousActionType = ActionType.OK;
-		public virtual ActionType ActionType => _ActionType;
+		private ButtonType _ButtonType;
+		private ButtonType PreviousButtonType = ButtonType.OK;
+		public virtual ButtonType ButtonType => _ButtonType;
 		internal override bool Visible => Button.visible;
 
 		protected ClickableTextureComponent Button;
@@ -22,26 +21,26 @@ namespace StardewConfigMenu.Components {
 		public override int X => Button.bounds.X;
 		public override int Y => Button.bounds.Y;
 
-		internal SCMButton(string label, ActionType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
+		internal SCMButton(string label, ButtonType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
 
-		internal SCMButton(string label, ActionType type, int x, int y, bool enabled = true) : base(label, enabled) {
-			_ActionType = type;
+		internal SCMButton(string label, ButtonType type, int x, int y, bool enabled = true) : base(label, enabled) {
+			_ButtonType = type;
 
 			Button = GetButtonTile().ClickableTextureComponent(x, y);
 			Button.drawShadow = true;
 		}
 
 		protected StardewTile GetButtonTile() {
-			switch (ActionType) {
-				case ActionType.DONE:
+			switch (ButtonType) {
+				case ButtonType.DONE:
 					return StardewTile.DoneButton;
-				case ActionType.CLEAR:
+				case ButtonType.CLEAR:
 					return StardewTile.ClearButton;
-				case ActionType.OK:
+				case ButtonType.OK:
 					return StardewTile.OKButton;
-				case ActionType.SET:
+				case ButtonType.SET:
 					return StardewTile.SetButton;
-				case ActionType.GIFT:
+				case ButtonType.GIFT:
 					return StardewTile.GiftButton;
 				default:
 					return StardewTile.OKButton;
@@ -59,10 +58,10 @@ namespace StardewConfigMenu.Components {
 		}
 
 		private void CheckForButtonUpdate() {
-			if (PreviousActionType != ActionType) {
+			if (PreviousButtonType != ButtonType) {
 				Button = GetButtonTile().ClickableTextureComponent(Button.bounds.X, Button.bounds.Y);
 				Button.drawShadow = true;
-				PreviousActionType = ActionType;
+				PreviousButtonType = ButtonType;
 			}
 		}
 

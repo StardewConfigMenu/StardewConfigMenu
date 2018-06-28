@@ -19,7 +19,7 @@ namespace StardewConfigMenu {
 		private DropdownComponent ModSelectionDropdown;
 
 		internal MenuPage(List<IOptionsPackage> packages, int x, int y, int width, int height) : base(x, y, width, height, false) {
-			Packages = packages; // TODO: Should only pass the OptionPackageList
+			Packages = packages;
 
 			var modChoices = new List<string>();
 

@@ -3,7 +3,7 @@
 namespace StardewConfigMenu.Components.DataBacked {
 
 	internal class ConfigPlusMinus: PlusMinusComponent {
-		private readonly Stepper ModData;
+		private readonly IStepper ModData;
 
 		public sealed override bool Enabled => ModData.Enabled;
 		public sealed override string Label => ModData.Label;
@@ -12,9 +12,9 @@ namespace StardewConfigMenu.Components.DataBacked {
 		public sealed override decimal StepSize => ModData.StepSize;
 		public sealed override decimal Value => ModData.Value;
 
-		internal ConfigPlusMinus(Stepper option) : this(option, 0, 0) { }
+		internal ConfigPlusMinus(IStepper option) : this(option, 0, 0) { }
 
-		internal ConfigPlusMinus(Stepper option, int x, int y) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, x, y, option.Type, option.Enabled) {
+		internal ConfigPlusMinus(IStepper option, int x, int y) : base(option.Label, option.Min, option.Max, option.StepSize, option.Value, x, y, option.DisplayType, option.Enabled) {
 			ModData = option;
 		}
 	}

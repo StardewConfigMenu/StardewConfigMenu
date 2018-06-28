@@ -6,7 +6,6 @@ using StardewValley.Menus;
 using StardewConfigFramework.Options;
 
 namespace StardewConfigMenu.Components {
-	using DisplayType = Stepper.DisplayType;
 
 	internal class PlusMinusComponent: SCMControl {
 		internal delegate void ValueChangedEvent(decimal Value);
@@ -45,13 +44,13 @@ namespace StardewConfigMenu.Components {
 		private decimal _Min;
 		private decimal _Max;
 		private decimal _StepSize;
-		private DisplayType _Type;
+		private RangeDisplayType _Type;
 		private decimal _Value;
 
 		public virtual decimal Min { get => _Min; }
 		public virtual decimal Max { get => _Max; }
 		public virtual decimal StepSize { get => _StepSize; }
-		public virtual DisplayType Type => _Type;
+		public virtual RangeDisplayType Type => _Type;
 		public virtual decimal Value {
 			get => _Value;
 			protected set {
@@ -65,7 +64,7 @@ namespace StardewConfigMenu.Components {
 		protected string UnitString {
 			get {
 				switch (Type) {
-					case DisplayType.PERCENT:
+					case RangeDisplayType.PERCENT:
 						return "%";
 					default:
 						return "";
@@ -73,9 +72,9 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, DisplayType type = DisplayType.NONE, bool enabled = true) : this(labelText, min, max, stepsize, defaultSelection, 0, 0, type, enabled) { }
+		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, RangeDisplayType type = RangeDisplayType.DEFAULT, bool enabled = true) : this(labelText, min, max, stepsize, defaultSelection, 0, 0, type, enabled) { }
 
-		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, int x, int y, DisplayType type = DisplayType.NONE, bool enabled = true) : base(labelText, enabled) {
+		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, int x, int y, RangeDisplayType type = RangeDisplayType.DEFAULT, bool enabled = true) : base(labelText, enabled) {
 			_Min = Math.Round(min, 3);
 			_Max = Math.Round(max, 3);
 			_StepSize = Math.Round(stepsize, 3);
