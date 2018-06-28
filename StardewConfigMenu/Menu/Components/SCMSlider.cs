@@ -22,13 +22,7 @@ namespace StardewConfigMenu.Components {
 				if (Origin.X == value)
 					return;
 
-				Origin.X = value;
-				SliderBackground.bounds.X = value;
-				var _showValue = (ShowValue != default(bool)) ? ShowValue : _ShowValue;
-				if (_showValue)
-					SliderBackground.bounds.X += (int) MaxLabelSize.X + (4 * Game1.pixelZoom);
-
-				UpdateSliderLocation();
+				UpdateXLocation(value, Min, Max, StepSize, ShowValue);
 			}
 		}
 		public sealed override int Y {
@@ -58,8 +52,8 @@ namespace StardewConfigMenu.Components {
 
 			CalculateMaxLabelSize();
 
-			Origin.X = x;
-			Origin.Y = y;
+			UpdateXLocation(x, _Min, _Max, _StepSize, _ShowValue);
+			Y = y;
 		}
 
 		protected void CalculateMaxLabelSize() {
@@ -69,14 +63,18 @@ namespace StardewConfigMenu.Components {
 			MaxLabelSize = (maxRect.X > minRect.X) ? maxRect : minRect;
 		}
 
-		protected void UpdateSliderLocation() {
-			var _value = (Value != default(decimal)) ? Value : _Value;
-			var _max = (Max != default(decimal)) ? Max : _Max;
-			var _min = (Min != default(decimal)) ? Min : _Min;
-			var _stepSize = (StepSize != default(decimal)) ? StepSize : _StepSize;
+		private void UpdateXLocation(int x, decimal min, decimal max, decimal stepSize, bool showValue) {
+			Origin.X = x;
+			SliderBackground.bounds.X = x;
+			if (showValue)
+				SliderBackground.bounds.X += (int) MaxLabelSize.X + (4 * Game1.pixelZoom);
 
-			var sectionNum = ((_value - _max) / _stepSize);
-			var totalSections = ((_max - _min) / _stepSize);
+			UpdateSliderLocation(x, min, max, stepSize);
+		}
+
+		private void UpdateSliderLocation(decimal value, decimal min, decimal max, decimal stepSize) {
+			var sectionNum = ((value - max) / stepSize);
+			var totalSections = ((max - min) / stepSize);
 			var sectionWidth = SliderBackground.bounds.Width - SliderButton.bounds.Width / totalSections;
 			SliderButton.bounds.X = SliderBackground.bounds.X + (SliderButton.bounds.Width / 2) + (int) (sectionWidth * sectionNum);
 		}
