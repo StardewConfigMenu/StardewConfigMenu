@@ -10,7 +10,7 @@ namespace StardewConfigMenu.Components.DataBacked {
 		private ICategoryLabel ModData;
 		public sealed override string Label => ModData.Label;
 
-		protected Rectangle Bounds = new Rectangle();
+		private Rectangle Bounds = new Rectangle();
 		public sealed override int X { get => Bounds.X; set => Bounds.X = value; }
 		public sealed override int Y { get => Bounds.Y; set => Bounds.Y = value; }
 		public sealed override int Height { get => Bounds.Height; set => Bounds.Height = value; }
