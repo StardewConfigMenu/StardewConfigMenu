@@ -42,16 +42,14 @@ namespace StardewConfigMenu {
 		private int startingOption = 0;
 
 		internal ModSheet(IOptionsPackage package, int x, int y, int width, int height) : base(x, y, width, height) {
-			for (int i = 0; i < package[0].Count; i++) {
-
-				var option = package[0][i];
+			foreach (ModOption option in package.Tabs[0].Options) {
 				Type t = option.GetType();
 				if (t.Equals(typeof(CategoryLabel)))
 					Options.Add(new ConfigCategoryLabel(option as CategoryLabel));
 				else if (t.Equals(typeof(Selection))) {
 					int minWidth = 350;
 					var selection = (option as Selection);
-					foreach (SelectionChoice choice in selection) {
+					foreach (SelectionChoice choice in selection.Choices) {
 						minWidth = Math.Max((int) Game1.smallFont.MeasureString(choice.Label + "     ").X, minWidth);
 					}
 					Options.Add(new ConfigDropdown(selection, minWidth));
@@ -64,6 +62,7 @@ namespace StardewConfigMenu {
 				else if (t.Equals(typeof(Range)))
 					Options.Add(new ConfigSlider(option as Range));
 			}
+
 			upArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), (float) Game1.pixelZoom, false);
 			downArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen + height - 12 * Game1.pixelZoom, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 472, 11, 12), (float) Game1.pixelZoom, false);
 			scrollBar = new ClickableTextureComponent(new Rectangle(upArrow.bounds.X + Game1.pixelZoom * 3, upArrow.bounds.Y + upArrow.bounds.Height + Game1.pixelZoom, 6 * Game1.pixelZoom, 10 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(435, 463, 6, 10), (float) Game1.pixelZoom, false);
