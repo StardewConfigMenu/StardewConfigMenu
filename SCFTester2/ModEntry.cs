@@ -39,7 +39,7 @@ namespace SCFTester2 {
 				emptyDropdown.Enabled = toggle.IsOn; // should not do anything
 			};
 
-			var list = new List<SelectionChoice>();
+			var list = new List<ISelectionChoice>();
 			list.Add(new SelectionChoice("first", "First", "This is the first option!"));
 			list.Add(new SelectionChoice("second", "Second", "This is the Second option!"));
 			list.Add(new SelectionChoice("third", "Third"));
