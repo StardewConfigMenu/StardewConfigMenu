@@ -6,8 +6,6 @@ using StardewValley;
 using StardewConfigFramework;
 using StardewConfigFramework.Options;
 using System.Collections.Generic;
-using static StardewConfigFramework.Options.Stepper.DisplayType;
-using static StardewConfigFramework.Options.Action;
 
 namespace SCFTester2 {
 	using Action = StardewConfigFramework.Options.Action;
@@ -48,47 +46,47 @@ namespace SCFTester2 {
 			var filledDropdown = new Selection("filledDropdown", "Filled Dropdown", list, config.filledDropown, true);
 			Options.AddOption(filledDropdown);
 
-			var stepper = new Stepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, PERCENT);
+			var stepper = new Stepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, RangeDisplayType.PERCENT);
 			Options.AddOption(stepper);
 
 			var label = new CategoryLabel("catlabel", "Category Label");
 			Options.AddOption(label);
 
-			var button = new Action("setButton", "Click Me!", ActionType.SET);
+			var button = new Action("setButton", "Click Me!", ButtonType.SET);
 			button.ActionWasTriggered += (identifier) => {
 				filledDropdown.Enabled = !filledDropdown.Enabled;
 			};
 			Options.AddOption(button);
 
-			var tranformingButton = new Action("clearButton", "Clear Button", ActionType.CLEAR);
-			tranformingButton.Type = ActionType.CLEAR;
+			var tranformingButton = new Action("clearButton", "Clear Button", ButtonType.CLEAR);
+			tranformingButton.ButtonType = ButtonType.CLEAR;
 			tranformingButton.ActionWasTriggered += (identifier) => {
-				switch (tranformingButton.Type) {
-					case ActionType.CLEAR:
+				switch (tranformingButton.ButtonType) {
+					case ButtonType.CLEAR:
 						tranformingButton.Label = "Are you sure?";
-						tranformingButton.Type = ActionType.OK;
+						tranformingButton.ButtonType = ButtonType.OK;
 						break;
-					case ActionType.OK:
+					case ButtonType.OK:
 						tranformingButton.Label = "Cleared";
-						tranformingButton.Type = ActionType.DONE;
+						tranformingButton.ButtonType = ButtonType.DONE;
 						break;
-					case ActionType.DONE:
+					case ButtonType.DONE:
 						tranformingButton.Label = "Clear Button";
-						tranformingButton.Type = ActionType.CLEAR;
+						tranformingButton.ButtonType = ButtonType.CLEAR;
 						break;
 					default:
 						tranformingButton.Label = "Clear Button";
-						tranformingButton.Type = ActionType.CLEAR;
+						tranformingButton.ButtonType = ButtonType.CLEAR;
 						break;
 				}
 			};
 
 			Options.AddOption(tranformingButton);
 
-			Options.AddOption(new Action("doneButton", "Done Button", ActionType.DONE));
-			Options.AddOption(new Action("giftButton", "Gift Button", ActionType.GIFT));
+			Options.AddOption(new Action("doneButton", "Done Button", ButtonType.DONE));
+			Options.AddOption(new Action("giftButton", "Gift Button", ButtonType.GIFT));
 
-			var saveButton = new Action("okButton", "OK Button", ActionType.OK);
+			var saveButton = new Action("okButton", "OK Button", ButtonType.OK);
 			Options.AddOption(saveButton);
 
 			saveButton.ActionWasTriggered += (_) => {
