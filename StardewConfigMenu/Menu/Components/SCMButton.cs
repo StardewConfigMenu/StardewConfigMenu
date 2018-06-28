@@ -16,10 +16,10 @@ namespace StardewConfigMenu.Components {
 		internal override bool Visible => Button.visible;
 
 		protected ClickableTextureComponent Button;
-		public override int Width => Button.bounds.Width;
-		public override int Height => Button.bounds.Height;
-		public override int X => Button.bounds.X;
-		public override int Y => Button.bounds.Y;
+		public sealed override int Width => Button.bounds.Width;
+		public sealed override int Height => Button.bounds.Height;
+		public sealed override int X => Button.bounds.X;
+		public sealed override int Y => Button.bounds.Y;
 
 		internal SCMButton(string label, ButtonType type, bool enabled = true) : this(label, type, 0, 0, enabled) { }
 
