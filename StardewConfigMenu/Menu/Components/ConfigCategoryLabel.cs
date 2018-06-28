@@ -4,14 +4,11 @@ using StardewConfigFramework.Options;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
 
-namespace StardewConfigMenu.Components {
+namespace StardewConfigMenu.Components.DataBacked {
 
-	internal class SCMCategoryLabel: SCMControl {
-
-		public sealed override bool Enabled {
-			get { return true; }
-			protected set { }
-		}
+	internal sealed class ConfigCategoryLabel: SCMControl {
+		private ICategoryLabel ModData;
+		public sealed override string Label => ModData.Label;
 
 		protected Rectangle Bounds = new Rectangle();
 		public sealed override int X { get => Bounds.X; set => Bounds.X = value; }
@@ -19,16 +16,21 @@ namespace StardewConfigMenu.Components {
 		public sealed override int Height { get => Bounds.Height; set => Bounds.Height = value; }
 		public sealed override int Width { get => Bounds.Width; set => Bounds.Width = value; }
 
-		public SCMCategoryLabel(string label) : this(label, 0, 0) { }
+		public sealed override bool Enabled {
+			get { return true; }
+			protected set { }
+		}
 
-		public SCMCategoryLabel(string labelText, int x, int y) : base(labelText) {
+		public ConfigCategoryLabel(ICategoryLabel option) : this(option, 0, 0) { }
+
+		public ConfigCategoryLabel(ICategoryLabel option, int x, int y) : base(option.Label) {
+			ModData = option;
 			X = x;
 			Y = y;
 			Height = SpriteText.getHeightOfString(Label);
 			Width = SpriteText.getWidthOfString(Label);
 		}
 
-		// static drawing of component
 		public override void Draw(SpriteBatch b) {
 			SpriteText.drawString(b, Label, X, Y - 4 * Game1.pixelZoom);
 		}

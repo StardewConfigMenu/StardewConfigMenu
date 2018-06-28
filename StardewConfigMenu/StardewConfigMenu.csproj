@@ -57,11 +57,11 @@
     <Compile Include="Menu\Components\SCMDropdown.cs" />
     <Compile Include="Menu\Components\SCMButton.cs" />
     <Compile Include="Menu\Components\DataBacked\ConfigButton.cs" />
-    <Compile Include="Menu\Components\DataBacked\ConfigCategoryLabel.cs" />
     <Compile Include="Menu\MenuTab.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\StardewTile.cs" />
     <Compile Include="Menu\Components\SCMCategoryLabel.cs" />
+    <Compile Include="Menu\Components\ConfigCategoryLabel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json" />
