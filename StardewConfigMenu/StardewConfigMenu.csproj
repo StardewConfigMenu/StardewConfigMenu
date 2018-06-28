@@ -44,23 +44,24 @@
     <Compile Include="ModEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MenuController.cs" />
-    <Compile Include="Menu\Components\ModOptions\ModSliderComponent.cs" />
-    <Compile Include="Menu\Components\ModOptions\ModPlusMinusComponent.cs" />
-    <Compile Include="Menu\Components\SliderComponent.cs" />
-    <Compile Include="Menu\Components\PlusMinusComponent.cs" />
-    <Compile Include="Menu\Components\ModOptions\ModCheckBoxComponent.cs" />
-    <Compile Include="Menu\Components\CheckBoxComponent.cs" />
-    <Compile Include="Menu\Components\ModOptions\ModDropDownComponent.cs" />
-    <Compile Include="Menu\Components\OptionComponent.cs" />
+    <Compile Include="Menu\Components\DataBacked\ConfigSlider.cs" />
+    <Compile Include="Menu\Components\DataBacked\ConfigPlusMinus.cs" />
+    <Compile Include="Menu\Components\SCMSlider.cs" />
+    <Compile Include="Menu\Components\SCMPlusMinus.cs" />
+    <Compile Include="Menu\Components\DataBacked\ConfigCheckbox.cs" />
+    <Compile Include="Menu\Components\SCMCheckbox.cs" />
+    <Compile Include="Menu\Components\DataBacked\ConfigDropdown.cs" />
+    <Compile Include="Menu\Components\SCMControl.cs" />
     <Compile Include="Menu\MenuPage.cs" />
     <Compile Include="Menu\ModSheet.cs" />
-    <Compile Include="Menu\Components\DropDownComponent.cs" />
-    <Compile Include="Menu\Components\ButtonComponent.cs" />
-    <Compile Include="Menu\Components\ModOptions\ModButtonComponent.cs" />
-    <Compile Include="Menu\Components\ModOptions\ModCategoryLabelComponent.cs" />
+    <Compile Include="Menu\Components\SCMDropdown.cs" />
+    <Compile Include="Menu\Components\SCMButton.cs" />
+    <Compile Include="Menu\Components\DataBacked\ConfigButton.cs" />
+    <Compile Include="Menu\Components\DataBacked\ConfigCategoryLabel.cs" />
     <Compile Include="Menu\MenuTab.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\StardewTile.cs" />
+    <Compile Include="Menu\Components\SCMCategoryLabel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json" />
