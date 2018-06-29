@@ -47,10 +47,7 @@ namespace StardewConfigMenu.Components {
 
 		private int hoveredChoice = 0;
 
-		public override bool Enabled {
-			get => (DropdownOptions.Count > 0) && _enabled;
-			protected set => _enabled = value;
-		}
+		public override bool Enabled => (DropdownOptions.Count > 0) && _enabled;
 
 		internal override bool Visible {
 			get => Dropdown.visible && DropdownBackground.visible && DropdownButton.visible;
@@ -97,7 +94,10 @@ namespace StardewConfigMenu.Components {
 		}
 
 		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
-			if (Enabled && containsPoint(x, y) && IsAvailableForSelection) {
+			if (!Enabled || !IsAvailableForSelection)
+				return;
+
+			if (containsPoint(x, y)) {
 				RegisterAsActiveComponent();
 				hoveredChoice = 0;
 				LeftClickHeld(x, y);
@@ -107,20 +107,24 @@ namespace StardewConfigMenu.Components {
 		}
 
 		public override void LeftClickHeld(int x, int y) {
-			if (Enabled && IsActiveComponent && DropdownBackground.containsPoint(x, y)) {
+			if (!Enabled || !IsActiveComponent)
+				return;
+
+			if (DropdownBackground.containsPoint(x, y)) {
 				DropdownBackground.bounds.Y = Math.Min(DropdownBackground.bounds.Y, Game1.viewport.Height - DropdownBackground.bounds.Height);
 				hoveredChoice = (int) Math.Max(Math.Min((float) (y - DropdownBackground.bounds.Y) / (float) Dropdown.bounds.Height, (float) (DropdownOptions.Count - 1)), 0f);
 			}
 		}
 
 		public override void ReleaseLeftClick(int x, int y) {
-			if (IsActiveComponent) {
-				UnregisterAsActiveComponent();
+			if (!IsActiveComponent)
+				return;
 
-				if (DropdownBackground.containsPoint(x, y)) {
-					if (Enabled && DropdownOptions.Count > 0) {
-						SelectHoveredOption();
-					}
+			UnregisterAsActiveComponent();
+
+			if (DropdownBackground.containsPoint(x, y)) {
+				if (Enabled && DropdownOptions.Count > 0) {
+					SelectHoveredOption();
 				}
 			}
 		}

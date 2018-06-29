@@ -48,8 +48,6 @@
     <Compile Include="Menu\Components\DataBacked\ConfigPlusMinus.cs" />
     <Compile Include="Menu\Components\SCMSlider.cs" />
     <Compile Include="Menu\Components\SCMPlusMinus.cs" />
-    <Compile Include="Menu\Components\DataBacked\ConfigCheckbox.cs" />
-    <Compile Include="Menu\Components\SCMCheckbox.cs" />
     <Compile Include="Menu\Components\DataBacked\ConfigDropdown.cs" />
     <Compile Include="Menu\Components\SCMControl.cs" />
     <Compile Include="Menu\MenuPage.cs" />
@@ -60,6 +58,7 @@
     <Compile Include="Common\StardewTile.cs" />
     <Compile Include="Menu\Components\ConfigCategoryLabel.cs" />
     <Compile Include="Menu\Components\ConfigButton.cs" />
+    <Compile Include="Menu\Components\ConfigCheckbox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json" />

@@ -26,15 +26,9 @@ namespace StardewConfigMenu.Components {
 			get => _visible;
 		}
 
-		public virtual bool Enabled {
-			get => _enabled;
-			protected set => _enabled = value;
-		}
+		public virtual bool Enabled => _enabled;
 
-		public virtual string Label {
-			get => _label;
-			protected set => _label = value;
-		}
+		public virtual string Label => _label;
 
 		public SCMControl(string label, bool enabled = true) {
 			_label = label;

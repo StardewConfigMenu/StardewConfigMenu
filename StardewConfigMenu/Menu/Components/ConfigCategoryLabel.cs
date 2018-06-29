@@ -13,13 +13,10 @@ namespace StardewConfigMenu.Components {
 		private Rectangle Bounds = new Rectangle();
 		public sealed override int X { get => Bounds.X; set => Bounds.X = value; }
 		public sealed override int Y { get => Bounds.Y; set => Bounds.Y = value; }
-		public sealed override int Height { get => SpriteText.getHeightOfString(Label); }
-		public sealed override int Width { get => SpriteText.getWidthOfString(Label); }
+		public sealed override int Height => SpriteText.getHeightOfString(Label);
+		public sealed override int Width => SpriteText.getWidthOfString(Label);
 
-		public sealed override bool Enabled {
-			get { return true; }
-			protected set { }
-		}
+		public sealed override bool Enabled => true;
 
 		public ConfigCategoryLabel(ICategoryLabel option) : this(option, 0, 0) { }
 

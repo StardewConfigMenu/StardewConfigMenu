@@ -12,11 +12,12 @@ namespace StardewConfigMenu.Components {
 		private ClickableTextureComponent Button;
 		public sealed override int X { get => Button.bounds.X; set => Button.bounds.X = value; }
 		public sealed override int Y { get => Button.bounds.Y; set => Button.bounds.Y = value; }
-		public sealed override int Width { get => Button.bounds.Width; set => Button.bounds.Width = value; }
-		public sealed override int Height { get => Button.bounds.Height; set => Button.bounds.Height = value; }
+		public sealed override int Width => Button.bounds.Width;
+		public sealed override int Height => Button.bounds.Height;
 
-		public sealed override string Label => ModData.Label;
-		public sealed override bool Enabled => ModData.Enabled;
+		public sealed override string Label { get => ModData.Label; }
+		public sealed override bool Enabled { get => ModData.Enabled; }
+		internal sealed override bool Visible { get => Button.visible; set => Button.visible = value; }
 		public ButtonType ButtonType => ModData.ButtonType;
 		private ButtonType PreviousButtonType = ButtonType.OK;
 
@@ -61,7 +62,9 @@ namespace StardewConfigMenu.Components {
 			if (PreviousButtonType == ButtonType)
 				return;
 
-			Button = GetButtonTile().ClickableTextureComponent(X, Y);
+			var newButton = GetButtonTile().ClickableTextureComponent(X, Y);
+			newButton.visible = Button.visible;
+			Button = newButton;
 			Button.drawShadow = true;
 			PreviousButtonType = ButtonType;
 		}
