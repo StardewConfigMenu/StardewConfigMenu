@@ -6,7 +6,7 @@ using StardewValley.Menus;
 
 namespace StardewConfigMenu.Components {
 
-	internal class ConfigButton: SCMControl {
+	sealed class ConfigButton: SCMControl {
 		private readonly IAction ModData;
 
 		private ClickableTextureComponent Button;

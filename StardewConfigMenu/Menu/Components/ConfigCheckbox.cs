@@ -6,7 +6,7 @@ using StardewValley.Menus;
 
 namespace StardewConfigMenu.Components {
 
-	internal class ConfigCheckbox: SCMControl {
+	sealed class ConfigCheckbox: SCMControl {
 		private readonly IToggle ModData;
 
 		private readonly ClickableTextureComponent Checkbox = StardewTile.CheckboxChecked.ClickableTextureComponent(0, 0);
