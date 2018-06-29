@@ -13,8 +13,8 @@ namespace StardewConfigMenu.Components.DataBacked {
 		private Rectangle Bounds = new Rectangle();
 		public sealed override int X { get => Bounds.X; set => Bounds.X = value; }
 		public sealed override int Y { get => Bounds.Y; set => Bounds.Y = value; }
-		public sealed override int Height { get => Bounds.Height; set => Bounds.Height = value; }
-		public sealed override int Width { get => Bounds.Width; set => Bounds.Width = value; }
+		public sealed override int Height { get => SpriteText.getHeightOfString(Label); }
+		public sealed override int Width { get => SpriteText.getWidthOfString(Label); }
 
 		public sealed override bool Enabled {
 			get { return true; }
@@ -27,8 +27,6 @@ namespace StardewConfigMenu.Components.DataBacked {
 			ModData = option;
 			X = x;
 			Y = y;
-			Height = SpriteText.getHeightOfString(Label);
-			Width = SpriteText.getWidthOfString(Label);
 		}
 
 		public override void Draw(SpriteBatch b) {
