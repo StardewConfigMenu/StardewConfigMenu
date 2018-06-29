@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using StardewModdingAPI;
-using StardewModdingAPI.Events;
+﻿using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
 using System.Collections.Generic;
@@ -10,18 +7,20 @@ using StardewValley.BellsAndWhistles;
 using StardewConfigMenu.Components;
 using Microsoft.Xna.Framework.Input;
 using StardewConfigFramework;
+using StardewConfigFramework.Options;
 
 namespace StardewConfigMenu {
 	public class MenuPage: IClickableMenu {
 
-		private List<IOptionsPackage> Packages;
-		private List<ModSheet> Sheets = new List<ModSheet>();
-		private ConfigDropdown ModSelectionDropdown;
+		private readonly List<IOptionsPackage> Packages;
+		private readonly List<ModSheet> Sheets = new List<ModSheet>();
+		private readonly ConfigDropdown ModSelectionDropdown;
+		private readonly Selection ModSelection;
 
 		internal MenuPage(List<IOptionsPackage> packages, int x, int y, int width, int height) : base(x, y, width, height, false) {
 			Packages = packages;
 
-			var modChoices = new List<string>();
+			var modChoices = new List<ISelectionChoice>();
 
 			foreach (IOptionsPackage package in packages) {
 				// Skip mods with no tabs
@@ -29,22 +28,24 @@ namespace StardewConfigMenu {
 					continue;
 
 				// Create mod page and add it, hide it initially
-				var sheet = new ModSheet(package, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 55), width - (Game1.pixelZoom * 15), height - Game1.pixelZoom * 65) {
+				var sheet = new ModSheet(package, xPositionOnScreen + Game1.pixelZoom * 15, yPositionOnScreen + Game1.pixelZoom * 55, width - (Game1.pixelZoom * 15), height - Game1.pixelZoom * 65) {
 					Visible = false
 				};
 				Sheets.Add(sheet);
 
 				// Add names to mod selector dropdown
-				modChoices.Add(package.ModManifest.Name);
+				modChoices.Add(new SelectionChoice(package.ModManifest.UniqueID, package.ModManifest.Name, package.ModManifest.Description));
 			}
 
-			ModSelectionDropdown = new DropdownComponent(modChoices, "", (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 30));
-			ModSelectionDropdown.Visible = true;
+			ModSelection = new Selection("modDropdown", "", modChoices);
+			ModSelectionDropdown = new ConfigDropdown(ModSelection, (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 30)) {
+				Visible = true
+			};
+
 			if (Sheets.Count > 0)
 				Sheets[ModSelectionDropdown.SelectedIndex].Visible = true;
 
 			AddListeners();
-
 		}
 
 		static public void SetActive() {
@@ -53,13 +54,11 @@ namespace StardewConfigMenu {
 				gameMenu.currentTab = (int) MenuController.PageIndex;
 		}
 
-		public override void receiveRightClick(int x, int y, bool playSound = true) { }
-
 		internal void AddListeners() {
 			RemoveListeners();
 
 			ControlEvents.MouseChanged += MouseChanged;
-			ModSelectionDropdown.OptionSelected += DisableBackgroundSheets;
+			ModSelection.SelectionDidChange += DisableBackgroundSheets;
 		}
 
 		internal void RemoveListeners(bool children = false) {
@@ -68,14 +67,14 @@ namespace StardewConfigMenu {
 				Sheets.ForEach(x => { x.RemoveListeners(true); });
 			}
 
-			ModSelectionDropdown.OptionSelected -= DisableBackgroundSheets;
+			ModSelection.SelectionDidChange -= DisableBackgroundSheets;
 			ControlEvents.MouseChanged -= MouseChanged;
 
 		}
 
-		private void DisableBackgroundSheets(int selected) {
+		private void DisableBackgroundSheets(Selection selection) {
 			for (int i = 0; i < Sheets.Count; i++) {
-				Sheets[i].Visible = (i == selected);
+				Sheets[i].Visible = (i == selection.SelectedIndex);
 			}
 		}
 
@@ -113,18 +112,11 @@ namespace StardewConfigMenu {
 					ModSelectionDropdown.ReleaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
 				}
 			}
-
 		}
 
-		//private OptionComponent tester = new SliderComponent("Hey", 0, 10, 1, 5, true);
-
 		public override void draw(SpriteBatch b) {
-			//base.draw(b);
-			//tester.draw(b);
 			if (!(Game1.activeClickableMenu is GameMenu)) { return; } // must be main menu
 			if ((Game1.activeClickableMenu as GameMenu).currentTab != MenuController.PageIndex) { return; } //must be mod tab
-
-
 
 			Game1.drawDialogueBox(xPositionOnScreen, yPositionOnScreen, width, height, false, true, null, false);
 
@@ -136,10 +128,6 @@ namespace StardewConfigMenu {
 			// draw mod select dropdown last, should cover mod settings
 			ModSelectionDropdown.Draw(b);
 			SpriteText.drawString(b, "Mod Options", ModSelectionDropdown.X + ModSelectionDropdown.Width + Game1.pixelZoom * 5, ModSelectionDropdown.Y);
-
-			if (Sheets.Count > 0 && (Game1.getMouseX() > ModSelectionDropdown.X && Game1.getMouseX() < ModSelectionDropdown.X + ModSelectionDropdown.Width) && (Game1.getMouseY() > ModSelectionDropdown.Y && Game1.getMouseY() < ModSelectionDropdown.Y + ModSelectionDropdown.Height) && !ModSelectionDropdown.IsActiveComponent) {
-				IClickableMenu.drawHoverText(Game1.spriteBatch, Utilities.GetWordWrappedString(Packages[ModSelectionDropdown.SelectedIndex].ModManifest.Description), Game1.smallFont);
-			}
 		}
 	}
 }

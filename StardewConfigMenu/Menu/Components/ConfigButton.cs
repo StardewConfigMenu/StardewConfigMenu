@@ -30,7 +30,7 @@ namespace StardewConfigMenu.Components {
 			Button.drawShadow = true;
 		}
 
-		protected StardewTile GetButtonTile() {
+		private StardewTile GetButtonTile() {
 			switch (ButtonType) {
 				case ButtonType.DONE:
 					return StardewTile.DoneButton;
