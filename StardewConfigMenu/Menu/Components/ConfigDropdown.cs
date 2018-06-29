@@ -1,33 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using StardewConfigFramework.Options;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
+using System;
+using Microsoft.Xna.Framework;
 
-namespace StardewConfigMenu.Components {
-	using SelectionChoice = Tuple<string, string, string>;
+namespace StardewConfigMenu.Components.DataBacked {
+	using SelectionTuple = System.Tuple<string, string, string>;
 
-	internal class DropdownComponent: SCMControl {
-		internal delegate void OptionSelectedEvent(int selected);
-		internal event OptionSelectedEvent OptionSelected;
+	sealed class ConfigDropdown: SCMControl {
+		readonly private ISelection ModData;
 
-		protected readonly ClickableTextureComponent DropdownBackground = StardewTile.DropDownBackground.ClickableTextureComponent(0, 0, OptionsDropDown.dropDownBGSource.Width, 0);
-		protected readonly ClickableTextureComponent DropdownButton = StardewTile.DropDownButton.ClickableTextureComponent(0, 0);
-		protected readonly ClickableTextureComponent Dropdown = StardewTile.DropDownBackground.ClickableTextureComponent(0, 0, OptionsDropDown.dropDownBGSource.Width, 11);
+		private int hoveredChoice = 0;
 
-		private List<string> _DropdownOptions = new List<string>();
-		protected virtual IList<SelectionChoice> DropdownOptions => _DropdownOptions as IList<SelectionChoice>;
+		readonly ClickableTextureComponent DropdownBackground = StardewTile.DropDownBackground.ClickableTextureComponent(0, 0, OptionsDropDown.dropDownBGSource.Width, 0);
+		readonly ClickableTextureComponent DropdownButton = StardewTile.DropDownButton.ClickableTextureComponent(0, 0);
+		readonly ClickableTextureComponent Dropdown = StardewTile.DropDownBackground.ClickableTextureComponent(0, 0, OptionsDropDown.dropDownBGSource.Width, 11);
 
-		public sealed override int Width {
-			get => Dropdown.bounds.Width + DropdownButton.bounds.Width;
-			set {
-				int width = Math.Max(value - DropdownButton.bounds.Width, 12);
-				Dropdown.bounds.Width = width;
-				DropdownBackground.bounds.Width = width;
-			}
-		}
-		public sealed override int Height => Dropdown.bounds.Height;
 		public sealed override int X {
 			get => Dropdown.bounds.X;
 			set {
@@ -44,11 +34,18 @@ namespace StardewConfigMenu.Components {
 				DropdownButton.bounds.Y = value;
 			}
 		}
+		public sealed override int Height => Dropdown.bounds.Height;
+		public sealed override int Width {
+			get => Dropdown.bounds.Width + DropdownButton.bounds.Width;
+			set {
+				int width = Math.Max(value - DropdownButton.bounds.Width, 12);
+				Dropdown.bounds.Width = width;
+				DropdownBackground.bounds.Width = width;
+			}
+		}
 
-		private int hoveredChoice = 0;
-
-		public override bool Enabled => (DropdownOptions.Count > 0) && _enabled;
-
+		public override string Label => ModData.Label;
+		public override bool Enabled => (DropdownOptions.Count > 0) && ModData.Enabled;
 		internal override bool Visible {
 			get => Dropdown.visible && DropdownBackground.visible && DropdownButton.visible;
 			set {
@@ -58,38 +55,19 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		private int _SelectedIndex = 0;
-		public virtual int SelectedIndex {
-			get => _SelectedIndex;
-			set {
-				if (_DropdownOptions.Count == 0 && value == 0) {
-				} else if (value >= _DropdownOptions.Count || value < 0) {
-					throw new IndexOutOfRangeException("Selection is out of range of Choices");
-				}
+		public int SelectedIndex { get => ModData.SelectedIndex; set => ModData.SelectedIndex = value; }
+		private IList<SelectionTuple> DropdownOptions => ModData.Choices as IList<SelectionTuple>;
 
-				if (_SelectedIndex == value)
-					return;
+		public ConfigDropdown(ISelection option, int width) : this(option, width, 0, 0) { }
 
-				_SelectedIndex = value;
-				OptionSelected?.Invoke(value);
-			}
-		}
-
-		protected DropdownComponent(string label, int width, bool enabled = true) : this(label, width, 0, 0, enabled) { }
-
-		public DropdownComponent(string label, int width, int x, int y, bool enabled = true) : base(label, enabled) {
+		public ConfigDropdown(ISelection option, int width, int x, int y) : base(option.Label, option.Enabled) {
+			ModData = option;
 			X = x;
 			Y = y;
 			Width = width;
 		}
 
-		public DropdownComponent(List<string> choices, string label, int width, bool enabled = true) : this(choices, label, width, 0, 0, enabled) { }
-
-		public DropdownComponent(List<string> choices, string label, int width, int x, int y, bool enabled = true) : this(label, width, x, y, enabled) {
-			_DropdownOptions = choices;
-		}
-
-		protected bool containsPoint(int x, int y) {
+		private bool containsPoint(int x, int y) {
 			return (Dropdown.containsPoint(x, y) || DropdownButton.containsPoint(x, y));
 		}
 

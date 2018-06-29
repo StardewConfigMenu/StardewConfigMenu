@@ -16,7 +16,7 @@ namespace StardewConfigMenu {
 
 		private List<IOptionsPackage> Packages;
 		private List<ModSheet> Sheets = new List<ModSheet>();
-		private DropdownComponent ModSelectionDropdown;
+		private ConfigDropdown ModSelectionDropdown;
 
 		internal MenuPage(List<IOptionsPackage> packages, int x, int y, int width, int height) : base(x, y, width, height, false) {
 			Packages = packages;
