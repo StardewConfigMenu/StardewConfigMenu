@@ -55,12 +55,11 @@
     <Compile Include="Menu\MenuPage.cs" />
     <Compile Include="Menu\ModSheet.cs" />
     <Compile Include="Menu\Components\SCMDropdown.cs" />
-    <Compile Include="Menu\Components\SCMButton.cs" />
-    <Compile Include="Menu\Components\DataBacked\ConfigButton.cs" />
     <Compile Include="Menu\MenuTab.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\StardewTile.cs" />
     <Compile Include="Menu\Components\ConfigCategoryLabel.cs" />
+    <Compile Include="Menu\Components\ConfigButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json" />
