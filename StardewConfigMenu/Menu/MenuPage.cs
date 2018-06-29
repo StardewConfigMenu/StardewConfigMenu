@@ -122,12 +122,13 @@ namespace StardewConfigMenu {
 
 			base.drawHorizontalPartition(b, (int) (yPositionOnScreen + Game1.pixelZoom * 40));
 
+			SpriteText.drawString(b, "Mod Options", ModSelectionDropdown.X + ModSelectionDropdown.Width + Game1.pixelZoom * 5, ModSelectionDropdown.Y);
+
 			if (Sheets.Count > 0)
 				Sheets[ModSelectionDropdown.SelectedIndex].draw(b);
 
 			// draw mod select dropdown last, should cover mod settings
 			ModSelectionDropdown.Draw(b);
-			SpriteText.drawString(b, "Mod Options", ModSelectionDropdown.X + ModSelectionDropdown.Width + Game1.pixelZoom * 5, ModSelectionDropdown.Y);
 		}
 	}
 }

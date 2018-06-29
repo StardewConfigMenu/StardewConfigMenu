@@ -56,7 +56,7 @@ namespace StardewConfigMenu.Components {
 		}
 
 		public int SelectedIndex { get => ModData.SelectedIndex; set => ModData.SelectedIndex = value; }
-		private IList<SelectionTuple> DropdownOptions => ModData.Choices as IList<SelectionTuple>;
+		private IList<ISelectionChoice> DropdownOptions => ModData.Choices;
 
 		public ConfigDropdown(ISelection option, int width) : this(option, width, 0, 0) { }
 
@@ -133,7 +133,7 @@ namespace StardewConfigMenu.Components {
 				if (0 == hoveredChoice && DropdownBackground.containsPoint(Game1.getMouseX(), Game1.getMouseY())) {
 					b.Draw(Game1.staminaRect, new Rectangle(Dropdown.bounds.X, Dropdown.bounds.Y + SelectedIndex * Dropdown.bounds.Height, Dropdown.bounds.Width, Dropdown.bounds.Height), new Rectangle?(new Rectangle(0, 0, 1, 1)), Color.Wheat, 0f, Vector2.Zero, SpriteEffects.None, 0.975f);
 				}
-				b.DrawString(Game1.smallFont, DropdownOptions[SelectedIndex].Item2, new Vector2((float) (DropdownBackground.bounds.X + Game1.pixelZoom), 0f), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.98f);
+				b.DrawString(Game1.smallFont, DropdownOptions[SelectedIndex].Label, new Vector2((float) (DropdownBackground.bounds.X + Game1.pixelZoom), 0f), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.98f);
 
 				int drawnPosition = 1;
 				for (int i = 0; i < DropdownOptions.Count; i++) {
@@ -143,17 +143,17 @@ namespace StardewConfigMenu.Components {
 					if (drawnPosition == hoveredChoice && DropdownBackground.containsPoint(Game1.getMouseX(), Game1.getMouseY())) {
 						b.Draw(Game1.staminaRect, new Rectangle(Dropdown.bounds.X, Dropdown.bounds.Y + drawnPosition * Dropdown.bounds.Height, Dropdown.bounds.Width, Dropdown.bounds.Height), new Rectangle?(new Rectangle(0, 0, 1, 1)), Color.Wheat, 0f, Vector2.Zero, SpriteEffects.None, 0.975f);
 					}
-					b.DrawString(Game1.smallFont, DropdownOptions[i].Item2, new Vector2((float) (DropdownBackground.bounds.X + Game1.pixelZoom), (float) (DropdownBackground.bounds.Y + Game1.pixelZoom * 2 + Dropdown.bounds.Height * drawnPosition)), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.98f);
+					b.DrawString(Game1.smallFont, DropdownOptions[i].Label, new Vector2((float) (DropdownBackground.bounds.X + Game1.pixelZoom), (float) (DropdownBackground.bounds.Y + Game1.pixelZoom * 2 + Dropdown.bounds.Height * drawnPosition)), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.98f);
 					drawnPosition++;
 				}
 			} else {
 				DropdownButton.draw(b, Color.White * buttonAlpha, 0.88f);
 				IClickableMenu.drawTextureBox(b, Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Dropdown.bounds.X, Dropdown.bounds.Y, Dropdown.bounds.Width, Dropdown.bounds.Height, Color.White * buttonAlpha, (float) Game1.pixelZoom, false);
-				b.DrawString(Game1.smallFont, (SelectedIndex >= DropdownOptions.Count) ? string.Empty : DropdownOptions[SelectedIndex].Item2, new Vector2((float) (Dropdown.bounds.X + Game1.pixelZoom), (float) (Dropdown.bounds.Y + Game1.pixelZoom * 2)), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.88f);
+				b.DrawString(Game1.smallFont, (SelectedIndex >= DropdownOptions.Count) ? string.Empty : DropdownOptions[SelectedIndex].Label, new Vector2((float) (Dropdown.bounds.X + Game1.pixelZoom), (float) (Dropdown.bounds.Y + Game1.pixelZoom * 2)), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.88f);
 
 				if (Dropdown.containsPoint(Game1.getMouseX(), Game1.getMouseY())) {
-					if (DropdownOptions[SelectedIndex].Item3 != null) {
-						string optionDescription = Utilities.GetWordWrappedString(DropdownOptions[SelectedIndex].Item3);
+					if (DropdownOptions[SelectedIndex].HoverText != null) {
+						string optionDescription = Utilities.GetWordWrappedString(DropdownOptions[SelectedIndex].HoverText);
 						IClickableMenu.drawHoverText(b, optionDescription, Game1.smallFont);
 					}
 				}
