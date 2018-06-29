@@ -4,10 +4,10 @@ using StardewConfigFramework.Options;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
 
-namespace StardewConfigMenu.Components.DataBacked {
+namespace StardewConfigMenu.Components {
 
-	internal sealed class ConfigCategoryLabel: SCMControl {
-		private ICategoryLabel ModData;
+	sealed class ConfigCategoryLabel: SCMControl {
+		private readonly ICategoryLabel ModData;
 		public sealed override string Label => ModData.Label;
 
 		private Rectangle Bounds = new Rectangle();
