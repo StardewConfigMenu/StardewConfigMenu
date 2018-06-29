@@ -1,15 +1,14 @@
-﻿using StardewValley;
+﻿using System;
 using Microsoft.Xna.Framework;
-using StardewValley.Menus;
-using System;
 using Microsoft.Xna.Framework.Graphics;
+using StardewConfigFramework.Options;
+using StardewValley;
+using StardewValley.Menus;
 
-namespace StardewConfigMenu.Components {
+namespace StardewConfigMenu.Components.DataBacked {
 
-	internal class SliderComponent: SCMControl {
-		internal delegate void ValueChangedEvent(decimal Value);
-
-		internal event ValueChangedEvent ValueChanged;
+	sealed class ConfigSlider: SCMControl {
+		readonly IRange ModData;
 
 		private readonly ClickableTextureComponent SliderBackground = StardewTile.SliderBackground.ClickableTextureComponent(0, 0, 48, 6);
 		private readonly ClickableTextureComponent SliderButton = StardewTile.SliderButton.ClickableTextureComponent(0, 0);
@@ -22,7 +21,12 @@ namespace StardewConfigMenu.Components {
 				if (Origin.X == value)
 					return;
 
-				UpdateXLocation(value, Min, Max, StepSize, ShowValue);
+				Origin.X = value;
+				SliderBackground.bounds.X = value;
+				if (ShowValue)
+					SliderBackground.bounds.X += (int) MaxLabelSize.X + (4 * Game1.pixelZoom);
+
+				UpdateSliderLocation(value, Min, Max, StepSize);
 			}
 		}
 		public sealed override int Y {
@@ -39,37 +43,28 @@ namespace StardewConfigMenu.Components {
 		public sealed override int Height => Math.Max(SliderBackground.bounds.Height, (int) MaxLabelSize.Y);
 		public sealed override int Width => SliderBackground.bounds.Right - Origin.X;
 
-		internal SliderComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, bool showValue, bool enabled = true) : this(labelText, min, max, stepsize, defaultSelection, showValue, 0, 0, enabled) { }
+		public sealed override bool Enabled => ModData.Enabled;
+		public sealed override string Label => ModData.Label;
+		public decimal Min => ModData.Min;
+		public decimal Max => ModData.Max;
+		public decimal StepSize => ModData.StepSize;
+		public bool ShowValue => ModData.ShowValue;
+		public decimal Value { get => ModData.Value; set => ModData.Value = value; }
 
-		internal SliderComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, bool showValue, int x, int y, bool enabled = true) : base(labelText, enabled) {
-			_Min = Math.Round(min, 3);
-			_Max = Math.Round(max, 3);
-			_StepSize = Math.Round(stepsize, 3);
-			_ShowValue = showValue;
+		internal ConfigSlider(IRange option) : this(option, 0, 0) { }
 
-			var valid = CheckValidInput(Math.Round(defaultSelection, 3));
-			_Value = valid;
-
+		internal ConfigSlider(IRange option, int x, int y) : base(option.Label, option.Enabled) {
+			ModData = option;
 			CalculateMaxLabelSize();
-
-			UpdateXLocation(x, _Min, _Max, _StepSize, _ShowValue);
+			X = x;
 			Y = y;
 		}
 
-		protected void CalculateMaxLabelSize() {
-			var maxRect = Game1.dialogueFont.MeasureString((_Max + _StepSize % 1).ToString());
-			var minRect = Game1.dialogueFont.MeasureString((_Min - _StepSize % 1).ToString());
+		private void CalculateMaxLabelSize() {
+			var maxRect = Game1.dialogueFont.MeasureString((Max + StepSize % 1).ToString());
+			var minRect = Game1.dialogueFont.MeasureString((Min - StepSize % 1).ToString());
 
 			MaxLabelSize = (maxRect.X > minRect.X) ? maxRect : minRect;
-		}
-
-		private void UpdateXLocation(int x, decimal min, decimal max, decimal stepSize, bool showValue) {
-			Origin.X = x;
-			SliderBackground.bounds.X = x;
-			if (showValue)
-				SliderBackground.bounds.X += (int) MaxLabelSize.X + (4 * Game1.pixelZoom);
-
-			UpdateSliderLocation(x, min, max, stepSize);
 		}
 
 		private void UpdateSliderLocation(decimal value, decimal min, decimal max, decimal stepSize) {
@@ -79,38 +74,14 @@ namespace StardewConfigMenu.Components {
 			SliderButton.bounds.X = SliderBackground.bounds.X + (SliderButton.bounds.Width / 2) + (int) (sectionWidth * sectionNum);
 		}
 
-		private decimal _Min;
-		public virtual decimal Min { get => _Min; }
-
-		private decimal _Max;
-		public virtual decimal Max { get => _Max; }
-
-		private decimal _StepSize;
-		public virtual decimal StepSize { get => _StepSize; }
-
-		private bool _ShowValue;
-		public virtual bool ShowValue { get => _ShowValue; }
-
-		private decimal _Value;
-		public virtual decimal Value {
-			get => _Value;
-			set {
-				var valid = CheckValidInput(Math.Round(value, 3));
-				if (valid != _Value) {
-					_Value = valid;
-					ValueChanged?.Invoke(_Value);
-				}
-			}
-		}
-
 		private decimal CheckValidInput(decimal input) {
-			if (input > _Max)
-				return _Max;
+			if (input > Max)
+				return Max;
 
-			if (input < _Min)
-				return _Min;
+			if (input < Min)
+				return Min;
 
-			return ((input - _Min) / _StepSize) * _StepSize + _Min;
+			return ((input - Min) / StepSize) * StepSize + Min;
 		}
 
 		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {

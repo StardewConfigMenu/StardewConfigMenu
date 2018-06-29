@@ -44,9 +44,7 @@
     <Compile Include="ModEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MenuController.cs" />
-    <Compile Include="Menu\Components\DataBacked\ConfigSlider.cs" />
     <Compile Include="Menu\Components\DataBacked\ConfigPlusMinus.cs" />
-    <Compile Include="Menu\Components\SCMSlider.cs" />
     <Compile Include="Menu\Components\SCMPlusMinus.cs" />
     <Compile Include="Menu\Components\SCMControl.cs" />
     <Compile Include="Menu\MenuPage.cs" />
@@ -58,6 +56,7 @@
     <Compile Include="Menu\Components\ConfigButton.cs" />
     <Compile Include="Menu\Components\ConfigCheckbox.cs" />
     <Compile Include="Menu\Components\ConfigDropdown.cs" />
+    <Compile Include="Menu\Components\ConfigSlider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json" />
