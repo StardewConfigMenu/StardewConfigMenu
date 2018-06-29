@@ -6,7 +6,7 @@ using StardewValley.Menus;
 using System;
 using Microsoft.Xna.Framework;
 
-namespace StardewConfigMenu.Components.DataBacked {
+namespace StardewConfigMenu.Components {
 	using SelectionTuple = System.Tuple<string, string, string>;
 
 	sealed class ConfigDropdown: SCMControl {
