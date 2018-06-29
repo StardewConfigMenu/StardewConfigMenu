@@ -14,7 +14,6 @@ namespace StardewConfigMenu {
 		public static StardewTile CheckboxChecked = new StardewTile(Game1.mouseCursors, OptionsCheckbox.sourceRectChecked, Game1.pixelZoom);
 		public static StardewTile CheckboxUnchecked = new StardewTile(Game1.mouseCursors, OptionsCheckbox.sourceRectUnchecked, Game1.pixelZoom);
 
-		public static StardewTile DropDownBackground = new StardewTile(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Game1.pixelZoom);
 		public static StardewTile DropDownButton = new StardewTile(Game1.mouseCursors, OptionsDropDown.dropDownButtonSource, Game1.pixelZoom);
 
 		public static StardewTile MinusButton = new StardewTile(Game1.mouseCursors, OptionsPlusMinus.minusButtonSource, Game1.pixelZoom);
@@ -45,6 +44,34 @@ namespace StardewConfigMenu {
 
 		public ClickableTextureComponent ClickableTextureComponent(int x, int y, int width, int height) {
 			return new ClickableTextureComponent(new Rectangle(x, y, (int) (Scale * width), (int) (Scale * height)), TileSheet, Source, Scale);
+		}
+	}
+
+	public class StardewTextureBox {
+		public StardewTextureBox(Texture2D texture, Rectangle sourceRect) {
+			Texture = texture;
+			SourceRect = sourceRect;
+		}
+
+		public StardewTextureBox(Texture2D texture, Rectangle sourceRect, float scale) {
+			Texture = texture;
+			SourceRect = sourceRect;
+			Scale = scale;
+		}
+
+		Texture2D Texture;
+		Rectangle SourceRect;
+		public Rectangle Bounds = Rectangle.Empty;
+		public Color Color = Color.White;
+		public float Scale = 1f;
+		public bool DrawShadow = false;
+
+		public void Draw(SpriteBatch b) {
+			Draw(b, Color);
+		}
+
+		public void Draw(SpriteBatch b, Color color) {
+			IClickableMenu.drawTextureBox(b, Texture, SourceRect, Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height, color, Scale, DrawShadow);
 		}
 	}
 }

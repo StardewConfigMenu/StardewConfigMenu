@@ -1,22 +1,18 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StardewConfigFramework.Options;
 using StardewValley;
 using StardewValley.Menus;
-using StardewConfigFramework.Options;
 
-namespace StardewConfigMenu.Components {
+namespace StardewConfigMenu.Components.DataBacked {
 
-	internal class PlusMinusComponent: SCMControl {
-		internal delegate void ValueChangedEvent(decimal Value);
-
-		internal event ValueChangedEvent ValueChanged;
+	sealed class ConfigPlusMinus: SCMControl {
+		private readonly IStepper ModData;
 
 		private readonly ClickableTextureComponent Minus = StardewTile.MinusButton.ClickableTextureComponent(0, 0);
 		private readonly ClickableTextureComponent Plus = StardewTile.PlusButton.ClickableTextureComponent(0, 0);
 
-		public sealed override int Width => Plus.bounds.Right - Minus.bounds.X;
-		public sealed override int Height => (int) Math.Max(Minus.bounds.Height, MaxLabelSize.Y);
 		public sealed override int X {
 			get => Minus.bounds.X;
 			set {
@@ -37,33 +33,24 @@ namespace StardewConfigMenu.Components {
 				Plus.bounds.Y = value;
 			}
 		}
+		public sealed override int Width => Plus.bounds.Right - Minus.bounds.X;
+		public sealed override int Height => (int) Math.Max(Minus.bounds.Height, MaxLabelSize.Y);
+
 		private Vector2 MaxLabelSize = Vector2.Zero;
 		private int UnitStringWidth => (int) Game1.dialogueFont.MeasureString(UnitString).X;
 		private Vector2 ValueLabelSize => Game1.dialogueFont.MeasureString(Value.ToString());
 
-		private decimal _Min;
-		private decimal _Max;
-		private decimal _StepSize;
-		private RangeDisplayType _Type;
-		private decimal _Value;
+		public sealed override bool Enabled => ModData.Enabled;
+		public sealed override string Label => ModData.Label;
+		public decimal Min => ModData.Min;
+		public decimal Max => ModData.Max;
+		public decimal StepSize => ModData.StepSize;
+		public decimal Value { get => ModData.Value; set => ModData.Value = value; }
+		public RangeDisplayType DisplayType => ModData.DisplayType;
 
-		public virtual decimal Min { get => _Min; }
-		public virtual decimal Max { get => _Max; }
-		public virtual decimal StepSize { get => _StepSize; }
-		public virtual RangeDisplayType Type => _Type;
-		public virtual decimal Value {
-			get => _Value;
-			protected set {
-				var valid = CheckValidInput(Math.Round(value, 3));
-				if (valid != _Value) {
-					_Value = valid;
-					ValueChanged?.Invoke(_Value);
-				}
-			}
-		}
-		protected string UnitString {
+		private string UnitString {
 			get {
-				switch (Type) {
+				switch (DisplayType) {
 					case RangeDisplayType.PERCENT:
 						return "%";
 					default:
@@ -72,17 +59,10 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 
-		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, RangeDisplayType type = RangeDisplayType.DEFAULT, bool enabled = true) : this(labelText, min, max, stepsize, defaultSelection, 0, 0, type, enabled) { }
+		internal ConfigPlusMinus(IStepper option) : this(option, 0, 0) { }
 
-		internal PlusMinusComponent(string labelText, decimal min, decimal max, decimal stepsize, decimal defaultSelection, int x, int y, RangeDisplayType type = RangeDisplayType.DEFAULT, bool enabled = true) : base(labelText, enabled) {
-			_Min = Math.Round(min, 3);
-			_Max = Math.Round(max, 3);
-			_StepSize = Math.Round(stepsize, 3);
-			_Type = type;
-
-			var rounded = Math.Round(defaultSelection, 3);
-			var valid = CheckValidInput(rounded);
-			_Value = valid;
+		internal ConfigPlusMinus(IStepper option, int x, int y) : base(option.Label, option.Enabled) {
+			ModData = option;
 
 			CalculateMaxLabelSize();
 
@@ -90,28 +70,28 @@ namespace StardewConfigMenu.Components {
 			Y = y;
 		}
 
-		protected void CalculateMaxLabelSize() {
-			var maxRect = Game1.dialogueFont.MeasureString((_Max + _StepSize % 1).ToString());
-			var minRect = Game1.dialogueFont.MeasureString((_Min - _StepSize % 1).ToString());
+		private void CalculateMaxLabelSize() {
+			var maxRect = Game1.dialogueFont.MeasureString((Max + StepSize % 1).ToString());
+			var minRect = Game1.dialogueFont.MeasureString((Min - StepSize % 1).ToString());
 
 			MaxLabelSize = (maxRect.X > minRect.X) ? maxRect : minRect;
 		}
 
 		private decimal CheckValidInput(decimal input) {
-			if (input > _Max)
-				return _Max;
+			if (input > Max)
+				return Max;
 
-			if (input < _Min)
-				return _Min;
+			if (input < Min)
+				return Min;
 
-			return ((input - _Min) / _StepSize) * _StepSize + _Min;
+			return ((input - Min) / StepSize) * StepSize + Min;
 		}
 
-		protected virtual void StepUp() {
+		private void StepUp() {
 			Value += StepSize;
 		}
 
-		protected virtual void StepDown() {
+		private void StepDown() {
 			Value -= StepSize;
 		}
 

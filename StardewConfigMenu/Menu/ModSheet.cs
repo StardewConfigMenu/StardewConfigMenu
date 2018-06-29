@@ -233,7 +233,7 @@ namespace StardewConfigMenu {
 			if (Options.Count > 6) {
 				upArrow.draw(b);
 				downArrow.draw(b);
-				IClickableMenu.drawTextureBox(b, Game1.mouseCursors, new Rectangle(403, 383, 6, 6), scrollBarRunner.X, scrollBarRunner.Y, scrollBarRunner.Width, scrollBarRunner.Height, Color.White, (float) Game1.pixelZoom, false);
+				drawTextureBox(b, Game1.mouseCursors, new Rectangle(403, 383, 6, 6), scrollBarRunner.X, scrollBarRunner.Y, scrollBarRunner.Width, scrollBarRunner.Height, Color.White, (float) Game1.pixelZoom, false);
 				scrollBar.draw(b);
 			}
 
@@ -249,7 +249,6 @@ namespace StardewConfigMenu {
 				if (Options[i] is ConfigDropdown && Options[i].Visible)
 					Options[i].Draw(b, xPositionOnScreen, ((height / 6) * (i - startingOption)) + yPositionOnScreen + ((height / 6) - Options[i].Height) / 2);
 			}
-
 		}
 	}
 }
