@@ -14,7 +14,7 @@ namespace StardewConfigMenu {
 
 		private readonly List<IOptionsPackage> Packages;
 		private readonly List<ModSheet> Sheets = new List<ModSheet>();
-		private readonly ConfigDropdown ModSelectionDropdown;
+		private readonly ConfigDropdown ModDropdown;
 		private readonly Selection ModSelection;
 
 		internal MenuPage(List<IOptionsPackage> packages, int x, int y, int width, int height) : base(x, y, width, height, false) {
@@ -38,12 +38,12 @@ namespace StardewConfigMenu {
 			}
 
 			ModSelection = new Selection("modDropdown", "", modChoices);
-			ModSelectionDropdown = new ConfigDropdown(ModSelection, (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 30)) {
+			ModDropdown = new ConfigDropdown(ModSelection, (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 30)) {
 				Visible = true
 			};
 
 			if (Sheets.Count > 0)
-				Sheets[ModSelectionDropdown.SelectedIndex].Visible = true;
+				Sheets[ModDropdown.SelectedIndex].Visible = true;
 
 			AddListeners();
 		}
@@ -63,7 +63,7 @@ namespace StardewConfigMenu {
 
 		internal void RemoveListeners(bool children = false) {
 			if (children) {
-				ModSelectionDropdown.Visible = false;
+				ModDropdown.Visible = false;
 				Sheets.ForEach(x => { x.RemoveListeners(true); });
 			}
 
@@ -99,17 +99,17 @@ namespace StardewConfigMenu {
 					// clicked
 					if (currentSheet != null)
 						currentSheet.receiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
-					ModSelectionDropdown.ReceiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
+					ModDropdown.ReceiveLeftClick(e.NewPosition.X, e.NewPosition.Y);
 				}
 			} else if (e.PriorState.LeftButton == ButtonState.Pressed) {
 				if (e.NewState.LeftButton == ButtonState.Pressed) {
 					if (currentSheet != null)
 						currentSheet.leftClickHeld(e.NewPosition.X, e.NewPosition.Y);
-					ModSelectionDropdown.LeftClickHeld(e.NewPosition.X, e.NewPosition.Y);
+					ModDropdown.LeftClickHeld(e.NewPosition.X, e.NewPosition.Y);
 				} else if (e.NewState.LeftButton == ButtonState.Released) {
 					if (currentSheet != null)
 						currentSheet.releaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
-					ModSelectionDropdown.ReleaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
+					ModDropdown.ReleaseLeftClick(e.NewPosition.X, e.NewPosition.Y);
 				}
 			}
 		}
@@ -122,13 +122,13 @@ namespace StardewConfigMenu {
 
 			base.drawHorizontalPartition(b, (int) (yPositionOnScreen + Game1.pixelZoom * 40));
 
-			SpriteText.drawString(b, "Mod Options", ModSelectionDropdown.X + ModSelectionDropdown.Width + Game1.pixelZoom * 5, ModSelectionDropdown.Y);
+			SpriteText.drawString(b, "Mod Options", ModDropdown.X + ModDropdown.Width + Game1.pixelZoom * 5, ModDropdown.Y);
 
 			if (Sheets.Count > 0)
-				Sheets[ModSelectionDropdown.SelectedIndex].draw(b);
+				Sheets[ModDropdown.SelectedIndex].draw(b);
 
 			// draw mod select dropdown last, should cover mod settings
-			ModSelectionDropdown.Draw(b);
+			ModDropdown.Draw(b);
 		}
 	}
 }

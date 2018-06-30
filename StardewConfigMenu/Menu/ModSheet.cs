@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace StardewConfigMenu {
 	internal class ModSheet: IClickableMenu {
-		private List<SCMControl> Options = new List<SCMControl>();
+		private readonly List<SCMControl> Options = new List<SCMControl>();
 
 		private ClickableTextureComponent upArrow;
 		private ClickableTextureComponent downArrow;
@@ -227,7 +227,6 @@ namespace StardewConfigMenu {
 		}
 
 		public override void draw(SpriteBatch b) {
-			base.draw(b);
 
 			//drawTextureBox();
 			if (Options.Count > 6) {
