@@ -21,6 +21,10 @@ namespace StardewConfigMenu {
 			StardewConfigFrameworkLoaded();
 		}
 
+		public override object GetApi() {
+			return MenuController;
+		}
+
 		/*********
     ** Private methods
     *********/

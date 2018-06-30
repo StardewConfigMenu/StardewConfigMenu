@@ -47,7 +47,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="StardewConfigFramework">
-      <HintPath>..\..\StardewConfigFramework\StardewConfigFramework\bin\Release\StardewConfigFramework.dll</HintPath>
+      <HintPath>..\..\StardewConfigFramework\StardewConfigFramework\bin\Debug\StardewConfigFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

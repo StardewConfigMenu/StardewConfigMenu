@@ -17,11 +17,13 @@ namespace SCFTester {
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper) {
-			Settings = IConfigMenu.Instance;
-			//var options = new ModOptions(this);
-			var config = this.Helper.ReadConfig<ModConfig>();
-			Package = new TabbedOptionsPackage(this);
+			GameEvents.FirstUpdateTick += GameEvents_FirstUpdateTick;
+		}
 
+		void GameEvents_FirstUpdateTick(object sender, System.EventArgs e) {
+			Settings = Helper.ModRegistry.GetApi<IConfigMenu>("Juice805.StardewConfigMenu");
+			Package = new TabbedOptionsPackage(this);
+			var config = Helper.ReadConfig<ModConfig>();
 			GenerateOptions(Package, config);
 			Settings.AddOptionsPackage(Package);
 		}

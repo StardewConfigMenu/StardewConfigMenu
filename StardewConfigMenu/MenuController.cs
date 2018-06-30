@@ -17,7 +17,6 @@ namespace StardewConfigMenu {
 		internal MenuController(IModHelper helper, IMonitor monitor) {
 			Helper = helper;
 			Monitor = monitor;
-			Instance = this;
 			MenuEvents.MenuChanged += MenuOpened;
 			MenuEvents.MenuClosed += MenuClosed;
 		}

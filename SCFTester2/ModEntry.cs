@@ -15,23 +15,28 @@ namespace SCFTester2 {
 		}
 
 		internal static IConfigMenu Settings;
-		internal static SimpleOptionsPackage Options;
+		internal static SimpleOptionsPackage Package;
 		/*********
 		** Public methods
 		*********/
 		/// <summary>The mod entry point, called after the mod is first loaded.</summary>
 		/// <param name="helper">Provides simplified APIs for writing mods.</param>
 		public override void Entry(IModHelper helper) {
-			Settings = IConfigMenu.Instance;
-			Options = new SimpleOptionsPackage(this);
-			var config = this.Helper.ReadConfig<TestConfig>();
-			Settings.AddOptionsPackage(Options);
+			SaveEvents.AfterLoad += SaveEvents_AfterLoad;
+			GameEvents.FirstUpdateTick += LoadMenu;
+		}
+
+		void LoadMenu(object sender, EventArgs e) {
+			Settings = Helper.ModRegistry.GetApi<IConfigMenu>("Juice805.StardewConfigMenu");
+			Package = new SimpleOptionsPackage(this);
+			var config = Helper.ReadConfig<TestConfig>();
+			Settings.AddOptionsPackage(Package);
 
 			var testbox = new Toggle("checkbox", "Checkbox", config.checkbox);
-			Options.AddOption(testbox);
+			Package.AddOption(testbox);
 
 			var emptyDropdown = new Selection("emptyDropdown", "Empty Dropdowns are disabled");
-			Options.AddOption(emptyDropdown);
+			Package.AddOption(emptyDropdown);
 
 			testbox.StateDidChange += (toggle) => {
 				emptyDropdown.Enabled = toggle.IsOn; // should not do anything
@@ -44,19 +49,19 @@ namespace SCFTester2 {
 			list.Add(new SelectionChoice("fourth", "Fourth"));
 
 			var filledDropdown = new Selection("filledDropdown", "Filled Dropdown", list, config.filledDropown, true);
-			Options.AddOption(filledDropdown);
+			Package.AddOption(filledDropdown);
 
 			var stepper = new Stepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, RangeDisplayType.PERCENT);
-			Options.AddOption(stepper);
+			Package.AddOption(stepper);
 
 			var label = new CategoryLabel("catlabel", "Category Label");
-			Options.AddOption(label);
+			Package.AddOption(label);
 
 			var button = new Action("setButton", "Click Me!", ButtonType.SET);
 			button.ActionWasTriggered += (identifier) => {
 				filledDropdown.Enabled = !filledDropdown.Enabled;
 			};
-			Options.AddOption(button);
+			Package.AddOption(button);
 
 			var tranformingButton = new Action("clearButton", "Clear Button", ButtonType.CLEAR);
 			tranformingButton.ButtonType = ButtonType.CLEAR;
@@ -81,20 +86,19 @@ namespace SCFTester2 {
 				}
 			};
 
-			Options.AddOption(tranformingButton);
+			Package.AddOption(tranformingButton);
 
-			Options.AddOption(new Action("doneButton", "Done Button", ButtonType.DONE));
-			Options.AddOption(new Action("giftButton", "Gift Button", ButtonType.GIFT));
+			Package.AddOption(new Action("doneButton", "Done Button", ButtonType.DONE));
+			Package.AddOption(new Action("giftButton", "Gift Button", ButtonType.GIFT));
 
 			var saveButton = new Action("okButton", "OK Button", ButtonType.OK);
-			Options.AddOption(saveButton);
+			Package.AddOption(saveButton);
 
 			saveButton.ActionWasTriggered += (_) => {
 				SaveConfig();
 			};
-
-			SaveEvents.AfterLoad += SaveEvents_AfterLoad;
 		}
+
 
 		private void SaveEvents_AfterLoad(object sender, EventArgs e) {
 
@@ -103,11 +107,12 @@ namespace SCFTester2 {
 		private void SaveConfig() {
 			var config = new TestConfig();
 
-			config.checkbox = Options.GetOption<Toggle>("checkbox").IsOn;
-			config.filledDropown = Options.GetOption<Selection>("filledDropdown").SelectedIdentifier;
-			config.stepperValue = Options.GetOption<Stepper>("stepper").Value;
+			config.checkbox = Package.GetOption<Toggle>("checkbox").IsOn;
+			config.filledDropown = Package.GetOption<Selection>("filledDropdown").SelectedIdentifier;
+			config.stepperValue = Package.GetOption<Stepper>("stepper").Value;
 			Helper.WriteConfig<TestConfig>(config);
 		}
+
 
 
 		/*********
