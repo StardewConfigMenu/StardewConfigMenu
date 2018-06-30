@@ -9,10 +9,13 @@ using StardewConfigFramework;
 using System.IO;
 
 namespace StardewConfigMenu {
+	public delegate void ModDidAddPackage(IOptionsPackage package);
+
 	public class MenuController: IConfigMenu {
 		public static int? PageIndex = null;
 		private IModHelper Helper;
 		private IMonitor Monitor;
+		private event ModDidAddPackage ModDidAddPackage;
 
 		internal MenuController(IModHelper helper, IMonitor monitor) {
 			Helper = helper;
@@ -27,7 +30,7 @@ namespace StardewConfigMenu {
 
 		internal List<IOptionsPackage> OptionPackageList = new List<IOptionsPackage>();
 
-		public override void AddOptionsPackage(IOptionsPackage package) {
+		public void AddOptionsPackage(IOptionsPackage package) {
 			// Only one per mod, remove old one
 			var existingPackage = OptionPackageList.Find(x => x.ModManifest.UniqueID == package.ModManifest.UniqueID);
 
@@ -36,6 +39,7 @@ namespace StardewConfigMenu {
 
 			OptionPackageList.Add(package);
 			Monitor.Log($"{package.ModManifest.Name} has added its mod options");
+			ModDidAddPackage?.Invoke(package);
 		}
 
 		/// <summary>
