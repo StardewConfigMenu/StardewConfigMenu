@@ -7,7 +7,7 @@ using StardewValley.BellsAndWhistles;
 namespace StardewConfigMenu.Components {
 
 	sealed class ConfigCategoryLabel: SCMControl {
-		private readonly ICategoryLabel ModData;
+		private readonly IConfigHeader ModData;
 		public sealed override string Label => ModData.Label;
 
 		private Rectangle Bounds = new Rectangle();
@@ -18,9 +18,9 @@ namespace StardewConfigMenu.Components {
 
 		public sealed override bool Enabled => true;
 
-		public ConfigCategoryLabel(ICategoryLabel option) : this(option, 0, 0) { }
+		public ConfigCategoryLabel(IConfigHeader option) : this(option, 0, 0) { }
 
-		public ConfigCategoryLabel(ICategoryLabel option, int x, int y) : base(option.Label) {
+		public ConfigCategoryLabel(IConfigHeader option, int x, int y) : base(option.Label) {
 			ModData = option;
 			X = x;
 			Y = y;

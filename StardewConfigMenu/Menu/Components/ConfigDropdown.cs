@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 namespace StardewConfigMenu.Components {
 
 	sealed class ConfigDropdown: SCMControl {
-		readonly private ISelection ModData;
+		readonly private IConfigSelection ModData;
 
 		private int hoveredIndex = 0;
 
@@ -52,9 +52,9 @@ namespace StardewConfigMenu.Components {
 		public int SelectedIndex { get => ModData.SelectedIndex; set => ModData.SelectedIndex = value; }
 		private IList<ISelectionChoice> DropdownOptions => ModData.Choices;
 
-		public ConfigDropdown(ISelection option, int width) : this(option, width, 0, 0) { }
+		public ConfigDropdown(IConfigSelection option, int width) : this(option, width, 0, 0) { }
 
-		public ConfigDropdown(ISelection option, int width, int x, int y) : base(option.Label, option.Enabled) {
+		public ConfigDropdown(IConfigSelection option, int width, int x, int y) : base(option.Label, option.Enabled) {
 			ModData = option;
 			X = x;
 			Y = y;
