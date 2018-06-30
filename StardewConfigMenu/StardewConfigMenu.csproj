@@ -3,6 +3,7 @@
     <DeployModFolderName>$(MSBuildProjectName)</DeployModFolderName>
     <ReleaseVersion>1.0.4</ReleaseVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -36,9 +37,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="StardewConfigFramework">
-      <HintPath>..\packages\Juice805.StardewConfigFramework.2.0.0\lib\net45\StardewConfigFramework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModEntry.cs" />
@@ -66,5 +64,5 @@
     <Folder Include="Common\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Pathoschild.Stardew.ModBuildConfig.2.1.0-beta-20180428\build\Pathoschild.Stardew.ModBuildConfig.targets" Condition="Exists('..\packages\Pathoschild.Stardew.ModBuildConfig.2.1.0-beta-20180428\build\Pathoschild.Stardew.ModBuildConfig.targets')" />
+  <Import Project="..\packages\Pathoschild.Stardew.ModBuildConfig.2.1.0-beta-20180625\build\Pathoschild.Stardew.ModBuildConfig.targets" Condition="Exists('..\packages\Pathoschild.Stardew.ModBuildConfig.2.1.0-beta-20180625\build\Pathoschild.Stardew.ModBuildConfig.targets')" />
 </Project>
