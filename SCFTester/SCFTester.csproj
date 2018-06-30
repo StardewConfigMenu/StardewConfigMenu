@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="StardewConfigFramework">
       <HintPath>..\..\StardewConfigFramework\StardewConfigFramework\bin\Debug\StardewConfigFramework.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
