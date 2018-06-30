@@ -7,7 +7,7 @@ using StardewValley.Menus;
 namespace StardewConfigMenu.Components {
 
 	sealed class ConfigCheckbox: SCMControl {
-		private readonly IToggle ModData;
+		private readonly IConfigToggle ModData;
 
 		private readonly ClickableTextureComponent Checkbox = StardewTile.CheckboxChecked.ClickableTextureComponent(0, 0);
 
@@ -21,9 +21,9 @@ namespace StardewConfigMenu.Components {
 		public sealed override bool Enabled => ModData.Enabled;
 		public bool IsChecked { get => ModData.IsOn; set => ModData.IsOn = value; }
 
-		internal ConfigCheckbox(IToggle option) : this(option, 0, 0) { }
+		internal ConfigCheckbox(IConfigToggle option) : this(option, 0, 0) { }
 
-		internal ConfigCheckbox(IToggle option, int x, int y) : base(option.Label, option.Enabled) {
+		internal ConfigCheckbox(IConfigToggle option, int x, int y) : base(option.Label, option.Enabled) {
 			ModData = option;
 			X = x;
 			Y = y;

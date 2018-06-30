@@ -7,7 +7,7 @@ using StardewValley.Menus;
 namespace StardewConfigMenu.Components {
 
 	sealed class ConfigButton: SCMControl {
-		private readonly IAction ModData;
+		private readonly IConfigAction ModData;
 
 		private ClickableTextureComponent Button;
 		public sealed override int X { get => Button.bounds.X; set => Button.bounds.X = value; }
@@ -21,9 +21,9 @@ namespace StardewConfigMenu.Components {
 		public ButtonType ButtonType => ModData.ButtonType;
 		private ButtonType PreviousButtonType = ButtonType.OK;
 
-		internal ConfigButton(IAction option) : this(option, 0, 0) { }
+		internal ConfigButton(IConfigAction option) : this(option, 0, 0) { }
 
-		internal ConfigButton(IAction option, int x, int y) : base(option.Label, option.Enabled) {
+		internal ConfigButton(IConfigAction option, int x, int y) : base(option.Label, option.Enabled) {
 			ModData = option;
 
 			Button = GetButtonTile().ClickableTextureComponent(x, y);

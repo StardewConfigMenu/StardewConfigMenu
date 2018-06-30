@@ -15,7 +15,7 @@ namespace StardewConfigMenu {
 		private readonly List<IOptionsPackage> Packages;
 		private readonly List<ModSheet> Sheets = new List<ModSheet>();
 		private readonly ConfigDropdown ModDropdown;
-		private readonly Selection ModSelection;
+		private readonly ConfigSelection ModSelection;
 
 		internal MenuPage(List<IOptionsPackage> packages, int x, int y, int width, int height) : base(x, y, width, height, false) {
 			Packages = packages;
@@ -37,7 +37,7 @@ namespace StardewConfigMenu {
 				modChoices.Add(new SelectionChoice(package.ModManifest.UniqueID, package.ModManifest.Name, package.ModManifest.Description));
 			}
 
-			ModSelection = new Selection("modDropdown", "", modChoices);
+			ModSelection = new ConfigSelection("modDropdown", "", modChoices);
 			ModDropdown = new ConfigDropdown(ModSelection, (int) Game1.smallFont.MeasureString("Stardew Configuration Menu Framework").X, (int) (xPositionOnScreen + Game1.pixelZoom * 15), (int) (yPositionOnScreen + Game1.pixelZoom * 30)) {
 				Visible = true
 			};
@@ -72,7 +72,7 @@ namespace StardewConfigMenu {
 
 		}
 
-		private void DisableBackgroundSheets(Selection selection) {
+		private void DisableBackgroundSheets(IConfigSelection selection) {
 			for (int i = 0; i < Sheets.Count; i++) {
 				Sheets[i].Visible = (i == selection.SelectedIndex);
 			}

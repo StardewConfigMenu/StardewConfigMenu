@@ -32,7 +32,7 @@ namespace SCFTester {
 			var firstTab = new OptionsTab("Main");
 			options.Tabs.Add(firstTab);
 
-			var enableDrop = new Toggle("enableDrop", "Enable Dropdown", config.enableDropdown);
+			var enableDrop = new ConfigToggle("enableDrop", "Enable Dropdown", config.enableDropdown);
 			firstTab.Options.Add(enableDrop);
 
 			var choices = new List<ISelectionChoice> {
@@ -42,7 +42,7 @@ namespace SCFTester {
 				new SelectionChoice("7", "Checkbox 7", "Hover text for Checkbox 7")
 			};
 
-			var dropdown = new Selection("drop", "Disable Another Option", choices, config.dropdownChoice, config.enableDropdown);
+			var dropdown = new ConfigSelection("drop", "Disable Another Option", choices, config.dropdownChoice, config.enableDropdown);
 			dropdown.SelectionDidChange += Dropdown_SelectionDidChange; ;
 			firstTab.Options.Add(dropdown);
 
@@ -50,34 +50,34 @@ namespace SCFTester {
 				dropdown.Enabled = toggle.IsOn;
 			};
 
-			var checkbox2 = new Toggle("toggle2", "Checkbox 2", config.checkbox2);
+			var checkbox2 = new ConfigToggle("toggle2", "Checkbox 2", config.checkbox2);
 			firstTab.Options.Add(checkbox2);
 			checkbox2.StateDidChange += (toggle) => {
 				if (toggle.IsOn) {
 					var targetIndex = firstTab.Options.IndexOf("toggle8") + 1;
-					firstTab.Options.Insert(targetIndex, new Toggle("toggle9", "Added dynamically!"));
+					firstTab.Options.Insert(targetIndex, new ConfigToggle("toggle9", "Added dynamically!"));
 				} else {
 					firstTab.Options.Remove("toggle9");
 				}
 			};
 
-			firstTab.Options.Add(new Toggle("toggle3", "Checkbox 3", false));
+			firstTab.Options.Add(new ConfigToggle("toggle3", "Checkbox 3", false));
 
-			var slider = new Range("range", "Slider", 10, 25, 1, config.rangeValue, true);
+			var slider = new ConfigRange("range", "Slider", 10, 25, 1, config.rangeValue, true);
 
-			var stepper = new Stepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, RangeDisplayType.PERCENT);
+			var stepper = new ConfigStepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, RangeDisplayType.PERCENT);
 
 			firstTab.Options.Add(slider);
 			firstTab.Options.Add(stepper);
 
-			firstTab.Options.Add(new Toggle("stepperCheck", "Show Stepper Value", false));
+			firstTab.Options.Add(new ConfigToggle("stepperCheck", "Show Stepper Value", false));
 
-			firstTab.Options.Add(new Toggle("toggle5", "Checkbox 5"));
-			firstTab.Options.Add(new Toggle("toggle6", "Checkbox 6"));
-			firstTab.Options.Add(new Toggle("toggle7", "Checkbox 7"));
-			firstTab.Options.Add(new Toggle("toggle8", "Checkbox 8"));
+			firstTab.Options.Add(new ConfigToggle("toggle5", "Checkbox 5"));
+			firstTab.Options.Add(new ConfigToggle("toggle6", "Checkbox 6"));
+			firstTab.Options.Add(new ConfigToggle("toggle7", "Checkbox 7"));
+			firstTab.Options.Add(new ConfigToggle("toggle8", "Checkbox 8"));
 
-			var saveButton = new Action("okButton", "OK Button", ButtonType.OK);
+			var saveButton = new ConfigAction("okButton", "OK Button", ButtonType.OK);
 			firstTab.Options.Add(saveButton);
 
 			saveButton.ActionWasTriggered += SaveButton_ActionWasTriggered;
@@ -85,27 +85,27 @@ namespace SCFTester {
 			GraphicsEvents.OnPostRenderEvent += (sender, e) => {
 				return;
 
-				if (firstTab.GetOption<Toggle>("toggle3").IsOn)
+				if (firstTab.GetOption<IConfigToggle>("toggle3").IsOn)
 					Game1.spriteBatch.DrawString(Game1.dialogueFont, "Cool!", new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
 
-				if (firstTab.GetOption<Toggle>("stepperCheck").IsOn) {
+				if (firstTab.GetOption<IConfigToggle>("stepperCheck").IsOn) {
 					Game1.spriteBatch.DrawString(Game1.dialogueFont, stepper.Value.ToString(), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
 				}
 			};
 		}
 
-		void Dropdown_SelectionDidChange(Selection selection) {
+		void Dropdown_SelectionDidChange(IConfigSelection selection) {
 			var selected = selection.SelectedIdentifier;
-			Package.Tabs[0].GetOption<Toggle>("toggle5").Enabled = "5" == selected;
-			Package.Tabs[0].GetOption<Toggle>("toggle6").Enabled = "6" == selected;
-			Package.Tabs[0].GetOption<Toggle>("toggle7").Enabled = "7" == selected;
+			Package.Tabs[0].GetOption<IConfigToggle>("toggle5").Enabled = "5" == selected;
+			Package.Tabs[0].GetOption<IConfigToggle>("toggle6").Enabled = "6" == selected;
+			Package.Tabs[0].GetOption<IConfigToggle>("toggle7").Enabled = "7" == selected;
 		}
 
-		void SaveButton_ActionWasTriggered(Action action) {
+		void SaveButton_ActionWasTriggered(IConfigAction action) {
 			var config = new ModConfig() {
-				dropdownChoice = Package.Tabs[0].GetOption<Selection>("drop").SelectedIdentifier,
-				enableDropdown = Package.Tabs[0].GetOption<Toggle>("enableDrop").IsOn,
-				checkbox2 = Package.Tabs[0].GetOption<Toggle>("toggle2").IsOn
+				dropdownChoice = Package.Tabs[0].GetOption<IConfigSelection>("drop").SelectedIdentifier,
+				enableDropdown = Package.Tabs[0].GetOption<IConfigToggle>("enableDrop").IsOn,
+				checkbox2 = Package.Tabs[0].GetOption<IConfigToggle>("toggle2").IsOn
 			};
 			this.Helper.WriteConfig<ModConfig>(config);
 		}

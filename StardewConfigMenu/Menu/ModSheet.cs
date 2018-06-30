@@ -42,25 +42,25 @@ namespace StardewConfigMenu {
 		private int startingOption = 0;
 
 		internal ModSheet(IOptionsPackage package, int x, int y, int width, int height) : base(x, y, width, height) {
-			foreach (IModOption option in package.Tabs[0].Options) {
+			foreach (IConfigOption option in package.Tabs[0].Options) {
 				Type t = option.GetType();
-				if (t.Equals(typeof(ICategoryLabel)))
-					Options.Add(new ConfigCategoryLabel(option as ICategoryLabel));
-				else if (t.Equals(typeof(ISelection))) {
+				if (t.Equals(typeof(IConfigHeader)))
+					Options.Add(new ConfigCategoryLabel(option as IConfigHeader));
+				else if (t.Equals(typeof(IConfigSelection))) {
 					int minWidth = 350;
-					var selection = (option as ISelection);
+					var selection = (option as IConfigSelection);
 					foreach (ISelectionChoice choice in selection.Choices) {
 						minWidth = Math.Max((int) Game1.smallFont.MeasureString(choice.Label + "     ").X, minWidth);
 					}
 					Options.Add(new ConfigDropdown(selection, minWidth));
-				} else if (t.Equals(typeof(IToggle)))
-					Options.Add(new ConfigCheckbox(option as IToggle));
-				else if (t.Equals(typeof(IAction)))
-					Options.Add(new ConfigButton(option as IAction));
-				else if (t.Equals(typeof(IStepper)))
-					Options.Add(new ConfigPlusMinus(option as IStepper));
-				else if (t.Equals(typeof(IRange)))
-					Options.Add(new ConfigSlider(option as IRange));
+				} else if (t.Equals(typeof(IConfigToggle)))
+					Options.Add(new ConfigCheckbox(option as IConfigToggle));
+				else if (t.Equals(typeof(IConfigAction)))
+					Options.Add(new ConfigButton(option as IConfigAction));
+				else if (t.Equals(typeof(IConfigStepper)))
+					Options.Add(new ConfigPlusMinus(option as IConfigStepper));
+				else if (t.Equals(typeof(IConfigRange)))
+					Options.Add(new ConfigSlider(option as IConfigRange));
 			}
 
 			upArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), (float) Game1.pixelZoom, false);

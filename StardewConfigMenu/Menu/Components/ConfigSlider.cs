@@ -8,7 +8,7 @@ using StardewValley.Menus;
 namespace StardewConfigMenu.Components.DataBacked {
 
 	sealed class ConfigSlider: SCMControl {
-		readonly IRange ModData;
+		readonly IConfigRange ModData;
 
 		private readonly ClickableTextureComponent SliderBackground = StardewTile.SliderBackground.ClickableTextureComponent(0, 0, 48, 6);
 		private readonly ClickableTextureComponent SliderButton = StardewTile.SliderButton.ClickableTextureComponent(0, 0);
@@ -51,9 +51,9 @@ namespace StardewConfigMenu.Components.DataBacked {
 		public bool ShowValue => ModData.ShowValue;
 		public decimal Value { get => ModData.Value; set => ModData.Value = value; }
 
-		internal ConfigSlider(IRange option) : this(option, 0, 0) { }
+		internal ConfigSlider(IConfigRange option) : this(option, 0, 0) { }
 
-		internal ConfigSlider(IRange option, int x, int y) : base(option.Label, option.Enabled) {
+		internal ConfigSlider(IConfigRange option, int x, int y) : base(option.Label, option.Enabled) {
 			ModData = option;
 			CalculateMaxLabelSize();
 			X = x;

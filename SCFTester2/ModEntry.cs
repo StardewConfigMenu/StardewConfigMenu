@@ -8,7 +8,6 @@ using StardewConfigFramework.Options;
 using System.Collections.Generic;
 
 namespace SCFTester2 {
-	using Action = StardewConfigFramework.Options.Action;
 
 	public class ModEntry: Mod {
 		void Testbox_ValueDidChange(string identifier, bool isOn) {
@@ -32,10 +31,10 @@ namespace SCFTester2 {
 			var config = Helper.ReadConfig<TestConfig>();
 			Settings.AddOptionsPackage(Package);
 
-			var testbox = new Toggle("checkbox", "Checkbox", config.checkbox);
+			var testbox = new ConfigToggle("checkbox", "Checkbox", config.checkbox);
 			Package.AddOption(testbox);
 
-			var emptyDropdown = new Selection("emptyDropdown", "Empty Dropdowns are disabled");
+			var emptyDropdown = new ConfigSelection("emptyDropdown", "Empty Dropdowns are disabled");
 			Package.AddOption(emptyDropdown);
 
 			testbox.StateDidChange += (toggle) => {
@@ -48,22 +47,22 @@ namespace SCFTester2 {
 			list.Add(new SelectionChoice("third", "Third"));
 			list.Add(new SelectionChoice("fourth", "Fourth"));
 
-			var filledDropdown = new Selection("filledDropdown", "Filled Dropdown", list, config.filledDropown, true);
+			var filledDropdown = new ConfigSelection("filledDropdown", "Filled Dropdown", list, config.filledDropown, true);
 			Package.AddOption(filledDropdown);
 
-			var stepper = new Stepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, RangeDisplayType.PERCENT);
+			var stepper = new ConfigStepper("stepper", "Plus/Minus Controls", (decimal) 5.0, (decimal) 105.0, (decimal) 1.5, config.stepperValue, RangeDisplayType.PERCENT);
 			Package.AddOption(stepper);
 
-			var label = new CategoryLabel("catlabel", "Category Label");
+			var label = new ConfigHeader("catlabel", "Category Label");
 			Package.AddOption(label);
 
-			var button = new Action("setButton", "Click Me!", ButtonType.SET);
+			var button = new ConfigAction("setButton", "Click Me!", ButtonType.SET);
 			button.ActionWasTriggered += (identifier) => {
 				filledDropdown.Enabled = !filledDropdown.Enabled;
 			};
 			Package.AddOption(button);
 
-			var tranformingButton = new Action("clearButton", "Clear Button", ButtonType.CLEAR);
+			var tranformingButton = new ConfigAction("clearButton", "Clear Button", ButtonType.CLEAR);
 			tranformingButton.ButtonType = ButtonType.CLEAR;
 			tranformingButton.ActionWasTriggered += (identifier) => {
 				switch (tranformingButton.ButtonType) {
@@ -88,10 +87,10 @@ namespace SCFTester2 {
 
 			Package.AddOption(tranformingButton);
 
-			Package.AddOption(new Action("doneButton", "Done Button", ButtonType.DONE));
-			Package.AddOption(new Action("giftButton", "Gift Button", ButtonType.GIFT));
+			Package.AddOption(new ConfigAction("doneButton", "Done Button", ButtonType.DONE));
+			Package.AddOption(new ConfigAction("giftButton", "Gift Button", ButtonType.GIFT));
 
-			var saveButton = new Action("okButton", "OK Button", ButtonType.OK);
+			var saveButton = new ConfigAction("okButton", "OK Button", ButtonType.OK);
 			Package.AddOption(saveButton);
 
 			saveButton.ActionWasTriggered += (_) => {
@@ -107,9 +106,9 @@ namespace SCFTester2 {
 		private void SaveConfig() {
 			var config = new TestConfig();
 
-			config.checkbox = Package.GetOption<Toggle>("checkbox").IsOn;
-			config.filledDropown = Package.GetOption<Selection>("filledDropdown").SelectedIdentifier;
-			config.stepperValue = Package.GetOption<Stepper>("stepper").Value;
+			config.checkbox = Package.GetOption<IConfigToggle>("checkbox").IsOn;
+			config.filledDropown = Package.GetOption<IConfigSelection>("filledDropdown").SelectedIdentifier;
+			config.stepperValue = Package.GetOption<IConfigStepper>("stepper").Value;
 			Helper.WriteConfig<TestConfig>(config);
 		}
 

@@ -8,7 +8,7 @@ using StardewValley.Menus;
 namespace StardewConfigMenu.Components.DataBacked {
 
 	sealed class ConfigPlusMinus: SCMControl {
-		private readonly IStepper ModData;
+		private readonly IConfigStepper ModData;
 
 		private readonly ClickableTextureComponent Minus = StardewTile.MinusButton.ClickableTextureComponent(0, 0);
 		private readonly ClickableTextureComponent Plus = StardewTile.PlusButton.ClickableTextureComponent(0, 0);
@@ -59,9 +59,9 @@ namespace StardewConfigMenu.Components.DataBacked {
 			}
 		}
 
-		internal ConfigPlusMinus(IStepper option) : this(option, 0, 0) { }
+		internal ConfigPlusMinus(IConfigStepper option) : this(option, 0, 0) { }
 
-		internal ConfigPlusMinus(IStepper option, int x, int y) : base(option.Label, option.Enabled) {
+		internal ConfigPlusMinus(IConfigStepper option, int x, int y) : base(option.Label, option.Enabled) {
 			ModData = option;
 
 			CalculateMaxLabelSize();
