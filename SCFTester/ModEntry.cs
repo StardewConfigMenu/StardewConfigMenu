@@ -29,7 +29,7 @@ namespace SCFTester {
 		}
 
 		private void GenerateOptions(TabbedOptionsPackage options, ModConfig config) {
-			var firstTab = new OptionsTab("Main");
+			var firstTab = new OptionsTab("main", "Main");
 			options.Tabs.Add(firstTab);
 
 			var enableDrop = new ConfigToggle("enableDrop", "Enable Dropdown", config.enableDropdown);
