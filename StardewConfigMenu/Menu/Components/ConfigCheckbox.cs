@@ -11,7 +11,7 @@ namespace StardewConfigMenu.Components {
 
 		private readonly ClickableTextureComponent Checkbox = StardewTile.CheckboxChecked.ClickableTextureComponent(0, 0);
 
-		internal sealed override bool Visible => Checkbox.visible;
+		internal sealed override bool Visible { get => Checkbox.visible; set => Checkbox.visible = value; }
 		public sealed override int X { get => Checkbox.bounds.X; set => Checkbox.bounds.X = value; }
 		public sealed override int Y { get => Checkbox.bounds.Y; set => Checkbox.bounds.Y = value; }
 		public sealed override int Width => Checkbox.bounds.Width;
