@@ -88,11 +88,11 @@ namespace StardewConfigMenu.Components {
 		}
 
 		private void StepUp() {
-			Value += StepSize;
+			ModData.StepUp();
 		}
 
 		private void StepDown() {
-			Value -= StepSize;
+			ModData.StepDown();
 		}
 
 		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
@@ -100,9 +100,9 @@ namespace StardewConfigMenu.Components {
 				return;
 
 			var prevValue = Value;
-			if (ModData.CanStepDown && Minus.containsPoint(x, y)) {
+			if (Minus.containsPoint(x, y)) {
 				StepDown();
-			} else if (ModData.CanStepUp && Plus.containsPoint(x, y)) {
+			} else if (Plus.containsPoint(x, y)) {
 				StepUp();
 			}
 
