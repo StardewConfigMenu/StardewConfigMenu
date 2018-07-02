@@ -43,24 +43,26 @@ namespace StardewConfigMenu {
 
 		internal ModSheet(IOptionsPackage package, int x, int y, int width, int height) : base(x, y, width, height) {
 			foreach (IConfigOption option in package.Tabs[0].Options) {
-				Type t = option.GetType();
-				if (t.Equals(typeof(IConfigHeader)))
+				Type optionType = option.GetType();
+				if (typeof(IConfigHeader).IsAssignableFrom(optionType))
 					Options.Add(new ConfigCategoryLabel(option as IConfigHeader));
-				else if (t.Equals(typeof(IConfigSelection))) {
+				else if (typeof(IConfigSelection).IsAssignableFrom(optionType)) {
 					int minWidth = 350;
 					var selection = (option as IConfigSelection);
 					foreach (ISelectionChoice choice in selection.Choices) {
 						minWidth = Math.Max((int) Game1.smallFont.MeasureString(choice.Label + "     ").X, minWidth);
 					}
 					Options.Add(new ConfigDropdown(selection, minWidth));
-				} else if (t.Equals(typeof(IConfigToggle)))
+				} else if (typeof(IConfigToggle).IsAssignableFrom(optionType))
 					Options.Add(new ConfigCheckbox(option as IConfigToggle));
-				else if (t.Equals(typeof(IConfigAction)))
+				else if (typeof(IConfigAction).IsAssignableFrom(optionType))
 					Options.Add(new ConfigButton(option as IConfigAction));
-				else if (t.Equals(typeof(IConfigStepper)))
+				else if (typeof(IConfigStepper).IsAssignableFrom(optionType))
 					Options.Add(new ConfigPlusMinus(option as IConfigStepper));
-				else if (t.Equals(typeof(IConfigRange)))
+				else if (typeof(IConfigRange).IsAssignableFrom(optionType))
 					Options.Add(new ConfigSlider(option as IConfigRange));
+				else
+					throw new System.Exception("Unknown Component");
 			}
 
 			upArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), (float) Game1.pixelZoom, false);
