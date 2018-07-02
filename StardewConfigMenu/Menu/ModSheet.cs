@@ -220,7 +220,7 @@ namespace StardewConfigMenu {
 		public void setScrollBarToCurrentIndex() {
 			setVisibleOptions();
 			if (Options.Count > 0) {
-				scrollBar.bounds.Y = scrollBarRunner.Height / Math.Max(1, Options.Count - 6 + 1) * startingOption + upArrow.bounds.Bottom + (Game1.pixelZoom);
+				scrollBar.bounds.Y = scrollBarRunner.Height / Math.Max(1, Options.Count - 6 + 1) * startingOption + upArrow.bounds.Bottom + Game1.pixelZoom;
 				if (startingOption == Options.Count - 6) {
 					scrollBar.bounds.Y = downArrow.bounds.Y - scrollBar.bounds.Height - Game1.pixelZoom * 2;
 				}
