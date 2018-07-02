@@ -96,19 +96,18 @@ namespace StardewConfigMenu.Components {
 		}
 
 		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
-			if (!Enabled)
+			if (!Enabled || !IsAvailableForSelection)
 				return;
 
 			var prevValue = Value;
-			if (Minus.containsPoint(x, y) && IsAvailableForSelection) {
+			if (ModData.CanStepDown && Minus.containsPoint(x, y)) {
 				StepDown();
-				if (playSound && prevValue != Value)
-					Game1.playSound("drumkit6");
-			} else if (Plus.containsPoint(x, y) && IsAvailableForSelection) {
+			} else if (ModData.CanStepUp && Plus.containsPoint(x, y)) {
 				StepUp();
-				if (playSound && prevValue != Value)
-					Game1.playSound("drumkit6");
 			}
+
+			if (playSound && prevValue != Value)
+				Game1.playSound("drumkit6");
 		}
 
 		public override void Draw(SpriteBatch b) {
