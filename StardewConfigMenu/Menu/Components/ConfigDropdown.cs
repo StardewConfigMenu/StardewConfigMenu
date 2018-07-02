@@ -117,7 +117,7 @@ namespace StardewConfigMenu.Components {
 			var labelSize = Game1.dialogueFont.MeasureString(Label);
 
 			// Draw Label
-			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2(DropdownButton.bounds.Right + Game1.pixelZoom * 2, DropdownBackground.Bounds.Y + ((DropdownBackground.Bounds.Height - labelSize.Y) / 2)), Game1.textColor * buttonAlpha, 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2(DropdownButton.bounds.Right + Game1.pixelZoom * 2, DropdownButton.bounds.Y + ((DropdownButton.bounds.Height - labelSize.Y) / 2)), Game1.textColor * buttonAlpha, 1f, 0.1f, -1, -1, 1f, 3);
 
 			if (IsActiveComponent) {
 
