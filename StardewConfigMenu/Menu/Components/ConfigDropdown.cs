@@ -24,13 +24,13 @@ namespace StardewConfigMenu.Components {
 			}
 		}
 		public sealed override int Y {
-			get => DropdownBackground.Bounds.Y;
+			get => DropdownButton.bounds.Y;
 			set {
 				DropdownBackground.Bounds.Y = value;
 				DropdownButton.bounds.Y = value;
 			}
 		}
-		public sealed override int Height => DropdownBackground.Bounds.Height;
+		public sealed override int Height => DropdownButton.bounds.Height;
 		public sealed override int Width {
 			get => DropdownBackground.Bounds.Width + DropdownButton.bounds.Width;
 			set {
