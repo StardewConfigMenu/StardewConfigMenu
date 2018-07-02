@@ -50,7 +50,7 @@ namespace SCFTester {
 				dropdown.Enabled = toggle.IsOn;
 			};
 
-			var checkbox2 = new ConfigToggle("toggle2", "Checkbox 2", config.checkbox2);
+			var checkbox2 = new ConfigToggle("toggle2", "Add checkbox 9", config.checkbox2);
 			firstTab.Options.Add(checkbox2);
 			checkbox2.StateDidChange += (toggle) => {
 				if (toggle.IsOn) {
@@ -83,8 +83,6 @@ namespace SCFTester {
 			saveButton.ActionWasTriggered += SaveButton_ActionWasTriggered;
 
 			GraphicsEvents.OnPostRenderEvent += (sender, e) => {
-				return;
-
 				if (firstTab.GetOption<IConfigToggle>("toggle3").IsOn)
 					Game1.spriteBatch.DrawString(Game1.dialogueFont, "Cool!", new Vector2(Game1.getMouseX(), Game1.getMouseY()), Color.Black);
 
