@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using StardewConfigFramework;
 using StardewConfigFramework.Options;
-using StardewConfigMenu.Components.DataBacked;
 using StardewConfigMenu.Components;
 using Microsoft.Xna.Framework.Input;
 
