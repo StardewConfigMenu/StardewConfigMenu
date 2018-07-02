@@ -103,8 +103,8 @@ namespace StardewConfigMenu.Components {
 					Value = Max;
 				} else {
 					var sectionCount = ((Max - Min) / StepSize);
-					var sectionWidth = (SliderBackground.bounds.Width - SliderBackground.bounds.Width) / sectionCount;
-					var sectionNum = (x - SliderBackground.bounds.X) / sectionWidth;
+					var sectionWidth = (SliderBackground.bounds.Width - SliderButton.bounds.Width) / sectionCount;
+					var sectionNum = (x - (SliderBackground.bounds.X + halfButtonWidth)) / sectionWidth;
 					Value = Min + sectionNum * StepSize;
 				}
 			}
