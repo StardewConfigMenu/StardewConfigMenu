@@ -62,7 +62,7 @@ namespace StardewConfigMenu {
 				else if (typeof(IConfigRange).IsAssignableFrom(optionType))
 					Options.Add(new ConfigSlider(option as IConfigRange));
 				else
-					throw new System.Exception("Unknown Component");
+					throw new System.Exception("Unknown Component: " + optionType);
 			}
 
 			upArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), (float) Game1.pixelZoom, false);
