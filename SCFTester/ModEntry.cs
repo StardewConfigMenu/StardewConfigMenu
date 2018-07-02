@@ -96,9 +96,9 @@ namespace SCFTester {
 
 		void Dropdown_SelectionDidChange(IConfigSelection selection) {
 			var selected = selection.SelectedIdentifier;
-			Package.Tabs[0].GetOption<IConfigToggle>("toggle5").Enabled = "5" == selected;
-			Package.Tabs[0].GetOption<IConfigToggle>("toggle6").Enabled = "6" == selected;
-			Package.Tabs[0].GetOption<IConfigToggle>("toggle7").Enabled = "7" == selected;
+			Package.Tabs[0].GetOption<IConfigToggle>("toggle5").Enabled = !("5" == selected);
+			Package.Tabs[0].GetOption<IConfigToggle>("toggle6").Enabled = !("6" == selected);
+			Package.Tabs[0].GetOption<IConfigToggle>("toggle7").Enabled = !("7" == selected);
 		}
 
 		void SaveButton_ActionWasTriggered(IConfigAction action) {
