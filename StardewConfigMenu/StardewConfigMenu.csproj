@@ -47,7 +47,7 @@
     <Compile Include="MenuController.cs" />
     <Compile Include="Menu\Components\SCMControl.cs" />
     <Compile Include="Menu\MenuPage.cs" />
-    <Compile Include="Menu\ModSheet.cs" />
+    <Compile Include="Menu\ModTab.cs" />
     <Compile Include="Menu\MenuTab.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\StardewTile.cs" />
@@ -57,6 +57,7 @@
     <Compile Include="Menu\Components\ConfigDropdown.cs" />
     <Compile Include="Menu\Components\ConfigSlider.cs" />
     <Compile Include="Menu\Components\ConfigPlusMinus.cs" />
+    <Compile Include="Menu\ModSheet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json" />
