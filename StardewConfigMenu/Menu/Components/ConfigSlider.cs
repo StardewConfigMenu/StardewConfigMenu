@@ -5,7 +5,7 @@ using StardewConfigFramework.Options;
 using StardewValley;
 using StardewValley.Menus;
 
-namespace StardewConfigMenu.Components.DataBacked {
+namespace StardewConfigMenu.Components {
 
 	sealed class ConfigSlider: SCMControl {
 		readonly IConfigRange ModData;
