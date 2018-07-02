@@ -99,13 +99,12 @@ namespace StardewConfigMenu.Components {
 			if (!Enabled)
 				return;
 
+			var prevValue = Value;
 			if (Minus.containsPoint(x, y) && IsAvailableForSelection) {
-				var prevValue = Value;
 				StepDown();
 				if (playSound && prevValue != Value)
 					Game1.playSound("drumkit6");
 			} else if (Plus.containsPoint(x, y) && IsAvailableForSelection) {
-				var prevValue = Value;
 				StepUp();
 				if (playSound && prevValue != Value)
 					Game1.playSound("drumkit6");
@@ -115,8 +114,8 @@ namespace StardewConfigMenu.Components {
 		public override void Draw(SpriteBatch b) {
 			float buttonAlpha = Enabled ? 1f : 0.33f;
 
-			Minus.draw(b, Color.White * ((Enabled && (Value - StepSize >= Min)) ? 1f : 0.33f), 0.88f);
-			Plus.draw(b, Color.White * ((Enabled && (Value + StepSize <= Max)) ? 1f : 0.33f), 0.88f);
+			Minus.draw(b, Color.White * ((Enabled && ModData.CanStepDown) ? 1f : 0.33f), 0.88f);
+			Plus.draw(b, Color.White * ((Enabled && ModData.CanStepUp) ? 1f : 0.33f), 0.88f);
 
 			b.DrawString(Game1.dialogueFont, Value.ToString() + UnitString, new Vector2((float) (Minus.bounds.Right + (Plus.bounds.X - Minus.bounds.Right - ValueLabelSize.X - UnitStringWidth) / 2), (float) (Minus.bounds.Y + ((Minus.bounds.Height - MaxLabelSize.Y) / 2))), Enabled ? Game1.textColor : (Game1.textColor * 0.33f));
 
