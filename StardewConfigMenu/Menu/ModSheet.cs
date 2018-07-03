@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewConfigFramework;
+using StardewValley;
 using StardewValley.Menus;
 
 namespace StardewConfigMenu {
 	public class ModSheet: IClickableMenu {
 
 		int SelectedTab = 0;
+		int FirstShownTab = 0;
 		IOptionsPackage Package;
 		List<ModTab> Tabs = new List<ModTab>();
 
@@ -91,6 +94,16 @@ namespace StardewConfigMenu {
 				return;
 
 			Tabs[SelectedTab].draw(b);
+
+			if (Tabs.Count < 2)
+				return;
+
+			int tabPosition = 0;
+			for (int i = FirstShownTab; i < Tabs.Count; i++) {
+				var textWidth = 100;
+				IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), xPositionOnScreen - textWidth - (Game1.pixelZoom * 15), yPositionOnScreen + (Game1.pixelZoom * 15 * tabPosition), textWidth, Game1.pixelZoom * 15, Color.White, 1f, true);
+				tabPosition++;
+			}
 		}
 	}
 }
