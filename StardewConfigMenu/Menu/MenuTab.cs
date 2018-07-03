@@ -61,7 +61,7 @@ namespace StardewConfigMenu {
 
 			var gameMenu = (GameMenu) Game1.activeClickableMenu;
 
-			b.Draw(Game1.mouseCursors, new Vector2((float) bounds.X, (float) (bounds.Y + (gameMenu.currentTab == 8 ? 8 : 0))), new Rectangle(16, 368, 16, 16), Color.White, 0f, Vector2.Zero, (float) Game1.pixelZoom, SpriteEffects.None, 0.0001f);
+			b.Draw(Game1.mouseCursors, new Vector2(bounds.X, bounds.Y + (gameMenu.currentTab == 8 ? 8 : 0)), new Rectangle(16, 368, 16, 16), Color.White, 0f, Vector2.Zero, Game1.pixelZoom, SpriteEffects.None, 0.0001f);
 
 			// Draw icon
 			b.Draw(Game1.mouseCursors, new Vector2((float) bounds.X + 8, (float) (bounds.Y + (gameMenu.currentTab == 8 ? 8 : 0)) + 14), new Rectangle(32, 672, 16, 16), Color.White, 0, Vector2.Zero, 3f, SpriteEffects.None, 1);
@@ -78,7 +78,7 @@ namespace StardewConfigMenu {
 
 			//IClickableMenu.drawMouse(b);
 			if (!Game1.options.hardwareCursor) {
-				b.Draw(Game1.mouseCursors, new Vector2((float) Game1.getMouseX(), (float) Game1.getMouseY()), new Rectangle?(Game1.getSourceRectForStandardTileSheet(Game1.mouseCursors, (!Game1.options.SnappyMenus) ? 0 : 44, 16, 16)), Color.White * Game1.mouseCursorTransparency, 0f, Vector2.Zero, (float) Game1.pixelZoom + Game1.dialogueButtonScale / 150f, SpriteEffects.None, 1f);
+				b.Draw(Game1.mouseCursors, new Vector2(Game1.getMouseX(), Game1.getMouseY()), new Rectangle?(Game1.getSourceRectForStandardTileSheet(Game1.mouseCursors, (!Game1.options.SnappyMenus) ? 0 : 44, 16, 16)), Color.White * Game1.mouseCursorTransparency, 0f, Vector2.Zero, Game1.pixelZoom + Game1.dialogueButtonScale / 150f, SpriteEffects.None, 1f);
 			}
 		}
 	}

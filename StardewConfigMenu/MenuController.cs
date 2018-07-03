@@ -116,7 +116,6 @@ namespace StardewConfigMenu {
 			GraphicsEvents.OnPostRenderGuiEvent += RenderTab;
 			GraphicsEvents.OnPreRenderGuiEvent -= HandleJunimo;
 			GraphicsEvents.OnPreRenderGuiEvent += HandleJunimo;
-
 		}
 
 		private ClickableTextureComponent junimoNoteIconStorage;

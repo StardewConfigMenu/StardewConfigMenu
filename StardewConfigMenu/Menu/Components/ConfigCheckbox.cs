@@ -11,14 +11,14 @@ namespace StardewConfigMenu.Components {
 
 		private readonly ClickableTextureComponent Checkbox = StardewTile.CheckboxChecked.ClickableTextureComponent(0, 0);
 
-		internal sealed override bool Visible { get => Checkbox.visible; set => Checkbox.visible = value; }
-		public sealed override int X { get => Checkbox.bounds.X; set => Checkbox.bounds.X = value; }
-		public sealed override int Y { get => Checkbox.bounds.Y; set => Checkbox.bounds.Y = value; }
-		public sealed override int Width => Checkbox.bounds.Width;
-		public sealed override int Height => Checkbox.bounds.Height;
+		internal override bool Visible { get => Checkbox.visible; set => Checkbox.visible = value; }
+		public override int X { get => Checkbox.bounds.X; set => Checkbox.bounds.X = value; }
+		public override int Y { get => Checkbox.bounds.Y; set => Checkbox.bounds.Y = value; }
+		public override int Width => Checkbox.bounds.Width;
+		public override int Height => Checkbox.bounds.Height;
 
-		public sealed override string Label => ModData.Label;
-		public sealed override bool Enabled => ModData.Enabled;
+		public override string Label => ModData.Label;
+		public override bool Enabled => ModData.Enabled;
 		public bool IsChecked { get => ModData.IsOn; set => ModData.IsOn = value; }
 
 		internal ConfigCheckbox(IConfigToggle option) : this(option, 0, 0) { }
@@ -51,7 +51,7 @@ namespace StardewConfigMenu.Components {
 			Checkbox.draw(b, Color.White * colorAlpha, 0.88f);
 
 			var labelSize = Game1.dialogueFont.MeasureString(Label);
-			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2((float) (Checkbox.bounds.Right + Game1.pixelZoom * 4), (float) (Checkbox.bounds.Y + ((Checkbox.bounds.Height - labelSize.Y) / 2))), Game1.textColor * colorAlpha, 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2(Checkbox.bounds.Right + Game1.pixelZoom * 4, Checkbox.bounds.Y + ((Checkbox.bounds.Height - labelSize.Y) / 2)), Game1.textColor * colorAlpha, 1f, 0.1f, -1, -1, 1f, 3);
 		}
 	}
 }
