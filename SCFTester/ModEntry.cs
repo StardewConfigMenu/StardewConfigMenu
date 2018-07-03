@@ -90,6 +90,10 @@ namespace SCFTester {
 					Game1.spriteBatch.DrawString(Game1.dialogueFont, stepper.Value.ToString(), new Vector2(Game1.getMouseX(), Game1.getMouseY() + 12 * Game1.pixelZoom), Color.Black);
 				}
 			};
+
+			var secondTab = new OptionsTab("second", "Second");
+			secondTab.Options.Add(new ConfigHeader("secondTabHeader", "Second Tab!"));
+			options.Tabs.Add(secondTab);
 		}
 
 		void Dropdown_SelectionDidChange(IConfigSelection selection) {
