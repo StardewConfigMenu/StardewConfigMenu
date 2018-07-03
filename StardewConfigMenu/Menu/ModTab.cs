@@ -40,8 +40,6 @@ namespace StardewConfigMenu {
 
 		public bool ShowTab = true;
 
-		private IOptionsTab Tab;
-
 		private int startingOption = 0;
 
 		internal ModTab(IOptionsTab tab, int x, int y, int width, int height) : base(x, y, width, height) {
@@ -57,6 +55,7 @@ namespace StardewConfigMenu {
 		}
 
 		void LoadPackageTabs(ISCFOrderedDictionary<IConfigOption> options) {
+			Options.Clear();
 			// TODO: reload tabs, move option loading into ModTab
 			foreach (IConfigOption option in options) {
 				Type optionType = option.GetType();
@@ -80,6 +79,7 @@ namespace StardewConfigMenu {
 				else
 					throw new System.Exception("Unknown Component: " + optionType);
 			}
+			setVisibleOptions();
 		}
 
 		public void AddListeners() {
@@ -109,10 +109,10 @@ namespace StardewConfigMenu {
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
 			if (GameMenu.forcePreventClose || !Visible) { return; }
 
-			Options.ForEach(z => {
-				if (z.Visible)
-					z.ReceiveLeftClick(x, y, playSound);
-			});
+			for (int i = 0; i < Options.Count; i++) {
+				if (Options[i].Visible)
+					Options[i].ReceiveLeftClick(x, y, playSound);
+			}
 
 			if (downArrow.containsPoint(x, y) && startingOption < Math.Max(0, Options.Count - 6)) {
 				if (playSound && Options.Count > 6 && startingOption != Options.Count - 6)
