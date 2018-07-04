@@ -57,12 +57,12 @@ namespace StardewConfigMenu.Components {
 		internal ConfigSlider(IConfigRange option, int x, int y) : base(option.Label, option.Enabled) {
 			ModData = option;
 			CalculateMaxLabelSize();
-			X = x;
-			Y = y;
 			SliderBackground.Width = OptionsSlider.pixelsWide * Game1.pixelZoom;
 			SliderBackground.Height = OptionsSlider.pixelsHigh * Game1.pixelZoom;
 			SliderBar.bounds.Width = OptionsSlider.sliderButtonWidth * Game1.pixelZoom;
 			SliderBar.bounds.Height = OptionsSlider.pixelsHigh * Game1.pixelZoom;
+			X = x;
+			Y = y;
 		}
 
 		private void CalculateMaxLabelSize() {

@@ -6,7 +6,7 @@ using StardewValley.Menus;
 
 namespace StardewConfigMenu.UI {
 	public struct SCMTextureBox {
-		public static SCMTextureBox SliderBackground = new SCMTextureBox(Game1.mouseCursors, OptionsSlider.sliderBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom);
+		public static SCMTextureBox SliderBackground = new SCMTextureBox(Game1.mouseCursors, OptionsSlider.sliderBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom, false);
 
 		public static SCMTextureBox DropdownBackground = new SCMTextureBox(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom, false);
 
