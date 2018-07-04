@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewConfigFramework;
+using StardewConfigMenu.UI;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -13,6 +14,7 @@ namespace StardewConfigMenu {
 		int FirstShownTab = 0;
 		IOptionsPackage Package;
 		List<ModTab> Tabs = new List<ModTab>();
+		List<SCMTexturedLabel> UITabs = new List<SCMTexturedLabel>();
 
 		private bool _visible = false;
 
@@ -39,8 +41,17 @@ namespace StardewConfigMenu {
 		public ModSheet(IOptionsPackage package, int x, int y, int width, int height) : base(x, y, width, height) {
 			Package = package;
 
-			foreach (IOptionsTab tab in package.Tabs) {
-				Tabs.Add(new ModTab(tab, x, y, width, height));
+			LoadTabs(package.Tabs);
+
+			package.Tabs.ContentsDidChange += LoadTabs;
+		}
+
+		private void LoadTabs(ISCFOrderedDictionary<IOptionsTab> tabs) {
+			Tabs.Clear();
+			UITabs.Clear();
+			foreach (IOptionsTab tab in tabs) {
+				Tabs.Add(new ModTab(tab, xPositionOnScreen, yPositionOnScreen, width, height));
+				UITabs.Add(new SCMTexturedLabel(tab.Label, Game1.smallFont));
 			}
 		}
 
@@ -99,9 +110,10 @@ namespace StardewConfigMenu {
 				return;
 
 			int tabPosition = 0;
+
 			for (int i = FirstShownTab; i < Tabs.Count; i++) {
-				var textWidth = 100;
-				IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), xPositionOnScreen - textWidth - (Game1.pixelZoom * 15), yPositionOnScreen + (Game1.pixelZoom * 15 * tabPosition), textWidth, Game1.pixelZoom * 15, Color.White, 1f, true);
+				var xOffset = Game1.pixelZoom * ((i == SelectedTab) ? 6 : 9);
+				UITabs[i].DrawAt(b, xPositionOnScreen - UITabs[i].Width - xOffset, yPositionOnScreen + (UITabs[i].Height * tabPosition) + (tabPosition * Game1.pixelZoom));
 				tabPosition++;
 			}
 		}
