@@ -64,11 +64,10 @@ namespace StardewConfigMenu {
 			IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), num7, num8, num2, num3, Color.White * alpha, 1f, false);
 
 			if (!string.IsNullOrEmpty(text) && text != " ") {
-				b.DrawString(font, text, new Vector2((float) (num7 + Game1.tileSize / 4), (float) (num8 + Game1.tileSize / 4 + 4)) + new Vector2(2f, 2f), Game1.textShadowColor * alpha);
-				b.DrawString(font, text, new Vector2((float) (num7 + Game1.tileSize / 4), (float) (num8 + Game1.tileSize / 4 + 4)) + new Vector2(0f, 2f), Game1.textShadowColor * alpha);
-				b.DrawString(font, text, new Vector2((float) (num7 + Game1.tileSize / 4), (float) (num8 + Game1.tileSize / 4 + 4)) + new Vector2(2f, 0f), Game1.textShadowColor * alpha);
-				b.DrawString(font, text, new Vector2((float) (num7 + Game1.tileSize / 4), (float) (num8 + Game1.tileSize / 4 + 4)), Game1.textColor * 0.9f * alpha);
-				num8 += (int) font.MeasureString(text).Y + 4;
+				b.DrawString(font, text, new Vector2(num7 + Game1.tileSize / 4, num8 + Game1.tileSize / 4 + 4) + new Vector2(2f, 2f), Game1.textShadowColor * alpha);
+				b.DrawString(font, text, new Vector2(num7 + Game1.tileSize / 4, num8 + Game1.tileSize / 4 + 4) + new Vector2(0f, 2f), Game1.textShadowColor * alpha);
+				b.DrawString(font, text, new Vector2(num7 + Game1.tileSize / 4, num8 + Game1.tileSize / 4 + 4) + new Vector2(2f, 0f), Game1.textShadowColor * alpha);
+				b.DrawString(font, text, new Vector2(num7 + Game1.tileSize / 4, num8 + Game1.tileSize / 4 + 4), Game1.textColor * 0.9f * alpha);
 			}
 		}
 	}
