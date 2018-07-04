@@ -250,13 +250,13 @@ namespace StardewConfigMenu {
 
 			//b.DrawString(Game1.dialogueFont, Options.modManifest.Name, new Vector2(xPositionOnScreen, yPositionOnScreen), Color.White);
 			for (int i = startingOption; i < Options.Count; i++) {
-				if (!typeof(IConfigSelection).IsAssignableFrom(Options[i].GetType()) && Options[i].Visible)
+				if (!(Options[i] is ConfigDropdown) && Options[i].Visible)
 					Options[i].Draw(b, xPositionOnScreen, ((height / 6) * (i - startingOption)) + yPositionOnScreen + ((height / 6) - Options[i].Height) / 2);
 			}
 
 			// Draw Dropdowns last, they must be on top; must draw from bottom to top
 			for (int i = Math.Min(startingOption + 5, Options.Count - 1); i >= startingOption; i--) {
-				if (typeof(IConfigSelection).IsAssignableFrom(Options[i].GetType()) && Options[i].Visible)
+				if (Options[i] is ConfigDropdown && Options[i].Visible)
 					Options[i].Draw(b, xPositionOnScreen, ((height / 6) * (i - startingOption)) + yPositionOnScreen + ((height / 6) - Options[i].Height) / 2);
 			}
 		}
