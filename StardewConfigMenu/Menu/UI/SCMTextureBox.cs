@@ -25,10 +25,6 @@ namespace StardewConfigMenu.UI {
 		public Texture2D Texture;
 		public Rectangle SourceRect;
 
-		public bool Contains(int x, int y) {
-			return Bounds.Contains(x, y);
-		}
-
 		public void DrawAt(SpriteBatch b, int x, int y) {
 			X = x;
 			Y = y;
@@ -36,7 +32,6 @@ namespace StardewConfigMenu.UI {
 		}
 
 		public void Draw(SpriteBatch b) {
-			var origin = new Vector2(Bounds.X, Bounds.Y);
 			IClickableMenu.drawTextureBox(b, Texture, SourceRect, Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height, Color.White, 1f, true);
 		}
 	}

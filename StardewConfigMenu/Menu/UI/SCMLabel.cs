@@ -34,10 +34,6 @@ namespace StardewConfigMenu.UI {
 		string _Text;
 		public SpriteFont Font;
 
-		public bool Contains(int x, int y) {
-			return Bounds.Contains(x, y);
-		}
-
 		public void DrawAt(SpriteBatch b, int x, int y) {
 			X = x;
 			Y = y;
