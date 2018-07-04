@@ -77,6 +77,17 @@ namespace StardewConfigMenu {
 				return;
 
 			Tabs[SelectedTab].receiveLeftClick(x, y, playSound);
+
+			if (Tabs.Count < 2)
+				return;
+
+			for (int i = 0; i < UITabs.Count; i++) {
+				if (UITabs[i].Bounds.Contains(x, y)) {
+					Tabs[SelectedTab].Visible = false;
+					SelectedTab = i;
+					Tabs[i].Visible = true;
+				}
+			}
 		}
 
 		public override void leftClickHeld(int x, int y) {
