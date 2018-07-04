@@ -6,11 +6,17 @@ using StardewValley.Menus;
 
 namespace StardewConfigMenu.UI {
 	public struct SCMTextureBox {
+		public static SCMTextureBox SliderBackground = new SCMTextureBox(Game1.mouseCursors, OptionsSlider.sliderBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom);
 
-		public SCMTextureBox(Texture2D texture, Rectangle sourceRect, Rectangle bounds = new Rectangle()) {
+		public static SCMTextureBox DropdownBackground = new SCMTextureBox(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom, false);
+
+		public SCMTextureBox(Texture2D texture, Rectangle sourceRect, Rectangle bounds = new Rectangle(), Color color = default(Color), float scale = 1f, bool drawShadow = true) {
 			_Bounds = bounds;
 			Texture = texture;
 			SourceRect = sourceRect;
+			Color = color == default(Color) ? Color.White : color;
+			Scale = scale;
+			DrawShadow = drawShadow;
 		}
 
 		public int X { get => _Bounds.X; set => _Bounds.X = value; }
@@ -24,6 +30,9 @@ namespace StardewConfigMenu.UI {
 
 		public Texture2D Texture;
 		public Rectangle SourceRect;
+		public Color Color;
+		public float Scale;
+		public bool DrawShadow;
 
 		public void DrawAt(SpriteBatch b, int x, int y) {
 			X = x;
@@ -32,7 +41,7 @@ namespace StardewConfigMenu.UI {
 		}
 
 		public void Draw(SpriteBatch b) {
-			IClickableMenu.drawTextureBox(b, Texture, SourceRect, Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height, Color.White, 1f, true);
+			IClickableMenu.drawTextureBox(b, Texture, SourceRect, Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height, Color, Scale, DrawShadow);
 		}
 	}
 }

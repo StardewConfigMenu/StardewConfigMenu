@@ -19,8 +19,7 @@ namespace StardewConfigMenu {
 		public static StardewTile MinusButton = new StardewTile(Game1.mouseCursors, OptionsPlusMinus.minusButtonSource, Game1.pixelZoom);
 		public static StardewTile PlusButton = new StardewTile(Game1.mouseCursors, OptionsPlusMinus.plusButtonSource, Game1.pixelZoom);
 
-		public static StardewTile SliderBackground = new StardewTile(Game1.mouseCursors, OptionsSlider.sliderBGSource, Game1.pixelZoom);
-		public static StardewTile SliderButton = new StardewTile(Game1.mouseCursors, OptionsSlider.sliderButtonRect, Game1.pixelZoom);
+		public static StardewTile SliderBar = new StardewTile(Game1.mouseCursors, OptionsSlider.sliderButtonRect, Game1.pixelZoom);
 
 		public StardewTile(Texture2D tileSheet, Rectangle source, float scale = 1f) {
 			Source = source;
@@ -71,7 +70,9 @@ namespace StardewConfigMenu {
 		}
 
 		public void Draw(SpriteBatch b, Color color) {
-			IClickableMenu.drawTextureBox(b, Texture, SourceRect, Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height, color, Scale, DrawShadow);
+			var origin = new Vector2(Bounds.X, Bounds.Y);
+			b.Draw(Texture, origin, SourceRect, color);
+			//IClickableMenu.drawTextureBox(b, Texture, SourceRect, Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height, color, Scale, DrawShadow);
 		}
 	}
 }

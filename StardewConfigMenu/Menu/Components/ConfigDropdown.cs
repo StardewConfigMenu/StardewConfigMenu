@@ -5,6 +5,7 @@ using StardewValley;
 using StardewValley.Menus;
 using System;
 using Microsoft.Xna.Framework;
+using StardewConfigMenu.UI;
 
 namespace StardewConfigMenu.Components {
 
@@ -14,19 +15,19 @@ namespace StardewConfigMenu.Components {
 		private int hoveredIndex = 0;
 
 		readonly ClickableTextureComponent DropdownButton = StardewTile.DropDownButton.ClickableTextureComponent(0, 0, 10, 11);
-		readonly StardewTextureBox DropdownBackground = new StardewTextureBox(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Game1.pixelZoom);
+		SCMTextureBox DropdownBackground = SCMTextureBox.DropdownBackground;
 
 		public sealed override int X {
 			get => DropdownBackground.Bounds.X;
 			set {
-				DropdownBackground.Bounds.X = value;
+				DropdownBackground.X = value;
 				DropdownButton.bounds.X = DropdownBackground.Bounds.Right;
 			}
 		}
 		public sealed override int Y {
 			get => DropdownButton.bounds.Y;
 			set {
-				DropdownBackground.Bounds.Y = value;
+				DropdownBackground.Y = value;
 				DropdownButton.bounds.Y = value;
 			}
 		}
@@ -35,7 +36,7 @@ namespace StardewConfigMenu.Components {
 			get => DropdownBackground.Bounds.Width + DropdownButton.bounds.Width;
 			set {
 				int width = Math.Max(value - DropdownButton.bounds.Width, 15);
-				DropdownBackground.Bounds.Width = width;
+				DropdownBackground.Width = width;
 				DropdownButton.bounds.X = DropdownBackground.Bounds.Right;
 			}
 		}
@@ -59,7 +60,7 @@ namespace StardewConfigMenu.Components {
 			X = x;
 			Y = y;
 			Width = width;
-			DropdownBackground.Bounds.Height = DropdownButton.bounds.Height;
+			DropdownBackground.Height = DropdownButton.bounds.Height;
 		}
 
 		private bool containsPoint(int x, int y) {
@@ -72,7 +73,7 @@ namespace StardewConfigMenu.Components {
 
 			if (containsPoint(x, y)) {
 				RegisterAsActiveComponent();
-				DropdownBackground.Bounds.Height = DropdownButton.bounds.Height * DropdownOptions.Count;
+				DropdownBackground.Height = DropdownButton.bounds.Height * DropdownOptions.Count;
 				hoveredIndex = 0;
 				LeftClickHeld(x, y);
 				if (playSound)
@@ -85,7 +86,7 @@ namespace StardewConfigMenu.Components {
 				return;
 
 			if (DropdownBackground.Bounds.Contains(x, y)) {
-				DropdownBackground.Bounds.Y = Math.Min(DropdownBackground.Bounds.Y, Game1.viewport.Height - DropdownBackground.Bounds.Height);
+				DropdownBackground.Y = Math.Min(DropdownBackground.Bounds.Y, Game1.viewport.Height - DropdownBackground.Bounds.Height);
 				hoveredIndex = (int) Math.Max(Math.Min((y - DropdownBackground.Bounds.Y) / DropdownButton.bounds.Height, DropdownOptions.Count - 1), 0f);
 			}
 		}
@@ -101,7 +102,7 @@ namespace StardewConfigMenu.Components {
 					SelectHoveredOption();
 				}
 			}
-			DropdownBackground.Bounds.Height = DropdownButton.bounds.Height;
+			DropdownBackground.Height = DropdownButton.bounds.Height;
 		}
 
 		private void SelectHoveredOption() {
@@ -123,7 +124,8 @@ namespace StardewConfigMenu.Components {
 
 				DropdownButton.draw(b);
 
-				DropdownBackground.Draw(b, Color.White * buttonAlpha);
+				DropdownBackground.Color = Color.White * buttonAlpha;
+				DropdownBackground.Draw(b);
 
 				if (0 == hoveredIndex && DropdownBackground.Bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
 					b.Draw(Game1.staminaRect, new Rectangle(DropdownBackground.Bounds.X, DropdownBackground.Bounds.Y + hoveredIndex * DropdownButton.bounds.Height, DropdownBackground.Bounds.Width, DropdownButton.bounds.Height), new Rectangle?(new Rectangle(0, 0, 1, 1)), Color.Wheat, 0f, Vector2.Zero, SpriteEffects.None, 0.975f);
@@ -144,7 +146,8 @@ namespace StardewConfigMenu.Components {
 			} else {
 
 				DropdownButton.draw(b, Color.White * buttonAlpha, 1f);
-				DropdownBackground.Draw(b, Color.White * buttonAlpha);
+				DropdownBackground.Color = Color.White * buttonAlpha;
+				DropdownBackground.Draw(b);
 				b.DrawString(Game1.smallFont, (SelectedIndex >= DropdownOptions.Count) ? string.Empty : DropdownOptions[SelectedIndex].Label, new Vector2(DropdownBackground.Bounds.X + Game1.pixelZoom, DropdownBackground.Bounds.Y + Game1.pixelZoom * 2), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.88f);
 
 				if (Enabled && DropdownBackground.Bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
