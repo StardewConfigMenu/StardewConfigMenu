@@ -5,10 +5,10 @@ using StardewValley;
 using StardewValley.Menus;
 
 namespace StardewConfigMenu.UI {
-	public struct SCMTextureBox {
-		public static SCMTextureBox SliderBackground = new SCMTextureBox(Game1.mouseCursors, OptionsSlider.sliderBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom, false);
+	public class SCMTextureBox {
+		public static SCMTextureBox SliderBackground => new SCMTextureBox(Game1.mouseCursors, OptionsSlider.sliderBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom, false);
 
-		public static SCMTextureBox DropdownBackground = new SCMTextureBox(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom, false);
+		public static SCMTextureBox DropdownBackground => new SCMTextureBox(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom, false);
 
 		public SCMTextureBox(Texture2D texture, Rectangle sourceRect, Rectangle bounds = new Rectangle(), Color color = default(Color), float scale = 1f, bool drawShadow = true) {
 			_Bounds = bounds;

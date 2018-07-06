@@ -13,8 +13,8 @@ namespace StardewConfigMenu {
 		int SelectedTab = 0;
 		int FirstShownTab = 0;
 		IOptionsPackage Package;
-		List<ModTab> Tabs = new List<ModTab>();
-		List<SCMTexturedLabel> UITabs = new List<SCMTexturedLabel>();
+		readonly List<ModTab> Tabs = new List<ModTab>();
+		readonly List<SCMTexturedLabel> UITabs = new List<SCMTexturedLabel>();
 
 		private bool _visible = false;
 

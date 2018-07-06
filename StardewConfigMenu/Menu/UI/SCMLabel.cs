@@ -5,7 +5,7 @@ using StardewValley;
 using StardewValley.Menus;
 
 namespace StardewConfigMenu.UI {
-	public struct SCMLabel {
+	public class SCMLabel {
 		public SCMLabel(string text, SpriteFont font, int x = 0, int y = 0) {
 			_Text = "";
 			_Bounds = new Rectangle(x, y, 0, 0);

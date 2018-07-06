@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 
 namespace StardewConfigMenu.UI {
-	public struct SCMTexturedLabel {
+	public class SCMTexturedLabel {
 		public SCMTexturedLabel(string text, SpriteFont font, int x = 0, int y = 0, int minWidth = 0) {
 			MinWidth = minWidth;
 			label = new SCMLabel("", font);
