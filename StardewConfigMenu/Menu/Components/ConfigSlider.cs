@@ -27,7 +27,7 @@ namespace StardewConfigMenu.Components {
 				if (ShowValue)
 					SliderBackground.X += (int) MaxLabelSize.X + (4 * Game1.pixelZoom);
 
-				UpdateSliderLocation(value, Min, Max, StepSize);
+				UpdateSliderLocation(Value, Min, Max, StepSize);
 			}
 		}
 		public override int Y {
@@ -73,10 +73,26 @@ namespace StardewConfigMenu.Components {
 		}
 
 		private void UpdateSliderLocation(decimal value, decimal min, decimal max, decimal stepSize) {
-			var sectionNum = ((value - max) / stepSize);
+			var sectionNum = ((value - min) / stepSize);
 			var totalSections = ((max - min) / stepSize);
-			var sectionWidth = SliderBackground.Width - SliderBar.Width / totalSections;
-			SliderBar.X = SliderBackground.X + (SliderBar.Width / 2) + (int) (sectionWidth * sectionNum);
+			var sectionWidth = (SliderBackground.Width - SliderBar.Width) / totalSections;
+			SliderBar.X = SliderBackground.X + (int) (sectionWidth * sectionNum);
+		}
+
+		private decimal GetValueFromMouseLocation(int x, decimal min, decimal max, decimal stepSize) {
+			var halfBarWidth = SliderBar.Width / 2;
+
+			if (x < SliderBackground.X + halfBarWidth) {
+				return Min;
+			}
+			if (x > SliderBackground.Bounds.Right - halfBarWidth) {
+				return Max;
+			}
+
+			var totalSections = ((max - min) / stepSize);
+			var sectionWidth = (SliderBackground.Width - SliderBar.Width) / totalSections;
+			var sectionNum = (x - (SliderBackground.X + halfBarWidth)) / sectionWidth;
+			return Min + sectionNum * StepSize;
 		}
 
 		private decimal CheckValidInput(decimal input) {
@@ -94,24 +110,15 @@ namespace StardewConfigMenu.Components {
 				return;
 
 			if (SliderBackground.Bounds.Contains(x, y)) {
-				LeftClickHeld(x, y);
 				RegisterAsActiveComponent();
+				LeftClickHeld(x, y);
 			}
 		}
 
 		public override void LeftClickHeld(int x, int y) {
 			if (IsActiveComponent) {
-				var halfButtonWidth = SliderBar.Width / 2;
-				if (x < SliderBackground.X + halfButtonWidth) {
-					Value = Min;
-				} else if (x > SliderBackground.Bounds.Right - halfButtonWidth) {
-					Value = Max;
-				} else {
-					var sectionCount = ((Max - Min) / StepSize);
-					var sectionWidth = (SliderBackground.Width - SliderBar.Width) / sectionCount;
-					var sectionNum = (x - (SliderBackground.X + halfButtonWidth)) / sectionWidth;
-					Value = Min + sectionNum * StepSize;
-				}
+				Value = GetValueFromMouseLocation(x, Min, Max, StepSize);
+				UpdateSliderLocation(Value, Min, Max, StepSize);
 			}
 		}
 
@@ -129,7 +136,6 @@ namespace StardewConfigMenu.Components {
 
 			SliderBackground.Transparency = buttonAlpha;
 			SliderBackground.Draw(b);
-			//.draw(b, Color.White * buttonAlpha, 0.88f);
 			SliderBar.Transparency = buttonAlpha;
 			SliderBar.Draw(b);
 
