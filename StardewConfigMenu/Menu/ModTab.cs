@@ -97,8 +97,8 @@ namespace StardewConfigMenu {
 		}
 
 		public override void receiveRightClick(int x, int y, bool playSound = true) {
-
 			if (GameMenu.forcePreventClose) { return; }
+			if (!Visible) { return; }
 
 			Options.ForEach(z => {
 				if (z.Visible)
@@ -135,6 +135,7 @@ namespace StardewConfigMenu {
 
 		public override void leftClickHeld(int x, int y) {
 			if (GameMenu.forcePreventClose) { return; }
+			if (!Visible) { return; }
 
 			Options.ForEach(z => {
 				if (z.Visible)
@@ -163,6 +164,8 @@ namespace StardewConfigMenu {
 		}
 
 		public override void releaseLeftClick(int x, int y) {
+			if (!Visible) { return; }
+
 			Options.ForEach(z => {
 				if (z.Visible)
 					z.ReleaseLeftClick(x, y);
@@ -172,6 +175,8 @@ namespace StardewConfigMenu {
 		}
 
 		public override void receiveScrollWheelAction(int direction) {
+			if (!Visible) { return; }
+
 			Options.ForEach(z => {
 				if (z.Visible)
 					z.ReceiveScrollWheelAction(direction);
@@ -191,6 +196,8 @@ namespace StardewConfigMenu {
 		}
 
 		private void KeyPressed(object sender, EventArgsKeyPressed e) {
+			if (!Visible) { return; }
+
 			Options.ForEach(z => {
 				if (z.Visible)
 					z.ReceiveKeyPress(e.KeyPressed);

@@ -42,8 +42,7 @@ namespace StardewConfigMenu {
 			Package = package;
 
 			LoadTabs(package.Tabs);
-
-			package.Tabs.ContentsDidChange += LoadTabs;
+			AddListeners();
 		}
 
 		private void LoadTabs(ISCFOrderedDictionary<IOptionsTab> tabs) {
@@ -57,23 +56,25 @@ namespace StardewConfigMenu {
 
 		public void AddListeners() {
 			RemoveListeners();
+			Package.Tabs.ContentsDidChange += LoadTabs;
 		}
 
 		public void RemoveListeners(bool children = false) {
 			if (children) {
 				Tabs.ForEach(x => { x.RemoveListeners(children); });
 			}
+			Package.Tabs.ContentsDidChange -= LoadTabs;
 		}
 
 		public override void receiveRightClick(int x, int y, bool playSound = true) {
-			if (Tabs.Count < 1)
+			if (!Visible || Tabs.Count < 1)
 				return;
 
 			Tabs[SelectedTab].receiveRightClick(x, y, playSound);
 		}
 
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
-			if (Tabs.Count < 1)
+			if (!Visible || Tabs.Count < 1)
 				return;
 
 			Tabs[SelectedTab].receiveLeftClick(x, y, playSound);
@@ -91,21 +92,21 @@ namespace StardewConfigMenu {
 		}
 
 		public override void leftClickHeld(int x, int y) {
-			if (Tabs.Count < 1)
+			if (!Visible || Tabs.Count < 1)
 				return;
 
 			Tabs[SelectedTab].leftClickHeld(x, y);
 		}
 
 		public override void releaseLeftClick(int x, int y) {
-			if (Tabs.Count < 1)
+			if (!Visible || Tabs.Count < 1)
 				return;
 
 			Tabs[SelectedTab].releaseLeftClick(x, y);
 		}
 
 		public override void receiveScrollWheelAction(int direction) {
-			if (Tabs.Count < 1)
+			if (!Visible || Tabs.Count < 1)
 				return;
 
 			Tabs[SelectedTab].receiveScrollWheelAction(direction);
