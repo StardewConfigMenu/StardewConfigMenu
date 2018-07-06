@@ -6,17 +6,18 @@ using StardewValley.Menus;
 
 namespace StardewConfigMenu.UI {
 	public class SCMTextureBox {
-		public static SCMTextureBox SliderBackground => new SCMTextureBox(Game1.mouseCursors, OptionsSlider.sliderBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom, false);
+		public static SCMTextureBox SliderBackground => new SCMTextureBox(Game1.mouseCursors, OptionsSlider.sliderBGSource, Rectangle.Empty, Color.White, 1f, Game1.pixelZoom, false);
 
-		public static SCMTextureBox DropdownBackground => new SCMTextureBox(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Rectangle.Empty, Color.White, Game1.pixelZoom, false);
+		public static SCMTextureBox DropdownBackground => new SCMTextureBox(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Rectangle.Empty, Color.White, 1f, Game1.pixelZoom, false);
 
-		public SCMTextureBox(Texture2D texture, Rectangle sourceRect, Rectangle bounds = new Rectangle(), Color color = default(Color), float scale = 1f, bool drawShadow = true) {
+		public SCMTextureBox(Texture2D texture, Rectangle sourceRect, Rectangle bounds = new Rectangle(), Color color = default(Color), float transparency = 1f, float scale = 1f, bool drawShadow = true) {
 			_Bounds = bounds;
 			Texture = texture;
 			SourceRect = sourceRect;
 			Color = color == default(Color) ? Color.White : color;
 			Scale = scale;
 			DrawShadow = drawShadow;
+			Transparency = transparency;
 		}
 
 		public int X { get => _Bounds.X; set => _Bounds.X = value; }
@@ -33,6 +34,7 @@ namespace StardewConfigMenu.UI {
 		public Color Color;
 		public float Scale;
 		public bool DrawShadow;
+		public float Transparency;
 
 		public void DrawAt(SpriteBatch b, int x, int y) {
 			X = x;
@@ -41,7 +43,7 @@ namespace StardewConfigMenu.UI {
 		}
 
 		public void Draw(SpriteBatch b) {
-			IClickableMenu.drawTextureBox(b, Texture, SourceRect, Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height, Color, Scale, DrawShadow);
+			IClickableMenu.drawTextureBox(b, Texture, SourceRect, Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height, Color * Transparency, Scale, DrawShadow);
 		}
 	}
 }

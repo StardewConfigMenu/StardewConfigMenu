@@ -124,6 +124,7 @@ namespace StardewConfigMenu {
 
 			for (int i = FirstShownTab; i < Tabs.Count; i++) {
 				var xOffset = Game1.pixelZoom * ((i == SelectedTab) ? 6 : 9);
+				UITabs[i].Transparency = (i == SelectedTab) ? 1f : 0.85f;
 				UITabs[i].DrawAt(b, xPositionOnScreen - UITabs[i].Width - xOffset, yPositionOnScreen + (UITabs[i].Height * tabPosition) + (tabPosition * Game1.pixelZoom));
 				tabPosition++;
 			}

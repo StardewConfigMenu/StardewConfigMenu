@@ -29,6 +29,8 @@ namespace StardewConfigMenu.UI {
 			}
 		}
 
+		public float Transparency { get => background.Transparency; set => background.Transparency = value; }
+
 		public int X {
 			get => background.X;
 			set {
