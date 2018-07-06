@@ -42,10 +42,12 @@ namespace StardewConfigMenu {
 
 		private int startingOption = 0;
 
+		IOptionsTab Tab;
+
 		internal ModTab(IOptionsTab tab, int x, int y, int width, int height) : base(x, y, width, height) {
+			Tab = tab;
 
 			LoadPackageTabs(tab.Options);
-			tab.Options.ContentsDidChange += LoadPackageTabs;
 
 			upArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 459, 11, 12), Game1.pixelZoom, false);
 			downArrow = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + width + Game1.tileSize / 4, yPositionOnScreen + height - 12 * Game1.pixelZoom, 11 * Game1.pixelZoom, 12 * Game1.pixelZoom), Game1.mouseCursors, new Rectangle(421, 472, 11, 12), Game1.pixelZoom, false);
@@ -85,6 +87,7 @@ namespace StardewConfigMenu {
 		public void AddListeners() {
 			RemoveListeners();
 			ControlEvents.KeyPressed += KeyPressed;
+			Tab.Options.ContentsDidChange += LoadPackageTabs;
 		}
 
 		public void RemoveListeners(bool children = false) {
@@ -93,6 +96,7 @@ namespace StardewConfigMenu {
 			}
 
 			ControlEvents.KeyPressed -= KeyPressed;
+			Tab.Options.ContentsDidChange -= LoadPackageTabs;
 			scrolling = false;
 		}
 
