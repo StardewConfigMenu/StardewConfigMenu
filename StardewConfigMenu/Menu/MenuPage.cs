@@ -93,7 +93,6 @@ namespace StardewConfigMenu {
 					currentSheet.receiveScrollWheelAction(-1);
 			}
 
-
 			if (e.PriorState.LeftButton == ButtonState.Released) {
 				if (e.NewState.LeftButton == ButtonState.Pressed) {
 					// clicked

@@ -9,15 +9,16 @@ namespace StardewConfigMenu.Components {
 	sealed class ConfigButton: SCMControl {
 		private readonly IConfigAction ModData;
 
-		private ClickableTextureComponent Button;
-		public sealed override int X { get => Button.bounds.X; set => Button.bounds.X = value; }
-		public sealed override int Y { get => Button.bounds.Y; set => Button.bounds.Y = value; }
-		public sealed override int Width => Button.bounds.Width;
-		public sealed override int Height => Button.bounds.Height;
+		private SCMSprite Button;
+		public sealed override int X { get => Button.X; set => Button.X = value; }
+		public sealed override int Y { get => Button.Y; set => Button.Y = value; }
+		public sealed override int Width => Button.Width;
+		public sealed override int Height => Button.Height;
 
+		bool _Visible = true;
 		public sealed override string Label { get => ModData.Label; }
 		public sealed override bool Enabled { get => ModData.Enabled; }
-		internal sealed override bool Visible { get => Button.visible; set => Button.visible = value; }
+		internal sealed override bool Visible { get => _Visible; set => _Visible = value; }
 		public ButtonType ButtonType => ModData.ButtonType;
 		private ButtonType PreviousButtonType = ButtonType.OK;
 
@@ -26,24 +27,25 @@ namespace StardewConfigMenu.Components {
 		internal ConfigButton(IConfigAction option, int x, int y) : base(option.Label, option.Enabled) {
 			ModData = option;
 
-			Button = GetButtonTile().ClickableTextureComponent(x, y);
-			Button.drawShadow = true;
+			Button = GetButtonTile();
+			X = x;
+			Y = y;
 		}
 
-		private StardewTile GetButtonTile() {
+		private SCMSprite GetButtonTile() {
 			switch (ButtonType) {
 				case ButtonType.DONE:
-					return StardewTile.DoneButton;
+					return SCMSprite.DoneButton;
 				case ButtonType.CLEAR:
-					return StardewTile.ClearButton;
+					return SCMSprite.ClearButton;
 				case ButtonType.OK:
-					return StardewTile.OKButton;
+					return SCMSprite.OKButton;
 				case ButtonType.SET:
-					return StardewTile.SetButton;
+					return SCMSprite.SetButton;
 				case ButtonType.GIFT:
-					return StardewTile.GiftButton;
+					return SCMSprite.GiftButton;
 				default:
-					return StardewTile.OKButton;
+					return SCMSprite.OKButton;
 			}
 		}
 
@@ -51,7 +53,7 @@ namespace StardewConfigMenu.Components {
 			if (!Enabled || !IsAvailableForSelection)
 				return;
 
-			if (Button.containsPoint(x, y)) {
+			if (Button.Bounds.Contains(x, y)) {
 				if (playSound)
 					Game1.playSound("breathin");
 				ModData.Trigger();
@@ -62,21 +64,30 @@ namespace StardewConfigMenu.Components {
 			if (PreviousButtonType == ButtonType)
 				return;
 
-			var newButton = GetButtonTile().ClickableTextureComponent(X, Y);
-			newButton.visible = Button.visible;
+			var newButton = GetButtonTile();
+			newButton.X = X;
+			newButton.Y = Y;
 			Button = newButton;
-			Button.drawShadow = true;
 			PreviousButtonType = ButtonType;
+		}
+
+		public override void Draw(SpriteBatch b, int x, int y) {
+			if (PreviousButtonType != ButtonType) {
+				Button = GetButtonTile();
+				PreviousButtonType = ButtonType;
+			}
+
+			base.Draw(b, x, y);
 		}
 
 		public override void Draw(SpriteBatch b) {
 			var labelSize = Game1.dialogueFont.MeasureString(Label);
 			var colorAlpha = (Enabled) ? 1f : 0.33f;
+			Button.Transparency = colorAlpha;
 
-			CheckForButtonUpdate();
-			Button.draw(b, Color.White * colorAlpha, 0.88f);
+			Button.Draw(b);
 
-			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2((float) (Button.bounds.Right + Game1.pixelZoom * 4), (float) (Y + ((Height - labelSize.Y) / 2))), Game1.textColor * colorAlpha, 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2(Button.Bounds.Right + Game1.pixelZoom * 4, Y + ((Height - labelSize.Y) / 2)), Game1.textColor * colorAlpha, 1f, 0.1f, -1, -1, 1f, 3);
 		}
 	}
 }

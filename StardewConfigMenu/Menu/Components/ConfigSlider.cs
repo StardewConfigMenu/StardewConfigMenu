@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewConfigFramework.Options;
+using StardewConfigMenu.UI;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -10,41 +11,41 @@ namespace StardewConfigMenu.Components {
 	sealed class ConfigSlider: SCMControl {
 		readonly IConfigRange ModData;
 
-		private readonly ClickableTextureComponent SliderBackground = StardewTile.SliderBackground.ClickableTextureComponent(0, 0, 48, 6);
-		private readonly ClickableTextureComponent SliderButton = StardewTile.SliderButton.ClickableTextureComponent(0, 0);
+		private SCMTextureBox SliderBackground = SCMTextureBox.SliderBackground;
+		private SCMSprite SliderBar = SCMSprite.SliderBar;
 
 		private Vector2 MaxLabelSize = Vector2.Zero;
 		private Point Origin = new Point();
-		public sealed override int X {
+		public override int X {
 			get => Origin.X;
 			set {
 				if (Origin.X == value)
 					return;
 
 				Origin.X = value;
-				SliderBackground.bounds.X = value;
+				SliderBackground.X = value;
 				if (ShowValue)
-					SliderBackground.bounds.X += (int) MaxLabelSize.X + (4 * Game1.pixelZoom);
+					SliderBackground.X += (int) MaxLabelSize.X + (4 * Game1.pixelZoom);
 
-				UpdateSliderLocation(value, Min, Max, StepSize);
+				UpdateSliderLocation(Value, Min, Max, StepSize);
 			}
 		}
-		public sealed override int Y {
+		public override int Y {
 			get => Origin.Y;
 			set {
 				if (Origin.Y == value)
 					return;
 
 				Origin.Y = value;
-				SliderBackground.bounds.Y = value;
-				SliderButton.bounds.Y = value;
+				SliderBackground.Y = value;
+				SliderBar.Y = value;
 			}
 		}
-		public sealed override int Height => Math.Max(SliderBackground.bounds.Height, (int) MaxLabelSize.Y);
-		public sealed override int Width => SliderBackground.bounds.Right - Origin.X;
+		public override int Height => Math.Max(SliderBackground.Height, (int) MaxLabelSize.Y);
+		public override int Width => SliderBackground.Bounds.Right - Origin.X;
 
-		public sealed override bool Enabled => ModData.Enabled;
-		public sealed override string Label => ModData.Label;
+		public override bool Enabled => ModData.Enabled;
+		public override string Label => ModData.Label;
 		public decimal Min => ModData.Min;
 		public decimal Max => ModData.Max;
 		public decimal StepSize => ModData.StepSize;
@@ -56,6 +57,10 @@ namespace StardewConfigMenu.Components {
 		internal ConfigSlider(IConfigRange option, int x, int y) : base(option.Label, option.Enabled) {
 			ModData = option;
 			CalculateMaxLabelSize();
+			SliderBackground.Width = OptionsSlider.pixelsWide * Game1.pixelZoom;
+			SliderBackground.Height = OptionsSlider.pixelsHigh * Game1.pixelZoom;
+			//SliderBar.bounds.Width = OptionsSlider.sliderButtonWidth * Game1.pixelZoom;
+			//SliderBar.bounds.Height = OptionsSlider.pixelsHigh * Game1.pixelZoom;
 			X = x;
 			Y = y;
 		}
@@ -68,10 +73,26 @@ namespace StardewConfigMenu.Components {
 		}
 
 		private void UpdateSliderLocation(decimal value, decimal min, decimal max, decimal stepSize) {
-			var sectionNum = ((value - max) / stepSize);
+			var sectionNum = ((value - min) / stepSize);
 			var totalSections = ((max - min) / stepSize);
-			var sectionWidth = SliderBackground.bounds.Width - SliderButton.bounds.Width / totalSections;
-			SliderButton.bounds.X = SliderBackground.bounds.X + (SliderButton.bounds.Width / 2) + (int) (sectionWidth * sectionNum);
+			var sectionWidth = (SliderBackground.Width - SliderBar.Width) / totalSections;
+			SliderBar.X = SliderBackground.X + (int) (sectionWidth * sectionNum);
+		}
+
+		private decimal GetValueFromMouseLocation(int x, decimal min, decimal max, decimal stepSize) {
+			var halfBarWidth = SliderBar.Width / 2;
+
+			if (x < SliderBackground.X + halfBarWidth) {
+				return Min;
+			}
+			if (x > SliderBackground.Bounds.Right - halfBarWidth) {
+				return Max;
+			}
+
+			var totalSections = ((max - min) / stepSize);
+			var sectionWidth = (SliderBackground.Width - SliderBar.Width) / totalSections;
+			var sectionNum = (x - (SliderBackground.X + halfBarWidth)) / sectionWidth;
+			return Min + sectionNum * StepSize;
 		}
 
 		private decimal CheckValidInput(decimal input) {
@@ -88,25 +109,16 @@ namespace StardewConfigMenu.Components {
 			if (!Enabled || !IsAvailableForSelection)
 				return;
 
-			if (SliderBackground.bounds.Contains(x, y)) {
-				LeftClickHeld(x, y);
+			if (SliderBackground.Bounds.Contains(x, y)) {
 				RegisterAsActiveComponent();
+				LeftClickHeld(x, y);
 			}
 		}
 
 		public override void LeftClickHeld(int x, int y) {
 			if (IsActiveComponent) {
-				var halfButtonWidth = SliderButton.bounds.Width / 2;
-				if (x < SliderBackground.bounds.X + halfButtonWidth) {
-					Value = Min;
-				} else if (x > SliderBackground.bounds.Right - halfButtonWidth) {
-					Value = Max;
-				} else {
-					var sectionCount = ((Max - Min) / StepSize);
-					var sectionWidth = (SliderBackground.bounds.Width - SliderButton.bounds.Width) / sectionCount;
-					var sectionNum = (x - (SliderBackground.bounds.X + halfButtonWidth)) / sectionWidth;
-					Value = Min + sectionNum * StepSize;
-				}
+				Value = GetValueFromMouseLocation(x, Min, Max, StepSize);
+				UpdateSliderLocation(Value, Min, Max, StepSize);
 			}
 		}
 
@@ -120,13 +132,14 @@ namespace StardewConfigMenu.Components {
 			float buttonAlpha = Enabled ? 1f : 0.33f;
 
 			if (ShowValue)
-				b.DrawString(Game1.dialogueFont, $"{Value}", new Vector2(SliderBackground.bounds.X - ((MaxLabelSize.X - valueLabelSize.X) / 2 + valueLabelSize.X + 4 * Game1.pixelZoom), (float) (SliderBackground.bounds.Y + ((SliderBackground.bounds.Height - labelSize.Y) / 2))), Game1.textColor * buttonAlpha);
+				b.DrawString(Game1.dialogueFont, $"{Value}", new Vector2(SliderBackground.X - ((MaxLabelSize.X - valueLabelSize.X) / 2 + valueLabelSize.X + 4 * Game1.pixelZoom), SliderBackground.Y + ((SliderBackground.Height - labelSize.Y) / 2)), Game1.textColor * buttonAlpha);
 
-			SliderBackground.draw(b, Color.White * buttonAlpha, 0.88f);
+			SliderBackground.Transparency = buttonAlpha;
+			SliderBackground.Draw(b);
+			SliderBar.Transparency = buttonAlpha;
+			SliderBar.Draw(b);
 
-			SliderButton.draw(b, Color.White * buttonAlpha, 0.88f);
-
-			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2((float) (SliderBackground.bounds.Right + Game1.pixelZoom * 4), (float) (SliderBackground.bounds.Y + ((SliderBackground.bounds.Height - labelSize.Y) / 2))), Game1.textColor * buttonAlpha, 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2(SliderBackground.Bounds.Right + Game1.pixelZoom * 4, SliderBackground.Y + ((SliderBackground.Height - labelSize.Y) / 2)), Game1.textColor * buttonAlpha, 1f, 0.1f, -1, -1, 1f, 3);
 		}
 	}
 }

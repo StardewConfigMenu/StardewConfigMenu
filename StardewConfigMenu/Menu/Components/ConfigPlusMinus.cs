@@ -10,31 +10,31 @@ namespace StardewConfigMenu.Components {
 	sealed class ConfigPlusMinus: SCMControl {
 		private readonly IConfigStepper ModData;
 
-		private readonly ClickableTextureComponent Minus = StardewTile.MinusButton.ClickableTextureComponent(0, 0);
-		private readonly ClickableTextureComponent Plus = StardewTile.PlusButton.ClickableTextureComponent(0, 0);
+		private readonly SCMSprite Minus = SCMSprite.MinusButton;
+		private readonly SCMSprite Plus = SCMSprite.PlusButton;
 
 		public sealed override int X {
-			get => Minus.bounds.X;
+			get => Minus.Bounds.X;
 			set {
 				if (X == value)
 					return;
 
-				Minus.bounds.X = value;
-				Plus.bounds.X = Minus.bounds.Right + (int) MaxLabelSize.X + UnitStringWidth + 4 * Game1.pixelZoom;
+				Minus.X = value;
+				Plus.X = Minus.Bounds.Right + (int) MaxLabelSize.X + UnitStringWidth + 4 * Game1.pixelZoom;
 			}
 		}
 		public sealed override int Y {
-			get => Minus.bounds.Y;
+			get => Minus.Y;
 			set {
 				if (Y == value)
 					return;
 
-				Minus.bounds.Y = value;
-				Plus.bounds.Y = value;
+				Minus.Y = value;
+				Plus.Y = value;
 			}
 		}
-		public sealed override int Width => Plus.bounds.Right - Minus.bounds.X;
-		public sealed override int Height => (int) Math.Max(Minus.bounds.Height, MaxLabelSize.Y);
+		public sealed override int Width => Plus.Bounds.Right - Minus.X;
+		public sealed override int Height => (int) Math.Max(Minus.Height, MaxLabelSize.Y);
 
 		private Vector2 MaxLabelSize = Vector2.Zero;
 		private int UnitStringWidth => (int) Game1.dialogueFont.MeasureString(UnitString).X;
@@ -100,9 +100,9 @@ namespace StardewConfigMenu.Components {
 				return;
 
 			var prevValue = Value;
-			if (Minus.containsPoint(x, y)) {
+			if (Minus.Bounds.Contains(x, y)) {
 				StepDown();
-			} else if (Plus.containsPoint(x, y)) {
+			} else if (Plus.Bounds.Contains(x, y)) {
 				StepUp();
 			}
 
@@ -112,14 +112,16 @@ namespace StardewConfigMenu.Components {
 
 		public override void Draw(SpriteBatch b) {
 			float buttonAlpha = Enabled ? 1f : 0.33f;
+			float transparency = (Enabled && ModData.CanStepUp) ? 1f : 0.33f;
+			Minus.Transparency = transparency;
+			Plus.Transparency = transparency;
+			Minus.Draw(b);
+			Plus.Draw(b);
 
-			Minus.draw(b, Color.White * ((Enabled && ModData.CanStepDown) ? 1f : 0.33f), 0.88f);
-			Plus.draw(b, Color.White * ((Enabled && ModData.CanStepUp) ? 1f : 0.33f), 0.88f);
-
-			b.DrawString(Game1.dialogueFont, Value.ToString() + UnitString, new Vector2((float) (Minus.bounds.Right + (Plus.bounds.X - Minus.bounds.Right - ValueLabelSize.X - UnitStringWidth) / 2), (float) (Minus.bounds.Y + ((Minus.bounds.Height - MaxLabelSize.Y) / 2))), Enabled ? Game1.textColor : (Game1.textColor * 0.33f));
+			b.DrawString(Game1.dialogueFont, Value.ToString() + UnitString, new Vector2(Minus.Bounds.Right + (Plus.X - Minus.Bounds.Right - ValueLabelSize.X - UnitStringWidth) / 2, Minus.Y + ((Minus.Height - MaxLabelSize.Y) / 2)), Enabled ? Game1.textColor : (Game1.textColor * 0.33f));
 
 			var labelSize = Game1.dialogueFont.MeasureString(Label);
-			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2((float) (Plus.bounds.Right + Game1.pixelZoom * 4), (float) (Minus.bounds.Y + ((Minus.bounds.Height - labelSize.Y) / 2))), Game1.textColor * buttonAlpha, 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2(Plus.Bounds.Right + Game1.pixelZoom * 4, Minus.Y + ((Minus.Height - labelSize.Y) / 2)), Game1.textColor * buttonAlpha, 1f, 0.1f, -1, -1, 1f, 3);
 		}
 	}
 }
