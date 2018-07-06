@@ -38,6 +38,8 @@ namespace StardewConfigMenu {
 			return output;
 		}
 
+
+		// Ripped from assembly, and stripped of unnecesary logic. Used for recreating menu Hovered Text over original
 		public static void drawHoverTextWithoutShadow(SpriteBatch b, string text, SpriteFont font, int xOffset = 0, int yOffset = 0) {
 			if (text == null || text.Length == 0) {
 				return;
