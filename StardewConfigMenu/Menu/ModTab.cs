@@ -114,24 +114,25 @@ namespace StardewConfigMenu {
 					Options[i].ReceiveLeftClick(x, y, playSound);
 			}
 
-			if (downArrow.containsPoint(x, y) && startingOption < Math.Max(0, Options.Count - 6)) {
-				if (playSound && Options.Count > 6 && startingOption != Options.Count - 6)
+			if (downArrow.containsPoint(x, y) && startingOption < Math.Max(0, Options.Count - displayCount)) {
+				if (playSound && Options.Count > displayCount && startingOption != Options.Count - displayCount)
 					Game1.playSound("shwip");
 				downArrowPressed();
 			} else if (upArrow.containsPoint(x, y) && startingOption > 0) {
-				if (playSound && Options.Count > 6 && startingOption != 0)
+				if (playSound && Options.Count > displayCount && startingOption != 0)
 					Game1.playSound("shwip");
 
 				upArrowPressed();
 
-			} else if (scrollBar.containsPoint(x, y) && Options.Count > 6) {
+			} else if (scrollBar.containsPoint(x, y) && Options.Count > displayCount) {
 				scrolling = true;
 			}
 			// failsafe
-			startingOption = Math.Max(0, Math.Min(Options.Count - 6, startingOption));
+			startingOption = Math.Max(0, Math.Min(Options.Count - displayCount, startingOption));
 		}
 
 		private bool scrolling = false;
+		private readonly int displayCount = 6;
 
 		public override void leftClickHeld(int x, int y) {
 			if (GameMenu.forcePreventClose) { return; }
@@ -149,11 +150,11 @@ namespace StardewConfigMenu {
 					startingOption = 0;
 					setScrollBarToCurrentIndex();
 				} else if (y > scrollBarRunner.Bottom) {
-					startingOption = Options.Count - 6;
+					startingOption = Options.Count - displayCount;
 					setScrollBarToCurrentIndex();
 				} else {
 					float num = (y - scrollBarRunner.Y) / (float) scrollBarRunner.Height;
-					startingOption = (int) Math.Round(Math.Max(0, num * (Options.Count - 6)));
+					startingOption = (int) Math.Round(Math.Max(0, num * (Options.Count - displayCount)));
 				}
 
 				setScrollBarToCurrentIndex();
@@ -183,13 +184,13 @@ namespace StardewConfigMenu {
 			});
 
 			if (direction > 0) {
-				if (Options.Count > 6 && startingOption != 0)
+				if (Options.Count > displayCount && startingOption != 0)
 					Game1.playSound("shiny4");
 
 				upArrowPressed();
 
 			} else if (direction < 0) {
-				if (Options.Count > 6 && startingOption != Options.Count - 6)
+				if (Options.Count > displayCount && startingOption != Options.Count - displayCount)
 					Game1.playSound("shiny4");
 				downArrowPressed();
 			}
@@ -219,7 +220,7 @@ namespace StardewConfigMenu {
 
 		public void downArrowPressed() {
 			downArrow.scale = downArrow.baseScale;
-			if (startingOption < Options.Count - 6)
+			if (startingOption < Options.Count - displayCount)
 				startingOption++;
 			setScrollBarToCurrentIndex();
 			//setVisibleOptions();
@@ -227,7 +228,7 @@ namespace StardewConfigMenu {
 
 		public void setVisibleOptions() {
 			for (int i = 0; i < Options.Count; i++) {
-				if (i >= startingOption && i < startingOption + 6) {
+				if (i >= startingOption && i < startingOption + displayCount) {
 					Options[i].Visible = true;
 				} else {
 					Options[i].Visible = false;
@@ -238,8 +239,8 @@ namespace StardewConfigMenu {
 		public void setScrollBarToCurrentIndex() {
 			setVisibleOptions();
 			if (Options.Count > 0) {
-				scrollBar.bounds.Y = scrollBarRunner.Height / Math.Max(1, Options.Count - 6 + 1) * startingOption + upArrow.bounds.Bottom + Game1.pixelZoom;
-				if (startingOption == Options.Count - 6) {
+				scrollBar.bounds.Y = scrollBarRunner.Height / Math.Max(1, Options.Count - displayCount + 1) * startingOption + upArrow.bounds.Bottom + Game1.pixelZoom;
+				if (startingOption == Options.Count - displayCount) {
 					scrollBar.bounds.Y = downArrow.bounds.Y - scrollBar.bounds.Height - Game1.pixelZoom * 2;
 				}
 			}
@@ -258,13 +259,13 @@ namespace StardewConfigMenu {
 			//b.DrawString(Game1.dialogueFont, Options.modManifest.Name, new Vector2(xPositionOnScreen, yPositionOnScreen), Color.White);
 			for (int i = startingOption; i < Options.Count; i++) {
 				if (!(Options[i] is ConfigDropdown) && Options[i].Visible)
-					Options[i].Draw(b, xPositionOnScreen, ((height / 6) * (i - startingOption)) + yPositionOnScreen + ((height / 6) - Options[i].Height) / 2);
+					Options[i].Draw(b, xPositionOnScreen, ((height / displayCount) * (i - startingOption)) + yPositionOnScreen + ((height / 6) - Options[i].Height) / 2);
 			}
 
 			// Draw Dropdowns last, they must be on top; must draw from bottom to top
 			for (int i = Math.Min(startingOption + 5, Options.Count - 1); i >= startingOption; i--) {
 				if (Options[i] is ConfigDropdown && Options[i].Visible)
-					Options[i].Draw(b, xPositionOnScreen, ((height / 6) * (i - startingOption)) + yPositionOnScreen + ((height / 6) - Options[i].Height) / 2);
+					Options[i].Draw(b, xPositionOnScreen, ((height / displayCount) * (i - startingOption)) + yPositionOnScreen + ((height / 6) - Options[i].Height) / 2);
 			}
 		}
 	}
