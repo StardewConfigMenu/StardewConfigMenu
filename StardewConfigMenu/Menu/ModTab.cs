@@ -249,7 +249,7 @@ namespace StardewConfigMenu {
 		public override void draw(SpriteBatch b) {
 
 			//drawTextureBox();
-			if (Options.Count > 6) {
+			if (Options.Count > displayCount) {
 				upArrow.draw(b);
 				downArrow.draw(b);
 				drawTextureBox(b, Game1.mouseCursors, new Rectangle(403, 383, 6, 6), scrollBarRunner.X, scrollBarRunner.Y, scrollBarRunner.Width, scrollBarRunner.Height, Color.White, Game1.pixelZoom, false);
