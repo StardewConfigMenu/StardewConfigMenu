@@ -14,41 +14,43 @@ namespace StardewConfigMenu.Components {
 
 		private int hoveredIndex = 0;
 
-		readonly ClickableTextureComponent DropdownButton = StardewTile.DropDownButton.ClickableTextureComponent(0, 0, 10, 11);
+		readonly SCMSprite DropdownButton = SCMSprite.DropDownButton;
 		SCMTextureBox DropdownBackground = SCMTextureBox.DropdownBackground;
 
 		public sealed override int X {
 			get => DropdownBackground.Bounds.X;
 			set {
 				DropdownBackground.X = value;
-				DropdownButton.bounds.X = DropdownBackground.Bounds.Right;
+				DropdownButton.X = DropdownBackground.Bounds.Right;
 			}
 		}
 		public sealed override int Y {
-			get => DropdownButton.bounds.Y;
+			get => DropdownButton.Y;
 			set {
 				DropdownBackground.Y = value;
-				DropdownButton.bounds.Y = value;
+				DropdownButton.Y = value;
 			}
 		}
-		public sealed override int Height => DropdownButton.bounds.Height;
+		public sealed override int Height => DropdownButton.Height;
 		public sealed override int Width {
-			get => DropdownBackground.Bounds.Width + DropdownButton.bounds.Width;
+			get => DropdownBackground.Bounds.Width + DropdownButton.Width;
 			set {
-				int width = Math.Max(value - DropdownButton.bounds.Width, 15);
+				int width = Math.Max(value - DropdownButton.Width, 15);
 				DropdownBackground.Width = width;
-				DropdownButton.bounds.X = DropdownBackground.Bounds.Right;
+				DropdownButton.X = DropdownBackground.Bounds.Right;
 			}
 		}
 
 		public override string Label => ModData.Label;
 		public override bool Enabled => (DropdownOptions.Count > 0) && ModData.Enabled;
 		internal override bool Visible {
-			get => DropdownButton.visible;
+			get => _Visible;
 			set {
-				DropdownButton.visible = value;
+				_Visible = value;
 			}
 		}
+
+		bool _Visible = true;
 
 		public int SelectedIndex { get => ModData.SelectedIndex; set => ModData.SelectedIndex = value; }
 		private IList<ISelectionChoice> DropdownOptions => ModData.Choices;
@@ -60,11 +62,11 @@ namespace StardewConfigMenu.Components {
 			X = x;
 			Y = y;
 			Width = width;
-			DropdownBackground.Height = DropdownButton.bounds.Height;
+			DropdownBackground.Height = DropdownButton.Height;
 		}
 
 		private bool containsPoint(int x, int y) {
-			return (DropdownBackground.Bounds.Contains(x, y) || DropdownButton.containsPoint(x, y));
+			return (DropdownBackground.Bounds.Contains(x, y) || DropdownButton.Bounds.Contains(x, y));
 		}
 
 		public override void ReceiveLeftClick(int x, int y, bool playSound = true) {
@@ -73,7 +75,7 @@ namespace StardewConfigMenu.Components {
 
 			if (containsPoint(x, y)) {
 				RegisterAsActiveComponent();
-				DropdownBackground.Height = DropdownButton.bounds.Height * DropdownOptions.Count;
+				DropdownBackground.Height = DropdownButton.Height * DropdownOptions.Count;
 				hoveredIndex = 0;
 				LeftClickHeld(x, y);
 				if (playSound)
@@ -87,7 +89,7 @@ namespace StardewConfigMenu.Components {
 
 			if (DropdownBackground.Bounds.Contains(x, y)) {
 				DropdownBackground.Y = Math.Min(DropdownBackground.Bounds.Y, Game1.viewport.Height - DropdownBackground.Bounds.Height);
-				hoveredIndex = (int) Math.Max(Math.Min((y - DropdownBackground.Bounds.Y) / DropdownButton.bounds.Height, DropdownOptions.Count - 1), 0f);
+				hoveredIndex = (int) Math.Max(Math.Min((y - DropdownBackground.Bounds.Y) / DropdownButton.Height, DropdownOptions.Count - 1), 0f);
 			}
 		}
 
@@ -102,7 +104,7 @@ namespace StardewConfigMenu.Components {
 					SelectHoveredOption();
 				}
 			}
-			DropdownBackground.Height = DropdownButton.bounds.Height;
+			DropdownBackground.Height = DropdownButton.Height;
 		}
 
 		private void SelectHoveredOption() {
@@ -115,20 +117,20 @@ namespace StardewConfigMenu.Components {
 		public override void Draw(SpriteBatch b) {
 
 			float buttonAlpha = (Enabled) ? 1f : 0.33f;
+			DropdownButton.Transparency = buttonAlpha;
+			DropdownBackground.Transparency = buttonAlpha;
 			var labelSize = Game1.dialogueFont.MeasureString(Label);
 
 			// Draw Label
-			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2(DropdownButton.bounds.Right + Game1.pixelZoom * 2, DropdownButton.bounds.Y + ((DropdownButton.bounds.Height - labelSize.Y) / 2)), Game1.textColor * buttonAlpha, 1f, 0.1f, -1, -1, 1f, 3);
+			Utility.drawTextWithShadow(b, Label, Game1.dialogueFont, new Vector2(DropdownButton.Bounds.Right + Game1.pixelZoom * 2, DropdownButton.Y + ((DropdownButton.Height - labelSize.Y) / 2)), Game1.textColor * buttonAlpha, 1f, 0.1f, -1, -1, 1f, 3);
 
 			if (IsActiveComponent) {
 
-				DropdownButton.draw(b);
-
-				DropdownBackground.Color = Color.White * buttonAlpha;
+				DropdownButton.Draw(b);
 				DropdownBackground.Draw(b);
 
 				if (0 == hoveredIndex && DropdownBackground.Bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
-					b.Draw(Game1.staminaRect, new Rectangle(DropdownBackground.Bounds.X, DropdownBackground.Bounds.Y + hoveredIndex * DropdownButton.bounds.Height, DropdownBackground.Bounds.Width, DropdownButton.bounds.Height), new Rectangle?(new Rectangle(0, 0, 1, 1)), Color.Wheat, 0f, Vector2.Zero, SpriteEffects.None, 0.975f);
+					b.Draw(Game1.staminaRect, new Rectangle(DropdownBackground.Bounds.X, DropdownBackground.Bounds.Y + hoveredIndex * DropdownButton.Height, DropdownBackground.Bounds.Width, DropdownButton.Height), new Rectangle?(new Rectangle(0, 0, 1, 1)), Color.Wheat, 0f, Vector2.Zero, SpriteEffects.None, 0.975f);
 				}
 				b.DrawString(Game1.smallFont, DropdownOptions[SelectedIndex].Label, new Vector2(DropdownBackground.Bounds.X + Game1.pixelZoom, DropdownBackground.Bounds.Y + Game1.pixelZoom * 2), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.98f);
 
@@ -138,16 +140,16 @@ namespace StardewConfigMenu.Components {
 						continue;
 
 					if (drawnPosition == hoveredIndex && DropdownBackground.Bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
-						b.Draw(Game1.staminaRect, new Rectangle(DropdownBackground.Bounds.X, DropdownBackground.Bounds.Y + drawnPosition * DropdownButton.bounds.Height, DropdownBackground.Bounds.Width, DropdownButton.bounds.Height), new Rectangle?(new Rectangle(0, 0, 1, 1)), Color.Wheat, 0f, Vector2.Zero, SpriteEffects.None, 0.975f);
+						b.Draw(Game1.staminaRect, new Rectangle(DropdownBackground.Bounds.X, DropdownBackground.Bounds.Y + drawnPosition * DropdownButton.Height, DropdownBackground.Bounds.Width, DropdownButton.Height), new Rectangle?(new Rectangle(0, 0, 1, 1)), Color.Wheat, 0f, Vector2.Zero, SpriteEffects.None, 0.975f);
 					}
-					b.DrawString(Game1.smallFont, DropdownOptions[i].Label, new Vector2(DropdownBackground.Bounds.X + Game1.pixelZoom, DropdownBackground.Bounds.Y + Game1.pixelZoom * 2 + DropdownButton.bounds.Height * drawnPosition), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.98f);
+					b.DrawString(Game1.smallFont, DropdownOptions[i].Label, new Vector2(DropdownBackground.Bounds.X + Game1.pixelZoom, DropdownBackground.Bounds.Y + Game1.pixelZoom * 2 + DropdownButton.Height * drawnPosition), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.98f);
 					drawnPosition++;
 				}
 			} else {
 
-				DropdownButton.draw(b, Color.White * buttonAlpha, 1f);
-				DropdownBackground.Color = Color.White * buttonAlpha;
+				DropdownButton.Draw(b);
 				DropdownBackground.Draw(b);
+
 				b.DrawString(Game1.smallFont, (SelectedIndex >= DropdownOptions.Count) ? string.Empty : DropdownOptions[SelectedIndex].Label, new Vector2(DropdownBackground.Bounds.X + Game1.pixelZoom, DropdownBackground.Bounds.Y + Game1.pixelZoom * 2), Game1.textColor * buttonAlpha, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.88f);
 
 				if (Enabled && DropdownBackground.Bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {

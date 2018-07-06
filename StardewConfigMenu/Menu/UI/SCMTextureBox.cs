@@ -29,8 +29,8 @@ namespace StardewConfigMenu.UI {
 
 		Rectangle _Bounds;
 
-		public Texture2D Texture;
-		public Rectangle SourceRect;
+		public readonly Texture2D Texture;
+		public readonly Rectangle SourceRect;
 		public Color Color;
 		public float Scale;
 		public bool DrawShadow;

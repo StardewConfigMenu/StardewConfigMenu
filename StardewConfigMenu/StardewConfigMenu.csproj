@@ -50,7 +50,6 @@
     <Compile Include="Menu\ModTab.cs" />
     <Compile Include="Menu\MenuTab.cs" />
     <Compile Include="Common\Utility.cs" />
-    <Compile Include="Common\StardewTile.cs" />
     <Compile Include="Menu\Components\ConfigCategoryLabel.cs" />
     <Compile Include="Menu\Components\ConfigButton.cs" />
     <Compile Include="Menu\Components\ConfigCheckbox.cs" />
@@ -61,6 +60,7 @@
     <Compile Include="Menu\UI\SCMLabel.cs" />
     <Compile Include="Menu\UI\SCMTextureBox.cs" />
     <Compile Include="Menu\UI\SCMTexturedLabel.cs" />
+    <Compile Include="Menu\UI\SCMSprite.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json" />
