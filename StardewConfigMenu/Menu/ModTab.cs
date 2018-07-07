@@ -14,7 +14,9 @@ using Microsoft.Xna.Framework.Input;
 
 
 namespace StardewConfigMenu {
+#pragma warning disable CS0660, CS0661  // Type defines operator == or operator != but does not override Object.Equals(object o)
 	internal class ModTab: IClickableMenu {
+#pragma warning restore CS0660, CS0661 // Type defines operator == or operator != but does not override Object.Equals(object o)
 		private readonly List<SCMControl> Options = new List<SCMControl>();
 
 		private ClickableTextureComponent upArrow;
@@ -42,10 +44,10 @@ namespace StardewConfigMenu {
 
 		private int startingOption = 0;
 
-		IOptionsTab Tab;
+		readonly IOptionsTab TabData;
 
 		internal ModTab(IOptionsTab tab, int x, int y, int width, int height) : base(x, y, width, height) {
-			Tab = tab;
+			TabData = tab;
 
 			LoadPackageTabs(tab.Options);
 
@@ -87,7 +89,7 @@ namespace StardewConfigMenu {
 		public void AddListeners() {
 			RemoveListeners();
 			ControlEvents.KeyPressed += KeyPressed;
-			Tab.Options.ContentsDidChange += LoadPackageTabs;
+			TabData.Options.ContentsDidChange += LoadPackageTabs;
 		}
 
 		public void RemoveListeners(bool children = false) {
@@ -96,8 +98,16 @@ namespace StardewConfigMenu {
 			}
 
 			ControlEvents.KeyPressed -= KeyPressed;
-			Tab.Options.ContentsDidChange -= LoadPackageTabs;
+			TabData.Options.ContentsDidChange -= LoadPackageTabs;
 			scrolling = false;
+		}
+
+		public static bool operator ==(ModTab tab, IOptionsTab TabData) {
+			return tab.TabData == TabData;
+		}
+
+		public static bool operator !=(ModTab tab, IOptionsTab TabData) {
+			return !(tab.TabData == TabData);
 		}
 
 		public override void receiveRightClick(int x, int y, bool playSound = true) {
