@@ -52,14 +52,7 @@ namespace SCFTester {
 
 			var checkbox2 = new ConfigToggle("toggle2", "Add checkbox 9", config.checkbox2);
 			firstTab.Options.Add(checkbox2);
-			checkbox2.StateDidChange += (toggle) => {
-				if (toggle.IsOn) {
-					var targetIndex = firstTab.Options.IndexOf("toggle8") + 1;
-					firstTab.Options.Insert(targetIndex, new ConfigToggle("toggle9", "Added dynamically!"));
-				} else {
-					firstTab.Options.Remove("toggle9");
-				}
-			};
+			checkbox2.StateDidChange += AddDynamicOption;
 
 			firstTab.Options.Add(new ConfigToggle("toggle3", "Checkbox 3", false));
 
@@ -94,6 +87,27 @@ namespace SCFTester {
 			var secondTab = new OptionsTab("second", "Second");
 			secondTab.Options.Add(new ConfigHeader("secondTabHeader", "Second Tab!"));
 			options.Tabs.Add(secondTab);
+		}
+
+		void AddDynamicOption(IConfigToggle toggle) {
+			if (toggle.IsOn) {
+				var targetIndex = Package.Tabs[0].Options.IndexOf("toggle8") + 1;
+				var dynamicOption = new ConfigToggle("toggle9", "Added dynamically!", false);
+				Package.Tabs[0].Options.Insert(targetIndex, dynamicOption);
+				dynamicOption.StateDidChange += AddDynamicTab;
+			} else {
+				Package.Tabs[0].Options.Remove("toggle9");
+			}
+		}
+
+		void AddDynamicTab(IConfigToggle toggle) {
+			if (toggle.IsOn) {
+				var dynamicTab = new OptionsTab("dynamic", "Dynamic");
+				dynamicTab.Options.Add(new ConfigHeader("header", "Dynamically Added Tab!"));
+				Package.Tabs.Add(dynamicTab);
+			} else {
+				Package.Tabs.Remove("dynamic");
+			}
 		}
 
 		void Dropdown_SelectionDidChange(IConfigSelection selection) {
