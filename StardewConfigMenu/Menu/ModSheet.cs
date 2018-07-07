@@ -52,6 +52,10 @@ namespace StardewConfigMenu {
 				Tabs.Add(new ModTab(tab, xPositionOnScreen, yPositionOnScreen, width, height));
 				UITabs.Add(new SCMTexturedLabel(tab.Label, Game1.smallFont));
 			}
+
+			if (SelectedTab >= Tabs.Count) {
+				SelectedTab = Tabs.Count - 1;
+			}
 		}
 
 		public void AddListeners() {
