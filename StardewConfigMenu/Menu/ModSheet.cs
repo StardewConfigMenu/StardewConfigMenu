@@ -46,11 +46,44 @@ namespace StardewConfigMenu {
 		}
 
 		private void LoadTabs(ISCFOrderedDictionary<IOptionsTab> tabs) {
-			Tabs.Clear();
-			UITabs.Clear();
-			foreach (IOptionsTab tab in tabs) {
-				Tabs.Add(new ModTab(tab, xPositionOnScreen, yPositionOnScreen, width, height));
-				UITabs.Add(new SCMTexturedLabel(tab.Label, Game1.smallFont));
+			// Use previous tabs instead of clearing and reloading to maintain state
+
+			for (int i = 0; i < tabs.Count; i++) {
+				// if past end must be new
+				if (i >= Tabs.Count) {
+					Tabs.Add(new ModTab(tabs[i], xPositionOnScreen, yPositionOnScreen, width, height));
+					UITabs.Add(new SCMTexturedLabel(tabs[i].Label, Game1.smallFont));
+					continue;
+				}
+				// check if tab already exists
+				if (Tabs[i] == tabs[i]) {
+					continue;
+				}
+				// doesnt match last existing tab, must have been replaced
+				if (i + 1 >= Tabs.Count || i + 1 >= tabs.Count) {
+					Tabs.RemoveAt(i);
+					UITabs.RemoveAt(i);
+					Tabs.Add(new ModTab(tabs[i], xPositionOnScreen, yPositionOnScreen, width, height));
+					UITabs.Add(new SCMTexturedLabel(tabs[i].Label, Game1.smallFont));
+					continue;
+				}
+				// Tab after matches, must be an deletion
+				if (Tabs[i + 1] == tabs[i]) {
+					Tabs.RemoveAt(i);
+					UITabs.RemoveAt(i);
+					continue;
+				}
+				// if next new tab matches existing tab must be an addition
+				if (tabs[i + 1] == Tabs[i]) {
+					Tabs.Insert(i, new ModTab(tabs[i], xPositionOnScreen, yPositionOnScreen, width, height));
+					UITabs.Insert(i, new SCMTexturedLabel(tabs[i].Label, Game1.smallFont));
+					continue;
+				}
+			}
+
+			if (Tabs.Count > tabs.Count) {
+				Tabs.RemoveRange(tabs.Count, Tabs.Count - tabs.Count);
+				UITabs.RemoveRange(tabs.Count, Tabs.Count - tabs.Count);
 			}
 
 			if (SelectedTab >= Tabs.Count) {
