@@ -39,7 +39,7 @@ Feel free to submit pull requests.
 
 ## Modders
 
-For a walkthrough of how to use the framework in your mods [check out the Wiki for the framework](https://github.com/Juice805/StardewConfigFramework/wiki)
+For a walkthrough of how to use the framework in your mods [check out the Wiki for the framework](https://github.com/StardewConfigMenu/StardewConfigFramework/wiki)
 
 
 ## Users
