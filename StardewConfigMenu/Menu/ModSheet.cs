@@ -45,7 +45,7 @@ namespace StardewConfigMenu {
 			AddListeners();
 		}
 
-		private void LoadTabs(ISCFOrderedDictionary<IOptionsTab> tabs) {
+		private void LoadTabs(IOrderedDictionary<IOptionsTab> tabs) {
 			// Use previous tabs instead of clearing and reloading to maintain state
 
 			for (int i = 0; i < tabs.Count; i++) {

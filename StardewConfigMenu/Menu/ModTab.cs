@@ -58,7 +58,7 @@ namespace StardewConfigMenu {
 			AddListeners();
 		}
 
-		void LoadPackageTabs(ISCFOrderedDictionary<IConfigOption> options) {
+		void LoadPackageTabs(IOrderedDictionary<IConfigOption> options) {
 			Options.Clear();
 			// TODO: reload tabs, move option loading into ModTab
 			foreach (IConfigOption option in options) {
