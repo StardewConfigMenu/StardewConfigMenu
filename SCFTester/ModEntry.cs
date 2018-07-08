@@ -63,6 +63,8 @@ namespace SCFTester {
 			firstTab.Options.Add(slider);
 			firstTab.Options.Add(stepper);
 
+			firstTab.Options.Add(new ConfigString("textfield", "Textfield"));
+
 			firstTab.Options.Add(new ConfigToggle("stepperCheck", "Show Stepper Value", false));
 
 			firstTab.Options.Add(new ConfigToggle("toggle5", "Checkbox 5"));
