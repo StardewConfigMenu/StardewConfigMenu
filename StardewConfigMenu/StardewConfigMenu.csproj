@@ -61,6 +61,7 @@
     <Compile Include="Menu\UI\SCMTextureBox.cs" />
     <Compile Include="Menu\UI\SCMTexturedLabel.cs" />
     <Compile Include="Menu\UI\SCMSprite.cs" />
+    <Compile Include="Menu\Components\ConfigTextfield.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json" />
