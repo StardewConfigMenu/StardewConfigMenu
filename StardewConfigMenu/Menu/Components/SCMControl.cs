@@ -4,10 +4,10 @@ using Microsoft.Xna.Framework.Input;
 namespace StardewConfigMenu.Components {
 
 	abstract class SCMControl {
-		static protected SCMControl SelectedComponent;
+		static SCMControl ActiveComponent;
 
-		internal bool IsActiveComponent => SelectedComponent == this;
-		protected bool IsAvailableForSelection => (IsActiveComponent || SelectedComponent == null) && Visible;
+		internal bool IsActiveComponent => ActiveComponent == this;
+		protected bool IsAvailableForSelection => (IsActiveComponent || ActiveComponent == null) && Visible;
 
 		public virtual int Height { get; set; }
 		public virtual int Width { get; set; }
@@ -36,12 +36,12 @@ namespace StardewConfigMenu.Components {
 		}
 
 		protected void RegisterAsActiveComponent() {
-			SelectedComponent = this;
+			ActiveComponent = this;
 		}
 
 		protected void UnregisterAsActiveComponent() {
 			if (IsActiveComponent) {
-				SelectedComponent = null;
+				ActiveComponent = null;
 			}
 		}
 
