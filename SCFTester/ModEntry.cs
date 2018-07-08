@@ -43,7 +43,7 @@ namespace SCFTester {
 			};
 
 			var dropdown = new ConfigSelection("drop", "Disable Another Option", choices, config.dropdownChoice, config.enableDropdown);
-			dropdown.SelectionDidChange += Dropdown_SelectionDidChange; ;
+			dropdown.SelectionDidChange += Dropdown_SelectionDidChange;
 			firstTab.Options.Add(dropdown);
 
 			enableDrop.StateDidChange += (toggle) => {
