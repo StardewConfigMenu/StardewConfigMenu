@@ -80,6 +80,8 @@ namespace StardewConfigMenu {
 					Options.Add(new ConfigPlusMinus(option as IConfigStepper));
 				else if (typeof(IConfigRange).IsAssignableFrom(optionType))
 					Options.Add(new ConfigSlider(option as IConfigRange));
+				else if (typeof(IConfigString).IsAssignableFrom(optionType))
+					Options.Add(new ConfigTextfield(option as IConfigString));
 				else
 					throw new System.Exception("Unknown Component: " + optionType);
 			}
