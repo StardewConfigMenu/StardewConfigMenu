@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewConfigFramework.Options;
+using StardewConfigMenu.UI;
 using StardewValley;
 using StardewValley.Menus;
 
