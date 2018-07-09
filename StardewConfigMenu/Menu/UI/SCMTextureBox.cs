@@ -10,13 +10,6 @@ namespace StardewConfigMenu.UI {
 
 		public static SCMTextureBox DropdownBackground => new SCMTextureBox(Game1.mouseCursors, OptionsDropDown.dropDownBGSource, Rectangle.Empty, Color.White, 1f, Game1.pixelZoom, false);
 
-		public static SCMTextureBox TextfieldBackground {
-			get {
-				var texture = Game1.content.Load<Texture2D>("LooseSprites\\textBox");
-				return new SCMTextureBox(texture, texture.Bounds);
-			}
-		}
-
 		public SCMTextureBox(Texture2D texture, Rectangle sourceRect, Rectangle bounds = new Rectangle(), Color color = default(Color), float transparency = 1f, float scale = 1f, bool drawShadow = true) {
 			_Bounds = bounds;
 			Texture = texture;

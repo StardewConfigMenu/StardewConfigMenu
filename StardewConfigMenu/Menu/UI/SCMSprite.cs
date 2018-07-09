@@ -3,7 +3,7 @@ using StardewValley.Menus;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace StardewConfigMenu {
+namespace StardewConfigMenu.UI {
 	public class SCMSprite {
 
 		public static SCMSprite OKButton => new SCMSprite(Game1.mouseCursors, 46);
@@ -20,6 +20,31 @@ namespace StardewConfigMenu {
 		public static SCMSprite PlusButton => new SCMSprite(Game1.mouseCursors, OptionsPlusMinus.plusButtonSource, Game1.pixelZoom);
 
 		public static SCMSprite SliderBar => new SCMSprite(Game1.mouseCursors, OptionsSlider.sliderButtonRect, Game1.pixelZoom);
+
+		public static SCMSprite TextfieldBackgroundLeft {
+			get {
+				// full box: new Rectangle(293, 360, 24, 24)
+				//var texture = Game1.content.Load<Texture2D>("LooseSprites\\textBox");
+
+				return new SCMSprite(Game1.mouseCursors, new Rectangle(293, 360, 4, 24), Game1.pixelZoom);
+			}
+		}
+
+		public static SCMSprite TextfieldBackgroundMiddle {
+			get {
+				//var texture = Game1.content.Load<Texture2D>("LooseSprites\\textBox");
+				//return new SCMSprite(texture, new Rectangle(4 * Game1.pixelZoom, 0, Game1.pixelZoom, texture.Height));
+				return new SCMSprite(Game1.mouseCursors, new Rectangle(297, 360, 4, 24), Game1.pixelZoom);
+			}
+		}
+
+		public static SCMSprite TextfieldBackgroundRight {
+			get {
+				//var texture = Game1.content.Load<Texture2D>("LooseSprites\\textBox");
+				//return new SCMSprite(texture, new Rectangle(texture.Width - (3 * Game1.pixelZoom), 0, (4 * Game1.pixelZoom), texture.Height));
+				return new SCMSprite(Game1.mouseCursors, new Rectangle(313, 360, 4, 24), Game1.pixelZoom);
+			}
+		}
 
 		public SCMSprite(Texture2D texture, Rectangle source, float scale = 1f, Color color = default(Color), float transparency = 1f) {
 			SourceRect = source;
@@ -43,8 +68,8 @@ namespace StardewConfigMenu {
 
 		public int X { get => _Bounds.X; set => _Bounds.X = value; }
 		public int Y { get => _Bounds.Y; set => _Bounds.Y = value; }
-		public int Width { get => _Bounds.Width; }
-		public int Height { get => _Bounds.Height; }
+		public int Width { get => _Bounds.Width; set => _Bounds.Width = value; }
+		public int Height { get => _Bounds.Height; set => _Bounds.Height = value; }
 
 		public Rectangle Bounds => _Bounds;
 
@@ -59,8 +84,10 @@ namespace StardewConfigMenu {
 		public void Draw(SpriteBatch b) {
 			var origin = new Vector2(Bounds.X, Bounds.Y);
 			b.Draw(Texture, origin, SourceRect, Color * Transparency, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0.9f);
-			//IClickableMenu.drawTextureBox(b, Texture, SourceRect, Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height, color, Scale, DrawShadow);
-			// 	b.Draw (Game1.mouseCursors, new Vector2 ((float)(slotX + base.bounds.X) + (float)(base.bounds.Width - 40) * ((float)this.value / 100f), (float)(slotY + base.bounds.Y)), OptionsSlider.sliderButtonRect, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.9f);
+		}
+
+		public void DrawStretched(SpriteBatch b) {
+			b.Draw(Texture, Bounds, SourceRect, Color);
 		}
 	}
 }

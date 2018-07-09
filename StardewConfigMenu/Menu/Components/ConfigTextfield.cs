@@ -1,39 +1,57 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using StardewConfigFramework.Options;
 using StardewConfigMenu.UI;
+using StardewValley;
 
 namespace StardewConfigMenu.Components {
 	sealed class ConfigTextfield: SCMControl {
 		readonly IConfigString ModData;
-		readonly SCMTextureBox textfieldBackground = SCMTextureBox.TextfieldBackground;
+		readonly SCMSprite textfieldBackgroundLeft = SCMSprite.TextfieldBackgroundLeft;
+		SCMSprite textfieldBackgroundMiddle = SCMSprite.TextfieldBackgroundMiddle;
+		readonly SCMSprite textfieldBackgroundRight = SCMSprite.TextfieldBackgroundRight;
 
 		public override int X {
-			get => textfieldBackground.X;
+			get => textfieldBackgroundLeft.X;
 			set {
-				if (textfieldBackground.X == value)
+				if (textfieldBackgroundLeft.X == value)
 					return;
 
-				textfieldBackground.X = value;
+				textfieldBackgroundLeft.X = value;
+				textfieldBackgroundMiddle.X = textfieldBackgroundLeft.Bounds.Right;
+				textfieldBackgroundRight.X = textfieldBackgroundMiddle.Bounds.Right;
 			}
 		}
 		public override int Y {
-			get => textfieldBackground.Y;
+			get => textfieldBackgroundLeft.Y;
 			set {
-				if (textfieldBackground.Y == value)
+				if (textfieldBackgroundLeft.Y == value)
 					return;
 
-				textfieldBackground.Y = value;
+				textfieldBackgroundLeft.Y = value;
+				textfieldBackgroundMiddle.Y = value;
+				textfieldBackgroundRight.Y = value;
 			}
 		}
-		public override int Height => textfieldBackground.Height;
-		public override int Width => textfieldBackground.Bounds.Width;
+		public override int Height {
+			get => textfieldBackgroundLeft.Height;
+			set {
+				textfieldBackgroundLeft.Height = value;
+				textfieldBackgroundRight.Height = value;
+				textfieldBackgroundMiddle.Height = value;
+			}
+		}
+		public override int Width => textfieldBackgroundRight.Bounds.Right - textfieldBackgroundLeft.X;
 
 		public ConfigTextfield(IConfigString option) : base(option.Label, option.Enabled) {
 			ModData = option;
+			textfieldBackgroundMiddle.Width = 60 * Game1.pixelZoom;
+			Height = 15 * Game1.pixelZoom;
 		}
 
 		public override void Draw(SpriteBatch b) {
-			textfieldBackground.Draw(b);
+			textfieldBackgroundLeft.DrawStretched(b);
+			textfieldBackgroundMiddle.DrawStretched(b);
+			textfieldBackgroundRight.DrawStretched(b);
 		}
 	}
 }
