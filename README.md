@@ -22,25 +22,9 @@ Tired of manually editing json files to change mod settings? This is the mod for
 
 Feel free to submit pull requests.
 
-### Todo
-
- - [x] Centralized Saving
- - [x] Dropdown Component
- - [x] Checkbox Component
- - [x] Button Component
- - [x] Slider Component
- - [x] Plus/Minus Component
- - [ ] Text Input Component
- - [ ] Keybind Setting Component
- - [ ] More robust testing mods
- - [x] __CODE CLEANUP/ORGANIZATION__
- - [ ] Code documentation
- - [x] Complete Wiki
-
 ## Modders
 
 For a walkthrough of how to use the framework in your mods [check out the Wiki for the framework](https://github.com/StardewConfigMenu/StardewConfigFramework/wiki)
-
 
 ## Users
 
@@ -52,7 +36,7 @@ For a walkthrough of how to use the framework in your mods [check out the Wiki f
 
 ### Mods
 
- - Check Nexus for up to date list
+ - Check the Requirements section on [Nexus](https://www.nexusmods.com/stardewvalley/mods/1312) for up to date list
 
 ### Credit
 
